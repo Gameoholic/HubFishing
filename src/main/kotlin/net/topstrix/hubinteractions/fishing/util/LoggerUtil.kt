@@ -6,8 +6,9 @@ import java.util.*
 object LoggerUtil {
 
     enum class LogLevel(val value: Int) {
-        NOTHING(2),
-        ERROR(1),
+        NOTHING(3),
+        ERROR(2),
+        INFO(1),
         DEBUG(0)
     }
     fun debug(msg: String) {

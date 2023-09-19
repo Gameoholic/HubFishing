@@ -1,10 +1,13 @@
 package net.topstrix.hubinteractions.fishing.lake
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import net.kyori.adventure.text.Component
 import net.topstrix.hubinteractions.fishing.player.FishingPlayer
 import net.topstrix.hubinteractions.fishing.fish.Fish
 import net.topstrix.hubinteractions.fishing.fish.FishRarity
 import net.topstrix.hubinteractions.fishing.fish.FishVariant
+import net.topstrix.hubinteractions.shared.serialization.LocationSerializer
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material

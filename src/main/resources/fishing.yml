@@ -1,0 +1,24 @@
+log-level: DEBUG
+fish-lake-managers:
+  - spawn-corner-1:
+      world: "world"
+      x: 17.0
+      y: 68.8
+      z: -293.0
+    spawn-corner-2:
+      world: "world"
+      x: 21.0
+      y: 68.8
+      z: -289.0
+    corner-1:
+      world: "world"
+      x: 15.0
+      y: 64.0
+      z: -295.0
+    corner-2:
+      world: "world"
+      x: 24.0
+      y: 71.0
+      z: -286.0
+    armor-stand-y-level: 67.0
+    max-fish-count: 10

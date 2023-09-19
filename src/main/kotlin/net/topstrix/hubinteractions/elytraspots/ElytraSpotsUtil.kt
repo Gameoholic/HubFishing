@@ -4,10 +4,10 @@ import net.kyori.adventure.key.Key
 import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.topstrix.hubinteractions.HubInteractions
+import net.topstrix.hubinteractions.elytraspots.config.ElytraSpotsConfig
 import net.topstrix.hubinteractions.elytraspots.listeners.EntityToggleGlideListener
 import net.topstrix.hubinteractions.elytraspots.listeners.PlayerMoveListener
 import net.topstrix.hubinteractions.elytraspots.listeners.PlayerQuitListener
-import net.topstrix.hubinteractions.elytraspots.config.ElytraSpotsConfig
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player

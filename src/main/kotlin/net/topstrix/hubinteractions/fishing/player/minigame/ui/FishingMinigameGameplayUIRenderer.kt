@@ -43,10 +43,11 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
             val targetPos = minigameState.minigameManager.rodBoxPosition - rodBoxCharacterHeight / 2 //center of rod box
             val startingPos = 50
             val speed = 3
+            val fishingRodLongPartExtraWidth = 1
             val ticksPassed = minigameState.rodBeingCastTicks - 4 //todo
             for (i in 0 until ticksPassed) { //For every tick that has passed:
                 for (j in 0 until speed) {  //We animate it X (speed) times
-                    val currentPos = startingPos - i * speed - j
+                    val currentPos = startingPos - i * speed - j + fishingRodLongPartExtraWidth
                     if (currentPos <= targetPos) break //todo: this is shit
                     renderCharacterSeparately(title, fishingRodLongPartCharacter,
                         (currentPos).toDouble(),

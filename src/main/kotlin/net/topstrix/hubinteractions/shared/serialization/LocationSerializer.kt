@@ -13,16 +13,30 @@ import org.bukkit.Location
 object LocationSerializer : KSerializer<Location> {
     @Serializable
     @SerialName("location")
-    private class LocationSurrogate(val world: String, val x: Double, val y: Double, val z: Double)
+    private class LocationSurrogate(
+        val world: String,
+        val x: Double,
+        val y: Double,
+        val z: Double,
+        val pitch: Float = 0f,
+        val yaw: Float = 0f
+    )
 
     override val descriptor: SerialDescriptor = LocationSurrogate.serializer().descriptor
     override fun serialize(encoder: Encoder, value: Location) {
-        val surrogate = LocationSurrogate(value.world.name, value.x, value.y, value.z)
+        val surrogate = LocationSurrogate(value.world.name, value.x, value.y, value.z, value.pitch, value.yaw)
         encoder.encodeSerializableValue(LocationSurrogate.serializer(), surrogate)
     }
 
     override fun deserialize(decoder: Decoder): Location {
         val surrogate = decoder.decodeSerializableValue(LocationSurrogate.serializer())
-        return Location(Bukkit.getWorld(surrogate.world), surrogate.x, surrogate.y, surrogate.z)
+        return Location(
+            Bukkit.getWorld(surrogate.world),
+            surrogate.x,
+            surrogate.y,
+            surrogate.z,
+            surrogate.yaw,
+            surrogate.pitch
+        )
     }
 }
