@@ -1,0 +1,14 @@
+name: '$name'
+version: '$version'
+main: net.topstrix.hubinteractions.HubInteractionsPlugin
+description: '$description'
+api-version: '$apiVersion'
+authors:
+  - Gameoholic
+commands:
+  test:
+    description: Test
+    usage: /test
+  test2:
+    description: Test2
+    usage: /test2
