@@ -22,3 +22,21 @@ fish-lake-managers:
       z: -286.0
     armor-stand-y-level: 67.0
     max-fish-count: 10
+
+
+water-amount: 7
+
+water-character: 'ो'
+water-character-height: 10
+
+fish-character: 'ॊ'
+fish-character-height: 6
+
+#water-amount: 7
+#characters:
+#  water-character:
+#    character: 'ो'
+#    height: 10
+#  fish-character:
+#    character: ''
+#    height: 6

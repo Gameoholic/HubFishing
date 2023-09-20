@@ -3,10 +3,7 @@ package net.topstrix.hubinteractions.fishing.player.minigame.states
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
-import net.kyori.adventure.title.Title
-import net.kyori.adventure.title.TitlePart
 import net.topstrix.hubinteractions.HubInteractions
-import net.topstrix.hubinteractions.fishing.player.FishingPlayer
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameManager
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameState
 import org.bukkit.Bukkit
@@ -15,9 +12,8 @@ import org.bukkit.Particle
 import org.bukkit.entity.Display
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.TextDisplay
-import java.time.Duration
 
-class FishingMinigameFishCaughtState(private val minigameManager: FishingMinigameManager): FishingMinigameState {
+class FishingMinigameFishFoundState(private val minigameManager: FishingMinigameManager): FishingMinigameState {
 
     override var stateTicksPassed = 0
     override fun onEnable() {

@@ -14,25 +14,27 @@ import java.util.UUID
 abstract class FishingMinigameUIRenderer {
     abstract val minigameState: FishingMinigameState
 
-    protected val waterCharacter = 'ो'
-    protected val fishCharacter = 'ॊ'
     protected val rodBoxCharacter = '्'
-    protected val fishingRodCharacter = 'ॎ'
-    protected val fishingRodUsedCharacter = 'ॏ'
-    protected val fishingRodAnimCharacters = listOf('ॐ', '॑', '॒', '॓', '॔', 'ॕ')
-    protected val fishingRodLongPartCharacter = 'ॖ'
-    val waterCharacterHeight = 10
-    val fishCharacterHeight = 6
+    protected val miniRodCharacter = 'ॎ'
+    protected val miniRodUsedCharacter = 'ॏ'
+    val bigRodCharacters = listOf('ॐ', '॑', '॒', '॓', '॔', 'ॕ')
+    protected val longRodCharacter = 'ॖ'
     val rodBoxCharacterHeight = 6
-    val fishingRodCharacterHeight = 3
-    val fishingRodUsedCharacterHeight = 3
-    val fishingRodAnimCharacterHeight = 10
-    val fishingRodLongPartCharacterHeight = 10
-    val waterChunksAmount = 5
-    /** The position of the first fishing rod character, in UI pixels from the right */
-    protected val fishingRodsPosition = 60.0
-    /** The difference in positions between every fishing rod character, in UI pixels from the right*/
-    protected val fishingRodOffsets = fishingRodCharacterHeight
+    val miniRodCharacterHeight = 3
+    val miniRodUsedCharacterHeight = 3
+    val bigRodCharacterHeight = 10
+    val longRodCharacterHeight = 10
+    /**
+     * The extra width of the long rod in pixels. The rod is longer to make the animation smoother and cover 'holes',
+     * but a side effect is that the last position is X pixels to the right. So we discard the last X pixels for the long rod.
+     */
+    val longRodExtraWidth = 1
+    /** The position of the first mini fishing rod character, in UI pixels from the right */
+    protected val miniFishingRodsPosition = 100.0
+    /** The difference in positions between every mini fishing rod character, in UI pixels from the right*/
+    protected val minFishingRodsOffset = miniRodCharacterHeight
+    /** The position of the big fishing rod, in UI pixels from the right */
+    val bigRodPosition = 80.0
 
     /**
      * Renders the fishing minigame UI to the player.

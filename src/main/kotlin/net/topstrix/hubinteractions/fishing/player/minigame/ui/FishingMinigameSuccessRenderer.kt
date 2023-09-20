@@ -1,11 +1,8 @@
 package net.topstrix.hubinteractions.fishing.player.minigame.ui
 
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.title.Title
-import net.kyori.adventure.title.TitlePart
 import net.topstrix.hubinteractions.fishing.player.minigame.states.FishingMinigameSuccessState
-import org.bukkit.Bukkit
-import java.time.Duration
+import net.topstrix.hubinteractions.fishing.util.FishingUtil
 
 
 /**
@@ -15,9 +12,9 @@ class FishingMinigameSuccessRenderer(override val minigameState: FishingMinigame
     override fun render() {
         val title = Component.text()
         // WATER
-        renderCharacters(title, waterCharacter, waterChunksAmount)
+        renderCharacters(title, FishingUtil.fishingConfig.waterCharacter, FishingUtil.fishingConfig.waterAmount)
         // FISH
-        renderCharacterSeparately(title, fishCharacter, minigameState.minigameManager.fishPosition, fishCharacterHeight)
+        renderCharacterSeparately(title, FishingUtil.fishingConfig.fishCharacter, minigameState.minigameManager.fishMovementManager.fishPosition, FishingUtil.fishingConfig.fishCharacterHeight)
         // ROD BOX
         renderCharacterSeparately(title, rodBoxCharacter, minigameState.minigameManager.rodBoxPosition, rodBoxCharacterHeight)
         // FISHING ROD
@@ -25,11 +22,11 @@ class FishingMinigameSuccessRenderer(override val minigameState: FishingMinigame
         // FISHING RODS
         for (i in 0 until minigameState.minigameManager.maxFishingRodUses) { //3,1
             if ((minigameState.minigameManager.maxFishingRodUses - i) > minigameState.minigameManager.fishingRodUsesLeft)
-                renderCharacterSeparately(title, fishingRodUsedCharacter,
-                    fishingRodsPosition + fishingRodOffsets * i, fishingRodCharacterHeight)
+                renderCharacterSeparately(title, miniRodUsedCharacter,
+                    miniFishingRodsPosition + minFishingRodsOffset * i, miniRodCharacterHeight)
             else
-                renderCharacterSeparately(title, fishingRodCharacter,
-                    fishingRodsPosition + fishingRodOffsets * i, fishingRodUsedCharacterHeight)
+                renderCharacterSeparately(title, miniRodCharacter,
+                    miniFishingRodsPosition + minFishingRodsOffset * i, miniRodUsedCharacterHeight)
         }
 
         display(minigameState.minigameManager.fishingPlayer.uuid, title)

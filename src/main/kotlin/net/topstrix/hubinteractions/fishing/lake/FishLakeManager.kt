@@ -84,7 +84,7 @@ class FishLakeManager(
         val amount = min(determineAmountOfFishToSpawn(), maxFishCount - fishes.size)
         for (i in 0 until amount) {
             val location = determineSpawnLocation()
-            val fishVariant = FishVariant(
+            val fishVariant = FishVariant( //todo: move fish variants to config
                 Material.ARROW,
                 28,
                 0.05,
@@ -93,7 +93,8 @@ class FishLakeManager(
                 100,
                 200,
                 Vector(1.4, 2.0, 1.4),
-                Vector(0.0, 1.0, 0.0)
+                Vector(0.0, 1.0, 0.0),
+                5.0
             )
             fishes.add(
                 Fish(

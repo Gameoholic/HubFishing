@@ -1,14 +1,11 @@
 package net.topstrix.hubinteractions.fishing.player.minigame.ui
 
 import net.kyori.adventure.text.Component
-import net.topstrix.hubinteractions.fishing.player.minigame.states.FishingMinigameGameplayState
+import net.topstrix.hubinteractions.fishing.player.minigame.states.FishingMinigameRodCastState
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 
 
-/**
- * Renders water, fish and the rodbox on the player's screen.
- */
-class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinigameGameplayState): FishingMinigameUIRenderer() {
+class FishingMinigameRodCastUIRenderer(override val minigameState: FishingMinigameRodCastState): FishingMinigameUIRenderer() {
     override fun render() {
         val title = Component.text()
         // WATER
@@ -27,31 +24,30 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
                     miniFishingRodsPosition + minFishingRodsOffset * i, miniRodUsedCharacterHeight)
         }
         // ROD ANIMATION
-        when (minigameState.rodBeingCastTicks) {
+        when (minigameState.stateTicksPassed) {
             0 -> renderCharacterSeparately(title, bigRodCharacters[0], bigRodPosition, bigRodCharacterHeight)
             in 1..4 -> {
-                renderCharacterSeparately(title, bigRodCharacters[minigameState.rodBeingCastTicks], bigRodPosition, bigRodCharacterHeight)
+                renderCharacterSeparately(title, bigRodCharacters[minigameState.stateTicksPassed], bigRodPosition, bigRodCharacterHeight)
             }
             else -> renderCharacterSeparately(title, bigRodCharacters[5], bigRodPosition, bigRodCharacterHeight)
         }
 
-        if (minigameState.rodBeingCastTicks > 4) {
-            val targetPos = minigameState.minigameManager.rodBoxPosition - rodBoxCharacterHeight / 2 //center of rod box
-            val startingPos = bigRodPosition - bigRodCharacterHeight
-            val speed = 3
-            val fishingRodLongPartExtraWidth = 1
-            val ticksPassed = minigameState.rodBeingCastTicks - 4 //todo
-            for (i in 0 until ticksPassed) { //For every tick that has passed:
-                for (j in 0 until speed) {  //We animate it X (speed) times
-                    val currentPos = startingPos - i * speed - j + fishingRodLongPartExtraWidth
-                    if (currentPos <= targetPos) break //todo: this is shit
-                    renderCharacterSeparately(title, longRodCharacter,
-                        currentPos,
-                        longRodCharacterHeight)
-                }
+        if (minigameState.extensionTicksPassed > 0) {
+            val evenAmount = (minigameState.longRodStartingPosition - minigameState.longRodPosition).toInt()
+            val unEvenAmount = (minigameState.longRodStartingPosition - minigameState.longRodPosition)
+            for (i in 0 until evenAmount - longRodExtraWidth + 1) { //We don't animate the last X frames based on the longrod extra width. We add +1 so the last frame isn't skipped.
+                renderCharacterSeparately(title, longRodCharacter,
+                    minigameState.longRodStartingPosition - i,
+                    longRodCharacterHeight)
             }
-
+            //handle uneven pixels: //todo: doc this shit
+            if (unEvenAmount > evenAmount) {
+                renderCharacterSeparately(title, longRodCharacter,
+                    minigameState.longRodPosition + longRodExtraWidth,
+                    longRodCharacterHeight)
+            }
         }
+
 
         display(minigameState.minigameManager.fishingPlayer.uuid, title)
     }

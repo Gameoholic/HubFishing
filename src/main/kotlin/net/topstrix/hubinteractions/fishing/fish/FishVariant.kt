@@ -14,5 +14,6 @@ data class FishVariant(
     val maxAliveTimeMin: Int,
     val maxAliveTimeMax: Int,
     val hitboxSize: Vector,
-    val hitboxOffset: Vector
+    val hitboxOffset: Vector,
+    val minigameHitboxWidth: Double
 )

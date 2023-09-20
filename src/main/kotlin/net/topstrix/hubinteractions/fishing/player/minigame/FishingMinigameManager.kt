@@ -6,6 +6,8 @@ import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.fish.Fish
 import net.topstrix.hubinteractions.fishing.player.FishingPlayer
 import net.topstrix.hubinteractions.fishing.player.minigame.states.*
+import net.topstrix.hubinteractions.fishing.player.minigame.states.util.FishMovementManager
+import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import org.bukkit.Bukkit
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
@@ -16,14 +18,13 @@ import org.bukkit.scheduler.BukkitTask
 
 
 class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: Fish) {
-    private var state: FishingMinigameState = FishingMinigameFishCaughtState(this)
+    private var state: FishingMinigameState = FishingMinigameFishFoundState(this)
     private val task: BukkitTask
+    val fishMovementManager = FishMovementManager(0.0 + FishingUtil.fishingConfig.fishCharacterHeight, (FishingUtil.fishingConfig.waterCharacterHeight * FishingUtil.fishingConfig.waterAmount).toDouble(), caughtFish)
 
     private lateinit var armorStand: ArmorStand
     lateinit var textDisplay: TextDisplay
-
-    /** The fish's position in UI pixels, from the right */
-    var fishPosition = 0.0
+    //todo: move all these variables to their respective states, and make onDisable pass variables to onEnable of next state.
     /** The rod box's position in UI pixels, from the right */
     var rodBoxPosition = 0.0
 
@@ -49,7 +50,8 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         if (!armorStand.passengers.contains(player))
             armorStand.addPassenger(player)
 
-        if (state.stateTicksPassed >= 20 && state is FishingMinigameFishCaughtState) {
+        //todo: use predicates for this?
+        if (state.stateTicksPassed >= 20 && state is FishingMinigameFishFoundState) {
             state.onDisable()
             state = FishingMinigameStartAnimState(this)
             state.onEnable()
@@ -58,12 +60,6 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         if (state.stateTicksPassed >= 1 && state is FishingMinigameStartAnimState) {
             state.onDisable()
             state = FishingMinigameGameplayState(this)
-            state.onEnable()
-            return
-        }
-        if (state is FishingMinigameGameplayState && (state as FishingMinigameGameplayState).rodCastSuccess) {
-            state.onDisable()
-            state = FishingMinigameSuccessState(this)
             state.onEnable()
             return
         }
@@ -76,6 +72,22 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         if ((state is FishingMinigameSuccessState || state is FishingMinigameFailureState) && state.stateTicksPassed >= 10) {
             state.onDisable()
             endMinigame()
+            return
+        }
+        if (state is FishingMinigameGameplayState && (state as FishingMinigameGameplayState).rodCast) {
+            state.onDisable()
+            state = FishingMinigameRodCastState(this)
+            state.onEnable()
+        }
+        if (state is FishingMinigameRodCastState && (state as FishingMinigameRodCastState).fishCaught == false) {
+            state.onDisable()
+            state = FishingMinigameGameplayState(this)
+            state.onEnable()
+        }
+        if (state is FishingMinigameRodCastState && (state as FishingMinigameRodCastState).fishCaught == true) {
+            state.onDisable()
+            state = FishingMinigameSuccessState(this)
+            state.onEnable()
             return
         }
 
