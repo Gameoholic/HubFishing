@@ -1,19 +1,23 @@
 package net.topstrix.hubinteractions.fishing.fish
 
-import net.kyori.adventure.text.Component
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import net.topstrix.hubinteractions.shared.serialization.LocationSerializer
+import net.topstrix.hubinteractions.shared.serialization.VectorSerializer
 import org.bukkit.Material
 import org.bukkit.util.Vector
 
 
+@Serializable
 data class FishVariant(
     val material: Material,
-    val modelData: Int,
+    @SerialName("model-data") val modelData: Int,
     val speed: Double,
     val rarity: FishRarity,
-    val name: Component,
-    val maxAliveTimeMin: Int,
-    val maxAliveTimeMax: Int,
-    val hitboxSize: Vector,
-    val hitboxOffset: Vector,
-    val minigameHitboxWidth: Double
+    val name: String,
+    @SerialName("alive-time-min") val aliveTimeMin: Int,
+    @SerialName("alive-time-max") val aliveTimeMax: Int,
+    @SerialName("hitbox-size") val hitboxSize: @Serializable(with = VectorSerializer::class) Vector,
+    @SerialName("hitbox-offset") val hitboxOffset: @Serializable(with = VectorSerializer::class) Vector,
+    @SerialName("minigame-hitbox-width") val minigameHitboxWidth: Double
 )

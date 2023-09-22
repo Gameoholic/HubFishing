@@ -23,17 +23,20 @@ java {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-
     paperweight.paperDevBundle("1.20.1-R0.1-SNAPSHOT") //the paper dev bundle is a compile-only dependency, paper itself provides it. No need to shade
 
-    implementation("net.kyori:adventure-text-minimessage:4.14.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-    implementation("com.charleskorn.kaml:kaml:0.55.0")
+    implementation("net.kyori:adventure-text-minimessage:4.14.0") //todo: shade
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0") //todo: shade
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3") //todo: shade
+    implementation("com.charleskorn.kaml:kaml:0.55.0") //todo: shade
+    implementation("com.github.gameoholic:partigon:1.0.0") //todo: shade
+    implementation("com.zaxxer:HikariCP:5.0.1")
 }
 
 

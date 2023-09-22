@@ -52,8 +52,8 @@ class Fish(
         }
 
         moveFishAlongPath()
-        hitboxLocation.x = armorStand.x
-        hitboxLocation.z = armorStand.z
+        hitboxLocation.x = armorStand.location.x
+        hitboxLocation.z = armorStand.location.z
     }
 
     /**

@@ -2,7 +2,9 @@ package net.topstrix.hubinteractions.fishing.player.minigame.states.util
 
 import net.topstrix.hubinteractions.fishing.fish.Fish
 import net.topstrix.hubinteractions.fishing.fish.FishRarity
+import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * @param fishMinPosition The fish's min position in UI pixels, from the right
@@ -24,11 +26,24 @@ class FishMovementManager(
     private var fishMaxDirectionTime = 0
     /** The fish's position in UI pixels, from the right */
     var fishPosition = fishMinPosition + (fishMaxPosition - fishMinPosition) / 2
-    /** The fish's min position in UI pixels, from the right */
-//    private val fishMinPosition = 0.0 + uiRenderer.fishCharacterHeight
-    /** The fish's max position in UI pixels, from the right */
-//    private val fishMaxPosition = (uiRenderer.waterCharacterHeight * uiRenderer.waterAmount).toDouble()
 
+    var heatmap = hashMapOf<Int, Double>()
+    init {
+        for (i in 0 until FishingUtil.fishingConfig.waterAmount) {
+            heatmap[i] = 100.0 / FishingUtil.fishingConfig.waterAmount //14.2%
+        }
+        for (i in 0 until FishingUtil.fishingConfig.waterAmount / 2) {
+            val heatmapValue = heatmap[i]!!
+            heatmap[i] = heatmap[i]!! - heatmapValue / 2.0
+            heatmap[FishingUtil.fishingConfig.waterAmount - 1 - i] = heatmap[FishingUtil.fishingConfig.waterAmount - 1 - i]!! - heatmapValue / 2.0
+            for (j in i + 1 until FishingUtil.fishingConfig.waterAmount - 1 - i) {
+                heatmap[j] = heatmap[j]!! + heatmapValue / (FishingUtil.fishingConfig.waterAmount - 1 - i - i - 1)
+            }
+        }
+
+
+        println(heatmap)
+    }
     /**
      * Determines and updates the fish position based on algorithm
      */

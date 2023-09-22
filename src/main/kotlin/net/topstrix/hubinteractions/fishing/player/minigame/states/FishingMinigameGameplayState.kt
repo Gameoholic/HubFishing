@@ -13,22 +13,28 @@ import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
 
-class FishingMinigameGameplayState(val minigameManager: FishingMinigameManager): FishingMinigameState, Listener {
+/**
+ * @param rodBoxMinPosition The rod box's min position in UI pixels, from the right
+ * @param rodBoxMaxPosition The rod box's max position in UI pixels, from the right
+ * @param rodBoxSpeed The speed of the rod box
+ */
+class FishingMinigameGameplayState(
+    val minigameManager: FishingMinigameManager,
+    private val rodBoxMinPosition: Double,
+    private val rodBoxMaxPosition: Double,
+    private val rodBoxSpeed: Double
+) : FishingMinigameState, Listener {
 
 
     override var stateTicksPassed = 0
 
     private val uiRenderer: FishingMinigameGameplayUIRenderer = FishingMinigameGameplayUIRenderer(this)
 
-    /** The rod box's min position in UI pixels, from the right */
-    private val rodBoxMinPosition = 0.0 + uiRenderer.rodBoxCharacterHeight
-    /** The rod box's max position in UI pixels, from the right */
-    private val rodBoxMaxPosition = (FishingUtil.fishingConfig.waterCharacterHeight * FishingUtil.fishingConfig.waterAmount).toDouble()
-    private val rodBoxSpeed = 0.8
 
     /** Whether the player right-clicked. If true, signals to the minigame manager to switch states */
     var rodCast = false
         private set
+
     /** The ticks that have passed since the rod being cast */
     var rodBeingCastTicks = 0
 
@@ -36,10 +42,7 @@ class FishingMinigameGameplayState(val minigameManager: FishingMinigameManager):
     override fun onEnable() {
         Bukkit.getPluginManager().registerEvents(this, HubInteractions.plugin)
         Bukkit.getPluginManager().registerEvents(this, HubInteractions.plugin)
-
-        minigameManager.rodBoxPosition = rodBoxMinPosition + (rodBoxMaxPosition - rodBoxMinPosition) / 2
     }
-
 
 
     override fun onTick() {
@@ -68,14 +71,15 @@ class FishingMinigameGameplayState(val minigameManager: FishingMinigameManager):
             minigameManager.rodBoxPosition = rodBoxMinPosition
     }
 
-    private enum class MoveDirection {LEFT, RIGHT, NEITHER}
+    private enum class MoveDirection { LEFT, RIGHT, NEITHER }
 
     /**
      * Returns the direction the player's moving at.
      * @return MoveDirection.LEFT if player presses A (left), MoveDirection.RIGHT if player presses D (right), MoveDirection.NEITHER otherwise.
      */
     private fun getPlayerMoveDirection(player: Player): MoveDirection {
-        val playerRotation = player.location.direction.clone().normalize().apply { this.y = 0.0 } //We want to ignore the y velocity for our calculations
+        val playerRotation = player.location.direction.clone().normalize()
+            .apply { this.y = 0.0 } //We want to ignore the y velocity for our calculations
         val playerMovement = player.velocity.clone().normalize().apply { this.y = 0.0 }
 
         val angle = Math.toDegrees(playerMovement.clone().angle(playerRotation).toDouble())
@@ -84,16 +88,13 @@ class FishingMinigameGameplayState(val minigameManager: FishingMinigameManager):
         if (playerRotation.x > 0 && playerRotation.z > 0) {
             if (playerMovement.x > 0 && playerMovement.z < 0)
                 return MoveDirection.LEFT
-        }
-        else if (playerRotation.x < 0 && playerRotation.z > 0) {
+        } else if (playerRotation.x < 0 && playerRotation.z > 0) {
             if (playerMovement.x > 0 && playerMovement.z > 0)
                 return MoveDirection.LEFT
-        }
-        else if (playerRotation.x < 0 && playerRotation.z < 0) {
+        } else if (playerRotation.x < 0 && playerRotation.z < 0) {
             if (playerMovement.x < 0 && playerMovement.z > 0)
                 return MoveDirection.LEFT
-        }
-        else if (playerRotation.x > 0 && playerRotation.z < 0) {
+        } else if (playerRotation.x > 0 && playerRotation.z < 0) {
             if (playerMovement.x < 0 && playerMovement.z < 0)
                 return MoveDirection.LEFT
         }

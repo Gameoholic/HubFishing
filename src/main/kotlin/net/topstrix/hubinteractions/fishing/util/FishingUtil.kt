@@ -24,6 +24,7 @@ object FishingUtil {
                 fishLakeManagerSettings.corner1,
                 fishLakeManagerSettings.corner2,
                 fishLakeManagerSettings.armorStandYLevel,
+                fishLakeManagerSettings.fishAmountChances,
                 fishLakeManagerSettings.maxFishCount)
         }
         fishLakeManagers = fishLakeManagersList

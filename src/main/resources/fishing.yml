@@ -21,22 +21,83 @@ fish-lake-managers:
       y: 71.0
       z: -286.0
     armor-stand-y-level: 67.0
+    fish-amount-chances:
+      1: 0.5
+      2: 0.4
+      3: 0.05
+      4: 0.05
     max-fish-count: 10
 
+fish-variants:
+  - material: LEATHER_HORSE_ARMOR
+    model-data: 700
+    speed: 0.05
+    rarity: COMMON
+    name: Ocelot
+    alive-time-min: 100
+    alive-time-max: 200
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
 
+#Fish rarities:
+common-fish-minigame-min-direction-duration: 5
+common-fish-minigame-max-direction-duration: 10
+common-fish-minigame-speed: 0.5
+
+rare-fish-fishes-required-to-spawn-min: 20
+rare-fish-fishes-required-to-spawn-max: 40
+rare-fish-minigame-min-direction-duration: 30
+rare-fish-minigame-max-direction-duration: 30
+rare-fish-minigame-speed: 1.0
+
+epic-fish-fishes-required-to-spawn-min: 100
+epic-fish-fishes-required-to-spawn-max: 200
+epic-fish-minigame-min-direction-duration: 30
+epic-fish-minigame-max-direction-duration: 30
+epic-fish-minigame-speed: 1.25
+
+legendary-fish-fishes-required-to-spawn-min: 500
+legendary-fish-fishes-required-to-spawn-max: 1000
+legendary-fish-minigame-min-direction-duration: 30
+legendary-fish-minigame-max-direction-duration: 30
+legendary-fish-minigame-speed: 1.5
+
+#Gameplay settings:
 water-amount: 7
+rod-box-speed: 0.8
+max-fishing-rod-uses: 3
 
+#Characters:
 water-character: 'ो'
 water-character-height: 10
 
 fish-character: 'ॊ'
 fish-character-height: 6
 
-#water-amount: 7
-#characters:
-#  water-character:
-#    character: 'ो'
-#    height: 10
-#  fish-character:
-#    character: ''
-#    height: 6
+rod-box-character: '्'
+rod-box-character-height: 6
+
+mini-rod-character: 'ॎ'
+mini-rod-character-height: 3
+
+mini-rod-used-character: 'ॏ'
+mini-rod-used-character-height: 3
+
+big-rod-character-height: 10
+big-rod-characters:
+  - 'ॐ'
+  - '॑'
+  - '॒'
+  - '॓'
+  - '॔'
+  - 'ॕ'
+
+long-rod-character: 'ॖ'
+long-rod-character-height: 10

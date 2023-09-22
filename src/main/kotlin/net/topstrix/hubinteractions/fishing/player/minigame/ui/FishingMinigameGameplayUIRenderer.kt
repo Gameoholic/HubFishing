@@ -16,28 +16,28 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
         // FISH
         renderCharacterSeparately(title, FishingUtil.fishingConfig.fishCharacter, minigameState.minigameManager.fishMovementManager.fishPosition, FishingUtil.fishingConfig.fishCharacterHeight)
         // ROD BOX
-        renderCharacterSeparately(title, rodBoxCharacter, minigameState.minigameManager.rodBoxPosition, rodBoxCharacterHeight)
+        renderCharacterSeparately(title, FishingUtil.fishingConfig.rodBoxCharacter, minigameState.minigameManager.rodBoxPosition, FishingUtil.fishingConfig.rodBoxCharacterHeight)
         // FISHING RODS
-        for (i in 0 until minigameState.minigameManager.maxFishingRodUses) { //3,1
-            if ((minigameState.minigameManager.maxFishingRodUses - i) > minigameState.minigameManager.fishingRodUsesLeft)
-                renderCharacterSeparately(title, miniRodUsedCharacter,
-                    miniFishingRodsPosition + minFishingRodsOffset * i, miniRodCharacterHeight)
+        for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses) { //3,1
+            if ((FishingUtil.fishingConfig.maxFishingRodUses - i) > minigameState.minigameManager.fishingRodUsesLeft)
+                renderCharacterSeparately(title, FishingUtil.fishingConfig.miniRodUsedCharacter,
+                    miniFishingRodsPosition + minFishingRodsOffset * i, FishingUtil.fishingConfig.miniRodCharacterHeight)
             else
-                renderCharacterSeparately(title, miniRodCharacter,
-                    miniFishingRodsPosition + minFishingRodsOffset * i, miniRodUsedCharacterHeight)
+                renderCharacterSeparately(title, FishingUtil.fishingConfig.miniRodCharacter,
+                    miniFishingRodsPosition + minFishingRodsOffset * i, FishingUtil.fishingConfig.miniRodUsedCharacterHeight)
         }
         // ROD ANIMATION
         when (minigameState.rodBeingCastTicks) {
-            0 -> renderCharacterSeparately(title, bigRodCharacters[0], bigRodPosition, bigRodCharacterHeight)
+            0 -> renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[0], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
             in 1..4 -> {
-                renderCharacterSeparately(title, bigRodCharacters[minigameState.rodBeingCastTicks], bigRodPosition, bigRodCharacterHeight)
+                renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[minigameState.rodBeingCastTicks], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
             }
-            else -> renderCharacterSeparately(title, bigRodCharacters[5], bigRodPosition, bigRodCharacterHeight)
+            else -> renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[5], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
         }
 
         if (minigameState.rodBeingCastTicks > 4) {
-            val targetPos = minigameState.minigameManager.rodBoxPosition - rodBoxCharacterHeight / 2 //center of rod box
-            val startingPos = bigRodPosition - bigRodCharacterHeight
+            val targetPos = minigameState.minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2 //center of rod box
+            val startingPos = bigRodPosition - FishingUtil.fishingConfig.bigRodCharacterHeight
             val speed = 3
             val fishingRodLongPartExtraWidth = 1
             val ticksPassed = minigameState.rodBeingCastTicks - 4 //todo
@@ -45,9 +45,9 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
                 for (j in 0 until speed) {  //We animate it X (speed) times
                     val currentPos = startingPos - i * speed - j + fishingRodLongPartExtraWidth
                     if (currentPos <= targetPos) break //todo: this is shit
-                    renderCharacterSeparately(title, longRodCharacter,
+                    renderCharacterSeparately(title, FishingUtil.fishingConfig.longRodCharacter,
                         currentPos,
-                        longRodCharacterHeight)
+                        FishingUtil.fishingConfig.longRodCharacterHeight)
                 }
             }
 

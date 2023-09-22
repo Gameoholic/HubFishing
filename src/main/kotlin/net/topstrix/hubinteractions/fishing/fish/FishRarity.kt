@@ -1,14 +1,20 @@
 package net.topstrix.hubinteractions.fishing.fish
 
+import net.topstrix.hubinteractions.fishing.util.FishingUtil
+
 enum class FishRarity(
     val value: Int,
-    val minigameMinDirectionDuration: Int,
-    val minigameMaxDirectionDuration: Int,
-    val minigameSpeed: Double
+    var minigameMinDirectionDuration: Int,
+    var minigameMaxDirectionDuration: Int,
+    var minigameSpeed: Double,
+    var fishesRequiredToSpawnMin: Int,
+    var fishesRequiredToSpawnMax: Int
 ) {
-    COMMON(0, 30, 100, 0.5),
-    RARE(1, 20, 50, 0.75),
-    EPIC(2, 5, 25, 1.25),
-    LEGENDARY(3, 5, 15, 1.5)
+    COMMON(0, -1, -1, -1.0, -1, -1),
+    RARE(1, -1, -1, -1.0, -1, -1),
+    EPIC(2, -1, -1, -1.0, -1, -1),
+    LEGENDARY(3, -1, -1, -1.0, -1, -1),
 }
+
+
 

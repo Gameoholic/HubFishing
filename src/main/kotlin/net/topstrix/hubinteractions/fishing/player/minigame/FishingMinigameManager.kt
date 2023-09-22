@@ -20,16 +20,27 @@ import org.bukkit.scheduler.BukkitTask
 class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: Fish) {
     private var state: FishingMinigameState = FishingMinigameFishFoundState(this)
     private val task: BukkitTask
-    val fishMovementManager = FishMovementManager(0.0 + FishingUtil.fishingConfig.fishCharacterHeight, (FishingUtil.fishingConfig.waterCharacterHeight * FishingUtil.fishingConfig.waterAmount).toDouble(), caughtFish)
+    val fishMovementManager = FishMovementManager(
+        0.0 + FishingUtil.fishingConfig.fishCharacterHeight,
+        (FishingUtil.fishingConfig.waterCharacterHeight * FishingUtil.fishingConfig.waterAmount).toDouble(),
+        caughtFish
+    )
 
     private lateinit var armorStand: ArmorStand
     lateinit var textDisplay: TextDisplay
-    //todo: move all these variables to their respective states, and make onDisable pass variables to onEnable of next state.
-    /** The rod box's position in UI pixels, from the right */
-    var rodBoxPosition = 0.0
 
-    val maxFishingRodUses = 30
-    var fishingRodUsesLeft = maxFishingRodUses
+    /** The rod box's min position in UI pixels, from the right */
+    private val rodBoxMinPosition = 0.0 + FishingUtil.fishingConfig.rodBoxCharacterHeight
+
+    /** The rod box's max position in UI pixels, from the right */
+    private val rodBoxMaxPosition =
+        (FishingUtil.fishingConfig.waterCharacterHeight * FishingUtil.fishingConfig.waterAmount).toDouble()
+
+    /** The rod box's position in UI pixels, from the right */
+    var rodBoxPosition = rodBoxMinPosition + (rodBoxMaxPosition - rodBoxMinPosition) / 2
+
+    var fishingRodUsesLeft = FishingUtil.fishingConfig.maxFishingRodUses
+
     init {
         val player = Bukkit.getPlayer(fishingPlayer.uuid)!! //TODO: what if null? Remove !!.
 
@@ -59,7 +70,12 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         }
         if (state.stateTicksPassed >= 1 && state is FishingMinigameStartAnimState) {
             state.onDisable()
-            state = FishingMinigameGameplayState(this)
+            state = FishingMinigameGameplayState(
+                this,
+                rodBoxMinPosition,
+                rodBoxMaxPosition,
+                FishingUtil.fishingConfig.rodBoxSpeed
+            )
             state.onEnable()
             return
         }
@@ -81,7 +97,12 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         }
         if (state is FishingMinigameRodCastState && (state as FishingMinigameRodCastState).fishCaught == false) {
             state.onDisable()
-            state = FishingMinigameGameplayState(this)
+            state = FishingMinigameGameplayState( //todo: should every class just use the config statically or should I pass variables like this?
+                this,
+                rodBoxMinPosition,
+                rodBoxMaxPosition,
+                FishingUtil.fishingConfig.rodBoxSpeed
+            )
             state.onEnable()
         }
         if (state is FishingMinigameRodCastState && (state as FishingMinigameRodCastState).fishCaught == true) {
@@ -99,7 +120,10 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
      * Spawns an invisible armor stand and makes the player ride it
      */
     private fun spawnAndRideArmorStand(player: Player) {
-        armorStand = player.location.world.spawnEntity(player.location.apply { this.y -= 1.25 }, EntityType.ARMOR_STAND) as ArmorStand
+        armorStand = player.location.world.spawnEntity(
+            player.location.apply { this.y -= 1.25 },
+            EntityType.ARMOR_STAND
+        ) as ArmorStand
         armorStand.isInvisible = true
         armorStand.setAI(false)
         armorStand.setGravity(false)

@@ -6,6 +6,7 @@ import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.title.Title
 import net.kyori.adventure.title.TitlePart
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameState
+import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import org.bukkit.Bukkit
 import java.text.DecimalFormat
 import java.time.Duration
@@ -14,16 +15,6 @@ import java.util.UUID
 abstract class FishingMinigameUIRenderer {
     abstract val minigameState: FishingMinigameState
 
-    protected val rodBoxCharacter = '्'
-    protected val miniRodCharacter = 'ॎ'
-    protected val miniRodUsedCharacter = 'ॏ'
-    val bigRodCharacters = listOf('ॐ', '॑', '॒', '॓', '॔', 'ॕ')
-    protected val longRodCharacter = 'ॖ'
-    val rodBoxCharacterHeight = 6
-    val miniRodCharacterHeight = 3
-    val miniRodUsedCharacterHeight = 3
-    val bigRodCharacterHeight = 10
-    val longRodCharacterHeight = 10
     /**
      * The extra width of the long rod in pixels. The rod is longer to make the animation smoother and cover 'holes',
      * but a side effect is that the last position is X pixels to the right. So we discard the last X pixels for the long rod.
@@ -32,7 +23,7 @@ abstract class FishingMinigameUIRenderer {
     /** The position of the first mini fishing rod character, in UI pixels from the right */
     protected val miniFishingRodsPosition = 100.0
     /** The difference in positions between every mini fishing rod character, in UI pixels from the right*/
-    protected val minFishingRodsOffset = miniRodCharacterHeight
+    protected val minFishingRodsOffset = FishingUtil.fishingConfig.miniRodCharacterHeight
     /** The position of the big fishing rod, in UI pixels from the right */
     val bigRodPosition = 80.0
 

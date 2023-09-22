@@ -19,9 +19,9 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
     /** The speed in pixels, at which the rod will extend per tick */
     val rodExtendingSpeed = 3
     /** The target (max) position of the long rod, in UI pixels to the left*/
-    val longRodTargetPosition = minigameManager.rodBoxPosition - uiRenderer.rodBoxCharacterHeight / 2 //Center of rodbox
+    val longRodTargetPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2 //Center of rodbox
     /** The starting position of the long rod, in UI pixels to the left*/
-    val longRodStartingPosition = uiRenderer.bigRodPosition - uiRenderer.bigRodCharacterHeight
+    val longRodStartingPosition = uiRenderer.bigRodPosition - FishingUtil.fishingConfig.bigRodCharacterHeight
     /** The position of right-most pixel of the long rod, in UI pixels to the left*/
     var longRodPosition: Double = longRodStartingPosition
         private set
@@ -53,8 +53,8 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
      */
     private fun playLongRodAnimation() {
         //If bigrod cast animation finished, we start longrod extend animation
-        if (stateTicksPassed >= uiRenderer.bigRodCharacters.size && longRodPosition > longRodTargetPosition) {
-            extensionTicksPassed = stateTicksPassed - uiRenderer.bigRodCharacters.size + 1 //How many ticks passed, since extension
+        if (stateTicksPassed >= FishingUtil.fishingConfig.bigRodCharacters.size && longRodPosition > longRodTargetPosition) {
+            extensionTicksPassed = stateTicksPassed - FishingUtil.fishingConfig.bigRodCharacters.size + 1 //How many ticks passed, since extension
             longRodPosition = longRodStartingPosition - extensionTicksPassed * rodExtendingSpeed
             if (longRodPosition < longRodTargetPosition) //Cap position, if speed is too high, and it passes target pos.
                 longRodPosition = longRodTargetPosition
@@ -81,10 +81,10 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
     /**
      * @return Whether the rod box is within the fish's hitbox.
      */
-    private fun didRodCatchFish(): Boolean { //todo: move this to a manager class?
+    private fun didRodCatchFish(): Boolean {
         val fishHitboxWidth = minigameManager.caughtFish.variant.minigameHitboxWidth
         val fishCenteredPosition = minigameManager.fishMovementManager.fishPosition - FishingUtil.fishingConfig.fishCharacterHeight / 2
-        val rodBoxCenteredPosition = minigameManager.rodBoxPosition - uiRenderer.rodBoxCharacterHeight / 2
+        val rodBoxCenteredPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2
         return rodBoxCenteredPosition < fishCenteredPosition + fishHitboxWidth
             && rodBoxCenteredPosition > fishCenteredPosition - fishHitboxWidth
     }
