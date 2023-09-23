@@ -5,6 +5,7 @@ import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.elytraspots.config.ElytraSpotsConfig
+import net.topstrix.hubinteractions.elytraspots.config.ElytraSpotsFileParser
 import net.topstrix.hubinteractions.elytraspots.listeners.EntityToggleGlideListener
 import net.topstrix.hubinteractions.elytraspots.listeners.PlayerMoveListener
 import net.topstrix.hubinteractions.elytraspots.listeners.PlayerQuitListener
@@ -21,6 +22,8 @@ object ElytraSpotsUtil {
 
 
     fun onEnable() {
+        elytraSpotsConfig = ElytraSpotsFileParser.parseFile()
+
         ElytraSpotRunnable().runTaskTimer(HubInteractions.plugin, 0L, 1L)
         Bukkit.getPluginManager().registerEvents(PlayerQuitListener, HubInteractions.plugin)
         Bukkit.getPluginManager().registerEvents(EntityToggleGlideListener, HubInteractions.plugin)

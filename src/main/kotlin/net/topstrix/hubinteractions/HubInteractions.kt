@@ -25,10 +25,8 @@ object HubInteractions {
         plugin.getCommand("test")!!.setExecutor(TestCommand)
         plugin.getCommand("test2")!!.setExecutor(Test2Command)
 
-        ElytraSpotsUtil.elytraSpotsConfig = ElytraSpotsFileParser.parseFile()
         ElytraSpotsUtil.onEnable()
 
-        FishingUtil.fishingConfig = FishingFileParser.parseFile()
         FishingUtil.onEnable()
 
         object : BukkitRunnable() {

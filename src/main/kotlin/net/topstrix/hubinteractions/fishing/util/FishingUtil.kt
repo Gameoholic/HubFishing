@@ -2,11 +2,12 @@ package net.topstrix.hubinteractions.fishing.util
 
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.config.FishingConfig
+import net.topstrix.hubinteractions.fishing.config.FishingFileParser
 import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
 import net.topstrix.hubinteractions.fishing.listeners.PlayerFishListener
 import net.topstrix.hubinteractions.fishing.listeners.PlayerInteractListener
+import net.topstrix.hubinteractions.fishing.data.sql.SQLUtil
 import org.bukkit.Bukkit
-import org.bukkit.Location
 
 object FishingUtil {
 
@@ -17,6 +18,8 @@ object FishingUtil {
     lateinit var fishLakeManagers: List<FishLakeManager>
 
     fun onEnable() {
+        fishingConfig = FishingFileParser.parseFile()
+
         val fishLakeManagersList = mutableListOf<FishLakeManager>()
         for (fishLakeManagerSettings in fishingConfig.fishLakeManagersSettings) {
             fishLakeManagersList += FishLakeManager(fishLakeManagerSettings.spawnCorner1,
@@ -31,6 +34,8 @@ object FishingUtil {
 
         Bukkit.getPluginManager().registerEvents(PlayerFishListener, HubInteractions.plugin)
         Bukkit.getPluginManager().registerEvents(PlayerInteractListener, HubInteractions.plugin)
+
+        SQLUtil.load(fishingConfig.fishVariants)
     }
 
     fun onTick() {

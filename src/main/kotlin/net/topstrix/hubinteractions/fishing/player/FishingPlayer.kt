@@ -1,8 +1,10 @@
 package net.topstrix.hubinteractions.fishing.player
 
+import net.topstrix.hubinteractions.fishing.data.PlayerData
 import net.topstrix.hubinteractions.fishing.fish.Fish
 import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameManager
+import org.bukkit.Bukkit
 import org.bukkit.Particle
 import org.bukkit.entity.FishHook
 import java.util.*
@@ -13,7 +15,6 @@ class FishingPlayer(
     val hook: FishHook,
     private var hookCooldown: Int
 ) {
-
     var fishingState: FishingPlayerState = FishingPlayerState.ROD_WAITING
         private set
     fun onTick() {
@@ -43,6 +44,7 @@ class FishingPlayer(
     }
 
     private fun onCatchFish(caughtFish: Fish) {
+        Bukkit.broadcastMessage("" + caughtFish.variant.rarity.toString())
         fishingState = FishingPlayerState.FISH_CAUGHT
         caughtFish.onCatch()
         FishingMinigameManager(this, caughtFish)

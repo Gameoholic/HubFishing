@@ -10,6 +10,7 @@ import org.bukkit.util.Vector
 
 @Serializable
 data class FishVariant(
+    val id: String,
     val material: Material,
     @SerialName("model-data") val modelData: Int,
     val speed: Double,

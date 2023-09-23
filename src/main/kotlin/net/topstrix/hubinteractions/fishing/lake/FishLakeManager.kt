@@ -2,6 +2,7 @@ package net.topstrix.hubinteractions.fishing.lake
 
 import net.topstrix.hubinteractions.fishing.player.FishingPlayer
 import net.topstrix.hubinteractions.fishing.fish.Fish
+import net.topstrix.hubinteractions.fishing.fish.FishRarity
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import net.topstrix.hubinteractions.fishing.util.LoggerUtil
 import org.bukkit.Bukkit
@@ -10,7 +11,6 @@ import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import java.lang.RuntimeException
 import java.util.*
-import javax.management.RuntimeErrorException
 import kotlin.math.min
 import kotlin.math.pow
 
@@ -33,10 +33,23 @@ class FishLakeManager(
 
     val allPlayers = mutableListOf<UUID>()
     val fishingPlayers = mutableListOf<FishingPlayer>()
-    val rnd = Random()
+    val rnd = kotlin.random.Random
 
     var fishes = mutableListOf<Fish>()
 
+    /** The amount of fishes to be spawned, until a rare one can appear. */
+    private var rareFishesQueueAmount: Int
+    /** The amount of fishes to be spawned, until an epic one can appear. */
+    private var epicFishesQueueAmount: Int
+    /** The amount of fishes to be spawned, until a legendary one can appear. */
+    private var legendaryFishesQueueAmount: Int
+
+
+    init {
+        rareFishesQueueAmount = getFishesQueueAmount(FishRarity.RARE)
+        epicFishesQueueAmount = getFishesQueueAmount(FishRarity.EPIC)
+        legendaryFishesQueueAmount = getFishesQueueAmount(FishRarity.LEGENDARY)
+    }
 
     /**
      * Adds a player to the lake, only to allPlayers.
@@ -77,13 +90,19 @@ class FishLakeManager(
         attemptFishSpawnCycle()
     }
 
+    /**
+     * Attempts to spawn fishes. There's a chance for the fishes to be spawned,
+     * after which a random number for them will be determined, as will
+     * their rarity and variant.
+     */
     fun attemptFishSpawnCycle() {
         if (!shouldSpawnFish() || fishes.size >= maxFishCount) return
         val amount = min(determineAmountOfFishToSpawn(), maxFishCount - fishes.size)
         LoggerUtil.debug("Spawning $amount fishes.")
         for (i in 0 until amount) {
             val location = determineSpawnLocation()
-            val fishVariant = FishingUtil.fishingConfig.fishVariants[0]
+            val fishRarity = determineFishRarity()
+            val fishVariant = FishingUtil.fishingConfig.fishVariants.filter { it.rarity == fishRarity }.random(rnd)
             fishes.add(
                 Fish(
                     this,
@@ -156,4 +175,40 @@ class FishLakeManager(
         return 0.0
     }
 
+    /**
+     * Determines the fish rarity based on queue, and updates the queue amount
+     * for every rarity.
+     * @return The fish rarity of the fish to be spawned
+     */
+    private fun determineFishRarity(): FishRarity {
+        //Decrease the queue amount for every rarity, every time we spawn any fish
+        rareFishesQueueAmount--
+        epicFishesQueueAmount--
+        legendaryFishesQueueAmount--
+
+        if (legendaryFishesQueueAmount <= 0) {
+            legendaryFishesQueueAmount = getFishesQueueAmount(FishRarity.LEGENDARY)
+            return FishRarity.LEGENDARY
+        }
+        else if (epicFishesQueueAmount <= 0) {
+            epicFishesQueueAmount = getFishesQueueAmount(FishRarity.EPIC)
+            return FishRarity.EPIC
+        }
+        else if (rareFishesQueueAmount <= 0) {
+            rareFishesQueueAmount = getFishesQueueAmount(FishRarity.RARE)
+            return FishRarity.RARE
+        }
+        return FishRarity.COMMON
+    }
+
+    /**
+     * Randomly picks and updates the queue amounts for fishes of a certain rarity to spawn.
+     * @param fishRarity
+     * @return The amount of fishes to be spawned, until the fish of the chosen rarity can spawn.
+     */
+    private fun getFishesQueueAmount(fishRarity: FishRarity): Int {
+        val amount = rnd.nextInt(fishRarity.fishesRequiredToSpawnMin, fishRarity.fishesRequiredToSpawnMax + 1)
+        LoggerUtil.debug("Updating fishes queue amount for $fishRarity - $amount")
+        return amount
+    }
 }
