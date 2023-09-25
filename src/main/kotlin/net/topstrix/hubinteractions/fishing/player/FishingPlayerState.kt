@@ -1,3 +1,20 @@
 package net.topstrix.hubinteractions.fishing.player
 
-enum class FishingPlayerState { ROD_WAITING, ROD_READY, FISH_CAUGHT }
+/**
+ * The state of the player, who's currently fishing.
+ */
+enum class FishingPlayerState {
+    /**
+     * The rod is currently on cooldown
+     */
+    ROD_WAITING,
+
+    /**
+     * The rod is ready to catch a fish, waiting for fish
+     */
+    ROD_READY,
+    /**
+     * Fish has been caught, minigame has started
+     */
+    FISH_CAUGHT
+}

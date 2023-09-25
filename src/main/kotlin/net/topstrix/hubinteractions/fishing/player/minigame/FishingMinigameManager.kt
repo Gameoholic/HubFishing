@@ -15,8 +15,15 @@ import org.bukkit.entity.Player
 import org.bukkit.entity.TextDisplay
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
+import java.lang.RuntimeException
 
 
+/**
+ * Manages a fishing minigame session for a player.
+ *
+ * @param fishingPlayer The player this minigame manager's for
+ * @param caughtFish The fish that was caught
+ */
 class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: Fish) {
     private var state: FishingMinigameState = FishingMinigameFishFoundState(this)
     private val task: BukkitTask
@@ -26,6 +33,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         caughtFish
     )
 
+    /** The armor stand the player is mounted on */
     private lateinit var armorStand: ArmorStand
     lateinit var textDisplay: TextDisplay
 
@@ -42,7 +50,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
     var fishingRodUsesLeft = FishingUtil.fishingConfig.maxFishingRodUses
 
     init {
-        val player = Bukkit.getPlayer(fishingPlayer.uuid)!! //TODO: what if null? Remove !!.
+        val player = Bukkit.getPlayer(fishingPlayer.uuid) ?: throw RuntimeException("Player is null on FishingMinigameManager init")
 
         task = object : BukkitRunnable() {
             override fun run() {
@@ -51,12 +59,15 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         }.runTaskTimer(HubInteractions.plugin, 1L, 1L)
         state.onEnable()
 
-        //Spawn & ride armor stand:
         spawnAndRideArmorStand(player)
     }
 
     fun onTick() {
-        val player = Bukkit.getPlayer(fishingPlayer.uuid)!! //TODO: what if null? Remove !!.
+        val player = Bukkit.getPlayer(fishingPlayer.uuid) ?: run {
+            endMinigame()
+            return
+        }
+        //todo: if player not on premises, or if rod is dead, end game and return
 
         if (!armorStand.passengers.contains(player))
             armorStand.addPassenger(player)
@@ -121,7 +132,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
      */
     private fun spawnAndRideArmorStand(player: Player) {
         armorStand = player.location.world.spawnEntity(
-            player.location.apply { this.y -= 1.25 },
+            player.location.apply { this.y -= 1.13125 }, //exact height when you ride an armor stand
             EntityType.ARMOR_STAND
         ) as ArmorStand
         armorStand.isInvisible = true
@@ -131,6 +142,9 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         armorStand.addPassenger(player)
     }
 
+    /**
+     * Ends the minigame and cleans everything up.
+     */
     private fun endMinigame() {
         caughtFish.remove()
         armorStand.remove()

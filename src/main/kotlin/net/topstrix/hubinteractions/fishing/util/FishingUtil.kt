@@ -1,13 +1,18 @@
 package net.topstrix.hubinteractions.fishing.util
 
+import kotlinx.coroutines.Job
 import net.topstrix.hubinteractions.HubInteractions
+import net.topstrix.hubinteractions.commands.TestCommand
+import net.topstrix.hubinteractions.fishing.commands.SpawnFishCommand
 import net.topstrix.hubinteractions.fishing.config.FishingConfig
 import net.topstrix.hubinteractions.fishing.config.FishingFileParser
+import net.topstrix.hubinteractions.fishing.data.PlayerData
 import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
-import net.topstrix.hubinteractions.fishing.listeners.PlayerFishListener
-import net.topstrix.hubinteractions.fishing.listeners.PlayerInteractListener
 import net.topstrix.hubinteractions.fishing.data.sql.SQLUtil
+import net.topstrix.hubinteractions.fishing.listeners.PlayerJoinListener
+import net.topstrix.hubinteractions.fishing.listeners.PlayerQuitListener
 import org.bukkit.Bukkit
+import java.util.*
 
 object FishingUtil {
 
@@ -16,6 +21,9 @@ object FishingUtil {
 
     //TODO: if rod out for too long, some fish will be attracted.
     lateinit var fishLakeManagers: List<FishLakeManager>
+
+    val playerData = mutableListOf<PlayerData>()
+    val playerDataJobs = mutableMapOf<UUID, Job>()
 
     fun onEnable() {
         fishingConfig = FishingFileParser.parseFile()
@@ -32,10 +40,13 @@ object FishingUtil {
         }
         fishLakeManagers = fishLakeManagersList
 
-        Bukkit.getPluginManager().registerEvents(PlayerFishListener, HubInteractions.plugin)
-        Bukkit.getPluginManager().registerEvents(PlayerInteractListener, HubInteractions.plugin)
+        Bukkit.getPluginManager().registerEvents(PlayerJoinListener, HubInteractions.plugin)
+        Bukkit.getPluginManager().registerEvents(PlayerQuitListener, HubInteractions.plugin)
+
+        HubInteractions.plugin.getCommand("spawnfish")!!.setExecutor(SpawnFishCommand)
 
         SQLUtil.load(fishingConfig.fishVariants)
+
     }
 
     fun onTick() {
@@ -45,14 +56,16 @@ object FishingUtil {
     fun onSecondPassed() {
         //Add/Remove players from fish lake managers, handle logic
         for (player in Bukkit.getOnlinePlayers()) {
-            for (fishLakeManager in fishLakeManagers) {
-                val playerInFishingArea = player.location.x > fishLakeManager.corner1.x && player.location.x < fishLakeManager.corner2.x &&
-                    player.location.y > fishLakeManager.corner1.y && player.location.y < fishLakeManager.corner2.y &&
-                    player.location.z > fishLakeManager.corner1.z && player.location.z < fishLakeManager.corner2.z
-                if (fishLakeManager.allPlayers.any { it == player.uniqueId } && !playerInFishingArea)
-                    fishLakeManager.removePlayer(player.uniqueId)
-                else if (!fishLakeManager.allPlayers.any { it == player.uniqueId } && playerInFishingArea)
-                    fishLakeManager.addPlayer(player.uniqueId)
+            fishLakeManagers.forEach {
+                val playerInFishingArea = player.location.x > it.corner1.x && player.location.x < it.corner2.x &&
+                    player.location.y > it.corner1.y && player.location.y < it.corner2.y &&
+                    player.location.z > it.corner1.z && player.location.z < it.corner2.z
+                if (it.allPlayers.any { uuid -> uuid == player.uniqueId } && !playerInFishingArea)
+                    it.removePlayer(player.uniqueId)
+                //We only add player to the lake manager, if they're in its region, and if player data for this player was correctly loaded
+                else if (!it.allPlayers.any { uuid -> uuid == player.uniqueId } && playerInFishingArea &&
+                    playerData.any { playerData -> playerData.playerUUID == player.uniqueId })
+                    it.addPlayer(player.uniqueId)
             }
         }
 

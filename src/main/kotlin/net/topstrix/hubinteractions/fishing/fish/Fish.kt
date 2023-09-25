@@ -11,6 +11,8 @@ import org.bukkit.util.Vector
 
 
 /**
+ * Represents a fish currently in the lake.
+ *
  * @param fishLakeManager: The lake where the fish will spawn
  * @param hitboxLocation: The location of the fish's hitbox without accounting for offset, also used for the X and Z values for the armor stand location.
  * @param variant: The fish's properties.
@@ -30,7 +32,7 @@ class Fish(
 
     init {
         val armorStandLoc = hitboxLocation.clone().apply { this.y = fishLakeManager.armorStandYLevel }
-        LoggerUtil.debug("Spawning fish $variant at $armorStandLoc for $maxAliveTime")
+        LoggerUtil.debug("Spawning fish $variant at $armorStandLoc")
         armorStand = armorStandLoc.world.spawnEntity(armorStandLoc, EntityType.ARMOR_STAND) as ArmorStand
         val itemStack = ItemStack(variant.material)
         val meta = itemStack.itemMeta
@@ -40,7 +42,8 @@ class Fish(
         armorStand.isInvulnerable = true
         armorStand.equipment.setItem(EquipmentSlot.HEAD, itemStack)
 
-        generatePath()
+        generateNextLocation()
+        rotateArmorStandInDirection()
     }
 
     fun onTick() {
@@ -51,7 +54,8 @@ class Fish(
             return
         }
 
-        moveFishAlongPath()
+        moveFish()
+        //Update hitbox location to match armorstand's loc
         hitboxLocation.x = armorStand.location.x
         hitboxLocation.z = armorStand.location.z
     }
@@ -67,27 +71,30 @@ class Fish(
     fun onCatch() {
         caught = true
     }
-    private fun moveFishAlongPath() {
+
+    /**
+     * Generates a new location for the fish to move to if needed,
+     * rotates the armor stand in the direction of movement path,
+     * and gives it velocity in the direction of its rotation.
+     */
+    private fun moveFish() {
         val currentLocation = armorStand.location
 
-        while (currentLocation.clone().distanceSquared(nextLocation) <= 0.2)
-            generatePath()
+        if (currentLocation.clone().distanceSquared(nextLocation) <= 0.2) {
+            generateNextLocation()
+            rotateArmorStandInDirection()
+        }
 
         val direction = nextLocation.clone().subtract(currentLocation).toVector().normalize()
         val velocity = direction.multiply(variant.speed)
-
         armorStand.velocity = velocity
     }
 
-    private fun generatePath() {
+    /**
+     * Rotates the armor stand in the direction of its path.
+     */
+    private fun rotateArmorStandInDirection() {
         val currentLocation = armorStand.location
-
-        val x = fishLakeManager.spawnCorner1.blockX +
-            fishLakeManager.rnd.nextInt(fishLakeManager.spawnCorner2.blockX - fishLakeManager.spawnCorner1.blockX + 1)
-        val z = fishLakeManager.spawnCorner1.blockZ +
-            fishLakeManager.rnd.nextInt(fishLakeManager.spawnCorner2.blockZ - fishLakeManager.spawnCorner1.blockZ + 1)
-        nextLocation = Location(currentLocation.world, x.toDouble(), currentLocation.y, z.toDouble())
-
 
         var direction = nextLocation.clone().subtract(currentLocation).toVector().normalize()
         val xAngleRadians = direction.angle(Vector(0, 0, 1))
@@ -108,11 +115,25 @@ class Fish(
                 0f
             )
         )
-
     }
 
     /**
-     * Returns whether the provided location is colliding with the fish's hitbox.
+     * Generates a new location for the fish to move to. Location will be
+     * at least 1 block further away from its current one.
+     */
+    private fun generateNextLocation() {
+        val currentLocation = armorStand.location
+        do {
+            val x = fishLakeManager.spawnCorner1.blockX +
+                fishLakeManager.rnd.nextInt(fishLakeManager.spawnCorner2.blockX - fishLakeManager.spawnCorner1.blockX + 1)
+            val z = fishLakeManager.spawnCorner1.blockZ +
+                fishLakeManager.rnd.nextInt(fishLakeManager.spawnCorner2.blockZ - fishLakeManager.spawnCorner1.blockZ + 1)
+            nextLocation = Location(currentLocation.world, x.toDouble(), currentLocation.y, z.toDouble())
+        } while (currentLocation.clone().distanceSquared(nextLocation) <= 1.0)
+    }
+
+    /**
+     * @return Whether the provided location is colliding with the fish's hitbox.
      */
     fun checkHitboxCollision(location: Location): Boolean {
         val offsettedHitboxLocation = hitboxLocation.clone().add(variant.hitboxOffset) //move this up maybe
@@ -123,7 +144,7 @@ class Fish(
         val cornerZNeg = offsettedHitboxLocation.z - variant.hitboxSize.z
         val cornerZPos = offsettedHitboxLocation.z + variant.hitboxSize.z
         return (location.x in cornerXNeg..cornerXPos &&
-            location.y in cornerYNeg .. cornerYPos &&
-            location.z in cornerZNeg .. cornerZPos)
+            location.y in cornerYNeg..cornerYPos &&
+            location.z in cornerZNeg..cornerZPos)
     }
 }

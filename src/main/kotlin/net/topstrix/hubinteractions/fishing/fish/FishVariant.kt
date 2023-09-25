@@ -16,8 +16,6 @@ data class FishVariant(
     val speed: Double,
     val rarity: FishRarity,
     val name: String,
-    @SerialName("alive-time-min") val aliveTimeMin: Int,
-    @SerialName("alive-time-max") val aliveTimeMax: Int,
     @SerialName("hitbox-size") val hitboxSize: @Serializable(with = VectorSerializer::class) Vector,
     @SerialName("hitbox-offset") val hitboxOffset: @Serializable(with = VectorSerializer::class) Vector,
     @SerialName("minigame-hitbox-width") val minigameHitboxWidth: Double

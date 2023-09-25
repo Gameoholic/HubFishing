@@ -1,13 +1,18 @@
 package net.topstrix.hubinteractions.fishing.lake
 
+import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.player.FishingPlayer
 import net.topstrix.hubinteractions.fishing.fish.Fish
 import net.topstrix.hubinteractions.fishing.fish.FishRarity
+import net.topstrix.hubinteractions.fishing.fish.FishVariant
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import net.topstrix.hubinteractions.fishing.util.LoggerUtil
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.inventory.ItemStack
 import java.lang.RuntimeException
 import java.util.*
@@ -16,10 +21,15 @@ import kotlin.math.pow
 
 
 /**
- * spawnCorner1: west-north-bottom corner
- * spawnCorner2: south-east-top corner
- * corner1: west-north-bottom corner
- * corner2: south-east-top corner
+ * Represents an area where hub fishing can occur.
+ *
+ * @param spawnCorner1 West-north-bottom corner where fishes spawn.
+ * @param spawnCorner2 South-east-top corner where fishes spawn.
+ * @param corner1 West-north-bottom corner where the lake's region is.
+ * @param corner2 South-east-top corner where the lake's region is.
+ * @param armorStandYLevel The Y level where armor stands of fishes spawn.
+ * @param fishAmountChances The chances (between 0 and 1), mapped to the amount of fishes that will spawn in a spawning cycle.
+ * @param maxFishCount The max amount of fish that can exist in the lake at a time.
  */
 class FishLakeManager(
     val spawnCorner1: Location,
@@ -29,12 +39,16 @@ class FishLakeManager(
     val armorStandYLevel: Double,
     private val fishAmountChances: HashMap<Int, Double>,
     private val maxFishCount: Int
-) {
+): Listener {
 
+    /** Players that are in the lake's region */
     val allPlayers = mutableListOf<UUID>()
+    /** Players that are currently fishing */
     val fishingPlayers = mutableListOf<FishingPlayer>()
+
     val rnd = kotlin.random.Random
 
+    /** All fishes currently in the lake */
     var fishes = mutableListOf<Fish>()
 
     /** The amount of fishes to be spawned, until a rare one can appear. */
@@ -46,9 +60,12 @@ class FishLakeManager(
 
 
     init {
+        //Initialize queue amounts for the fish rarities for the first time
         rareFishesQueueAmount = getFishesQueueAmount(FishRarity.RARE)
         epicFishesQueueAmount = getFishesQueueAmount(FishRarity.EPIC)
         legendaryFishesQueueAmount = getFishesQueueAmount(FishRarity.LEGENDARY)
+
+        Bukkit.getPluginManager().registerEvents(this, HubInteractions.plugin)
     }
 
     /**
@@ -92,7 +109,7 @@ class FishLakeManager(
 
     /**
      * Attempts to spawn fishes. There's a chance for the fishes to be spawned,
-     * after which a random number for them will be determined, as will
+     * after which a random amount of them will be determined, as will
      * their rarity and variant.
      */
     fun attemptFishSpawnCycle() {
@@ -100,18 +117,34 @@ class FishLakeManager(
         val amount = min(determineAmountOfFishToSpawn(), maxFishCount - fishes.size)
         LoggerUtil.debug("Spawning $amount fishes.")
         for (i in 0 until amount) {
-            val location = determineSpawnLocation()
-            val fishRarity = determineFishRarity()
-            val fishVariant = FishingUtil.fishingConfig.fishVariants.filter { it.rarity == fishRarity }.random(rnd)
-            fishes.add(
-                Fish(
-                    this,
-                    location,
-                    fishVariant,
-                    fishVariant.aliveTimeMin + rnd.nextInt(fishVariant.aliveTimeMax)
-                )
-            )
+            spawnFish()
         }
+    }
+
+    /**
+     * Spawns a fish of a random rarity, variant and at a random location in the lake,
+     * with a random alive time.
+     * If parameters are provided, they'll be used instead.
+     *
+     * @param location Location for the fish to spawn at
+     * @param fishRarity The rarity of the fish
+     * @param fishVariant The variant of the fish
+     * @param fishAliveTime The amount of ticks the fish will be alive for
+     */
+    fun spawnFish(
+        location: Location = determineSpawnLocation(),
+        fishRarity: FishRarity = determineFishRarity(),
+        fishVariant: FishVariant = FishingUtil.fishingConfig.fishVariants.filter { it.rarity == fishRarity }.random(rnd),
+        fishAliveTime: Int = fishRarity.aliveTimeMin + rnd.nextInt(fishRarity.aliveTimeMax)
+    ) {
+        fishes.add(
+            Fish(
+                this,
+                location,
+                fishVariant,
+                fishAliveTime
+            )
+        )
     }
 
     /**
@@ -203,12 +236,30 @@ class FishLakeManager(
 
     /**
      * Randomly picks and updates the queue amounts for fishes of a certain rarity to spawn.
-     * @param fishRarity
+     * @param fishRarity The rarity of the fish, to update the queue for.
      * @return The amount of fishes to be spawned, until the fish of the chosen rarity can spawn.
      */
     private fun getFishesQueueAmount(fishRarity: FishRarity): Int {
         val amount = rnd.nextInt(fishRarity.fishesRequiredToSpawnMin, fishRarity.fishesRequiredToSpawnMax + 1)
         LoggerUtil.debug("Updating fishes queue amount for $fishRarity - $amount")
         return amount
+    }
+
+
+    fun updateFishDisplay() {
+
+    }
+
+    @EventHandler
+    fun onPlayerFishEvent(e: PlayerFishEvent) {
+        val playerUUID = this.allPlayers.first { it == e.player.uniqueId }
+
+        if (e.state == PlayerFishEvent.State.FISHING) {
+            e.hook.waitTime = 10000000
+            fishingPlayers.add(FishingPlayer(this, playerUUID, e.hook, 40))
+        }
+        if (e.state == PlayerFishEvent.State.REEL_IN) {
+            fishingPlayers.removeAll { it.uuid == playerUUID }
+        }
     }
 }

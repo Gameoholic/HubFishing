@@ -14,4 +14,5 @@ data class FishLakeManagerSettings(
     @SerialName("armor-stand-y-level") val armorStandYLevel: Double,
     @SerialName("fish-amount-chances") val fishAmountChances: HashMap<Int, Double>,
     @SerialName("max-fish-count") val maxFishCount: Int,
+    @SerialName("stats-display-location") val statsDisplayLocation: @Serializable(with = LocationSerializer::class) Location,
 )

@@ -8,13 +8,8 @@ import java.sql.Connection
 import java.util.UUID
 
 object SQLUtil {
-    private const val ip = "localhost"
-    private const val port = 3307
-    private const val dbName = "topstrix_projectnoname_adminbombs"
-
-    private const val url = "jdbc:mysql://$ip:$port/$dbName"
-    private const val username = "topstrix_global_plan"
-    private const val password = "V6VInYzIxBg9Ckp8"
+    private val url = "jdbc:mysql://${FishingUtil.fishingConfig.sqlIP}:" +
+        "${FishingUtil.fishingConfig.sqlPort}/${FishingUtil.fishingConfig.sqlDatabaseName}"
 
     private val dataSource = HikariDataSource()
 
@@ -26,8 +21,8 @@ object SQLUtil {
 
     private fun createDataSource() {
         dataSource.jdbcUrl = url
-        dataSource.username = username
-        dataSource.password = password
+        dataSource.username = FishingUtil.fishingConfig.sqlUsername
+        dataSource.password = FishingUtil.fishingConfig.sqlPassword
     }
     private fun execIntQuery(query: String): Int? {
         var connection: Connection? = null
@@ -43,6 +38,7 @@ object SQLUtil {
         }
         catch (e: Exception) {
             LoggerUtil.error("Couldn't execute query: $query. Error: $e")
+            e.printStackTrace()
         }
         connection?.close()
         return value
@@ -113,7 +109,7 @@ object SQLUtil {
              (uuid) values('$playerUUID');
         """.trimIndent())
     }
-    fun fetchPlayerFishingData(playerData: PlayerData) {
+    fun fetchPlayerData(playerData: PlayerData) {
         insertPlayer(playerData.playerUUID)
         var connection: Connection? = null
         try {
@@ -125,7 +121,7 @@ object SQLUtil {
                 FROM 
                   fishing_player_data
                 WHERE 
-                  uuid = ${playerData.playerUUID};
+                  uuid = '${playerData.playerUUID}';
             """.trimIndent())
             val result = statement.executeQuery()
 
@@ -144,12 +140,16 @@ object SQLUtil {
                     else if (column.endsWith("_fishes_caught")) {
                         val fishVariantId = column.split("_fishes_caught")[0]
                         val amount = result.getInt(i)
-                        playerData.fishesCaught!![FishingUtil.fishingConfig.fishVariants.first { it.id == fishVariantId }] = amount
+                        FishingUtil.fishingConfig.fishVariants.firstOrNull { it.id == fishVariantId }?.let {
+                            playerData.fishesCaught!![it] = amount
+                        }
                     }
                     else if (column.endsWith("_fishes_uncaught")) {
                         val fishVariantId = column.split("_fishes_uncaught")[0]
                         val amount = result.getInt(i)
-                        playerData.fishesUncaught!![FishingUtil.fishingConfig.fishVariants.first { it.id == fishVariantId }] = amount
+                        FishingUtil.fishingConfig.fishVariants.firstOrNull { it.id == fishVariantId }?.let {
+                            playerData.fishesUncaught!![it] = amount
+                        }
                     }
 
                 }
@@ -157,7 +157,16 @@ object SQLUtil {
         }
         catch (e: Exception) {
             LoggerUtil.error("Couldn't execute get player fishing data. Error: $e")
+            e.printStackTrace()
         }
         connection?.close()
+    }
+    fun uploadPlayerData(playerData: PlayerData) {
+        execUpdateQuery("""
+                UPDATE fishing_player_data 
+                SET xp = ${playerData.xp}, playtime = ${playerData.playtime}
+                WHERE 
+                  uuid = '${playerData.playerUUID}';
+            """.trimIndent())
     }
 }

@@ -1,7 +1,9 @@
 package net.topstrix.hubinteractions.fishing.player.minigame
 
-import net.topstrix.hubinteractions.fishing.player.FishingPlayer
 
+/**
+ * Represents a fishing minigame state.
+ */
 interface FishingMinigameState {
     var stateTicksPassed: Int
     fun onEnable()

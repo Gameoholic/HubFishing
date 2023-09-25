@@ -12,3 +12,6 @@ commands:
   test2:
     description: Test2
     usage: /test2
+  spawnfish:
+    description: Spawns a fish in your current lake.
+    usage: /spawnfish <variant_id?> <alive_time?> <fish_speed?>

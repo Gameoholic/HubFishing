@@ -1,6 +1,7 @@
 package net.topstrix.hubinteractions.fishing.player.minigame.states
 
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 import net.topstrix.hubinteractions.HubInteractions
@@ -13,6 +14,11 @@ import org.bukkit.entity.Display
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.TextDisplay
 
+/**
+ * In this state, the fish was lured and collided with the fishing rod's hitbox.
+ * Displays particles, lowers the bobber (just like in vanilla minecraft), and
+ * spawns an exclamation mark display.
+ */
 class FishingMinigameFishFoundState(private val minigameManager: FishingMinigameManager): FishingMinigameState {
 
     override var stateTicksPassed = 0
@@ -27,14 +33,14 @@ class FishingMinigameFishFoundState(private val minigameManager: FishingMinigame
     }
 
     /**
-     * Spawns ! text display, which will be visible only to this player
+     * Spawns ! text display, which will be visible only to this player.
      */
     private fun spawnExclamationMarkDisplay() {
         val textDisplayLoc = minigameManager.fishingPlayer.hook.location.clone().apply { this.y += 0.25 }
         minigameManager.textDisplay = minigameManager.fishingPlayer.hook.location.world
             .spawnEntity(textDisplayLoc, EntityType.TEXT_DISPLAY) as TextDisplay
         minigameManager.textDisplay.text(
-            Component.text().content("!").color(TextColor.color(0xFD0707)).decorate(TextDecoration.BOLD).build()
+            text().content("!").color(TextColor.color(0xFD0707)).decorate(TextDecoration.BOLD).build()
         )
         minigameManager.textDisplay.alignment = TextDisplay.TextAlignment.CENTER
         minigameManager.textDisplay.billboard = Display.Billboard.CENTER

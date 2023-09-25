@@ -12,6 +12,10 @@ import java.text.DecimalFormat
 import java.time.Duration
 import java.util.UUID
 
+/**
+ * Represents a UI Renderer, which renders characters on a player's
+ * title.
+ */
 abstract class FishingMinigameUIRenderer {
     abstract val minigameState: FishingMinigameState
 
@@ -75,7 +79,7 @@ abstract class FishingMinigameUIRenderer {
      * @param component The component builder.
      * @param width The width of the space in UI pixels.
      */
-    protected fun renderSpace(component: TextComponent.Builder, width: Double) {
+    private fun renderSpace(component: TextComponent.Builder, width: Double) {
         var widthWhole = width.toInt()
         val widthFraction = width - widthWhole
         val decFormat = DecimalFormat("##.00") //Fix bug where due to double precision values like 0.949999999996 (0.85) are treated as 0.84
@@ -113,7 +117,7 @@ abstract class FishingMinigameUIRenderer {
      * @param component The component builder
      * @param character The character to append
      */
-    protected fun renderCharacter(component: TextComponent.Builder, character: Char) {
+    private fun renderCharacter(component: TextComponent.Builder, character: Char) {
         /** The color 0x4E5C24 removes the shadow from the character */
         component.append(
             Component.text(character).color(TextColor.color(0x4E5C24))

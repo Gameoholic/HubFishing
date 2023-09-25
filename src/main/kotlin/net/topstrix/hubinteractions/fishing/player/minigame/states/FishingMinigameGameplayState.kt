@@ -14,6 +14,10 @@ import org.bukkit.event.player.PlayerInteractEvent
 
 
 /**
+ * Minigame has started and player can control the rod box freely, in
+ * order to catch the fish.
+ *
+ * @param minigameManager The minigame manager
  * @param rodBoxMinPosition The rod box's min position in UI pixels, from the right
  * @param rodBoxMaxPosition The rod box's max position in UI pixels, from the right
  * @param rodBoxSpeed The speed of the rod box
@@ -40,7 +44,6 @@ class FishingMinigameGameplayState(
 
 
     override fun onEnable() {
-        Bukkit.getPluginManager().registerEvents(this, HubInteractions.plugin)
         Bukkit.getPluginManager().registerEvents(this, HubInteractions.plugin)
     }
 

@@ -26,32 +26,8 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
                 renderCharacterSeparately(title, FishingUtil.fishingConfig.miniRodCharacter,
                     miniFishingRodsPosition + minFishingRodsOffset * i, FishingUtil.fishingConfig.miniRodUsedCharacterHeight)
         }
-        // ROD ANIMATION
-        when (minigameState.rodBeingCastTicks) {
-            0 -> renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[0], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
-            in 1..4 -> {
-                renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[minigameState.rodBeingCastTicks], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
-            }
-            else -> renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[5], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
-        }
-
-        if (minigameState.rodBeingCastTicks > 4) {
-            val targetPos = minigameState.minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2 //center of rod box
-            val startingPos = bigRodPosition - FishingUtil.fishingConfig.bigRodCharacterHeight
-            val speed = 3
-            val fishingRodLongPartExtraWidth = 1
-            val ticksPassed = minigameState.rodBeingCastTicks - 4 //todo
-            for (i in 0 until ticksPassed) { //For every tick that has passed:
-                for (j in 0 until speed) {  //We animate it X (speed) times
-                    val currentPos = startingPos - i * speed - j + fishingRodLongPartExtraWidth
-                    if (currentPos <= targetPos) break //todo: this is shit
-                    renderCharacterSeparately(title, FishingUtil.fishingConfig.longRodCharacter,
-                        currentPos,
-                        FishingUtil.fishingConfig.longRodCharacterHeight)
-                }
-            }
-
-        }
+        // BIG ROD
+        renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[0], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
 
         display(minigameState.minigameManager.fishingPlayer.uuid, title)
     }

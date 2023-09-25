@@ -1,4 +1,12 @@
 log-level: DEBUG
+
+sql-ip: "localhost"
+sql-port: 3307
+sql-database-name: "topstrix_projectnoname_adminbombs"
+sql-username: "topstrix_global_plan"
+sql-password: "V6VInYzIxBg9Ckp8"
+sql-query-timeout: 1000
+
 fish-lake-managers:
   - spawn-corner-1:
       world: "world"
@@ -29,14 +37,12 @@ fish-lake-managers:
     max-fish-count: 10
 
 fish-variants:
-  - id: 0
-    name: Ocelot
+  - id: bassfish
+    name: Bassfish
     rarity: COMMON
     speed: 0.05
-    alive-time-min: 100
-    alive-time-max: 200
-    material: LEATHER_HORSE_ARMOR
-    model-data: 700
+    material: PAPER
+    model-data: 253
     hitbox-size:
       x: 1.4
       y: 2.0
@@ -46,14 +52,42 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
-  - id: 1
-    name: Ocelot
+  - id: anchovy
+    name: Anchovy
+    rarity: COMMON
+    speed: 0.05
+    material: PAPER
+    model-data: 254
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+  - id: tuna
+    name: Tuna
+    rarity: COMMON
+    speed: 0.05
+    material: PAPER
+    model-data: 255
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+  - id: clownfish
+    name: Clownfish
     rarity: RARE
-    speed: 0.075
-    alive-time-min: 100
-    alive-time-max: 200
-    material: LEATHER_HORSE_ARMOR
-    model-data: 700
+    speed: 0.05
+    material: PAPER
+    model-data: 256
     hitbox-size:
       x: 1.4
       y: 2.0
@@ -63,14 +97,57 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
-  - id: 2
-    name: Ocelot
+  - id: blue_tang
+    name: Blue tang
+    rarity: RARE
+    speed: 0.05
+    material: PAPER
+    model-data: 257
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+  - id: butterfly
+    name: Butterfly Fish
+    rarity: COMMON
+    speed: 0.05
+    material: PAPER
+    model-data: 258
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+  - id: pufferfish
+    name: Pufferfish
+    rarity: RARE
+    speed: 0.05
+    material: PAPER
+    model-data: 259
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+  - id: catfish
+    name: Catfish
     rarity: EPIC
-    speed: 0.01
-    alive-time-min: 100
-    alive-time-max: 200
-    material: LEATHER_HORSE_ARMOR
-    model-data: 700
+    speed: 0.05
+    material: PAPER
+    model-data: 260
     hitbox-size:
       x: 1.4
       y: 2.0
@@ -80,14 +157,12 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
-  - id: 3
-    name: Ocelot
+  - id: blobfish
+    name: Blobfish
     rarity: LEGENDARY
-    speed: 0.015
-    alive-time-min: 100
-    alive-time-max: 200
-    material: LEATHER_HORSE_ARMOR
-    model-data: 701
+    speed: 0.05
+    material: PAPER
+    model-data: 261
     hitbox-size:
       x: 1.4
       y: 2.0
@@ -97,29 +172,162 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+  - id: swordfish
+    name: Swordfish
+    rarity: EPIC
+    speed: 0.05
+    material: PAPER
+    model-data: 262
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+  - id: skatefish
+    name: Skatefish
+    rarity: EPIC
+    speed: 0.05
+    material: PAPER
+    model-data: 263
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+  - id: red_seahorse
+    name: Red Sea horse
+    rarity: LEGENDARY
+    speed: 0.05
+    material: PAPER
+    model-data: 264
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+  - id: blue_seahorse
+    name: Blue Sea horse
+    rarity: LEGENDARY
+    speed: 0.05
+    material: PAPER
+    model-data: 265
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+  - id: anime
+    name: Kawaii fish
+    rarity: LEGENDARY
+    speed: 0.05
+    material: PAPER
+    model-data: 266
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+  - id: red_squid
+    name: Red squid
+    rarity: LEGENDARY
+    speed: 0.05
+    material: PAPER
+    model-data: 267
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+  - id: purple_squid
+    name: Purple squid
+    rarity: LEGENDARY
+    speed: 0.05
+    material: PAPER
+    model-data: 268
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+  - id: hammerhead_shark
+    name: Hammerhead shark
+    rarity: LEGENDARY
+    speed: 0.05
+    material: PAPER
+    model-data: 269
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+
 
 #Fish rarities:
 common-fish-minigame-min-direction-duration: 30
 common-fish-minigame-max-direction-duration: 50
 common-fish-minigame-speed: 0.3
+common-fish-alive-time-min: 100
+common-fish-alive-time-max: 200
+common-fish-xp: 2
 
-rare-fish-fishes-required-to-spawn-min: 2 #20
-rare-fish-fishes-required-to-spawn-max: 3 #40
+rare-fish-fishes-required-to-spawn-min: 20 #20
+rare-fish-fishes-required-to-spawn-max: 40 #40
 rare-fish-minigame-min-direction-duration: 15
 rare-fish-minigame-max-direction-duration: 25
 rare-fish-minigame-speed: 0.6
+rare-fish-alive-time-min: 100
+rare-fish-alive-time-max: 200
+rare-fish-xp: 5
 
-epic-fish-fishes-required-to-spawn-min: 5 #100
-epic-fish-fishes-required-to-spawn-max: 7 #200
+epic-fish-fishes-required-to-spawn-min: 100 #100
+epic-fish-fishes-required-to-spawn-max: 200 #200
 epic-fish-minigame-min-direction-duration: 10
 epic-fish-minigame-max-direction-duration: 20
 epic-fish-minigame-speed: 1.0
+epic-fish-alive-time-min: 100
+epic-fish-alive-time-max: 200
+epic-fish-xp: 30
 
-legendary-fish-fishes-required-to-spawn-min: 10 #500
-legendary-fish-fishes-required-to-spawn-max: 12 #1000
+legendary-fish-fishes-required-to-spawn-min: 500 #500
+legendary-fish-fishes-required-to-spawn-max: 1000 #1000
 legendary-fish-minigame-min-direction-duration: 5
 legendary-fish-minigame-max-direction-duration: 10
 legendary-fish-minigame-speed: 1.3
+legendary-fish-alive-time-min: 100
+legendary-fish-alive-time-max: 200
+legendary-fish-xp: 100
 
 #Gameplay settings:
 water-amount: 7
