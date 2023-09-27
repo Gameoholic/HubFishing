@@ -6,6 +6,9 @@ import net.topstrix.hubinteractions.elytraspots.ElytraSpot
 import net.topstrix.hubinteractions.fishing.fish.FishVariant
 import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
 import net.topstrix.hubinteractions.fishing.util.LoggerUtil
+import net.topstrix.hubinteractions.shared.serialization.LocationSerializer
+import net.topstrix.hubinteractions.shared.serialization.WorldSerializer
+import org.bukkit.World
 
 
 @Serializable
@@ -66,6 +69,8 @@ data class FishingConfig(
     @SerialName("rare-fish-xp") val rareFishXP: Int,
     @SerialName("epic-fish-xp") val epicFishXP: Int,
     @SerialName("legendary-fish-xp") val legendaryFishXP: Int,
+    @SerialName("stats-display-content") val statsDisplayContent: String,
+    @SerialName("world") val world: @Serializable(with = WorldSerializer::class) World,
 )
 
 

@@ -162,11 +162,20 @@ object SQLUtil {
         connection?.close()
     }
     fun uploadPlayerData(playerData: PlayerData) {
-        execUpdateQuery("""
-                UPDATE fishing_player_data 
-                SET xp = ${playerData.xp}, playtime = ${playerData.playtime}
-                WHERE 
-                  uuid = '${playerData.playerUUID}';
-            """.trimIndent())
+        var query = """
+            UPDATE fishing_player_data 
+            SET xp = ${playerData.xp}, playtime = ${playerData.playtime}
+            """.trimIndent()
+        playerData.fishesCaught!!.forEach {
+            query += ", ${it.key.id}_fishes_caught = ${it.value}"
+        }
+        playerData.fishesUncaught!!.forEach {
+            query += ", ${it.key.id}_fishes_uncaught = ${it.value}"
+        }
+        query += """
+             WHERE 
+            uuid = '${playerData.playerUUID}';
+        """.trimIndent()
+        execUpdateQuery(query)
     }
 }

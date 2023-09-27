@@ -24,6 +24,7 @@ java {
 repositories {
     mavenCentral()
     mavenLocal()
+    maven { url = uri("https://repo.dmulloy2.net/repository/public/") }
 }
 
 
@@ -37,6 +38,8 @@ dependencies {
     implementation("com.charleskorn.kaml:kaml:0.55.0") //todo: shade
     implementation("com.github.gameoholic:partigon:1.0.0") //todo: shade
     implementation("com.zaxxer:HikariCP:5.0.1")
+
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
 }
 
 

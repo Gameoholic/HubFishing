@@ -1,5 +1,7 @@
 package net.topstrix.hubinteractions
 
+import com.comphenix.protocol.ProtocolLibrary
+import com.comphenix.protocol.ProtocolManager
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -13,10 +15,14 @@ import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import org.bukkit.scheduler.BukkitRunnable
 
 object HubInteractions {
+
     lateinit var plugin: HubInteractionsPlugin
+    lateinit var protocolManager: ProtocolManager
 
     fun onEnable(plugin: HubInteractionsPlugin) {
         this.plugin = plugin
+
+        protocolManager = ProtocolLibrary.getProtocolManager();
 
         plugin.saveResource("config.yml", true)
         plugin.saveResource("elytraspots.yml", true)

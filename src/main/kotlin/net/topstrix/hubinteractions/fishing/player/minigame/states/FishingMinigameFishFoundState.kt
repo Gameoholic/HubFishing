@@ -39,6 +39,7 @@ class FishingMinigameFishFoundState(private val minigameManager: FishingMinigame
         val textDisplayLoc = minigameManager.fishingPlayer.hook.location.clone().apply { this.y += 0.25 }
         minigameManager.textDisplay = minigameManager.fishingPlayer.hook.location.world
             .spawnEntity(textDisplayLoc, EntityType.TEXT_DISPLAY) as TextDisplay
+        minigameManager.textDisplay.isVisibleByDefault = false
         minigameManager.textDisplay.text(
             text().content("!").color(TextColor.color(0xFD0707)).decorate(TextDecoration.BOLD).build()
         )
@@ -47,9 +48,7 @@ class FishingMinigameFishFoundState(private val minigameManager: FishingMinigame
         minigameManager.textDisplay.backgroundColor = Color.fromARGB(0, 0, 0, 0)
 
 
-        Bukkit.getOnlinePlayers().filter { it.uniqueId != minigameManager.fishingPlayer.uuid }.forEach {
-            it.hideEntity(HubInteractions.plugin, minigameManager.textDisplay)
-        }
+        Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)?.showEntity(HubInteractions.plugin, minigameManager.textDisplay)
     }
 
 

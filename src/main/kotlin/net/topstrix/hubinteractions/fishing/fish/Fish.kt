@@ -1,12 +1,15 @@
 package net.topstrix.hubinteractions.fishing.fish
 
+import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
 import net.topstrix.hubinteractions.fishing.util.LoggerUtil
 import org.bukkit.Location
+import org.bukkit.NamespacedKey
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 import org.bukkit.util.Vector
 
 
@@ -34,6 +37,10 @@ class Fish(
         val armorStandLoc = hitboxLocation.clone().apply { this.y = fishLakeManager.armorStandYLevel }
         LoggerUtil.debug("Spawning fish $variant at $armorStandLoc")
         armorStand = armorStandLoc.world.spawnEntity(armorStandLoc, EntityType.ARMOR_STAND) as ArmorStand
+
+        val key = NamespacedKey(HubInteractions.plugin, "fishing-removable") //Mark entity, for removal upon server start
+        armorStand.persistentDataContainer.set(key, PersistentDataType.BOOLEAN, true)
+
         val itemStack = ItemStack(variant.material)
         val meta = itemStack.itemMeta
         meta.setCustomModelData(variant.modelData)
@@ -70,6 +77,14 @@ class Fish(
 
     fun onCatch() {
         caught = true
+    }
+
+    /**
+     * Caught if a fish that has previously been caught should
+     * resume its movement
+     */
+    fun resumeMovement() {
+        caught = false
     }
 
     /**

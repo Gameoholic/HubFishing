@@ -35,6 +35,11 @@ fish-lake-managers:
       3: 0.05
       4: 0.05
     max-fish-count: 10
+    stats-display-location:
+      world: "world"
+      x: 24.0
+      y: 73.0
+      z: -286.0
 
 fish-variants:
   - id: bassfish
@@ -361,3 +366,8 @@ big-rod-characters:
 
 long-rod-character: 'ॖ'
 long-rod-character-height: 10
+
+#General:
+world:
+  name: "world" #world used for cleaning up old fishing displays
+stats-display-content: "<White>Playtime: <playtime><br><red>XP: <xp><br><white>Fishes Caught: <fishes_caught><br><common_fishes_caught> <rare_fishes_caught> <epic_fishes_caught> <legendary_fishes_caught>" #xp, playtime, fishes_caught, common_fishes_caught, rare_fishes_caught, epic_fishes_caught, legendary_fishes_caught

@@ -5,6 +5,7 @@ import net.topstrix.hubinteractions.fishing.player.FishingPlayer
 import net.topstrix.hubinteractions.fishing.fish.Fish
 import net.topstrix.hubinteractions.fishing.fish.FishRarity
 import net.topstrix.hubinteractions.fishing.fish.FishVariant
+import net.topstrix.hubinteractions.fishing.player.FishingPlayerState
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import net.topstrix.hubinteractions.fishing.util.LoggerUtil
 import org.bukkit.Bukkit
@@ -38,7 +39,8 @@ class FishLakeManager(
     val corner2: Location,
     val armorStandYLevel: Double,
     private val fishAmountChances: HashMap<Int, Double>,
-    private val maxFishCount: Int
+    private val maxFishCount: Int,
+    val statsDisplayLocation: Location,
 ): Listener {
 
     /** Players that are in the lake's region */
@@ -92,14 +94,24 @@ class FishLakeManager(
             it.inventory.remove(Material.FISHING_ROD)
         }
     }
+    /**
+     * Removes a player only from fishingPlayers.
+     * Should be called when a player finishes the minigame or cancels their rod.
+     */
+    fun removePlayerFromFishingPlayers(uuid: UUID) {
+        fishingPlayers.removeAll { it.uuid == uuid }
+    }
 
     fun onTick() {
         fishes.toList().forEach {  //fishes can be removed on onTick, so we convert to list
             it.onTick()
         }
 
-        fishingPlayers.forEach {
-            it.onTick()
+        fishingPlayers.toList().forEach { //fishing players can be removed, so we convert to list
+            if (Bukkit.getPlayer(it.uuid) == null) //If player logged off, remove from collections
+                removePlayer(it.uuid)
+            else
+                it.onTick()
         }
     }
 
@@ -246,20 +258,20 @@ class FishLakeManager(
     }
 
 
-    fun updateFishDisplay() {
-
-    }
-
     @EventHandler
     fun onPlayerFishEvent(e: PlayerFishEvent) {
         val playerUUID = this.allPlayers.first { it == e.player.uniqueId }
+
+        //We don't care what happens in this event, if the player is in the middle of a fishing minigame
+        if (fishingPlayers.firstOrNull
+            { it.uuid == e.player.uniqueId && it.fishingState == FishingPlayerState.FISH_CAUGHT} != null) return
 
         if (e.state == PlayerFishEvent.State.FISHING) {
             e.hook.waitTime = 10000000
             fishingPlayers.add(FishingPlayer(this, playerUUID, e.hook, 40))
         }
         if (e.state == PlayerFishEvent.State.REEL_IN) {
-            fishingPlayers.removeAll { it.uuid == playerUUID }
+            removePlayerFromFishingPlayers(e.player.uniqueId)
         }
     }
 }

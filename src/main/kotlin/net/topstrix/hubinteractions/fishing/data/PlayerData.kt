@@ -19,7 +19,6 @@ import kotlin.collections.HashMap
  * from the database.
  */
 class PlayerData(val playerUUID: UUID) {
-
     var fishesCaught: HashMap<FishVariant, Int>? = null
     var fishesUncaught: HashMap<FishVariant, Int>? = null
     var xp: Int? = null
@@ -49,32 +48,42 @@ class PlayerData(val playerUUID: UUID) {
     }
 
     /**
-     * Increases the playtime by a certain amount
+     * Increases the playtime by a certain amount, and updates all displays
+     * to match the new amount
      */
     fun increasePlaytime(amount: Int) {
+        if (playtime == null) return
         playtime?.let { playtime = it + amount }
+        FishingUtil.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
 
     /**
-     * Increases the xp by a certain amount
+     * Increases the xp by a certain amount, and updates all displays
+     * to match the new amount
      */
     fun increaseXP(amount: Int) {
+        if (xp == null) return
         xp?.let { xp = it + amount }
+        FishingUtil.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
 
     /**
-     * Increases the fishes caught for a certain variant by a certain amount
+     * Increases the fishes caught for a certain variant by a certain amount, and updates all displays
+     * to match the new amount
      */
     fun increaseFishesCaught(fishVariant: FishVariant, amount: Int) {
         if (fishesCaught == null) return
         fishesCaught!![fishVariant]?.let { fishesCaught!![fishVariant] = it + amount }
+        FishingUtil.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
 
     /**
-     * Increases the fishes uncaught for a certain variant by a certain amount
+     * Increases the fishes uncaught for a certain variant by a certain amount, and updates all displays
+     * to match the new amount
      */
     fun increaseFishesUncaught(fishVariant: FishVariant, amount: Int) {
         if (fishesUncaught == null) return
         fishesUncaught!![fishVariant]?.let { fishesUncaught!![fishVariant] = it + amount }
+        FishingUtil.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
 }

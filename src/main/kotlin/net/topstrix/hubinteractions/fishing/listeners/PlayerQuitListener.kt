@@ -15,5 +15,11 @@ object PlayerQuitListener : Listener {
             FishingUtil.playerData.remove(it)
             it.uploadData()
         }
+
+        //Remove all player displays
+        FishingUtil.playerDisplayManagers[e.player.uniqueId]?.let {
+            it.removeDisplays()
+            FishingUtil.playerDisplayManagers.remove(e.player.uniqueId)
+        }
     }
 }

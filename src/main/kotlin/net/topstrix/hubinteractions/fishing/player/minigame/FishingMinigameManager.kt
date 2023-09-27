@@ -9,10 +9,12 @@ import net.topstrix.hubinteractions.fishing.player.minigame.states.*
 import net.topstrix.hubinteractions.fishing.player.minigame.states.util.FishMovementManager
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import org.bukkit.Bukkit
+import org.bukkit.NamespacedKey
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.entity.TextDisplay
+import org.bukkit.persistence.PersistentDataType
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 import java.lang.RuntimeException
@@ -64,7 +66,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
 
     fun onTick() {
         val player = Bukkit.getPlayer(fishingPlayer.uuid) ?: run {
-            endMinigame()
+            endMinigame(MinigameEndReason.PLAYER_LEFT)
             return
         }
         //todo: if player not on premises, or if rod is dead, end game and return
@@ -98,7 +100,10 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         }
         if ((state is FishingMinigameSuccessState || state is FishingMinigameFailureState) && state.stateTicksPassed >= 10) {
             state.onDisable()
-            endMinigame()
+            if (state is FishingMinigameSuccessState)
+                endMinigame(MinigameEndReason.FISH_CAUGHT)
+            else
+                endMinigame(MinigameEndReason.RAN_OUT_OF_ATTEMPTS)
             return
         }
         if (state is FishingMinigameGameplayState && (state as FishingMinigameGameplayState).rodCast) {
@@ -135,6 +140,10 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
             player.location.apply { this.y -= 1.13125 }, //exact height when you ride an armor stand
             EntityType.ARMOR_STAND
         ) as ArmorStand
+
+        val key = NamespacedKey(HubInteractions.plugin, "fishing-removable") //Mark entity, for removal upon server start
+        armorStand.persistentDataContainer.set(key, PersistentDataType.BOOLEAN, true)
+
         armorStand.isInvisible = true
         armorStand.setAI(false)
         armorStand.setGravity(false)
@@ -143,10 +152,41 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
     }
 
     /**
+     * The reason the minigame ended.
+     */
+    enum class MinigameEndReason {
+        /**
+         * The fish was caught successfully.
+         */
+        FISH_CAUGHT,
+
+        /**
+         * The minigame ended in failure because the player ran out of attempts.
+         */
+        RAN_OUT_OF_ATTEMPTS,
+
+        /**
+         * The player left the server.
+         */
+        PLAYER_LEFT
+    }
+
+    /**
      * Ends the minigame and cleans everything up.
      */
-    private fun endMinigame() {
-        caughtFish.remove()
+    private fun endMinigame(minigameEndReason: MinigameEndReason) {
+        if (minigameEndReason == MinigameEndReason.FISH_CAUGHT) {
+            FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
+                it.increaseFishesCaught(caughtFish.variant, 1)
+                it.increaseXP(caughtFish.variant.rarity.xp)
+            }
+        }
+        else if (minigameEndReason == MinigameEndReason.RAN_OUT_OF_ATTEMPTS) {
+            FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
+                it.increaseFishesUncaught(caughtFish.variant, 1)
+            }
+        }
+        caughtFish.resumeMovement()
         armorStand.remove()
         fishingPlayer.hook.remove()
         Bukkit.getPlayer(fishingPlayer.uuid)?.let {
@@ -155,6 +195,8 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
                 text().build()
             )
         }
+        fishingPlayer.fishLakeManager.removePlayerFromFishingPlayers(fishingPlayer.uuid)
+        state.onDisable()
         task.cancel()
     }
 }

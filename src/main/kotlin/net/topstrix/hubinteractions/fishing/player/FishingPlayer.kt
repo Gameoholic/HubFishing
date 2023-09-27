@@ -24,7 +24,8 @@ class FishingPlayer(
     val hook: FishHook,
     private var hookCooldown: Int
 ) {
-    private var fishingState: FishingPlayerState = FishingPlayerState.ROD_WAITING
+    var fishingState: FishingPlayerState = FishingPlayerState.ROD_WAITING
+        private set
 
     /** How many ticks have passed since last second. When it gets to 20, resets to 0 and updates playtime by 1 */
     private var ticksPassedSinceLastSecond = 0

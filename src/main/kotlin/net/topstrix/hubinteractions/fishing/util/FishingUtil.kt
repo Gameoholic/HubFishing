@@ -1,29 +1,35 @@
 package net.topstrix.hubinteractions.fishing.util
 
-import kotlinx.coroutines.Job
 import net.topstrix.hubinteractions.HubInteractions
-import net.topstrix.hubinteractions.commands.TestCommand
 import net.topstrix.hubinteractions.fishing.commands.SpawnFishCommand
 import net.topstrix.hubinteractions.fishing.config.FishingConfig
 import net.topstrix.hubinteractions.fishing.config.FishingFileParser
 import net.topstrix.hubinteractions.fishing.data.PlayerData
-import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
 import net.topstrix.hubinteractions.fishing.data.sql.SQLUtil
+import net.topstrix.hubinteractions.fishing.displays.PlayerDisplayManager
+import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
 import net.topstrix.hubinteractions.fishing.listeners.PlayerJoinListener
 import net.topstrix.hubinteractions.fishing.listeners.PlayerQuitListener
 import org.bukkit.Bukkit
+import org.bukkit.NamespacedKey
+import org.bukkit.persistence.PersistentDataContainer
+import org.bukkit.persistence.PersistentDataType
 import java.util.*
+
 
 object FishingUtil {
 
     lateinit var fishingConfig: FishingConfig
 
-
     //TODO: if rod out for too long, some fish will be attracted.
     lateinit var fishLakeManagers: List<FishLakeManager>
 
+    /**
+     * Player data is guaranteed to not be null or invalid, if it's in this list.
+     */
     val playerData = mutableListOf<PlayerData>()
-    val playerDataJobs = mutableMapOf<UUID, Job>()
+
+    val playerDisplayManagers = mutableMapOf<UUID, PlayerDisplayManager>()
 
     fun onEnable() {
         fishingConfig = FishingFileParser.parseFile()
@@ -36,7 +42,8 @@ object FishingUtil {
                 fishLakeManagerSettings.corner2,
                 fishLakeManagerSettings.armorStandYLevel,
                 fishLakeManagerSettings.fishAmountChances,
-                fishLakeManagerSettings.maxFishCount)
+                fishLakeManagerSettings.maxFishCount,
+                fishLakeManagerSettings.statsDisplayLocation)
         }
         fishLakeManagers = fishLakeManagersList
 
@@ -47,6 +54,7 @@ object FishingUtil {
 
         SQLUtil.load(fishingConfig.fishVariants)
 
+        removeOldEntities()
     }
 
     fun onTick() {
@@ -71,5 +79,20 @@ object FishingUtil {
 
 
         for (fishLakeManager in fishLakeManagers) fishLakeManager.onSecondPassed()
+    }
+
+    /**
+     * In the event of a crash / server close, old fishing related entities
+     * (displays, armor stands, etc.) will remain. This gets rid of them.
+     */
+    private fun removeOldEntities() {
+        val key = NamespacedKey(HubInteractions.plugin, "fishing-removable")
+
+        fishingConfig.world.entities.forEach {
+            val container: PersistentDataContainer = it.persistentDataContainer
+            if (container.has(key, PersistentDataType.BOOLEAN)) {
+                it.remove()
+            }
+        }
     }
 }
