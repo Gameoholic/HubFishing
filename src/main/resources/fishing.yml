@@ -57,6 +57,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: anchovy
     name: Anchovy
     rarity: COMMON
@@ -72,6 +74,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: tuna
     name: Tuna
     rarity: COMMON
@@ -87,6 +91,42 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
+  - id: cod
+    name: cod
+    rarity: COMMON
+    speed: 0.05
+    material: PAPER
+    model-data: 272
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
+  - id: salmon
+    name: salmon
+    rarity: COMMON
+    speed: 0.05
+    material: PAPER
+    model-data: 274
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: clownfish
     name: Clownfish
     rarity: RARE
@@ -102,6 +142,25 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
+  - id: goldfish
+    name: Goldfish
+    rarity: RARE
+    speed: 0.05
+    material: PAPER
+    model-data: 273
+    hitbox-size:
+      x: 1.4
+      y: 2.0
+      z: 1.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: blue_tang
     name: Blue tang
     rarity: RARE
@@ -117,6 +176,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: butterfly
     name: Butterfly Fish
     rarity: COMMON
@@ -132,6 +193,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: pufferfish
     name: Pufferfish
     rarity: RARE
@@ -147,6 +210,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: catfish
     name: Catfish
     rarity: EPIC
@@ -162,6 +227,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: blobfish
     name: Blobfish
     rarity: LEGENDARY
@@ -177,6 +244,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: swordfish
     name: Swordfish
     rarity: EPIC
@@ -192,6 +261,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: skatefish
     name: Skatefish
     rarity: EPIC
@@ -207,6 +278,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: red_seahorse
     name: Red Sea horse
     rarity: LEGENDARY
@@ -222,6 +295,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: blue_seahorse
     name: Blue Sea horse
     rarity: LEGENDARY
@@ -237,6 +312,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: anime
     name: Kawaii fish
     rarity: LEGENDARY
@@ -252,6 +329,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: red_squid
     name: Red squid
     rarity: LEGENDARY
@@ -267,6 +346,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: purple_squid
     name: Purple squid
     rarity: LEGENDARY
@@ -282,6 +363,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
   - id: hammerhead_shark
     name: Hammerhead shark
     rarity: LEGENDARY
@@ -297,6 +380,8 @@ fish-variants:
       y: 1.0
       z: 0.0
     minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
 
 
 #Fish rarities:
@@ -342,9 +427,6 @@ max-fishing-rod-uses: 3
 #Characters:
 water-character: 'ो'
 water-character-height: 10
-
-fish-character: 'ॊ'
-fish-character-height: 6
 
 rod-box-character: '्'
 rod-box-character-height: 6

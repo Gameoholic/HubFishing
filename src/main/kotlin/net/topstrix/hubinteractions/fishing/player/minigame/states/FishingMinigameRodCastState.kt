@@ -17,7 +17,7 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
     private val uiRenderer = FishingMinigameRodCastUIRenderer(this)
 
     /** The speed in pixels, at which the rod will extend per tick */
-    val rodExtendingSpeed = 3
+    val rodExtendingSpeed = 3 //todo: from config. the -1 extra width too please
     /** The target (max) position of the long rod, in UI pixels to the left*/
     val longRodTargetPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2 //Center of rodbox
     /** The starting position of the long rod, in UI pixels to the left*/
@@ -83,7 +83,8 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
      */
     private fun didRodCatchFish(): Boolean {
         val fishHitboxWidth = minigameManager.caughtFish.variant.minigameHitboxWidth
-        val fishCenteredPosition = minigameManager.fishMovementManager.fishPosition - FishingUtil.fishingConfig.fishCharacterHeight / 2
+        val fishCenteredPosition = minigameManager.fishMovementManager.fishPosition -
+            minigameManager.caughtFish.variant.minigameCharacterHeight / 2
         val rodBoxCenteredPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2
         return rodBoxCenteredPosition < fishCenteredPosition + fishHitboxWidth
             && rodBoxCenteredPosition > fishCenteredPosition - fishHitboxWidth

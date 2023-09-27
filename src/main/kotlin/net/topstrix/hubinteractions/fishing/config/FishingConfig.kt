@@ -19,8 +19,6 @@ data class FishingConfig(
     @SerialName("water-amount") val waterAmount: Int,
     @SerialName("water-character") val waterCharacter: Char,
     @SerialName("water-character-height") val waterCharacterHeight: Int,
-    @SerialName("fish-character") val fishCharacter: Char,
-    @SerialName("fish-character-height") val fishCharacterHeight: Int,
     @SerialName("rod-box-speed") val rodBoxSpeed: Double,
     @SerialName("rod-box-character") val rodBoxCharacter: Char,
     @SerialName("rod-box-character-height") val rodBoxCharacterHeight: Int,

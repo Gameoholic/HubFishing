@@ -2,7 +2,6 @@ package net.topstrix.hubinteractions.fishing.fish
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import net.topstrix.hubinteractions.shared.serialization.LocationSerializer
 import net.topstrix.hubinteractions.shared.serialization.VectorSerializer
 import org.bukkit.Material
 import org.bukkit.util.Vector
@@ -18,5 +17,7 @@ data class FishVariant(
     val name: String,
     @SerialName("hitbox-size") val hitboxSize: @Serializable(with = VectorSerializer::class) Vector,
     @SerialName("hitbox-offset") val hitboxOffset: @Serializable(with = VectorSerializer::class) Vector,
-    @SerialName("minigame-hitbox-width") val minigameHitboxWidth: Double
+    @SerialName("minigame-hitbox-width") val minigameHitboxWidth: Double,
+    @SerialName("minigame-character") val minigameCharacter: Char,
+    @SerialName("minigame-character-height") val minigameCharacterHeight: Int,
 )

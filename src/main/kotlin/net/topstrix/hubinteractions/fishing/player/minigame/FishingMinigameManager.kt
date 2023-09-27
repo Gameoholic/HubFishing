@@ -30,7 +30,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
     private var state: FishingMinigameState = FishingMinigameFishFoundState(this)
     private val task: BukkitTask
     val fishMovementManager = FishMovementManager(
-        0.0 + FishingUtil.fishingConfig.fishCharacterHeight,
+        0.0 + caughtFish.variant.minigameCharacterHeight,
         (FishingUtil.fishingConfig.waterCharacterHeight * FishingUtil.fishingConfig.waterAmount).toDouble(),
         caughtFish
     )

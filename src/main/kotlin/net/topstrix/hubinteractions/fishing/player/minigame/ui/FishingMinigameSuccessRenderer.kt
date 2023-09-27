@@ -14,12 +14,15 @@ class FishingMinigameSuccessRenderer(override val minigameState: FishingMinigame
         // WATER
         renderCharacters(title, FishingUtil.fishingConfig.waterCharacter, FishingUtil.fishingConfig.waterAmount)
         // FISH
-        renderCharacterSeparately(title, FishingUtil.fishingConfig.fishCharacter, minigameState.minigameManager.fishMovementManager.fishPosition, FishingUtil.fishingConfig.fishCharacterHeight)
+        renderCharacterSeparately(
+            title, minigameState.minigameManager.caughtFish.variant.minigameCharacter,
+            minigameState.minigameManager.fishMovementManager.fishPosition,
+            minigameState.minigameManager.caughtFish.variant.minigameCharacterHeight
+        )
         // ROD BOX
         renderCharacterSeparately(title, FishingUtil.fishingConfig.rodBoxCharacter, minigameState.minigameManager.rodBoxPosition, FishingUtil.fishingConfig.rodBoxCharacterHeight)
-        // FISHING ROD
         renderCharacterSeparately(title, 'S', 80.0, 6)
-        // FISHING RODS
+        // MINI RODS
         for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses) { //3,1
             if ((FishingUtil.fishingConfig.maxFishingRodUses - i) > minigameState.minigameManager.fishingRodUsesLeft)
                 renderCharacterSeparately(title, FishingUtil.fishingConfig.miniRodUsedCharacter,

@@ -88,6 +88,7 @@ object FishingUtil {
     private fun removeOldEntities() {
         val key = NamespacedKey(HubInteractions.plugin, "fishing-removable")
 
+        //todo: this doesn't really do anything sicne chunks aren't loaded I think
         fishingConfig.world.entities.forEach {
             val container: PersistentDataContainer = it.persistentDataContainer
             if (container.has(key, PersistentDataType.BOOLEAN)) {
