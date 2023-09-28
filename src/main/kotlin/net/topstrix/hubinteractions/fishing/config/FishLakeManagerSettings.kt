@@ -16,4 +16,5 @@ data class FishLakeManagerSettings(
     @SerialName("max-fish-count") val maxFishCount: Int,
     @SerialName("stats-display-location") val statsDisplayLocation: @Serializable(with = LocationSerializer::class) Location,
     @SerialName("permission-required-to-enter") val permissionRequiredToEnter: String,
+    @SerialName("fish-spawning-algorithm-curve") val fishSpawningAlgorithmCurve: Double,
 )

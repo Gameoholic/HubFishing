@@ -45,7 +45,9 @@ object FishingUtil {
                 fishLakeManagerSettings.fishAmountChances,
                 fishLakeManagerSettings.maxFishCount,
                 fishLakeManagerSettings.statsDisplayLocation,
-                fishLakeManagerSettings.permissionRequiredToEnter)
+                fishLakeManagerSettings.permissionRequiredToEnter,
+                fishLakeManagerSettings.fishSpawningAlgorithmCurve
+            )
         }
         fishLakeManagers = fishLakeManagersList
 

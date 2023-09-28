@@ -41,7 +41,8 @@ class FishLakeManager(
     private val fishAmountChances: HashMap<Int, Double>,
     private val maxFishCount: Int,
     val statsDisplayLocation: Location,
-    val permissionRequiredToEnter: String
+    val permissionRequiredToEnter: String,
+    private val fishSpawningAlgorithmCurve: Double, //todo: doc
 ): Listener {
 
     /** Players that are in the lake's region */
@@ -166,7 +167,7 @@ class FishLakeManager(
      */
     private fun shouldSpawnFish(): Boolean {
         //See 1-e^{\left(-a\cdot x^{2}\right)} on Desmos
-        val curve = 0.08
+        val curve = fishSpawningAlgorithmCurve
         var playersAmount = fishingPlayers.size + 1 //We want fishes to spawn even if 0 players, so we give +1
         val chance = 1 - Math.E.pow(-curve * playersAmount.toDouble().pow(2.0))
         val rand = rnd.nextDouble()

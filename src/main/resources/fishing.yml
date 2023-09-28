@@ -41,6 +41,7 @@ fish-lake-managers:
       y: 73.0
       z: -286.0
     permission-required-to-enter: test
+    fish-spawning-algorithm-curve: 0.16
 
 fish-variants:
   - id: bassfish
