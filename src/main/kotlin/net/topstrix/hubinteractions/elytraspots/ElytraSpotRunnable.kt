@@ -3,7 +3,7 @@ package net.topstrix.hubinteractions.elytraspots
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
 
-class ElytraSpotRunnable() : BukkitRunnable() { //todo: fix this?
+class ElytraSpotRunnable : BukkitRunnable() { //todo: fix this?
     override fun run() {
         for (player in Bukkit.getOnlinePlayers()) {
             if (ElytraSpotsUtil.playersWithElytra.contains(player) && !ElytraSpotsUtil.elytraSpotsConfig.allowSpotReuse) return

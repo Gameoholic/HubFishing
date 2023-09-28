@@ -1,6 +1,6 @@
 allow-spot-reuse: false
-elytra-activate-message: "<green>Active!"
-elytra-deactivate-message: "<red>Inactive!"
+elytra-activate-message: "<white>[ॗ]<green> Active!"
+elytra-deactivate-message: "<white>[ॗ]<red> Inactive!"
 elytra-activate-sound: "minecraft:entity.horse.armor"
 elytra-deactivate-sound: ""
 elytra-spots:

@@ -54,8 +54,8 @@ class Fish(
     }
 
     fun onTick() {
-        aliveTime++
         if (caught) return
+        aliveTime++
         if (aliveTime > maxAliveTime) {
             remove()
             return

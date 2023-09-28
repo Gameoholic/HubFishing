@@ -22,11 +22,11 @@ object HubInteractions {
     fun onEnable(plugin: HubInteractionsPlugin) {
         this.plugin = plugin
 
-        protocolManager = ProtocolLibrary.getProtocolManager();
+        protocolManager = ProtocolLibrary.getProtocolManager()
 
-        plugin.saveResource("config.yml", true)
-        plugin.saveResource("elytraspots.yml", true)
-        plugin.saveResource("fishing.yml", true)
+        plugin.saveResource("config.yml", false)
+        plugin.saveResource("elytraspots.yml", false)
+        plugin.saveResource("fishing.yml", false)
 
         plugin.getCommand("test")!!.setExecutor(TestCommand)
         plugin.getCommand("test2")!!.setExecutor(Test2Command)
