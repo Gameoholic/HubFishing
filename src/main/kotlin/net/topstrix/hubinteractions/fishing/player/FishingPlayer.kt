@@ -67,7 +67,7 @@ class FishingPlayer(
     private fun onCatchFish(caughtFish: Fish) {
         LoggerUtil.debug("Player $uuid caught fish $caughtFish")
         fishingState = FishingPlayerState.FISH_CAUGHT
-        caughtFish.onCatch()
+        caughtFish.caught = true
         FishingMinigameManager(this, caughtFish)
     }
 

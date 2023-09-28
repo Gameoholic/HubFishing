@@ -30,23 +30,27 @@ class Fish(
     private val armorStand: ArmorStand
     private var aliveTime = 0
     private lateinit var nextLocation: Location
+
+    /**
+     * Whether the fish was caught and stopped in place.
+     * Settings this to true stops its movement and makes it become uncatchable,
+     * and setting back to false resumes its movement and makes it catchable.
+     */
     var caught = false
-        private set
 
     init {
         val armorStandLoc = hitboxLocation.clone().apply { this.y = fishLakeManager.armorStandYLevel }
         LoggerUtil.debug("Spawning fish $variant at $armorStandLoc")
         armorStand = armorStandLoc.world.spawnEntity(armorStandLoc, EntityType.ARMOR_STAND) as ArmorStand
-
-        val key = NamespacedKey(HubInteractions.plugin, "fishing-removable") //Mark entity, for removal upon server start
+        val key = NamespacedKey(HubInteractions.plugin, "fishing-removable") //Mark entity for removal upon server start
         armorStand.persistentDataContainer.set(key, PersistentDataType.BOOLEAN, true)
-
         val itemStack = ItemStack(variant.material)
         val meta = itemStack.itemMeta
         meta.setCustomModelData(variant.modelData)
         itemStack.itemMeta = meta
         armorStand.isInvisible = true
         armorStand.isInvulnerable = true
+        //Armor stand must have gravity, otherwise we can't give it velocity
         armorStand.equipment.setItem(EquipmentSlot.HEAD, itemStack)
 
         generateNextLocation()
@@ -54,7 +58,11 @@ class Fish(
     }
 
     fun onTick() {
-        if (caught) return
+        if (caught) {
+            //Because armor stand has no gravity, it will sink the moment it stops moving. We must maintain its position.
+            armorStand.teleport(armorStand.location)
+            return
+        }
         aliveTime++
         if (aliveTime > maxAliveTime) {
             remove()
@@ -73,18 +81,6 @@ class Fish(
     fun remove() {
         fishLakeManager.fishes.remove(this)
         armorStand.remove()
-    }
-
-    fun onCatch() {
-        caught = true
-    }
-
-    /**
-     * Caught if a fish that has previously been caught should
-     * resume its movement
-     */
-    fun resumeMovement() {
-        caught = false
     }
 
     /**

@@ -41,6 +41,7 @@ class FishLakeManager(
     private val fishAmountChances: HashMap<Int, Double>,
     private val maxFishCount: Int,
     val statsDisplayLocation: Location,
+    val permissionRequiredToEnter: String
 ): Listener {
 
     /** Players that are in the lake's region */

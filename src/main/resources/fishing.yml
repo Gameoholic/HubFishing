@@ -40,6 +40,7 @@ fish-lake-managers:
       x: 24.0
       y: 73.0
       z: -286.0
+    permission-required-to-enter: test
 
 fish-variants:
   - id: bassfish

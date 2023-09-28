@@ -14,6 +14,7 @@ import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.persistence.PersistentDataType
+import org.bukkit.util.Vector
 import java.util.*
 
 
@@ -43,7 +44,8 @@ object FishingUtil {
                 fishLakeManagerSettings.armorStandYLevel,
                 fishLakeManagerSettings.fishAmountChances,
                 fishLakeManagerSettings.maxFishCount,
-                fishLakeManagerSettings.statsDisplayLocation)
+                fishLakeManagerSettings.statsDisplayLocation,
+                fishLakeManagerSettings.permissionRequiredToEnter)
         }
         fishLakeManagers = fishLakeManagersList
 
@@ -63,17 +65,29 @@ object FishingUtil {
 
     fun onSecondPassed() {
         //Add/Remove players from fish lake managers, handle logic
-        for (player in Bukkit.getOnlinePlayers()) {
-            fishLakeManagers.forEach {
+        fishLakeManagers.forEach {
+            Bukkit.getOnlinePlayers().forEach {
+                player ->
                 val playerInFishingArea = player.location.x > it.corner1.x && player.location.x < it.corner2.x &&
                     player.location.y > it.corner1.y && player.location.y < it.corner2.y &&
                     player.location.z > it.corner1.z && player.location.z < it.corner2.z
                 if (it.allPlayers.any { uuid -> uuid == player.uniqueId } && !playerInFishingArea)
                     it.removePlayer(player.uniqueId)
+
                 //We only add player to the lake manager, if they're in its region, and if player data for this player was correctly loaded
                 else if (!it.allPlayers.any { uuid -> uuid == player.uniqueId } && playerInFishingArea &&
-                    playerData.any { playerData -> playerData.playerUUID == player.uniqueId })
-                    it.addPlayer(player.uniqueId)
+                    playerData.any { playerData -> playerData.playerUUID == player.uniqueId }) {
+                    if (player.hasPermission(it.permissionRequiredToEnter)) {
+                        it.addPlayer(player.uniqueId)
+                    }
+                    //If player doesn't have permission to enter lake, launch them away
+                    else {
+                        val rnd = Random()
+                        val velocity = Vector(rnd.nextDouble(-1.0, 1.0), 1.0, rnd.nextDouble(-1.0, 1.0))
+                        player.velocity = velocity
+                    }
+                }
+
             }
         }
 

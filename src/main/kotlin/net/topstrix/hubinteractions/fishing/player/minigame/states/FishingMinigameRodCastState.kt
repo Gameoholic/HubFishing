@@ -92,12 +92,16 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
 
     @EventHandler
     fun onPlayerFish(e: PlayerFishEvent) {
+        if (e.player.uniqueId != minigameManager.fishingPlayer.uuid) return
+
         if (e.isCancelled) return
         e.isCancelled = true
     }
 
     @EventHandler
     fun onPlayerInteract(e: PlayerInteractEvent) {
+        if (e.player.uniqueId != minigameManager.fishingPlayer.uuid) return
+
         if (e.isCancelled) return
         e.isCancelled = true
     }

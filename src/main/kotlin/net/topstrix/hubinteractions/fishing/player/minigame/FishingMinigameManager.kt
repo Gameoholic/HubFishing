@@ -180,13 +180,14 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
                 it.increaseFishesCaught(caughtFish.variant, 1)
                 it.increaseXP(caughtFish.variant.rarity.xp)
             }
+            caughtFish.remove()
         }
         else if (minigameEndReason == MinigameEndReason.RAN_OUT_OF_ATTEMPTS) {
             FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
                 it.increaseFishesUncaught(caughtFish.variant, 1)
             }
+            caughtFish.caught = false
         }
-        caughtFish.resumeMovement()
         armorStand.remove()
         fishingPlayer.hook.remove()
         Bukkit.getPlayer(fishingPlayer.uuid)?.let {
