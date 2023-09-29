@@ -40,9 +40,8 @@ class FishMovementManager(
                 heatmap[j] = heatmap[j]!! + heatmapValue / (FishingUtil.fishingConfig.waterAmount - 1 - i - i - 1)
             }
         }
+//todo: heatmap code
 
-
-        println(heatmap)
     }
     /**
      * Determines and updates the fish position based on algorithm

@@ -1,5 +1,9 @@
 package net.topstrix.hubinteractions.fishing.lake
 
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.player.FishingPlayer
 import net.topstrix.hubinteractions.fishing.fish.Fish
@@ -11,10 +15,15 @@ import net.topstrix.hubinteractions.fishing.util.LoggerUtil
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
+import org.bukkit.entity.Display
+import org.bukkit.entity.EntityType
+import org.bukkit.entity.TextDisplay
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 import java.lang.RuntimeException
 import java.util.*
 import kotlin.math.min
@@ -42,11 +51,13 @@ class FishLakeManager(
     private val maxFishCount: Int,
     val statsDisplayLocation: Location,
     val permissionRequiredToEnter: String,
-    private val fishSpawningAlgorithmCurve: Double, //todo: doc
-): Listener {
+    private val fishSpawningAlgorithmCurve: Double, //todo: doc all these
+    rankBoostDisplayLocation: Location,
+) : Listener {
 
     /** Players that are in the lake's region */
     val allPlayers = mutableListOf<UUID>()
+
     /** Players that are currently fishing */
     val fishingPlayers = mutableListOf<FishingPlayer>()
 
@@ -57,11 +68,19 @@ class FishLakeManager(
 
     /** The amount of fishes to be spawned, until a rare one can appear. */
     private var rareFishesQueueAmount: Int
+
     /** The amount of fishes to be spawned, until an epic one can appear. */
     private var epicFishesQueueAmount: Int
+
     /** The amount of fishes to be spawned, until a legendary one can appear. */
     private var legendaryFishesQueueAmount: Int
 
+    /** The text display that shows whether this lake is boosted. */
+    private val rankBoostDisplay: TextDisplay
+
+    /** Whether this current lake's fish chances are boosted by someone with a rank. */
+    private var isBoosted: Boolean = false
+    private var queueDecreasalAmount = 1
 
     init {
         //Initialize queue amounts for the fish rarities for the first time
@@ -70,6 +89,14 @@ class FishLakeManager(
         legendaryFishesQueueAmount = getFishesQueueAmount(FishRarity.LEGENDARY)
 
         Bukkit.getPluginManager().registerEvents(this, HubInteractions.plugin)
+
+        rankBoostDisplay = rankBoostDisplayLocation.world
+            .spawnEntity(rankBoostDisplayLocation, EntityType.TEXT_DISPLAY) as TextDisplay
+        val key =
+            NamespacedKey(HubInteractions.plugin, "fishing-removable") //Mark entity, for removal upon server start
+        rankBoostDisplay.persistentDataContainer.set(key, PersistentDataType.BOOLEAN, true)
+        rankBoostDisplay.alignment = TextDisplay.TextAlignment.CENTER
+        rankBoostDisplay.billboard = Display.Billboard.CENTER
     }
 
     /**
@@ -81,7 +108,36 @@ class FishLakeManager(
         val item = ItemStack(Material.FISHING_ROD)
         Bukkit.getPlayer(uuid)?.let {
             it.inventory.addItem(item)
+            if (it.hasPermission(FishingUtil.fishingConfig.rankBoostPermission)) {
+                setIsBoosted(true, it.name)
+            }
         }
+    }
+
+    /**
+     * Updates the isBoosted value.
+     * If set to true, the lake fish spawn chances will be boosted and the boosted player's
+     * name will be displayed. Otherwise, it'll go back to normal.
+     */
+    private fun setIsBoosted(value: Boolean, boosterName: String? = null) {
+        if (value == isBoosted) return //We only do stuff if the value for isBoosted has changed
+        if (!value) {
+            rankBoostDisplay.text(
+                MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.rankBoostDisplayNoneContent)
+            )
+            queueDecreasalAmount = 1
+        } else {
+            rankBoostDisplay.text(
+                MiniMessage.miniMessage().deserialize(
+                    FishingUtil.fishingConfig.rankBoostDisplayBoostedContent, Placeholder.component(
+                        "player",
+                        text(boosterName ?: "?")
+                    )
+                )
+            )
+            queueDecreasalAmount = FishingUtil.fishingConfig.rankBoostAmount
+        }
+        isBoosted = value
     }
 
     /**
@@ -95,7 +151,18 @@ class FishLakeManager(
         Bukkit.getPlayer(uuid)?.let {
             it.inventory.remove(Material.FISHING_ROD)
         }
+
+        //Check if there are still any boosters in the lake
+        var boosterExists = false
+        allPlayers.mapNotNull { Bukkit.getPlayer(it) }.forEach {
+            if (it.hasPermission(FishingUtil.fishingConfig.rankBoostPermission)) {
+                boosterExists = true
+            }
+        }
+        if (!boosterExists)
+            setIsBoosted(false)
     }
+
     /**
      * Removes a player only from fishingPlayers.
      * Should be called when a player finishes the minigame or cancels their rod.
@@ -148,7 +215,8 @@ class FishLakeManager(
     fun spawnFish(
         location: Location = determineSpawnLocation(),
         fishRarity: FishRarity = determineFishRarity(),
-        fishVariant: FishVariant = FishingUtil.fishingConfig.fishVariants.filter { it.rarity == fishRarity }.random(rnd),
+        fishVariant: FishVariant = FishingUtil.fishingConfig.fishVariants.filter { it.rarity == fishRarity }
+            .random(rnd),
         fishAliveTime: Int = fishRarity.aliveTimeMin + rnd.nextInt(fishRarity.aliveTimeMax)
     ) {
         fishes.add(
@@ -229,19 +297,18 @@ class FishLakeManager(
      */
     private fun determineFishRarity(): FishRarity {
         //Decrease the queue amount for every rarity, every time we spawn any fish
-        rareFishesQueueAmount--
-        epicFishesQueueAmount--
-        legendaryFishesQueueAmount--
+        rareFishesQueueAmount -= queueDecreasalAmount
+        epicFishesQueueAmount -= queueDecreasalAmount
+        legendaryFishesQueueAmount -= queueDecreasalAmount
 
+        LoggerUtil.debug("Current queue amounts: Rare: $rareFishesQueueAmount, Epic: $epicFishesQueueAmount, Leg: $legendaryFishesQueueAmount")
         if (legendaryFishesQueueAmount <= 0) {
             legendaryFishesQueueAmount = getFishesQueueAmount(FishRarity.LEGENDARY)
             return FishRarity.LEGENDARY
-        }
-        else if (epicFishesQueueAmount <= 0) {
+        } else if (epicFishesQueueAmount <= 0) {
             epicFishesQueueAmount = getFishesQueueAmount(FishRarity.EPIC)
             return FishRarity.EPIC
-        }
-        else if (rareFishesQueueAmount <= 0) {
+        } else if (rareFishesQueueAmount <= 0) {
             rareFishesQueueAmount = getFishesQueueAmount(FishRarity.RARE)
             return FishRarity.RARE
         }
@@ -262,11 +329,15 @@ class FishLakeManager(
 
     @EventHandler
     fun onPlayerFishEvent(e: PlayerFishEvent) {
-        val playerUUID = this.allPlayers.first { it == e.player.uniqueId }
+        if (e.isCancelled) return
+
+        val playerUUID = this.allPlayers.firstOrNull { it == e.player.uniqueId } ?: return
+
 
         //We don't care what happens in this event, if the player is in the middle of a fishing minigame
         if (fishingPlayers.firstOrNull
-            { it.uuid == e.player.uniqueId && it.fishingState == FishingPlayerState.FISH_CAUGHT} != null) return
+            { it.uuid == e.player.uniqueId && it.fishingState == FishingPlayerState.FISH_CAUGHT } != null
+        ) return
 
         if (e.state == PlayerFishEvent.State.FISHING) {
             e.hook.waitTime = 10000000

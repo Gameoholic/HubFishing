@@ -69,6 +69,10 @@ data class FishingConfig(
     @SerialName("legendary-fish-xp") val legendaryFishXP: Int,
     @SerialName("stats-display-content") val statsDisplayContent: String,
     @SerialName("world") val world: @Serializable(with = WorldSerializer::class) World,
+    @SerialName("rank-boost-display-none-content") val rankBoostDisplayNoneContent: String,
+    @SerialName("rank-boost-display-boosted-content") val rankBoostDisplayBoostedContent: String,
+    @SerialName("rank-boost-amount") val rankBoostAmount: Int,
+    @SerialName("rank-boost-permission") val rankBoostPermission: String,
 )
 
 

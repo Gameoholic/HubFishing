@@ -69,7 +69,11 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
             endMinigame(MinigameEndReason.PLAYER_LEFT)
             return
         }
-        //todo: if player not on premises, or if rod is dead, end game and return
+        //If player left premises of lake, or hook is dead, end game
+        if (!fishingPlayer.fishLakeManager.fishingPlayers.any { it.uuid == fishingPlayer.uuid} || fishingPlayer.hook.isDead) {
+            endMinigame(MinigameEndReason.PLAYER_LEFT)
+            return
+        }
 
         if (!armorStand.passengers.contains(player))
             armorStand.addPassenger(player)
@@ -189,7 +193,6 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
             caughtFish.caught = false
         }
         armorStand.remove()
-        fishingPlayer.hook.remove()
         Bukkit.getPlayer(fishingPlayer.uuid)?.let {
             it.sendTitlePart(
                 TitlePart.TITLE,
@@ -199,5 +202,6 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         fishingPlayer.fishLakeManager.removePlayerFromFishingPlayers(fishingPlayer.uuid)
         state.onDisable()
         task.cancel()
+        fishingPlayer.hook.remove()
     }
 }

@@ -115,8 +115,8 @@ class FishingMinigameGameplayState(
     @EventHandler
     fun onPlayerFish(e: PlayerFishEvent) {
         if (e.player.uniqueId != minigameManager.fishingPlayer.uuid) return
-
         if (e.isCancelled) return
+
         e.isCancelled = true
         onRodCast()
     }
@@ -124,8 +124,8 @@ class FishingMinigameGameplayState(
     @EventHandler
     fun onPlayerInteract(e: PlayerInteractEvent) {
         if (e.player.uniqueId != minigameManager.fishingPlayer.uuid) return
-
         if (e.isCancelled) return
+
         e.isCancelled = true
         onRodCast()
     }

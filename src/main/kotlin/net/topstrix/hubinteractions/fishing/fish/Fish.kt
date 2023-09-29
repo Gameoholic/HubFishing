@@ -60,7 +60,9 @@ class Fish(
     fun onTick() {
         if (caught) {
             //Because armor stand has no gravity, it will sink the moment it stops moving. We must maintain its position.
-            armorStand.teleport(armorStand.location)
+            armorStand.teleport(
+                Location(armorStand.world, armorStand.x, fishLakeManager.armorStandYLevel, armorStand.z)
+            )
             return
         }
         aliveTime++
@@ -99,6 +101,18 @@ class Fish(
         val direction = nextLocation.clone().subtract(currentLocation).toVector().normalize()
         val velocity = direction.multiply(variant.speed)
         armorStand.velocity = velocity
+
+        //To maintain its Y level, we have to teleport it each tick otherwise it sinks because of water
+        armorStand.teleport(
+            Location(
+                armorStand.world,
+                armorStand.x,
+                fishLakeManager.armorStandYLevel,
+                armorStand.z,
+                armorStand.yaw,
+                armorStand.pitch
+            )
+        )
     }
 
     /**
@@ -120,7 +134,7 @@ class Fish(
             Location(
                 currentLocation.world,
                 currentLocation.x,
-                currentLocation.y,
+                fishLakeManager.armorStandYLevel, //water effects Y level, we teleport to the wanted Y level
                 currentLocation.z,
                 yaw,
                 0f

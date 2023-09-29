@@ -13,16 +13,22 @@ import org.bukkit.Particle
 import org.bukkit.entity.Display
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.TextDisplay
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerFishEvent
+import org.bukkit.event.player.PlayerInteractEvent
 
 /**
  * In this state, the fish was lured and collided with the fishing rod's hitbox.
  * Displays particles, lowers the bobber (just like in vanilla minecraft), and
  * spawns an exclamation mark display.
  */
-class FishingMinigameFishFoundState(private val minigameManager: FishingMinigameManager): FishingMinigameState {
+class FishingMinigameFishFoundState(private val minigameManager: FishingMinigameManager): FishingMinigameState, Listener {
 
     override var stateTicksPassed = 0
     override fun onEnable() {
+        Bukkit.getPluginManager().registerEvents(this, HubInteractions.plugin)
+
         minigameManager.fishingPlayer.hook.velocity = minigameManager.fishingPlayer.hook.velocity.apply { this.y -= 0.15 } //Emulate bobber going down
         displayFishCaughtParticles()
         spawnExclamationMarkDisplay()
@@ -65,7 +71,24 @@ class FishingMinigameFishFoundState(private val minigameManager: FishingMinigame
     }
 
     override fun onDisable() {
+        PlayerFishEvent.getHandlerList().unregister(this)
+        PlayerInteractEvent.getHandlerList().unregister(this)
+    }
 
+    @EventHandler
+    fun onPlayerFish(e: PlayerFishEvent) {
+        if (e.player.uniqueId != minigameManager.fishingPlayer.uuid) return
+        if (e.isCancelled) return
+
+        e.isCancelled = true
+    }
+
+    @EventHandler
+    fun onPlayerInteract(e: PlayerInteractEvent) {
+        if (e.player.uniqueId != minigameManager.fishingPlayer.uuid) return
+        if (e.isCancelled) return
+
+        e.isCancelled = true
     }
 
 
