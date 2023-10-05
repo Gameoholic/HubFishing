@@ -108,8 +108,15 @@ object FishingUtil {
         val key = NamespacedKey(HubInteractions.plugin, "fishing-removable")
 
         //Force load all chunks inside each fishlake manager, in order to be able to remove entities in them
-        fishingConfig.world.getBlockAt(20, 68, -285).chunk.load()
-
+        fishingConfig.fishLakeManagersSettings.forEach {
+            for (x in it.corner1.x.toInt() .. it.corner2.x.toInt()) {
+                for (y in it.corner1.y.toInt() .. it.corner2.y.toInt()) {
+                    for (z in it.corner1.z.toInt() .. it.corner2.z.toInt()) {
+                        fishingConfig.world.getBlockAt(x, y, z).location.chunk.load()
+                    }
+                }
+            }
+        }
 
         fishingConfig.world.entities.forEach {
             val container: PersistentDataContainer = it.persistentDataContainer
