@@ -107,7 +107,9 @@ object FishingUtil {
     private fun removeOldEntities() {
         val key = NamespacedKey(HubInteractions.plugin, "fishing-removable")
 
-        //Force load all chunks inside each fishlake manager, in order to be able to remove entities in them
+        //Before removing the entities, we must load the chunks.
+
+        //Fish lakes have not been initialized yet, so we go over the settings and load the chunks for every block
         fishingConfig.fishLakeManagersSettings.forEach {
             for (x in it.corner1.x.toInt() .. it.corner2.x.toInt()) {
                 for (y in it.corner1.y.toInt() .. it.corner2.y.toInt()) {
