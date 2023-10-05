@@ -1,6 +1,5 @@
 package net.topstrix.hubinteractions.fishing.lake
 
-import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
@@ -79,8 +78,8 @@ class FishLakeManager(
     private val rankBoostDisplay: TextDisplay
 
     /** Whether this current lake's fish chances are boosted by someone with a rank. */
-    private var isBoosted: Boolean = false
-    private var queueDecreasalAmount = 1
+    private var isBoosted: Boolean = true //We set to true, so changing it to false in init() would set the text immediately
+    private var queueDecreaseAmount = 1
 
     init {
         //Initialize queue amounts for the fish rarities for the first time
@@ -97,6 +96,7 @@ class FishLakeManager(
         rankBoostDisplay.persistentDataContainer.set(key, PersistentDataType.BOOLEAN, true)
         rankBoostDisplay.alignment = TextDisplay.TextAlignment.CENTER
         rankBoostDisplay.billboard = Display.Billboard.CENTER
+        setIsBoosted(false)
     }
 
     /**
@@ -125,7 +125,7 @@ class FishLakeManager(
             rankBoostDisplay.text(
                 MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.rankBoostDisplayNoneContent)
             )
-            queueDecreasalAmount = 1
+            queueDecreaseAmount = 1
         } else {
             rankBoostDisplay.text(
                 MiniMessage.miniMessage().deserialize(
@@ -135,7 +135,7 @@ class FishLakeManager(
                     )
                 )
             )
-            queueDecreasalAmount = FishingUtil.fishingConfig.rankBoostAmount
+            queueDecreaseAmount = FishingUtil.fishingConfig.rankBoostAmount
         }
         isBoosted = value
     }
@@ -297,9 +297,9 @@ class FishLakeManager(
      */
     private fun determineFishRarity(): FishRarity {
         //Decrease the queue amount for every rarity, every time we spawn any fish
-        rareFishesQueueAmount -= queueDecreasalAmount
-        epicFishesQueueAmount -= queueDecreasalAmount
-        legendaryFishesQueueAmount -= queueDecreasalAmount
+        rareFishesQueueAmount -= queueDecreaseAmount
+        epicFishesQueueAmount -= queueDecreaseAmount
+        legendaryFishesQueueAmount -= queueDecreaseAmount
 
         LoggerUtil.debug("Current queue amounts: Rare: $rareFishesQueueAmount, Epic: $epicFishesQueueAmount, Leg: $legendaryFishesQueueAmount")
         if (legendaryFishesQueueAmount <= 0) {

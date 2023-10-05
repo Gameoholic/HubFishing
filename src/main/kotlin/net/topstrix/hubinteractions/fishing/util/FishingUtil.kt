@@ -36,6 +36,8 @@ object FishingUtil {
     fun onEnable() {
         fishingConfig = FishingFileParser.parseFile()
 
+        removeOldEntities()
+
         val fishLakeManagersList = mutableListOf<FishLakeManager>()
         for (fishLakeManagerSettings in fishingConfig.fishLakeManagersSettings) {
             fishLakeManagersList += FishLakeManager(fishLakeManagerSettings.spawnCorner1,
@@ -60,8 +62,6 @@ object FishingUtil {
         HubInteractions.plugin.getCommand("fishing")!!.setExecutor(FishingCommand)
 
         SQLUtil.load(fishingConfig.fishVariants)
-
-        removeOldEntities()
     }
 
     fun onTick() {
@@ -107,9 +107,11 @@ object FishingUtil {
     private fun removeOldEntities() {
         val key = NamespacedKey(HubInteractions.plugin, "fishing-removable")
 
-        //todo: this doesn't really do anything sicne chunks aren't loaded I think
+        //Force load all chunks inside each fishlake manager, in order to be able to remove entities in them
+        fishingConfig.world.getBlockAt(20, 68, -285).chunk.load()
+
+
         fishingConfig.world.entities.forEach {
-            println("REMOVING ENTITY $it")
             val container: PersistentDataContainer = it.persistentDataContainer
             if (container.has(key, PersistentDataType.BOOLEAN)) {
                 it.remove()
