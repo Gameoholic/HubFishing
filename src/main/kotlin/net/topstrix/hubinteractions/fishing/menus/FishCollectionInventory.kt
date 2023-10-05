@@ -152,6 +152,8 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
     }
     @EventHandler
     override fun onInventoryClick(e: InventoryClickEvent) {
+        if (e.whoClicked.uniqueId != playerUUID) return
+
         val clickedInv = e.clickedInventory
         //Add null check in case player clicked outside of window
         if (clickedInv == null || e.inventory.getHolder(false) !is FishCollectionInventory) return
@@ -189,6 +191,8 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
 
     @EventHandler
     override fun onInventoryClose(e: InventoryCloseEvent) {
+        if (e.player.uniqueId != playerUUID) return
+
         if (e.inventory.getHolder(false) !is FishCollectionInventory) return
 
         unregisterEvents()
