@@ -153,14 +153,13 @@ class FishLakeManager(
         }
 
         //Check if there are still any boosters in the lake
-        var boosterExists = false
+        setIsBoosted(false)
         allPlayers.mapNotNull { Bukkit.getPlayer(it) }.forEach {
             if (it.hasPermission(FishingUtil.fishingConfig.rankBoostPermission)) {
-                boosterExists = true
+                setIsBoosted(true, it.name)
+                return@forEach
             }
         }
-        if (!boosterExists)
-            setIsBoosted(false)
     }
 
     /**
