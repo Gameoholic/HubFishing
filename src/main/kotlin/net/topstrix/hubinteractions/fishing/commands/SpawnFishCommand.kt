@@ -71,7 +71,8 @@ object SpawnFishCommand : CommandExecutor {
             fishVariant = FishVariant(
                 fishVariant.id, fishVariant.material, fishVariant.modelData, fishSpeed,
                 fishVariant.rarity, fishVariant.name, fishVariant.hitboxSize, fishVariant.hitboxOffset,
-                fishVariant.minigameHitboxWidth, fishVariant.minigameCharacter, fishVariant.minigameCharacterHeight
+                fishVariant.minigameHitboxWidth, fishVariant.minigameCharacter, fishVariant.minigameCharacterHeight,
+                fishVariant.menuMaterial, fishVariant.menuModelData
             )
         }
 

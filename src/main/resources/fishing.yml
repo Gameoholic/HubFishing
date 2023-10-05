@@ -66,6 +66,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: anchovy
     name: Anchovy
     rarity: COMMON
@@ -83,6 +85,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: tuna
     name: Tuna
     rarity: COMMON
@@ -100,6 +104,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: cod
     name: cod
     rarity: COMMON
@@ -117,6 +123,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: salmon
     name: salmon
     rarity: COMMON
@@ -134,6 +142,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: clownfish
     name: Clownfish
     rarity: RARE
@@ -151,6 +161,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: goldfish
     name: Goldfish
     rarity: RARE
@@ -168,6 +180,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: blue_tang
     name: Blue tang
     rarity: RARE
@@ -185,6 +199,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: butterfly
     name: Butterfly Fish
     rarity: COMMON
@@ -202,6 +218,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: pufferfish
     name: Pufferfish
     rarity: RARE
@@ -219,6 +237,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: catfish
     name: Catfish
     rarity: EPIC
@@ -236,6 +256,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: blobfish
     name: Blobfish
     rarity: LEGENDARY
@@ -253,6 +275,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: swordfish
     name: Swordfish
     rarity: EPIC
@@ -270,6 +294,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: skatefish
     name: Skatefish
     rarity: EPIC
@@ -287,6 +313,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: red_seahorse
     name: Red Sea horse
     rarity: LEGENDARY
@@ -304,6 +332,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: blue_seahorse
     name: Blue Sea horse
     rarity: LEGENDARY
@@ -321,6 +351,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: anime
     name: Kawaii fish
     rarity: LEGENDARY
@@ -338,6 +370,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: red_squid
     name: Red squid
     rarity: LEGENDARY
@@ -355,6 +389,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: purple_squid
     name: Purple squid
     rarity: LEGENDARY
@@ -372,6 +408,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
   - id: hammerhead_shark
     name: Hammerhead shark
     rarity: LEGENDARY
@@ -389,6 +427,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
 
 
 #Fish rarities:
@@ -398,6 +438,7 @@ common-fish-minigame-speed: 0.3
 common-fish-alive-time-min: 100
 common-fish-alive-time-max: 200
 common-fish-xp: 2
+common-fish-display-name: "<gray>Common"
 
 rare-fish-fishes-required-to-spawn-min: 20 #20
 rare-fish-fishes-required-to-spawn-max: 40 #40
@@ -407,6 +448,7 @@ rare-fish-minigame-speed: 0.6
 rare-fish-alive-time-min: 100
 rare-fish-alive-time-max: 200
 rare-fish-xp: 5
+rare-fish-display-name: "<blue>Rare"
 
 epic-fish-fishes-required-to-spawn-min: 100 #100
 epic-fish-fishes-required-to-spawn-max: 200 #200
@@ -416,6 +458,7 @@ epic-fish-minigame-speed: 1.0
 epic-fish-alive-time-min: 100
 epic-fish-alive-time-max: 200
 epic-fish-xp: 30
+epic-fish-display-name: "<dark_purple>Epic"
 
 legendary-fish-fishes-required-to-spawn-min: 500 #500
 legendary-fish-fishes-required-to-spawn-max: 1000 #1000
@@ -425,6 +468,7 @@ legendary-fish-minigame-speed: 1.3
 legendary-fish-alive-time-min: 100
 legendary-fish-alive-time-max: 200
 legendary-fish-xp: 100
+legendary-fish-display-name: "<gold>Legendary"
 
 #Gameplay settings:
 water-amount: 7
@@ -464,3 +508,55 @@ rank-boost-permission: "ice"
 rank-boost-display-none-content: "<aqua>The lake is currently <red>not</red> boosted.<br>Purchase <bold>ICE</bold> to boost the chances of spawning rare fish by 3x!"
 rank-boost-display-boosted-content: "<aqua>Boosted by <bold><player></bold>.<br>Rare fish spawn chances are increased by <bold><red>3x."
 rank-boost-amount: 3
+
+#Menus:
+#main menu:
+main-menu-size: 36
+main-menu-name: "Fishing Menu"
+
+main-menu-close-item-name: "Close"
+main-menu-close-item-lore: "Closes this menu"
+main-menu-close-item-index: 32
+main-menu-close-item-material: "BARRIER"
+main-menu-close-item-model-data: 1
+
+main-menu-fish-collection-item-name: "<yellow>Fishing Collections"
+main-menu-fish-collection-item-lore: "<yellow>See what fishes<br>you've caught!"
+main-menu-fish-collection-item-index: 1
+main-menu-fish-collection-item-material: "BOOK"
+main-menu-fish-collection-item-model-data: 1
+
+main-menu-rod-customization-item-name: "Rod Customization"
+main-menu-rod-customization-item-lore: "<red>Coming soon..."
+main-menu-rod-customization-item-index: 2
+main-menu-rod-customization-item-material: "BARRIER"
+main-menu-rod-customization-item-model-data: 1
+
+main-menu-rewards-item-name: "Rewards"
+main-menu-rewards-item-lore: "<red>Coming soon..."
+main-menu-rewards-item-index: 3
+main-menu-rewards-item-material: "BARRIER"
+main-menu-rewards-item-model-data: 1
+
+main-menu-stats-item-name: "Stats"
+main-menu-stats-item-lore: "<white>Playtime: <playtime><br><red>XP: <xp><br><white>Fishes Caught: <fishes_caught><br><common_fishes_caught> <rare_fishes_caught> <epic_fishes_caught> <legendary_fishes_caught>" #xp, playtime, fishes_caught, common_fishes_caught, rare_fishes_caught, epic_fishes_caught, legendary_fishes_caught
+main-menu-stats-item-index: 5
+main-menu-stats-item-material: "PAPER"
+main-menu-stats-item-model-data: 1
+
+#fishing collection menu:
+fishing-collection-menu-size: 36
+fishing-collection-menu-name: "Fish Collections"
+
+fishing-collection-menu-close-item-name: "Close"
+fishing-collection-menu-close-item-lore: "Closes this menu"
+fishing-collection-menu-close-item-index: 32
+fishing-collection-menu-close-item-material: "BARRIER"
+fishing-collection-menu-close-item-model-data: 1
+
+
+fishing-collection-menu-fish-min-index: 1
+fishing-collection-menu-fish-max-index: 34
+fishing-collection-menu-undiscovered-fish-material: "BARRIER"
+fishing-collection-menu-undiscovered-fish-lore: "<rarity><br><gray>You have not discovered<br>this fish yet!"
+fishing-collection-menu-discovered-fish-lore: "<rarity><br><white>You have discovered this fish!<br>You've caught it <times_caught> times." #times_caught

@@ -10,11 +10,12 @@ enum class FishRarity(
     var aliveTimeMin: Int,
     var aliveTimeMax: Int,
     var xp: Int,
+    var displayName: String,
 ) {
-    COMMON(0, -1, -1, -1.0, -1, -1, -1, -1, -1),
-    RARE(1, -1, -1, -1.0, -1, -1, -1, -1, -1),
-    EPIC(2, -1, -1, -1.0, -1, -1, -1, -1, -1),
-    LEGENDARY(3, -1, -1, -1.0, -1, -1, -1, -1, -1),
+    COMMON(0, -1, -1, -1.0, -1, -1, -1, -1, -1, ""),
+    RARE(1, -1, -1, -1.0, -1, -1, -1, -1, -1, ""),
+    EPIC(2, -1, -1, -1.0, -1, -1, -1, -1, -1, ""),
+    LEGENDARY(3, -1, -1, -1.0, -1, -1, -1, -1, -1, ""),
 }
 
 

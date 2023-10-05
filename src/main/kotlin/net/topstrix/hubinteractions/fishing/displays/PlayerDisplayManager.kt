@@ -39,7 +39,8 @@ class PlayerDisplayManager(private val uuid: UUID) {
             val display = it.statsDisplayLocation.world
                 .spawnEntity(it.statsDisplayLocation, EntityType.TEXT_DISPLAY) as TextDisplay
 
-            val key = NamespacedKey(HubInteractions.plugin, "fishing-removable") //Mark entity, for removal upon server start
+            val key =
+                NamespacedKey(HubInteractions.plugin, "fishing-removable") //Mark entity, for removal upon server start
             display.persistentDataContainer.set(key, PersistentDataType.BOOLEAN, true)
 
             display.isVisibleByDefault = false
@@ -51,9 +52,11 @@ class PlayerDisplayManager(private val uuid: UUID) {
             displays.add(display)
         }
     }
+
     fun updateDisplays() {
         displays.forEach { it.text(getDisplayText()) }
     }
+
     fun removeDisplays() {
         displays.forEach { it.remove() }
     }
@@ -63,7 +66,7 @@ class PlayerDisplayManager(private val uuid: UUID) {
             FishingUtil.fishingConfig.statsDisplayContent,
             Placeholder.component(
                 "playtime",
-                text(playerData.playtime.toString())
+                text((playerData.playtime?.let { it / 3600 }).toString())
             ),
             Placeholder.component(
                 "xp",

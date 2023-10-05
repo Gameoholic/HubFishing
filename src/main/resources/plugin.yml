@@ -16,3 +16,6 @@ commands:
   spawnfish:
     description: Spawns a fish in your current lake.
     usage: /spawnfish <variant_id?> <alive_time?> <fish_speed?>
+  fishing:
+    description: Opens the fishing menu.
+    usage: /fishing

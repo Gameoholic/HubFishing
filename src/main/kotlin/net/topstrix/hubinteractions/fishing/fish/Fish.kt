@@ -101,18 +101,6 @@ class Fish(
         val direction = nextLocation.clone().subtract(currentLocation).toVector().normalize()
         val velocity = direction.multiply(variant.speed)
         armorStand.velocity = velocity
-
-        //To maintain its Y level, we have to teleport it each tick otherwise it sinks because of water
-        armorStand.teleport(
-            Location(
-                armorStand.world,
-                armorStand.x,
-                fishLakeManager.armorStandYLevel,
-                armorStand.z,
-                armorStand.yaw,
-                armorStand.pitch
-            )
-        )
     }
 
     /**

@@ -1,6 +1,7 @@
 package net.topstrix.hubinteractions.fishing.util
 
 import net.topstrix.hubinteractions.HubInteractions
+import net.topstrix.hubinteractions.fishing.commands.FishingCommand
 import net.topstrix.hubinteractions.fishing.commands.SpawnFishCommand
 import net.topstrix.hubinteractions.fishing.config.FishingConfig
 import net.topstrix.hubinteractions.fishing.config.FishingFileParser
@@ -56,6 +57,7 @@ object FishingUtil {
         Bukkit.getPluginManager().registerEvents(PlayerQuitListener, HubInteractions.plugin)
 
         HubInteractions.plugin.getCommand("spawnfish")!!.setExecutor(SpawnFishCommand)
+        HubInteractions.plugin.getCommand("fishing")!!.setExecutor(FishingCommand)
 
         SQLUtil.load(fishingConfig.fishVariants)
 
@@ -107,6 +109,7 @@ object FishingUtil {
 
         //todo: this doesn't really do anything sicne chunks aren't loaded I think
         fishingConfig.world.entities.forEach {
+            println("REMOVING ENTITY $it")
             val container: PersistentDataContainer = it.persistentDataContainer
             if (container.has(key, PersistentDataType.BOOLEAN)) {
                 it.remove()

@@ -20,4 +20,6 @@ data class FishVariant(
     @SerialName("minigame-hitbox-width") val minigameHitboxWidth: Double,
     @SerialName("minigame-character") val minigameCharacter: Char,
     @SerialName("minigame-character-height") val minigameCharacterHeight: Int,
+    @SerialName("menu-material") val menuMaterial: Material,
+    @SerialName("menu-model-data") val menuModelData: Int,
 )
