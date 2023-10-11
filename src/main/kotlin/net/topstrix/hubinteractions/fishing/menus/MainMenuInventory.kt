@@ -68,6 +68,7 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
         items[FishingUtil.fishingConfig.mainMenuRodCustomizationItemIndex] = getRodCustomizationItem()
         items[FishingUtil.fishingConfig.mainMenuRewardsItemIndex] = getRewardsItem()
         items[FishingUtil.fishingConfig.mainMenuStatsItemIndex] = getStatsItem()
+        items[FishingUtil.fishingConfig.mainMenuCrateShardsItemIndex] = getCrateShardsItem()
         items[FishingUtil.fishingConfig.mainMenuCloseItemIndex] = getCloseItem()
 
         return items
@@ -214,6 +215,30 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
         item.itemMeta = meta
         return item
     }
+    private fun getCrateShardsItem(): ItemStack {
+        val item = ItemStack(FishingUtil.fishingConfig.mainMenuCrateShardsItemMaterial, 1)
+        val meta = item.itemMeta
+
+        meta.displayName(
+            MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.mainMenuCrateShardsItemName)
+                .decoration(TextDecoration.ITALIC, false)
+        )
+        meta.lore(FishingUtil.fishingConfig.mainMenuCrateShardsItemLore.split("<newline>", "<br>")
+            .map {
+                MiniMessage.miniMessage().deserialize(it).decoration(TextDecoration.ITALIC, false)
+            }
+        )
+        //Make item uniquely identifiable for inventory click detection with ID
+        meta.persistentDataContainer.set(
+            NamespacedKey(HubInteractions.plugin, "menu_item"),
+            PersistentDataType.STRING,
+            "crate_shards"
+        )
+        meta.setCustomModelData(FishingUtil.fishingConfig.mainMenuCrateShardsItemModelData)
+
+        item.itemMeta = meta
+        return item
+    }
 
     private fun getCloseItem(): ItemStack {
         val item = ItemStack(FishingUtil.fishingConfig.mainMenuCloseItemMaterial, 1)
@@ -260,9 +285,20 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
             .get(NamespacedKey(HubInteractions.plugin, "menu_item"), PersistentDataType.STRING)
         when (menuItemId) {
             "fish_collection" -> handleFishCollectionItemClick(player)
+            "crate_shards" -> handleCrateShardsItemClick(player)
             "close_menu" -> handleCloseMenuItemClick(player)
             "coming_soon" -> {}
         }
+    }
+
+    private fun handleCrateShardsItemClick(player: Player) {
+        //Because InventoryClickEvent occurs within a modification of the Inventory, Inventory related methods aren't safe to use,
+        //so we schedule a tick later
+        object : BukkitRunnable() {
+            override fun run() {
+                player.openInventory(CrateShardsInventory(player.uniqueId).inventory)
+            }
+        }.runTask(HubInteractions.plugin)
     }
 
     /**

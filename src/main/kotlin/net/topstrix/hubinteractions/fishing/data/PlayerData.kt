@@ -1,5 +1,6 @@
 package net.topstrix.hubinteractions.fishing.data
 
+import net.topstrix.hubinteractions.fishing.crate.Crate
 import net.topstrix.hubinteractions.fishing.data.sql.SQLUtil
 import net.topstrix.hubinteractions.fishing.fish.FishVariant
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
@@ -21,6 +22,7 @@ import kotlin.collections.HashMap
 class PlayerData(val playerUUID: UUID) {
     var fishesCaught: HashMap<FishVariant, Int>? = null
     var fishesUncaught: HashMap<FishVariant, Int>? = null
+    var crateShards: HashMap<Crate, Int>? = null
     var xp: Int? = null
     var playtime: Int? = null
 
@@ -32,15 +34,22 @@ class PlayerData(val playerUUID: UUID) {
      */
     fun fetchData(): Boolean {
         SQLUtil.fetchPlayerData(this)
+
+        var a = HashMap<Crate, Int>()
+        FishingUtil.fishingConfig.crates.forEach {
+            a[it] = 0
+        }
+        crateShards = a //todo: remove this shit
+
         return !(fishesCaught == null || fishesUncaught == null || xp == null || playtime == null
             || fishesCaught?.size != FishingUtil.fishingConfig.fishVariants.size ||
-            fishesUncaught?.size != FishingUtil.fishingConfig.fishVariants.size
+            fishesUncaught?.size != FishingUtil.fishingConfig.fishVariants.size ||
+            crateShards?.size != FishingUtil.fishingConfig.crates.size
             )
     }
 
     /**
-     * Uploads the data of this PlayerData instance
-     * to the database.
+     * Uploads the data of this PlayerData instance to the database.
      */
     fun uploadData() {
         LoggerUtil.debug("Uploading player data for player ${playerUUID}")
@@ -85,5 +94,21 @@ class PlayerData(val playerUUID: UUID) {
         if (fishesUncaught == null) return
         fishesUncaught!![fishVariant]?.let { fishesUncaught!![fishVariant] = it + amount }
         FishingUtil.playerDisplayManagers[playerUUID]?.updateDisplays()
+    }
+
+    /**
+     * Increases the crate shards for a certain crate by a certain amount.
+     */
+    fun increaseCrateShards(crate: Crate, amount: Int) {
+        if (crateShards == null) return
+        crateShards!![crate]?.let { crateShards!![crate] = it + amount }
+    }
+
+    /**
+     * Sets the crate shards for a certain crate to 0.
+     */
+    fun resetCrateShards(crate: Crate) {
+        if (crateShards == null) return
+        crateShards!![crate]?.let { crateShards!![crate] = 0 }
     }
 }

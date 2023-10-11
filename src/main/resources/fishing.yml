@@ -26,7 +26,7 @@ fish-lake-managers:
     corner-2:
       world: "world"
       x: 24.0
-      y: 71.0
+      y: 140.0
       z: -286.0
     armor-stand-y-level: 67.0
     fish-amount-chances:
@@ -429,7 +429,17 @@ fish-variants:
     minigame-character-height: 6
     menu-material: "STONE"
     menu-model-data: 0
-
+crates:
+  - id: "default"
+    display-name: "Default"
+    amount-of-shards-to-craft: 3
+    command-to-craft: "say hi"
+    chance: 0.75
+  - id: "default2"
+    display-name: "Default more rare"
+    amount-of-shards-to-craft: 3
+    command-to-craft: "say hi"
+    chance: 0.25
 
 #Fish rarities:
 common-fish-minigame-min-direction-duration: 30
@@ -439,6 +449,7 @@ common-fish-alive-time-min: 100
 common-fish-alive-time-max: 200
 common-fish-xp: 2
 common-fish-display-name: "<gray>Common"
+common-fish-crate-shard-chance: 0.1
 
 rare-fish-fishes-required-to-spawn-min: 20 #20
 rare-fish-fishes-required-to-spawn-max: 40 #40
@@ -449,6 +460,7 @@ rare-fish-alive-time-min: 100
 rare-fish-alive-time-max: 200
 rare-fish-xp: 5
 rare-fish-display-name: "<blue>Rare"
+rare-fish-crate-shard-chance: 0.3
 
 epic-fish-fishes-required-to-spawn-min: 100 #100
 epic-fish-fishes-required-to-spawn-max: 200 #200
@@ -459,6 +471,7 @@ epic-fish-alive-time-min: 100
 epic-fish-alive-time-max: 200
 epic-fish-xp: 30
 epic-fish-display-name: "<dark_purple>Epic"
+epic-fish-crate-shard-chance: 0.6
 
 legendary-fish-fishes-required-to-spawn-min: 500 #500
 legendary-fish-fishes-required-to-spawn-max: 1000 #1000
@@ -469,6 +482,7 @@ legendary-fish-alive-time-min: 100
 legendary-fish-alive-time-max: 200
 legendary-fish-xp: 100
 legendary-fish-display-name: "<gold>Legendary"
+legendary-fish-crate-shard-chance: 1.0
 
 #Gameplay settings:
 water-amount: 7
@@ -543,6 +557,12 @@ main-menu-stats-item-lore: "<white>Playtime: <playtime><br><red>XP: <xp><br><whi
 main-menu-stats-item-index: 5
 main-menu-stats-item-material: "PAPER"
 main-menu-stats-item-model-data: 1
+
+main-menu-crate-shards-item-name: "Crate Shards"
+main-menu-crate-shards-item-lore: "Test"
+main-menu-crate-shards-item-index: "6"
+main-menu-rod-crate-shards-item-material: ""
+main-menu-rod-crate-shards-item-model-data: 1
 
 #fishing collection menu:
 fishing-collection-menu-size: 36

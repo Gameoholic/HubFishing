@@ -2,6 +2,7 @@ package net.topstrix.hubinteractions.fishing.config
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import net.topstrix.hubinteractions.fishing.crate.Crate
 import net.topstrix.hubinteractions.fishing.fish.FishVariant
 import net.topstrix.hubinteractions.fishing.util.LoggerUtil
 import net.topstrix.hubinteractions.shared.serialization.WorldSerializer
@@ -14,6 +15,7 @@ data class FishingConfig(
     @SerialName("log-level") val logLevel: LoggerUtil.LogLevel,
     @SerialName("fish-lake-managers") val fishLakeManagersSettings: List<FishLakeManagerSettings>,
     @SerialName("fish-variants") val fishVariants: List<FishVariant>,
+    @SerialName("crates") val crates: List<Crate>,
     @SerialName("water-amount") val waterAmount: Int,
     @SerialName("water-character") val waterCharacter: Char,
     @SerialName("water-character-height") val waterCharacterHeight: Int,
@@ -114,6 +116,15 @@ data class FishingConfig(
     @SerialName("fishing-collection-menu-close-item-index") val fishingCollectionMenuCloseItemIndex: Int,
     @SerialName("fishing-collection-menu-close-item-name") val fishingCollectionMenuCloseItemName: String,
     @SerialName("fishing-collection-menu-close-item-lore") val fishingCollectionMenuCloseItemLore: String,
+    @SerialName("common-fish-crate-shard-chance") val commonFishCrateShardChance: Double,
+    @SerialName("rare-fish-crate-shard-chance") val rareFishCrateShardChance: Double,
+    @SerialName("epic-fish-crate-shard-chance") val epicFishCrateShardChance: Double,
+    @SerialName("legendary-fish-crate-shard-chance") val legendaryFishCrateShardChance: Double,
+    @SerialName("main-menu-crate-shards-item-name") val mainMenuCrateShardsItemName: String,
+    @SerialName("main-menu-crate-shards-item-lore") val mainMenuCrateShardsItemLore: String,
+    @SerialName("main-menu-crate-shards-item-index") val mainMenuCrateShardsItemIndex: Int,
+    @SerialName("main-menu-crate-shards-item-material") val mainMenuCrateShardsItemMaterial: Material,
+    @SerialName("main-menu-crate-shards-item-model-data") val mainMenuCrateShardsItemModelData: Int,
     )
 
 

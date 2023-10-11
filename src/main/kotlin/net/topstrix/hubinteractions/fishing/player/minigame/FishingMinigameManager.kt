@@ -3,6 +3,7 @@ package net.topstrix.hubinteractions.fishing.player.minigame
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.title.TitlePart
 import net.topstrix.hubinteractions.HubInteractions
+import net.topstrix.hubinteractions.fishing.crate.CrateUtil
 import net.topstrix.hubinteractions.fishing.fish.Fish
 import net.topstrix.hubinteractions.fishing.player.FishingPlayer
 import net.topstrix.hubinteractions.fishing.player.minigame.states.*
@@ -184,6 +185,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
                 it.increaseFishesCaught(caughtFish.variant, 1)
                 it.increaseXP(caughtFish.variant.rarity.xp)
             }
+            CrateUtil.attemptGiveShard(fishingPlayer.uuid, caughtFish.variant)
             caughtFish.remove()
         }
         else if (minigameEndReason == MinigameEndReason.RAN_OUT_OF_ATTEMPTS) {
@@ -204,4 +206,8 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         task.cancel()
         fishingPlayer.hook.remove()
     }
+
+
+
+
 }
