@@ -125,6 +125,19 @@ data class FishingConfig(
     @SerialName("main-menu-crate-shards-item-index") val mainMenuCrateShardsItemIndex: Int,
     @SerialName("main-menu-crate-shards-item-material") val mainMenuCrateShardsItemMaterial: Material,
     @SerialName("main-menu-crate-shards-item-model-data") val mainMenuCrateShardsItemModelData: Int,
+    @SerialName("crate-shards-menu-size") val crateShardsMenuSize: Int,
+    @SerialName("crate-shards-menu-name") val crateShardsMenuName: String,
+    @SerialName("crate-shards-menu-close-item-material") val crateShardsMenuCloseItemMaterial: Material,
+    @SerialName("crate-shards-menu-close-item-model-data") val crateShardsMenuCloseItemModelData: Int,
+    @SerialName("crate-shards-menu-close-item-index") val crateShardsMenuCloseItemIndex: Int,
+    @SerialName("crate-shards-menu-close-item-name") val crateShardsMenuCloseItemName: String,
+    @SerialName("crate-shards-menu-close-item-lore") val crateShardsMenuCloseItemLore: String,
+    @SerialName("crate-shards-menu-crate-min-index") val crateShardsMenuCrateMinIndex: Int,
+    @SerialName("crate-shards-menu-crate-max-index") val crateShardsMenuCrateMaxIndex: Int,
+    @SerialName("crate-shards-menu-crate-name") val crateShardsMenuCrateName: String,
+    @SerialName("crate-shards-menu-crate-lore") val crateShardsMenuCrateLore: String,
+
+
     )
 
 

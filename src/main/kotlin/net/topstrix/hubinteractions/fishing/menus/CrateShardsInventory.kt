@@ -1,6 +1,7 @@
 package net.topstrix.hubinteractions.fishing.menus
 
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
@@ -8,6 +9,7 @@ import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.fish.FishVariant
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import org.bukkit.Bukkit
+import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -24,10 +26,9 @@ import kotlin.collections.HashMap
 class CrateShardsInventory(private val playerUUID: UUID) : FishingInventory {
     override val inv: Inventory = Bukkit.createInventory(
         this,
-        FishingUtil.fishingConfig.fishingCollectionMenuSize,
-        MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.fishingCollectionMenuName)
+        FishingUtil.fishingConfig.crateShardsMenuSize,
+        MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.crateShardsMenuName)
     )
-
 
     override var eventsAreRegistered = false
 
@@ -53,95 +54,78 @@ class CrateShardsInventory(private val playerUUID: UUID) : FishingInventory {
     }
 
     /**
-     * Generates the inventory contents for the fishing collection menu
+     * Generates the inventory contents for the crate shards menu
      * @return The item indexes mapped to the item stacks
      */
     private fun getInventoryItems(): HashMap<Int, ItemStack> {
         val items = hashMapOf<Int, ItemStack>()
 
-        val startIndex = FishingUtil.fishingConfig.fishingCollectionMenuFishMinIndex
-        val maxIndex = FishingUtil.fishingConfig.fishingCollectionMenuFishMaxIndex
+        val startIndex = FishingUtil.fishingConfig.crateShardsMenuCrateMinIndex
+        val maxIndex = FishingUtil.fishingConfig.crateShardsMenuCrateMaxIndex
 
         //sort fishes caught by rarity
-        val fishesCaught = FishingUtil.playerData.firstOrNull { it.playerUUID == playerUUID }?.let {
-            it.fishesCaught?.toSortedMap(compareBy<FishVariant> { variant -> variant.rarity.value }.thenBy { variant -> variant.id })
-        } ?: return items
+        val crates = FishingUtil.playerData.firstOrNull { it.playerUUID == playerUUID }?.crateShards ?: return items
+        var crateIndex = 0
 
         for (i in startIndex until maxIndex) {
             //Rectangular menu
             if (i % 9 > maxIndex % 9 || i % 9 < startIndex % 9) {
                 continue
             }
-            if (i >= fishesCaught.entries.size)
+
+            if (crateIndex >= crates.entries.size)
                 break
 
-            val fishVariantEntry = fishesCaught.entries.elementAt(i)
-            val fishVariant = fishVariantEntry.key
-            val timesCaught = fishVariantEntry.value
+            val crateEntry = crates.entries.elementAt(crateIndex)
+            val crate = crateEntry.key
+            val crateShardAmount = crateEntry.value
 
-            var item: ItemStack
-            var meta: ItemMeta
-            if (timesCaught > 0) {
-                item = ItemStack(FishingUtil.fishingConfig.fishingCollectionMenuUndiscoveredFishMaterial, 1)
-                meta = item.itemMeta
-                meta.displayName(
-                    MiniMessage.miniMessage().deserialize(fishVariant.name).decoration(TextDecoration.ITALIC, false)
-                )
-                meta.lore(
-                    FishingUtil.fishingConfig.fishingCollectionMenuDiscoveredFishLore.split("<newline>", "<br>")
+            val item = ItemStack(crate.menuMaterial, 1)
+            val meta = item.itemMeta
+            meta.displayName(
+                MiniMessage.miniMessage().deserialize(
+                    FishingUtil.fishingConfig.crateShardsMenuCrateName,
+                    Placeholder.component("crate", text(crate.displayName))
+                ).decoration(TextDecoration.ITALIC, false)
+            )
+            meta.lore(
+                FishingUtil.fishingConfig.crateShardsMenuCrateLore.split("<newline>", "<br>")
                     .map {
                         MiniMessage.miniMessage().deserialize(
                             it,
-                            Placeholder.component("times_caught", Component.text(timesCaught)),
+                            Placeholder.component("current_shards", text(crateShardAmount)),
+                            Placeholder.component("required_shards", text(crate.amountOfShardsToCraft)),
                             Placeholder.component(
-                                "rarity",
-                                MiniMessage.miniMessage().deserialize(fishVariant.rarity.displayName)
-                            )
-                        )
-                            .decoration(TextDecoration.ITALIC, false)
-                    }
-                )
-            } else {
-                item = ItemStack(fishVariant.menuMaterial, 1)
-                meta = item.itemMeta
-                meta.displayName(
-                    MiniMessage.miniMessage().deserialize(fishVariant.name).decoration(TextDecoration.ITALIC, false)
-                )
-                meta.lore(
-                    FishingUtil.fishingConfig.fishingCollectionMenuUndiscoveredFishLore.split("<newline>", "<br>")
-                    .map {
-                        MiniMessage.miniMessage().deserialize(
-                            it,
-                            Placeholder.component(
-                                "rarity",
-                                MiniMessage.miniMessage().deserialize(fishVariant.rarity.displayName)
-                            )
+                                "shards_left",
+                                text(crate.amountOfShardsToCraft - crateShardAmount)
+                            ),
+                            Placeholder.component("crate", text(crate.displayName)),
                         ).decoration(TextDecoration.ITALIC, false)
                     }
-                )
-                meta.setCustomModelData(fishVariant.menuModelData)
-            }
+            )
+
             item.itemMeta = meta
             items[i] = item
+            crateIndex++
         }
-        items[FishingUtil.fishingConfig.fishingCollectionMenuCloseItemIndex] = getCloseItem()
+        items[FishingUtil.fishingConfig.crateShardsMenuCloseItemIndex] = getCloseItem()
 
         return items
     }
 
     private fun getCloseItem(): ItemStack {
-        val item = ItemStack(FishingUtil.fishingConfig.fishingCollectionMenuCloseItemMaterial, 1)
+        val item = ItemStack(FishingUtil.fishingConfig.crateShardsMenuCloseItemMaterial, 1)
         val meta = item.itemMeta
 
         meta.displayName(
-            MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.fishingCollectionMenuCloseItemName)
+            MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.crateShardsMenuCloseItemName)
                 .decoration(TextDecoration.ITALIC, false)
         )
         meta.lore(
-            FishingUtil.fishingConfig.fishingCollectionMenuCloseItemLore.split("<newline>", "<br>")
-            .map {
-                MiniMessage.miniMessage().deserialize(it).decoration(TextDecoration.ITALIC, false)
-            }
+            FishingUtil.fishingConfig.crateShardsMenuCloseItemLore.split("<newline>", "<br>")
+                .map {
+                    MiniMessage.miniMessage().deserialize(it).decoration(TextDecoration.ITALIC, false)
+                }
         )
         //Make item uniquely identifiable for inventory click detection with ID
         meta.persistentDataContainer.set(
@@ -149,18 +133,19 @@ class CrateShardsInventory(private val playerUUID: UUID) : FishingInventory {
             PersistentDataType.STRING,
             "close_menu"
         )
-        meta.setCustomModelData(FishingUtil.fishingConfig.fishingCollectionMenuCloseItemModelData)
+        meta.setCustomModelData(FishingUtil.fishingConfig.crateShardsMenuCloseItemModelData)
 
         item.itemMeta = meta
         return item
     }
+
     @EventHandler
     override fun onInventoryClick(e: InventoryClickEvent) {
         if (e.whoClicked.uniqueId != playerUUID) return
 
         val clickedInv = e.clickedInventory
         //Add null check in case player clicked outside of window
-        if (clickedInv == null || e.inventory.getHolder(false) !is FishCollectionInventory) return
+        if (clickedInv == null || e.inventory.getHolder(false) !is CrateShardsInventory) return
 
         val player = e.whoClicked as? Player ?: return
 

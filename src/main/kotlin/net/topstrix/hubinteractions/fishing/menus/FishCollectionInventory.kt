@@ -65,16 +65,17 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
         val fishesCaught = FishingUtil.playerData.firstOrNull { it.playerUUID == playerUUID }?.let {
             it.fishesCaught?.toSortedMap(compareBy<FishVariant> { variant -> variant.rarity.value }.thenBy { variant -> variant.id })
         } ?: return items
+        var fishIndex = 0
 
         for (i in startIndex until maxIndex) {
             //Rectangular menu
             if (i % 9 > maxIndex % 9 || i % 9 < startIndex % 9) {
                 continue
             }
-            if (i >= fishesCaught.entries.size)
+            if (fishIndex >= fishesCaught.entries.size)
                 break
 
-            val fishVariantEntry = fishesCaught.entries.elementAt(i)
+            val fishVariantEntry = fishesCaught.entries.elementAt(fishIndex)
             val fishVariant = fishVariantEntry.key
             val timesCaught = fishVariantEntry.value
 
@@ -120,6 +121,7 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
             }
             item.itemMeta = meta
             items[i] = item
+            fishIndex++
         }
         items[FishingUtil.fishingConfig.fishingCollectionMenuCloseItemIndex] = getCloseItem()
 
