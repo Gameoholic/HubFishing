@@ -26,7 +26,7 @@ object HubInteractions {
 
         plugin.saveResource("config.yml", false)
         plugin.saveResource("elytraspots.yml", false)
-        plugin.saveResource("fishing.yml", true)
+        plugin.saveResource("fishing.yml", false)
 
         plugin.getCommand("test")!!.setExecutor(TestCommand)
         plugin.getCommand("test2")!!.setExecutor(Test2Command)

@@ -433,13 +433,13 @@ crates:
   - id: "default"
     display-name: "Default"
     amount-of-shards-to-craft: 3
-    command-to-craft: "say hi"
+    command-to-craft: "say /give crate default"
     chance: 0.75
     menu-material: "STONE"
   - id: "default2"
     display-name: "Default more rare"
     amount-of-shards-to-craft: 3
-    command-to-craft: "say hi"
+    command-to-craft: "say /give crate default2"
     chance: 0.25
     menu-material: "STONE"
 
@@ -451,7 +451,7 @@ common-fish-alive-time-min: 100
 common-fish-alive-time-max: 200
 common-fish-xp: 2
 common-fish-display-name: "<gray>Common"
-common-fish-crate-shard-chance: 0.1
+common-fish-crate-shard-chance: 0.005
 
 rare-fish-fishes-required-to-spawn-min: 20 #20
 rare-fish-fishes-required-to-spawn-max: 40 #40
@@ -462,7 +462,7 @@ rare-fish-alive-time-min: 100
 rare-fish-alive-time-max: 200
 rare-fish-xp: 5
 rare-fish-display-name: "<blue>Rare"
-rare-fish-crate-shard-chance: 0.3
+rare-fish-crate-shard-chance: 0.01
 
 epic-fish-fishes-required-to-spawn-min: 100 #100
 epic-fish-fishes-required-to-spawn-max: 200 #200
@@ -473,7 +473,7 @@ epic-fish-alive-time-min: 100
 epic-fish-alive-time-max: 200
 epic-fish-xp: 30
 epic-fish-display-name: "<dark_purple>Epic"
-epic-fish-crate-shard-chance: 0.6
+epic-fish-crate-shard-chance: 0.1
 
 legendary-fish-fishes-required-to-spawn-min: 500 #500
 legendary-fish-fishes-required-to-spawn-max: 1000 #1000
