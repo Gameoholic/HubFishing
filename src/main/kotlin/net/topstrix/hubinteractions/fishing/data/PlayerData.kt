@@ -35,12 +35,6 @@ class PlayerData(val playerUUID: UUID) {
     fun fetchData(): Boolean {
         SQLUtil.fetchPlayerData(this)
 
-        var a = HashMap<Crate, Int>()
-        FishingUtil.fishingConfig.crates.forEach {
-            a[it] = 0
-        }
-        crateShards = a //todo: remove this shit
-
         return !(fishesCaught == null || fishesUncaught == null || xp == null || playtime == null
             || fishesCaught?.size != FishingUtil.fishingConfig.fishVariants.size ||
             fishesUncaught?.size != FishingUtil.fishingConfig.fishVariants.size ||

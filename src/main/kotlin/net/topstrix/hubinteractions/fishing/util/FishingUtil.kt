@@ -61,7 +61,7 @@ object FishingUtil {
         HubInteractions.plugin.getCommand("spawnfish")!!.setExecutor(SpawnFishCommand)
         HubInteractions.plugin.getCommand("fishing")!!.setExecutor(FishingCommand)
 
-        SQLUtil.load(fishingConfig.fishVariants)
+        SQLUtil.load(fishingConfig.fishVariants, fishingConfig.crates)
     }
 
     fun onTick() {
