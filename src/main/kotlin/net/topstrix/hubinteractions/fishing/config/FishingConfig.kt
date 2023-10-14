@@ -136,8 +136,11 @@ data class FishingConfig(
     @SerialName("crate-shards-menu-crate-max-index") val crateShardsMenuCrateMaxIndex: Int,
     @SerialName("crate-shards-menu-crate-name") val crateShardsMenuCrateName: String,
     @SerialName("crate-shards-menu-crate-lore") val crateShardsMenuCrateLore: String,
-
-
+    @SerialName("level-initial-xp-requirement") val levelInitialXPRequirement: Int,
+    @SerialName("level-xp-requirement-growth") val levelXPRequirementGrowth: Int,
+    @SerialName("level-xp-requirement-growth-multiplier") val levelXPRequirementGrowthMultiplier: Double,
+    @SerialName("level-growth-delay") val levelGrowthDelay: Int,
+    @SerialName("level-xp-requirement-growth-cap") val levelXPRequirementGrowthCap: Int
     )
 
 

@@ -519,11 +519,18 @@ long-rod-character-height: 10
 #General:
 world:
   name: "world" #world used for cleaning up old fishing displays
-stats-display-content: "<White>Playtime: <playtime><br><red>XP: <xp><br><white>Fishes Caught: <fishes_caught><br><common_fishes_caught> <rare_fishes_caught> <epic_fishes_caught> <legendary_fishes_caught>" #xp, playtime, fishes_caught, common_fishes_caught, rare_fishes_caught, epic_fishes_caught, legendary_fishes_caught
+stats-display-content: "<White>Playtime: <playtime><br><red>Level: <level>. To level up: <xp>/<total_xp_to_level_up> (<remaining_xp_to_level_up>)<br><white>Fishes Caught: <fishes_caught><br><common_fishes_caught> <rare_fishes_caught> <epic_fishes_caught> <legendary_fishes_caught>" #xp, total_xp, total_xp_to_level_up, level, remaining_xp_to_level_up, playtime, fishes_caught, common_fishes_caught, rare_fishes_caught, epic_fishes_caught, legendary_fishes_caught
 rank-boost-permission: "ice"
 rank-boost-display-none-content: "<aqua>The lake is currently <red>not</red> boosted.<br>Purchase <bold>ICE</bold> to boost the chances of spawning rare fish by 3x!"
 rank-boost-display-boosted-content: "<aqua>Boosted by <bold><player></bold>.<br>Rare fish spawn chances are increased by <bold><red>3x."
 rank-boost-amount: 3
+
+#Levels: 20/min. 200/ 10 min
+level-initial-xp-requirement: 5
+level-xp-requirement-growth: 5
+level-xp-requirement-growth-cap: 10000
+level-xp-requirement-growth-multiplier: 2.0
+level-growth-delay: 5
 
 #Menus:
 #main menu:
@@ -555,7 +562,7 @@ main-menu-rewards-item-material: "BARRIER"
 main-menu-rewards-item-model-data: 1
 
 main-menu-stats-item-name: "Stats"
-main-menu-stats-item-lore: "<white>Playtime: <playtime><br><red>XP: <xp><br><white>Fishes Caught: <fishes_caught><br><common_fishes_caught> <rare_fishes_caught> <epic_fishes_caught> <legendary_fishes_caught>" #xp, playtime, fishes_caught, common_fishes_caught, rare_fishes_caught, epic_fishes_caught, legendary_fishes_caught
+main-menu-stats-item-lore: "<white>Playtime: <playtime><br>Level: <level>. To level up: <xp>/<total_xp_to_level_up> (<remaining_xp_to_level_up>)<br><red>Total XP: <total_xp><br><white>Fishes Caught: <fishes_caught><br><common_fishes_caught> <rare_fishes_caught> <epic_fishes_caught> <legendary_fishes_caught>" #xp, playtime, fishes_caught, common_fishes_caught, rare_fishes_caught, epic_fishes_caught, legendary_fishes_caught
 main-menu-stats-item-index: 5
 main-menu-stats-item-material: "PAPER"
 main-menu-stats-item-model-data: 1

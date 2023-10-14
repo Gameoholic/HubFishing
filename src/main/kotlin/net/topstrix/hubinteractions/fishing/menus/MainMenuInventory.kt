@@ -170,6 +170,26 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
                         text((playerData?.xp ?: "Unknown").toString())
                     ),
                     Placeholder.component(
+                        "total_xp",
+                        text((playerData?.xp ?: "Unknown").toString())
+                    ),
+                    Placeholder.component(
+                        "total_xp_to_level_up",
+                        text((playerData?.levelData?.neededXPToLevelUp ?: "Unknown").toString())
+                    ),
+                    Placeholder.component(
+                        "remaining_xp_to_level_up",
+                        text((playerData?.levelData?.remainingXPToLevelUp ?: "Unknown").toString())
+                    ),
+                    Placeholder.component(
+                        "xp",
+                        text((playerData?.levelData?.remainderXP ?: "Unknown").toString())
+                    ),
+                    Placeholder.component(
+                        "level",
+                        text((playerData?.levelData?.level ?: "Unknown").toString())
+                    ),
+                    Placeholder.component(
                         "fishes_caught",
                         text((playerData?.fishesCaught?.values?.sum() ?: "Unknown").toString())
                     ),

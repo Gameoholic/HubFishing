@@ -69,8 +69,24 @@ class PlayerDisplayManager(private val uuid: UUID) {
                 text((playerData.playtime?.let { it / 3600 }).toString())
             ),
             Placeholder.component(
-                "xp",
+                "total_xp",
                 text(playerData.xp.toString())
+            ),
+            Placeholder.component(
+                "total_xp_to_level_up",
+                text(playerData.levelData?.neededXPToLevelUp.toString())
+            ),
+            Placeholder.component(
+                "remaining_xp_to_level_up",
+                text(playerData.levelData?.remainingXPToLevelUp.toString())
+            ),
+            Placeholder.component(
+                "xp",
+                text(playerData.levelData?.remainderXP.toString())
+            ),
+            Placeholder.component(
+                "level",
+                text(playerData.levelData?.level.toString())
             ),
             Placeholder.component(
                 "fishes_caught",

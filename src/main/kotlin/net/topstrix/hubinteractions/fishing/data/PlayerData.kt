@@ -24,6 +24,7 @@ class PlayerData(val playerUUID: UUID) {
     var fishesUncaught: HashMap<FishVariant, Int>? = null
     var crateShards: HashMap<Crate, Int>? = null
     var xp: Int? = null
+    var levelData: LevelUtil.LevelData? = null
     var playtime: Int? = null
 
 
@@ -34,6 +35,9 @@ class PlayerData(val playerUUID: UUID) {
      */
     fun fetchData(): Boolean {
         SQLUtil.fetchPlayerData(this)
+        xp?.let {
+            levelData = LevelUtil.getLevelData(it)
+        }
 
         return !(fishesCaught == null || fishesUncaught == null || xp == null || playtime == null
             || fishesCaught?.size != FishingUtil.fishingConfig.fishVariants.size ||
@@ -62,11 +66,15 @@ class PlayerData(val playerUUID: UUID) {
 
     /**
      * Increases the xp by a certain amount, and updates all displays
-     * to match the new amount
+     * to match the new amount.
+     * Levels up the player if needed.
      */
     fun increaseXP(amount: Int) {
         if (xp == null) return
-        xp?.let { xp = it + amount }
+        xp?.let {
+            xp = it + amount
+            levelData = LevelUtil.getLevelData(it + amount)
+        }
         FishingUtil.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
 
