@@ -176,8 +176,10 @@ class FishLakeManager(
         }
 
         fishingPlayers.toList().forEach { // fishing players can be removed, so we convert to list
-            if (Bukkit.getPlayer(it.uuid) == null || it.hook.isDead) // If player logged off, or rod somehow got removed, remove from collections
+            if (Bukkit.getPlayer(it.uuid) == null) // If player logged off, remove from collections
                 removePlayer(it.uuid)
+            else if (it.hook.isDead) // If hook is no longer alive for some reason, remove from fishing players
+                removePlayerFromFishingPlayers(it.uuid)
             else
                 it.onTick()
         }
