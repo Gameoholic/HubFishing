@@ -171,12 +171,12 @@ class FishLakeManager(
     }
 
     fun onTick() {
-        fishes.toList().forEach {  //fishes can be removed on onTick, so we convert to list
+        fishes.toList().forEach {  // fishes can be removed on onTick, so we convert to list
             it.onTick()
         }
 
-        fishingPlayers.toList().forEach { //fishing players can be removed, so we convert to list
-            if (Bukkit.getPlayer(it.uuid) == null) //If player logged off, remove from collections
+        fishingPlayers.toList().forEach { // fishing players can be removed, so we convert to list
+            if (Bukkit.getPlayer(it.uuid) == null || it.hook.isDead) // If player logged off, or rod somehow got removed, remove from collections
                 removePlayer(it.uuid)
             else
                 it.onTick()

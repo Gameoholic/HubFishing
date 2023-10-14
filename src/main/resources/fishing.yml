@@ -10,12 +10,12 @@ sql-query-timeout: 1000
 fish-lake-managers:
   - spawn-corner-1:
       world: "world"
-      x: 17.0
+      x: 10.0
       y: 68.8
       z: -293.0
     spawn-corner-2:
       world: "world"
-      x: 21.0
+      x: 31.0
       y: 68.8
       z: -289.0
     corner-1:
