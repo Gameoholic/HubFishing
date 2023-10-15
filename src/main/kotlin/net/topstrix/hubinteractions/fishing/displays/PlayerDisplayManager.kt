@@ -1,5 +1,6 @@
 package net.topstrix.hubinteractions.fishing.displays
 
+import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -13,13 +14,13 @@ import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Display
 import org.bukkit.entity.EntityType
+import org.bukkit.entity.Player
 import org.bukkit.entity.TextDisplay
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataType
 import java.util.*
 
 
-//todo :remove all when server starts. add some sort of tag.
 /**
  * This adds, removes, updates and manages the text displays for
  * every player.
@@ -54,16 +55,23 @@ class PlayerDisplayManager(private val uuid: UUID) {
     }
 
     fun updateDisplays() {
-        displays.forEach { it.text(getDisplayText()) }
+        displays.forEach {
+            it.text(getDisplayText())
+        }
     }
 
     fun removeDisplays() {
         displays.forEach { it.remove() }
     }
-
+//todo: sort out the ? playerdata mess in the entire plugin.
+    /**
+     * Gets the text for the display, and applies plugin placeholders with player data and PAPI placeholders.
+     * @return The component for the display text.
+     */
     private fun getDisplayText(): Component {
+        val player = Bukkit.getPlayer(playerData.playerUUID)
         return MiniMessage.miniMessage().deserialize(
-            FishingUtil.fishingConfig.statsDisplayContent,
+            PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.statsDisplayContent),
             Placeholder.component(
                 "playtime",
                 text((playerData.playtime?.let { it / 3600 }).toString())

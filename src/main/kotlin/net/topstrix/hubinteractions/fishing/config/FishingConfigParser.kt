@@ -7,20 +7,22 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 
-object FishingFileParser {
+object FishingConfigParser {
 
     /**
      * Parses the fishing config files and returns the config for them.
      * @return The fishing config
      */
-    fun parseFile(): FishingConfig {
+    fun parseConfig(): FishingConfig {
         var files = listOf(
             "fishing/config.yml",
             "fishing/crates.yml",
             "fishing/fish_lake_managers.yml",
             "fishing/fish_variants.yml",
             "fishing/menus.yml",
-            "fishing/sql.yml"
+            "fishing/messages.yml",
+            "fishing/sounds.yml",
+            "fishing/sql.yml",
         )
         var input = ""
         files.forEach {

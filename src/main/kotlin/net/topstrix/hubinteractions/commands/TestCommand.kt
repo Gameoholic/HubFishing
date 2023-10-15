@@ -13,6 +13,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 
 
@@ -20,13 +21,9 @@ object TestCommand : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
         if (sender !is Player) return true
 
-        val msg = PlaceholderAPI.setPlaceholders(sender, "%player_x% <level>")
-        sender.sendMessage(
-            MiniMessage.miniMessage().deserialize(
-                msg,
-                Placeholder.component("level", text("level1"))
-            )
-        )
+
+        val msg = PlaceholderAPI.setPlaceholders(sender, "a%player_x%b <level>")
+
         return true
     }
 }

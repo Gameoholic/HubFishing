@@ -1,5 +1,6 @@
 package net.topstrix.hubinteractions.fishing.menus
 
+import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.TextDecoration
@@ -24,10 +25,12 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class CrateShardsInventory(private val playerUUID: UUID) : FishingInventory {
+    val player = Bukkit.getPlayer(playerUUID)
     override val inv: Inventory = Bukkit.createInventory(
         this,
         FishingUtil.fishingConfig.crateShardsMenuSize,
-        MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.crateShardsMenuName)
+        MiniMessage.miniMessage()
+            .deserialize(PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.crateShardsMenuName))
     )
 
     override var eventsAreRegistered = false
@@ -84,7 +87,7 @@ class CrateShardsInventory(private val playerUUID: UUID) : FishingInventory {
             val meta = item.itemMeta
             meta.displayName(
                 MiniMessage.miniMessage().deserialize(
-                    FishingUtil.fishingConfig.crateShardsMenuCrateName,
+                    PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.crateShardsMenuCrateName),
                     Placeholder.component("crate", text(crate.displayName))
                 ).decoration(TextDecoration.ITALIC, false)
             )
@@ -92,7 +95,7 @@ class CrateShardsInventory(private val playerUUID: UUID) : FishingInventory {
                 FishingUtil.fishingConfig.crateShardsMenuCrateLore.split("<newline>", "<br>")
                     .map {
                         MiniMessage.miniMessage().deserialize(
-                            it,
+                            PlaceholderAPI.setPlaceholders(player, it),
                             Placeholder.component("current_shards", text(crateShardAmount)),
                             Placeholder.component("required_shards", text(crate.amountOfShardsToCraft)),
                             Placeholder.component(
@@ -118,13 +121,16 @@ class CrateShardsInventory(private val playerUUID: UUID) : FishingInventory {
         val meta = item.itemMeta
 
         meta.displayName(
-            MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.crateShardsMenuCloseItemName)
+            MiniMessage.miniMessage().deserialize(
+                PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.crateShardsMenuCloseItemName)
+            )
                 .decoration(TextDecoration.ITALIC, false)
         )
         meta.lore(
             FishingUtil.fishingConfig.crateShardsMenuCloseItemLore.split("<newline>", "<br>")
                 .map {
-                    MiniMessage.miniMessage().deserialize(it).decoration(TextDecoration.ITALIC, false)
+                    MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(player, it))
+                        .decoration(TextDecoration.ITALIC, false)
                 }
         )
         //Make item uniquely identifiable for inventory click detection with ID

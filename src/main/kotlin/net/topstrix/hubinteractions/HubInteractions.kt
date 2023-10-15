@@ -2,15 +2,9 @@ package net.topstrix.hubinteractions
 
 import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.ProtocolManager
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import net.topstrix.hubinteractions.commands.Test2Command
 import net.topstrix.hubinteractions.commands.TestCommand
 import net.topstrix.hubinteractions.elytraspots.ElytraSpotsUtil
-import net.topstrix.hubinteractions.elytraspots.config.ElytraSpotsFileParser
-import net.topstrix.hubinteractions.fishing.config.FishingFileParser
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import org.bukkit.scheduler.BukkitRunnable
 
@@ -33,6 +27,8 @@ object HubInteractions {
         plugin.saveResource("fishing/fish_variants.yml", true)
         plugin.saveResource("fishing/menus.yml", true)
         plugin.saveResource("fishing/sql.yml", true)
+        plugin.saveResource("fishing/messages.yml", true)
+        plugin.saveResource("fishing/sounds.yml", true)
 
         plugin.getCommand("test")!!.setExecutor(TestCommand)
         plugin.getCommand("test2")!!.setExecutor(Test2Command)

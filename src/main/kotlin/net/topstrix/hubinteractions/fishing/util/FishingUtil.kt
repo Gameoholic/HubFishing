@@ -4,7 +4,7 @@ import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.commands.FishingCommand
 import net.topstrix.hubinteractions.fishing.commands.SpawnFishCommand
 import net.topstrix.hubinteractions.fishing.config.FishingConfig
-import net.topstrix.hubinteractions.fishing.config.FishingFileParser
+import net.topstrix.hubinteractions.fishing.config.FishingConfigParser
 import net.topstrix.hubinteractions.fishing.data.PlayerData
 import net.topstrix.hubinteractions.fishing.data.sql.SQLUtil
 import net.topstrix.hubinteractions.fishing.displays.PlayerDisplayManager
@@ -34,7 +34,7 @@ object FishingUtil {
     val playerDisplayManagers = mutableMapOf<UUID, PlayerDisplayManager>()
 
     fun onEnable() {
-        fishingConfig = FishingFileParser.parseFile()
+        fishingConfig = FishingConfigParser.parseConfig()
 
         removeOldEntities()
 

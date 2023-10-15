@@ -1,0 +1,3 @@
+rank-boost-display-none-content: "<aqua>The lake is currently <red>not</red> boosted.<br>Purchase <bold>ICE</bold> to boost the chances of spawning rare fish by 3x!"
+rank-boost-display-boosted-content: "<aqua>Boosted by <bold><player></bold>.<br>Rare fish spawn chances are increased by <bold><red>3x."
+stats-display-content: "<White>Playtime: <playtime><br><red>Level: <level>. To level up: <xp>/<total_xp_to_level_up> (<remaining_xp_to_level_up>)<br><white>Fishes Caught: <fishes_caught><br><common_fishes_caught> <rare_fishes_caught> <epic_fishes_caught> <legendary_fishes_caught>" #xp, total_xp, total_xp_to_level_up, level, remaining_xp_to_level_up, playtime, fishes_caught, common_fishes_caught, rare_fishes_caught, epic_fishes_caught, legendary_fishes_caught

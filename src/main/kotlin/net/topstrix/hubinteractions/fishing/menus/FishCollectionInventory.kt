@@ -1,5 +1,6 @@
 package net.topstrix.hubinteractions.fishing.menus
 
+import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -21,10 +22,13 @@ import org.bukkit.scheduler.BukkitRunnable
 import java.util.UUID
 
 class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
+    val player = Bukkit.getPlayer(playerUUID)
     override val inv: Inventory = Bukkit.createInventory(
         this,
         FishingUtil.fishingConfig.fishingCollectionMenuSize,
-        MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.fishingCollectionMenuName)
+        MiniMessage.miniMessage().deserialize(
+            PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.fishingCollectionMenuName)
+        )
     )
 
 
@@ -85,34 +89,37 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
                 item = ItemStack(FishingUtil.fishingConfig.fishingCollectionMenuUndiscoveredFishMaterial, 1)
                 meta = item.itemMeta
                 meta.displayName(
-                    MiniMessage.miniMessage().deserialize(fishVariant.name).decoration(TextDecoration.ITALIC, false)
+                    MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(player, fishVariant.name))
+                        .decoration(TextDecoration.ITALIC, false)
                 )
                 meta.lore(FishingUtil.fishingConfig.fishingCollectionMenuDiscoveredFishLore.split("<newline>", "<br>")
                     .map {
                         MiniMessage.miniMessage().deserialize(
-                            it,
+                            PlaceholderAPI.setPlaceholders(player, it),
                             Placeholder.component("times_caught", text(timesCaught)),
                             Placeholder.component(
                                 "rarity",
                                 MiniMessage.miniMessage().deserialize(fishVariant.rarity.displayName)
                             )
-                        )
-                            .decoration(TextDecoration.ITALIC, false)
+                        ).decoration(TextDecoration.ITALIC, false)
                     }
                 )
             } else {
                 item = ItemStack(fishVariant.menuMaterial, 1)
                 meta = item.itemMeta
                 meta.displayName(
-                    MiniMessage.miniMessage().deserialize(fishVariant.name).decoration(TextDecoration.ITALIC, false)
+                    MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(player, fishVariant.name))
+                        .decoration(TextDecoration.ITALIC, false)
                 )
                 meta.lore(FishingUtil.fishingConfig.fishingCollectionMenuUndiscoveredFishLore.split("<newline>", "<br>")
                     .map {
                         MiniMessage.miniMessage().deserialize(
-                            it,
+                            PlaceholderAPI.setPlaceholders(player, it),
                             Placeholder.component(
                                 "rarity",
-                                MiniMessage.miniMessage().deserialize(fishVariant.rarity.displayName)
+                                MiniMessage.miniMessage().deserialize(
+                                    PlaceholderAPI.setPlaceholders(player, fishVariant.rarity.displayName)
+                                )
                             )
                         ).decoration(TextDecoration.ITALIC, false)
                     }
@@ -133,12 +140,18 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
         val meta = item.itemMeta
 
         meta.displayName(
-            MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.fishingCollectionMenuCloseItemName)
+            MiniMessage.miniMessage().deserialize(
+                PlaceholderAPI.setPlaceholders(
+                    player,
+                    FishingUtil.fishingConfig.fishingCollectionMenuCloseItemName
+                )
+            )
                 .decoration(TextDecoration.ITALIC, false)
         )
         meta.lore(FishingUtil.fishingConfig.fishingCollectionMenuCloseItemLore.split("<newline>", "<br>")
             .map {
-                MiniMessage.miniMessage().deserialize(it).decoration(TextDecoration.ITALIC, false)
+                MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(player, it))
+                    .decoration(TextDecoration.ITALIC, false)
             }
         )
         //Make item uniquely identifiable for inventory click detection with ID
@@ -152,6 +165,7 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
         item.itemMeta = meta
         return item
     }
+
     @EventHandler
     override fun onInventoryClick(e: InventoryClickEvent) {
         if (e.whoClicked.uniqueId != playerUUID) return

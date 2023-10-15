@@ -1,5 +1,6 @@
 package net.topstrix.hubinteractions.fishing.menus
 
+import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -25,10 +26,14 @@ import kotlin.collections.HashMap
 
 
 class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
+    private val player = Bukkit.getPlayer(playerUUID)
+
     override val inv: Inventory = Bukkit.createInventory(
         this,
         FishingUtil.fishingConfig.mainMenuSize,
-        MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.mainMenuName)
+        MiniMessage.miniMessage().deserialize(
+            PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.mainMenuName)
+        )
     )
     override var eventsAreRegistered = false
 
@@ -79,14 +84,21 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
         val meta = item.itemMeta
 
         meta.displayName(
-            MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.mainMenuFishCollectionItemName)
-                .decoration(TextDecoration.ITALIC, false)
+            MiniMessage.miniMessage().deserialize(
+                PlaceholderAPI.setPlaceholders(
+                    player,
+                    FishingUtil.fishingConfig.mainMenuFishCollectionItemName
+                )
+            ).decoration(TextDecoration.ITALIC, false)
         )
-        meta.lore(FishingUtil.fishingConfig.mainMenuFishCollectionItemLore.split("<newline>", "<br>")
-            .map {
-                MiniMessage.miniMessage().deserialize(it).decoration(TextDecoration.ITALIC, false)
-            }
+        meta.lore(PlaceholderAPI.setPlaceholders(
+            player,
+            FishingUtil.fishingConfig.mainMenuFishCollectionItemLore.split("<newline>", "<br>")
+        ).map {
+            MiniMessage.miniMessage().deserialize(it).decoration(TextDecoration.ITALIC, false)
+        }
         )
+
         //Make item uniquely identifiable for inventory click detection with ID
         meta.persistentDataContainer.set(
             NamespacedKey(HubInteractions.plugin, "menu_item"),
@@ -104,12 +116,14 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
         val meta = item.itemMeta
 
         meta.displayName(
-            MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.mainMenuRodCustomizationItemName)
-                .decoration(TextDecoration.ITALIC, false)
+            MiniMessage.miniMessage().deserialize(
+                PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.mainMenuRodCustomizationItemName)
+            ).decoration(TextDecoration.ITALIC, false)
         )
         meta.lore(FishingUtil.fishingConfig.mainMenuRodCustomizationItemLore.split("<newline>", "<br>")
             .map {
-                MiniMessage.miniMessage().deserialize(it).decoration(TextDecoration.ITALIC, false)
+                MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(player, it))
+                    .decoration(TextDecoration.ITALIC, false)
             }
         )
         //Make item uniquely identifiable for inventory click detection with ID
@@ -129,12 +143,15 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
         val meta = item.itemMeta
 
         meta.displayName(
-            MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.mainMenuRewardsItemName)
-                .decoration(TextDecoration.ITALIC, false)
+            MiniMessage.miniMessage().deserialize(
+                PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.mainMenuRewardsItemName)
+            ).decoration(TextDecoration.ITALIC, false)
         )
         meta.lore(FishingUtil.fishingConfig.mainMenuRewardsItemLore.split("<newline>", "<br>")
             .map {
-                MiniMessage.miniMessage().deserialize(it).decoration(TextDecoration.ITALIC, false)
+                MiniMessage.miniMessage().deserialize(
+                    PlaceholderAPI.setPlaceholders(player, it)
+                ).decoration(TextDecoration.ITALIC, false)
             }
         )
         //Make item uniquely identifiable for inventory click detection with ID
@@ -154,13 +171,14 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
         val meta = item.itemMeta
 
         meta.displayName(
-            MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.mainMenuStatsItemName)
+            MiniMessage.miniMessage()
+                .deserialize(PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.mainMenuStatsItemName))
                 .decoration(TextDecoration.ITALIC, false)
         )
         meta.lore(FishingUtil.fishingConfig.mainMenuStatsItemLore.split("<newline>", "<br>")
             .map {
                 MiniMessage.miniMessage().deserialize(
-                    it,
+                    PlaceholderAPI.setPlaceholders(player, it),
                     Placeholder.component(
                         "playtime",
                         text((playerData?.playtime?.let { playtime -> playtime / 3600 } ?: "Unknown").toString())
@@ -235,17 +253,20 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
         item.itemMeta = meta
         return item
     }
+
     private fun getCrateShardsItem(): ItemStack {
         val item = ItemStack(FishingUtil.fishingConfig.mainMenuCrateShardsItemMaterial, 1)
         val meta = item.itemMeta
 
         meta.displayName(
-            MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.mainMenuCrateShardsItemName)
-                .decoration(TextDecoration.ITALIC, false)
+            MiniMessage.miniMessage().deserialize(
+                PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.mainMenuCrateShardsItemName)
+            ).decoration(TextDecoration.ITALIC, false)
         )
         meta.lore(FishingUtil.fishingConfig.mainMenuCrateShardsItemLore.split("<newline>", "<br>")
             .map {
-                MiniMessage.miniMessage().deserialize(it).decoration(TextDecoration.ITALIC, false)
+                MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(player, it))
+                    .decoration(TextDecoration.ITALIC, false)
             }
         )
         //Make item uniquely identifiable for inventory click detection with ID
@@ -265,12 +286,14 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
         val meta = item.itemMeta
 
         meta.displayName(
-            MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.mainMenuCloseItemName)
-                .decoration(TextDecoration.ITALIC, false)
+            MiniMessage.miniMessage().deserialize(
+                PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.mainMenuCloseItemName)
+            ).decoration(TextDecoration.ITALIC, false)
         )
         meta.lore(FishingUtil.fishingConfig.mainMenuCloseItemLore.split("<newline>", "<br>")
             .map {
-                MiniMessage.miniMessage().deserialize(it).decoration(TextDecoration.ITALIC, false)
+                MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(player, it))
+                    .decoration(TextDecoration.ITALIC, false)
             }
         )
         //Make item uniquely identifiable for inventory click detection with ID
