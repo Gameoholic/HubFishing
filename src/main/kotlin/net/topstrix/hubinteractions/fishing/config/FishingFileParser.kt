@@ -10,12 +10,23 @@ import java.nio.file.Path
 object FishingFileParser {
 
     /**
-     * Parses the fishing.yml file and returns the config for it.
-     * @return The config for elytra spots
+     * Parses the fishing config files and returns the config for them.
+     * @return The fishing config
      */
     fun parseFile(): FishingConfig {
-        val filePath = File(HubInteractions.plugin.dataFolder, "fishing.yml").path
-        val input = Files.readString(Path.of(filePath))
+        var files = listOf(
+            "fishing/config.yml",
+            "fishing/crates.yml",
+            "fishing/fish_lake_managers.yml",
+            "fishing/fish_variants.yml",
+            "fishing/menus.yml",
+            "fishing/sql.yml"
+        )
+        var input = ""
+        files.forEach {
+            val filePath = File(HubInteractions.plugin.dataFolder, it).path
+            input += Files.readString(Path.of(filePath)) + "\n"
+        }
         val fishingConfig = Yaml.default.decodeFromString(FishingConfig.serializer(), input)
 
         loadFishRarities(fishingConfig)

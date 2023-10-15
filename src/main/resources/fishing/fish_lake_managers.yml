@@ -1,0 +1,40 @@
+fish-lake-managers:
+  - spawn-corner-1:
+      world: "world"
+      x: 17.0
+      y: 68.8
+      z: -293.0
+    spawn-corner-2:
+      world: "world"
+      x: 21.0
+      y: 68.8
+      z: -289.0
+    corner-1:
+      world: "world"
+      x: -5.0
+      y: 64.0
+      z: -295.0
+    corner-2:
+      world: "world"
+      x: 80.0
+      y: 140.0
+      z: -286.0
+    armor-stand-y-level: 67.0
+    fish-amount-chances:
+      1: 0.5
+      2: 0.4
+      3: 0.05
+      4: 0.05
+    max-fish-count: 10
+    stats-display-location:
+      world: "world"
+      x: 24.0
+      y: 73.0
+      z: -286.0
+    rank-boost-display-location:
+      world: "world"
+      x: 20.0
+      y: 73.0
+      z: -286.0
+    permission-required-to-enter: test
+    fish-spawning-algorithm-curve: 0.16

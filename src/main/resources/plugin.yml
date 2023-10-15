@@ -5,7 +5,7 @@ description: '$description'
 api-version: '$apiVersion'
 authors:
   - Gameoholic
-depend: [ ProtocolLib ]
+depend: [ ProtocolLib, PlaceholderAPI ]
 commands:
   test:
     description: Test

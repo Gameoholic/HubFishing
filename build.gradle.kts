@@ -24,7 +24,12 @@ java {
 repositories {
     mavenCentral()
     mavenLocal()
-    maven { url = uri("https://repo.dmulloy2.net/repository/public/") }
+    maven {
+        url = uri("https://repo.dmulloy2.net/repository/public/")
+    }
+    maven {
+        url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    }
 }
 
 
@@ -40,6 +45,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.0.1")
 
     compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
+    compileOnly("me.clip:placeholderapi:2.11.4")
 }
 
 

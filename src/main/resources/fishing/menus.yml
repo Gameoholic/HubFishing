@@ -1,0 +1,72 @@
+#Menus:
+#main menu:
+main-menu-size: 36
+main-menu-name: "Fishing Menu"
+
+main-menu-close-item-name: "Close"
+main-menu-close-item-lore: "Closes this menu"
+main-menu-close-item-index: 32
+main-menu-close-item-material: "BARRIER"
+main-menu-close-item-model-data: 1
+
+main-menu-fish-collection-item-name: "<yellow>Fishing Collections"
+main-menu-fish-collection-item-lore: "<yellow>See what fishes<br>you've caught!"
+main-menu-fish-collection-item-index: 1
+main-menu-fish-collection-item-material: "BOOK"
+main-menu-fish-collection-item-model-data: 1
+
+main-menu-rod-customization-item-name: "Rod Customization"
+main-menu-rod-customization-item-lore: "<red>Coming soon..."
+main-menu-rod-customization-item-index: 2
+main-menu-rod-customization-item-material: "BARRIER"
+main-menu-rod-customization-item-model-data: 1
+
+main-menu-rewards-item-name: "Rewards"
+main-menu-rewards-item-lore: "<red>Coming soon..."
+main-menu-rewards-item-index: 3
+main-menu-rewards-item-material: "BARRIER"
+main-menu-rewards-item-model-data: 1
+
+main-menu-stats-item-name: "Stats"
+main-menu-stats-item-lore: "<white>Playtime: <playtime><br>Level: <level>. To level up: <xp>/<total_xp_to_level_up> (<remaining_xp_to_level_up>)<br><red>Total XP: <total_xp><br><white>Fishes Caught: <fishes_caught><br><common_fishes_caught> <rare_fishes_caught> <epic_fishes_caught> <legendary_fishes_caught>" #xp, playtime, fishes_caught, common_fishes_caught, rare_fishes_caught, epic_fishes_caught, legendary_fishes_caught
+main-menu-stats-item-index: 5
+main-menu-stats-item-material: "PAPER"
+main-menu-stats-item-model-data: 1
+
+main-menu-crate-shards-item-name: "<gold>Crate Shards"
+main-menu-crate-shards-item-lore: "<white>Earn <gold>Crate Shards</gold> from fishing.<br><white>Forge enough of them to get a <red>crate.<br><white><red>0.5%</red> chance to get a shard from <gray>common</gray> fish.<br><white><red>1%</red> chance to get a shard from <blue>rare</blue> fish.<br><white><red>10%</red> chance to get a shard from <dark_purple>epic</dark_purple> fish.<br><white><gold>100%</gold> chance to get a shard from <gold>legendary</gold> fish."
+main-menu-crate-shards-item-index: "6"
+main-menu-crate-shards-item-material: "STONE"
+main-menu-crate-shards-item-model-data: 1
+
+#fishing collection menu:
+fishing-collection-menu-size: 36
+fishing-collection-menu-name: "Fish Collections"
+
+fishing-collection-menu-close-item-name: "Close"
+fishing-collection-menu-close-item-lore: "Closes this menu"
+fishing-collection-menu-close-item-index: 32
+fishing-collection-menu-close-item-material: "BARRIER"
+fishing-collection-menu-close-item-model-data: 1
+
+
+fishing-collection-menu-fish-min-index: 1
+fishing-collection-menu-fish-max-index: 34
+fishing-collection-menu-undiscovered-fish-material: "BARRIER"
+fishing-collection-menu-undiscovered-fish-lore: "<rarity><br><gray>You have not discovered<br>this fish yet!"
+fishing-collection-menu-discovered-fish-lore: "<rarity><br><white>You have discovered this fish!<br>You've caught it <times_caught> times." #times_caught
+
+#crate shards menu:
+crate-shards-menu-size: 36
+crate-shards-menu-name: "Crate Shards"
+
+crate-shards-menu-close-item-name: "Close"
+crate-shards-menu-close-item-lore: "Closes this menu"
+crate-shards-menu-close-item-index: 32
+crate-shards-menu-close-item-material: "BARRIER"
+crate-shards-menu-close-item-model-data: 1
+
+crate-shards-menu-crate-min-index: 1
+crate-shards-menu-crate-max-index: 34
+crate-shards-menu-crate-name: "<crate> shard"
+crate-shards-menu-crate-lore: "<white>Your shards: <red><current_shards></red> / <required_shards><br><white>Obtain <red><shards_left></red> more shards to forge a <gold><crate></gold> crate!"
