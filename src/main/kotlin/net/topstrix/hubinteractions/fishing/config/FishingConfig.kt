@@ -71,7 +71,7 @@ data class FishingConfig(
     @SerialName("world") val world: @Serializable(with = WorldSerializer::class) World,
     @SerialName("rank-boost-display-none-content") val rankBoostDisplayNoneContent: String,
     @SerialName("rank-boost-display-boosted-content") val rankBoostDisplayBoostedContent: String,
-    @SerialName("rank-boost-amount") val rankBoostAmount: Int,
+    @SerialName("rank-boost-amount") val rankBoostAmount: Double,
     @SerialName("rank-boost-permission") val rankBoostPermission: String,
     @SerialName("fishing-collection-menu-undiscovered-fish-material") val fishingCollectionMenuUndiscoveredFishMaterial: Material,
     @SerialName("fishing-collection-menu-undiscovered-fish-lore") val fishingCollectionMenuUndiscoveredFishLore: String,

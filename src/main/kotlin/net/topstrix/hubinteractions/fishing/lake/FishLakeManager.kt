@@ -66,26 +66,26 @@ class FishLakeManager(
     var fishes = mutableListOf<Fish>()
 
     /** The amount of fishes to be spawned, until a rare one can appear. */
-    private var rareFishesQueueAmount: Int
+    private var rareFishesQueueAmount: Double
 
     /** The amount of fishes to be spawned, until an epic one can appear. */
-    private var epicFishesQueueAmount: Int
+    private var epicFishesQueueAmount: Double
 
     /** The amount of fishes to be spawned, until a legendary one can appear. */
-    private var legendaryFishesQueueAmount: Int
+    private var legendaryFishesQueueAmount: Double
 
     /** The text display that shows whether this lake is boosted. */
     private val rankBoostDisplay: TextDisplay
 
     /** Whether this current lake's fish chances are boosted by someone with a rank. */
     private var isBoosted: Boolean = true //We set to true, so changing it to false in init() would set the text immediately
-    private var queueDecreaseAmount = 1
+    private var queueDecreaseAmount = 1.0
 
     init {
         //Initialize queue amounts for the fish rarities for the first time
-        rareFishesQueueAmount = getFishesQueueAmount(FishRarity.RARE)
-        epicFishesQueueAmount = getFishesQueueAmount(FishRarity.EPIC)
-        legendaryFishesQueueAmount = getFishesQueueAmount(FishRarity.LEGENDARY)
+        rareFishesQueueAmount = getFishesQueueAmount(FishRarity.RARE).toDouble()
+        epicFishesQueueAmount = getFishesQueueAmount(FishRarity.EPIC).toDouble()
+        legendaryFishesQueueAmount = getFishesQueueAmount(FishRarity.LEGENDARY).toDouble()
 
         Bukkit.getPluginManager().registerEvents(this, HubInteractions.plugin)
 
@@ -125,7 +125,7 @@ class FishLakeManager(
             rankBoostDisplay.text(
                 MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.rankBoostDisplayNoneContent)
             )
-            queueDecreaseAmount = 1
+            queueDecreaseAmount = 1.0
         } else {
             rankBoostDisplay.text(
                 MiniMessage.miniMessage().deserialize(
@@ -304,13 +304,13 @@ class FishLakeManager(
 
         LoggerUtil.debug("Current queue amounts: Rare: $rareFishesQueueAmount, Epic: $epicFishesQueueAmount, Leg: $legendaryFishesQueueAmount")
         if (legendaryFishesQueueAmount <= 0) {
-            legendaryFishesQueueAmount = getFishesQueueAmount(FishRarity.LEGENDARY)
+            legendaryFishesQueueAmount = getFishesQueueAmount(FishRarity.LEGENDARY).toDouble()
             return FishRarity.LEGENDARY
         } else if (epicFishesQueueAmount <= 0) {
-            epicFishesQueueAmount = getFishesQueueAmount(FishRarity.EPIC)
+            epicFishesQueueAmount = getFishesQueueAmount(FishRarity.EPIC).toDouble()
             return FishRarity.EPIC
         } else if (rareFishesQueueAmount <= 0) {
-            rareFishesQueueAmount = getFishesQueueAmount(FishRarity.RARE)
+            rareFishesQueueAmount = getFishesQueueAmount(FishRarity.RARE).toDouble()
             return FishRarity.RARE
         }
         return FishRarity.COMMON

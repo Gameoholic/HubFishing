@@ -1,5 +1,9 @@
 log-level: DEBUG
 
+#General:
+world:
+  name: "world" #world used for cleaning up old fishing displays
+
 #Fish rarities:
 common-fish-minigame-min-direction-duration: 30
 common-fish-minigame-max-direction-duration: 50
@@ -43,6 +47,18 @@ legendary-fish-xp: 100
 legendary-fish-display-name: "<gold>Legendary"
 legendary-fish-crate-shard-chance: 1.0
 
+#Levels: 20/min. 200/ 10 min
+level-initial-xp-requirement: 5
+level-xp-requirement-growth: 5
+level-xp-requirement-growth-cap: 10000
+level-xp-requirement-growth-multiplier: 2.0
+level-growth-delay: 5
+
+#Rank boost:
+rank-boost-permission: "ice"
+rank-boost-amount: 2.0
+
+
 #Gameplay settings:
 water-amount: 7
 rod-box-speed: 0.8
@@ -72,16 +88,3 @@ big-rod-characters:
 
 long-rod-character: 'ॖ'
 long-rod-character-height: 10
-
-#General:
-world:
-  name: "world" #world used for cleaning up old fishing displays
-rank-boost-permission: "ice"
-rank-boost-amount: 3
-
-#Levels: 20/min. 200/ 10 min
-level-initial-xp-requirement: 5
-level-xp-requirement-growth: 5
-level-xp-requirement-growth-cap: 10000
-level-xp-requirement-growth-multiplier: 2.0
-level-growth-delay: 5
