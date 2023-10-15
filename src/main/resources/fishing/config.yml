@@ -36,8 +36,8 @@ epic-fish-xp: 30
 epic-fish-display-name: "<dark_purple>Epic"
 epic-fish-crate-shard-chance: 0.1
 
-legendary-fish-fishes-required-to-spawn-min: 500 #500
-legendary-fish-fishes-required-to-spawn-max: 1000 #1000
+legendary-fish-fishes-required-to-spawn-min: 5 #500
+legendary-fish-fishes-required-to-spawn-max: 5 #1000
 legendary-fish-minigame-min-direction-duration: 5
 legendary-fish-minigame-max-direction-duration: 10
 legendary-fish-minigame-speed: 1.3

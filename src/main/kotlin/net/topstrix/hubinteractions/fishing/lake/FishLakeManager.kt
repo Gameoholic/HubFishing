@@ -1,5 +1,8 @@
 package net.topstrix.hubinteractions.fishing.lake
 
+import me.clip.placeholderapi.PlaceholderAPI
+import net.kyori.adventure.key.Key
+import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
@@ -11,10 +14,7 @@ import net.topstrix.hubinteractions.fishing.fish.FishVariant
 import net.topstrix.hubinteractions.fishing.player.FishingPlayerState
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import net.topstrix.hubinteractions.fishing.util.LoggerUtil
-import org.bukkit.Bukkit
-import org.bukkit.Location
-import org.bukkit.Material
-import org.bukkit.NamespacedKey
+import org.bukkit.*
 import org.bukkit.entity.Display
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.TextDisplay
@@ -220,6 +220,18 @@ class FishLakeManager(
             .random(rnd),
         fishAliveTime: Int = fishRarity.aliveTimeMin + rnd.nextInt(fishRarity.aliveTimeMax)
     ) {
+        // Custom spawn message & sound for legendary fish
+        if (fishRarity == FishRarity.LEGENDARY) {
+            allPlayers.forEach {
+                uuid -> uuid
+                Bukkit.getPlayer(uuid)?.let {
+                    it.sendMessage(MiniMessage.miniMessage().deserialize(
+                        PlaceholderAPI.setPlaceholders(it, FishingUtil.fishingConfig.legendaryFishSpawnMessage)
+                    ))
+                    it.playSound(FishingUtil.fishingConfig.legendaryFishSpawnSound, location.x, location.y, location.z)
+                }
+            }
+        }
         fishes.add(
             Fish(
                 this,

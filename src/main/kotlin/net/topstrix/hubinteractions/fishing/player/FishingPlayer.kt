@@ -1,5 +1,9 @@
 package net.topstrix.hubinteractions.fishing.player
 
+import me.clip.placeholderapi.PlaceholderAPI
+import net.kyori.adventure.sound.Sound
+import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import net.topstrix.hubinteractions.fishing.fish.Fish
 import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameManager
@@ -67,6 +71,16 @@ class FishingPlayer(
     private fun onCatchFish(caughtFish: Fish) {
         LoggerUtil.debug("Player $uuid caught fish $caughtFish")
         fishingState = FishingPlayerState.FISH_CAUGHT
+        // Send message & play sound:
+        Bukkit.getPlayer(uuid)?.let {
+            it.sendMessage(MiniMessage.miniMessage().deserialize(
+                PlaceholderAPI.setPlaceholders(it, FishingUtil.fishingConfig.fishCatchMessage),
+                Placeholder.component("rarity",
+                    MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(it, caughtFish.variant.rarity.displayName))
+                ))
+            )
+            it.playSound(FishingUtil.fishingConfig.fishCatchSound, Sound.Emitter.self())
+        }
         caughtFish.caught = true
         FishingMinigameManager(this, caughtFish)
     }

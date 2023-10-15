@@ -1,0 +1,10 @@
+legendary-fish-spawn-sound:
+  name: "minecraft:entity.firework_rocket.twinkle"
+  source: MASTER
+  volume: 1f
+  pitch: 0f
+fish-catch-sound:
+  name: "minecraft:entity.experience_orb.pickup"
+  source: MASTER
+  volume: 1f
+  pitch: 0f
