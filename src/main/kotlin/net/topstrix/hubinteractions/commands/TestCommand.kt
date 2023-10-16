@@ -9,7 +9,9 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import net.kyori.adventure.title.Title
 import net.kyori.adventure.title.TitlePart
 import net.topstrix.hubinteractions.HubInteractions
+import net.topstrix.hubinteractions.fishing.config.FishingConfigParser
 import net.topstrix.hubinteractions.fishing.data.LevelUtil
+import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -24,16 +26,8 @@ object TestCommand : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
         if (sender !is Player) return true
 
-       sender.let {
-            it.sendTitlePart(
-                TitlePart.TIMES,
-                Title.Times.times(Duration.ofMillis(0), Duration.ofMillis(10000), Duration.ofMillis(0))
-            )
-            it.sendTitlePart(
-                TitlePart.TITLE,
-                MiniMessage.miniMessage().deserialize(args!![0]!!)
-            )
-        }
+        FishingUtil.fishingConfig = FishingConfigParser.parseConfig()
+
 
         return true
     }

@@ -54,19 +54,37 @@ level-xp-requirement-growth-cap: 10000
 level-xp-requirement-growth-multiplier: 2.0
 level-growth-delay: 5
 
-#Rank boost:
+# Rank boost:
 rank-boost-permission: "ice"
 rank-boost-amount: 2.0
 
 
-#Gameplay settings:
-water-area-length-pixels: 70.0 #Amount of pixels in which the fish & rodbox can move in
+# Gameplay settings:
+water-area-start-position: 12.6 # Position from the right
+water-area-length-pixels: 55.4 # Amount of pixels in which the fish & rodbox can move in
 rod-box-speed: 0.8
 max-fishing-rod-uses: 50
 
-#Characters:
-water-character: '༁'
+# Characters:
+water-characters:
+  - '༁'
+  - '༂'
+  - '༃'
+  - '༄'
+  - '༅'
+  - '༆'
+  - '༇'
+  - '༈'
+  - '༉'
+  - '༊'
+  - '་'
+  - '༌'
+  - '།'
+  - '༎'
+  - '༏'
+  - '༐'
 water-character-height: 15
+water-animation-speed: 2 #How often the water animation frame updates. If set to 2, for example, will be animated every 2 frames.
 
 rod-box-character: '्'
 rod-box-character-height: 6

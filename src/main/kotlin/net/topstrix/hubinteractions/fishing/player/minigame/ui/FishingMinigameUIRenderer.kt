@@ -1,6 +1,7 @@
 package net.topstrix.hubinteractions.fishing.player.minigame.ui
 
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.title.Title
@@ -99,10 +100,11 @@ abstract class FishingMinigameUIRenderer {
      * @param component The component builder
      * @param character The character to append
      * @param amount The amount of characters to append
+     * @param removeShadow Whether to remove the shadow from the characters
      */
-    protected fun renderCharacters(component: TextComponent.Builder, character: Char, amount: Int) {
+    protected fun renderCharacters(component: TextComponent.Builder, character: Char, amount: Int, removeShadow: Boolean = true) {
         for (i in 0 until amount) {
-            renderCharacter(component, character)
+            renderCharacter(component, character, removeShadow)
             /** We don't want there to be spaces between the characters, so we add
              *  a space after each water character (excluding the last one).
              */
@@ -115,12 +117,16 @@ abstract class FishingMinigameUIRenderer {
      * Appends a character to the component, with a color that removes the shadow from it.
      * @param component The component builder
      * @param character The character to append
+     * @param removeShadow Whether to remove the shadow from the character
      */
-    private fun renderCharacter(component: TextComponent.Builder, character: Char) {
+    fun renderCharacter(component: TextComponent.Builder, character: Char, removeShadow: Boolean = false) {
         /** The color 0x4E5C24 removes the shadow from the character */
-        component.append(
-            Component.text(character).color(TextColor.color(0x4E5C24))
-        )
+        if (removeShadow)
+            component.append(
+                text(character)).color(TextColor.color(0x4E5C24)
+            )
+        else
+            component.append(text(character))
     }
 
     /**

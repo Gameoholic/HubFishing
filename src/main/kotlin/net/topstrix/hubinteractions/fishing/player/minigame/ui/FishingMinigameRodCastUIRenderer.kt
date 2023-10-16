@@ -13,7 +13,7 @@ class FishingMinigameRodCastUIRenderer(override val minigameState: FishingMiniga
     override fun render() {
         val title = Component.text()
         // WATER
-        renderCharacters(title, FishingUtil.fishingConfig.waterCharacter, 1)
+        renderCharacter(title, FishingUtil.fishingConfig.waterCharacters[minigameState.minigameManager.waterAnimationFrame], false)
         // FISH
         renderCharacterSeparately(
             title, minigameState.minigameManager.caughtFish.variant.minigameCharacter,

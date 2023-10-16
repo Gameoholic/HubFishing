@@ -31,8 +31,8 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
     private var state: FishingMinigameState = FishingMinigameFishFoundState(this)
     private val task: BukkitTask
     val fishMovementManager = FishMovementManager(
-        0.0 + caughtFish.variant.minigameCharacterHeight,
-        FishingUtil.fishingConfig.waterAreaLengthPixels,
+        FishingUtil.fishingConfig.waterAreaStartPosition + caughtFish.variant.minigameCharacterHeight,
+        FishingUtil.fishingConfig.waterAreaStartPosition - caughtFish.variant.minigameCharacterHeight + FishingUtil.fishingConfig.waterAreaLengthPixels,
         caughtFish
     )
 
@@ -41,15 +41,18 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
     lateinit var textDisplay: TextDisplay
 
     /** The rod box's min position in UI pixels, from the right */
-    private val rodBoxMinPosition = 0.0 + FishingUtil.fishingConfig.rodBoxCharacterHeight
+    private val rodBoxMinPosition = FishingUtil.fishingConfig.waterAreaStartPosition
 
     /** The rod box's max position in UI pixels, from the right */
-    private val rodBoxMaxPosition = FishingUtil.fishingConfig.waterAreaLengthPixels
+    private val rodBoxMaxPosition = FishingUtil.fishingConfig.waterAreaStartPosition + FishingUtil.fishingConfig.waterAreaLengthPixels
 
     /** The rod box's position in UI pixels, from the right */
     var rodBoxPosition = rodBoxMinPosition + (rodBoxMaxPosition - rodBoxMinPosition) / 2
 
     var fishingRodUsesLeft = FishingUtil.fishingConfig.maxFishingRodUses
+
+    var waterAnimationFrame = 0
+    private var waterAnimationDelay = 0 // When reaches the water animation speed (2 for example), will animate the next frame of the water animation and reset to 0.
 
     init {
         val player = Bukkit.getPlayer(fishingPlayer.uuid) ?: throw RuntimeException("Player is null on FishingMinigameManager init")
@@ -69,7 +72,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
             endMinigame(MinigameEndReason.PLAYER_LEFT)
             return
         }
-        //If player left premises of lake, or hook is dead, end game
+        // If player left premises of lake, or hook is dead, end game
         if (!fishingPlayer.fishLakeManager.fishingPlayers.any { it.uuid == fishingPlayer.uuid} || fishingPlayer.hook.isDead) {
             endMinigame(MinigameEndReason.PLAYER_LEFT)
             return
@@ -77,6 +80,15 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
 
         if (!armorStand.passengers.contains(player))
             armorStand.addPassenger(player)
+
+        // Water animation:
+        waterAnimationDelay++
+        if (waterAnimationDelay >= FishingUtil.fishingConfig.waterAnimationSpeed) {
+            waterAnimationDelay = 0
+            waterAnimationFrame++
+            if (waterAnimationFrame >= FishingUtil.fishingConfig.waterCharacters.size)
+                waterAnimationFrame = 0
+        }
 
         //todo: use predicates for this?
         if (state.stateTicksPassed >= 20 && state is FishingMinigameFishFoundState) {

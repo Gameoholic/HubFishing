@@ -19,7 +19,7 @@ data class FishingConfig(
     @SerialName("fish-variants") val fishVariants: List<FishVariant>,
     @SerialName("crates") val crates: List<Crate>,
     @SerialName("water-area-length-pixels") val waterAreaLengthPixels: Double,
-    @SerialName("water-character") val waterCharacter: Char,
+    @SerialName("water-characters") val waterCharacters: List<Char>,
     @SerialName("water-character-height") val waterCharacterHeight: Int,
     @SerialName("rod-box-speed") val rodBoxSpeed: Double,
     @SerialName("rod-box-character") val rodBoxCharacter: Char,
@@ -153,6 +153,8 @@ data class FishingConfig(
     @SerialName("extension-animation-delay") val extensionAnimationDelay: Int,
     @SerialName("long-rod-end-character-offset") val longRodEndCharacterOffset: Double,
     @SerialName("big-rod-position") val bigRodPosition: Double,
+    @SerialName("water-area-start-position") val waterAreaStartPosition: Double,
+    @SerialName("water-animation-speed") val waterAnimationSpeed: Int
     )
 
 
