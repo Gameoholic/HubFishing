@@ -91,8 +91,12 @@ big-rod-characters:
   - '॔'
   - 'ॕ'
   - 'ॕ'
-  - 'क़' #unduped
   - 'ख़' #unduped
 
 long-rod-character: 'ॖ'
 long-rod-character-height: 10
+long-rod-end-character: 'ॸ'
+long-rod-end-character-height: 10
+long-rod-end-character-offset: 4.0 #Since long rod end character longer than long rod character, we need to offset it to the left.
+
+extension-animation-delay: -1 #How long to delay before starting the extension animation. Can be set to negative values.

@@ -32,6 +32,8 @@ data class FishingConfig(
     @SerialName("big-rod-characters") val bigRodCharacters: List<Char>,
     @SerialName("long-rod-character-height") val longRodCharacterHeight: Int,
     @SerialName("long-rod-character") val longRodCharacter: Char,
+    @SerialName("long-rod-end-character-height") val longRodEndCharacterHeight: Int,
+    @SerialName("long-rod-end-character") val longRodEndCharacter: Char,
     @SerialName("max-fishing-rod-uses") val maxFishingRodUses: Int,
     @SerialName("common-fish-minigame-min-direction-duration") val commonFishMinigameMinDirectionDuration: Int,
     @SerialName("common-fish-minigame-max-direction-duration") val commonFishMinigameMaxDirectionDuration: Int,
@@ -148,6 +150,8 @@ data class FishingConfig(
     @SerialName("fish-found-message") val fishFoundMessage: String,
     @SerialName("fish-found-sound") val fishFoundSound: @Serializable(with = SoundSerializer::class) Sound,
     @SerialName("fishing-minigame-miss-sound") val fishingMinigameMissSound: @Serializable(with = SoundSerializer::class) Sound,
+    @SerialName("extension-animation-delay") val extensionAnimationDelay: Int,
+    @SerialName("long-rod-end-character-offset") val longRodEndCharacterOffset: Double,
     )
 
 

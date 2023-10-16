@@ -3,7 +3,6 @@ package net.topstrix.hubinteractions.fishing.player.minigame.ui
 import net.kyori.adventure.text.Component
 import net.topstrix.hubinteractions.fishing.player.minigame.states.FishingMinigameRodCastState
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
-import org.bukkit.Bukkit
 
 /**
  * Renders everything the GameplayUIRenderer does, and also animates
@@ -56,9 +55,9 @@ class FishingMinigameRodCastUIRenderer(override val minigameState: FishingMiniga
                     FishingUtil.fishingConfig.longRodCharacterHeight)
             }
             // We render the end point of the rod line
-            renderCharacterSeparately(title, 'ॸ', //todo: config
-                minigameState.longRodPosition + longRodExtraWidth + 4.0, //todo: config
-                FishingUtil.fishingConfig.longRodCharacterHeight)
+            renderCharacterSeparately(title, FishingUtil.fishingConfig.longRodEndCharacter,
+                minigameState.longRodPosition + longRodExtraWidth + FishingUtil.fishingConfig.longRodEndCharacterOffset, // We offset the long end character because it's actually longer and isn't centered.
+                FishingUtil.fishingConfig.longRodEndCharacterHeight)
         }
 
 

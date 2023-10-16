@@ -54,7 +54,7 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
      * Plays the animation for the long rod extending.
      */
     private fun playLongRodAnimation() {
-        val extensionAnimationDelay = -1 // By how many ticks to delay the extension. Use negative value to make it start earlier //todo: config and refactor
+        val extensionAnimationDelay = FishingUtil.fishingConfig.extensionAnimationDelay // By how many ticks to delay the extension. Use negative value to make it start earlier
         //If bigrod cast animation finished, we start longrod extend animation
         if (stateTicksPassed - extensionAnimationDelay >= FishingUtil.fishingConfig.bigRodCharacters.size &&
             longRodPosition > longRodTargetPosition) {
