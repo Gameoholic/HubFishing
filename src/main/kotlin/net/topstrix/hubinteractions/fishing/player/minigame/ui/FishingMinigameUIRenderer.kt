@@ -119,14 +119,14 @@ abstract class FishingMinigameUIRenderer {
      * @param character The character to append
      * @param removeShadow Whether to remove the shadow from the character
      */
-    fun renderCharacter(component: TextComponent.Builder, character: Char, removeShadow: Boolean = false) {
+    fun renderCharacter(component: TextComponent.Builder, character: Char, removeShadow: Boolean = true) {
         /** The color 0x4E5C24 removes the shadow from the character */
         if (removeShadow)
             component.append(
                 text(character)).color(TextColor.color(0x4E5C24)
             )
         else
-            component.append(text(character))
+            component.append(text(character).color(TextColor.color(0xFFFFFF)))
     }
 
     /**
