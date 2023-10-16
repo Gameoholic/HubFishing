@@ -84,7 +84,7 @@ water-characters:
   - '༏'
   - '༐'
 water-character-height: 15
-water-animation-speed: 2 #How often the water animation frame updates. If set to 2, for example, will be animated every 2 frames.
+water-animation-speed: 3 #How often the water animation frame updates. If set to 2, for example, will be animated every 2 frames.
 
 rod-box-character: '्'
 rod-box-character-height: 6
@@ -94,6 +94,10 @@ mini-rod-character-height: 3
 
 mini-rod-used-character: 'ॏ'
 mini-rod-used-character-height: 3
+
+info-box-character: '༑'
+info-box-character-height: 10
+info-box-position: 50.0
 
 big-rod-position: 84.0 #The position of the big fishing rod, in UI pixels from the right
 big-rod-character-height: 20

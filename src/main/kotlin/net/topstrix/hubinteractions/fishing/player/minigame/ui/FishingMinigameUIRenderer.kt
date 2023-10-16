@@ -46,7 +46,7 @@ abstract class FishingMinigameUIRenderer {
      * in the component, in UI pixels.
      * @param characterHeight The height (size) of the unicode character, in UI pixels.
      */
-    protected fun renderCharacterSeparately(component: TextComponent.Builder, character: Char, leftOffset: Double, characterHeight: Int) {
+    protected fun renderCharacterSeparately(component: TextComponent.Builder, character: Char, leftOffset: Double, characterHeight: Int, removeShadow: Boolean = true) {
         /**
          * Minecraft adds a space after characters, so we add negative space
          * between them of -1, it does not need to be offset.
@@ -57,7 +57,7 @@ abstract class FishingMinigameUIRenderer {
          * to the leftOffset parameter.
          */
         renderSpace(component, -1 -leftOffset)
-        renderCharacter(component, character)
+        renderCharacter(component, character, removeShadow)
         /**
          * Since we added a new character to the right of the text, Minecraft will
          * now move the entire text to the left, so it's centered.

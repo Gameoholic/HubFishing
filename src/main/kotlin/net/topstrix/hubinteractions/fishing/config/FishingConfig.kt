@@ -154,7 +154,10 @@ data class FishingConfig(
     @SerialName("long-rod-end-character-offset") val longRodEndCharacterOffset: Double,
     @SerialName("big-rod-position") val bigRodPosition: Double,
     @SerialName("water-area-start-position") val waterAreaStartPosition: Double,
-    @SerialName("water-animation-speed") val waterAnimationSpeed: Int
+    @SerialName("water-animation-speed") val waterAnimationSpeed: Int,
+    @SerialName("info-box-character") val infoBoxCharacter: Char,
+    @SerialName("info-box-character-height") val infoBoxCharacterHeight: Int,
+    @SerialName("info-box-position") val infoBoxPosition: Double,
     )
 
 
