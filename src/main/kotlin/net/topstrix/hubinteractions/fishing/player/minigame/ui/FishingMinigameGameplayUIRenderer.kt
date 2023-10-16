@@ -12,7 +12,7 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
     override fun render() {
         val title = Component.text()
         // WATER
-        renderCharacters(title, FishingUtil.fishingConfig.waterCharacter, FishingUtil.fishingConfig.waterAmount)
+        renderCharacters(title, FishingUtil.fishingConfig.waterCharacter, 1)
         // FISH
         renderCharacterSeparately(
             title, minigameState.minigameManager.caughtFish.variant.minigameCharacter,
@@ -31,7 +31,7 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
                     miniFishingRodsPosition + minFishingRodsOffset * i, FishingUtil.fishingConfig.miniRodUsedCharacterHeight)
         }
         // BIG ROD
-        renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[0], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
+        renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[0], FishingUtil.fishingConfig.bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
 
         display(minigameState.minigameManager.fishingPlayer.uuid, title)
     }

@@ -18,7 +18,7 @@ data class FishingConfig(
     @SerialName("fish-lake-managers") val fishLakeManagersSettings: List<FishLakeManagerSettings>,
     @SerialName("fish-variants") val fishVariants: List<FishVariant>,
     @SerialName("crates") val crates: List<Crate>,
-    @SerialName("water-amount") val waterAmount: Int,
+    @SerialName("water-area-length-pixels") val waterAreaLengthPixels: Double,
     @SerialName("water-character") val waterCharacter: Char,
     @SerialName("water-character-height") val waterCharacterHeight: Int,
     @SerialName("rod-box-speed") val rodBoxSpeed: Double,
@@ -152,6 +152,7 @@ data class FishingConfig(
     @SerialName("fishing-minigame-miss-sound") val fishingMinigameMissSound: @Serializable(with = SoundSerializer::class) Sound,
     @SerialName("extension-animation-delay") val extensionAnimationDelay: Int,
     @SerialName("long-rod-end-character-offset") val longRodEndCharacterOffset: Double,
+    @SerialName("big-rod-position") val bigRodPosition: Double,
     )
 
 

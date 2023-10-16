@@ -22,7 +22,7 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
     /** The target (max) position of the long rod, in UI pixels to the left*/
     val longRodTargetPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2 //Center of rodbox
     /** The starting position of the long rod, in UI pixels to the left*/
-    val longRodStartingPosition = uiRenderer.bigRodPosition - FishingUtil.fishingConfig.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
+    val longRodStartingPosition = FishingUtil.fishingConfig.bigRodPosition - FishingUtil.fishingConfig.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
     /** The position of right-most pixel of the long rod, in UI pixels to the left*/
     var longRodPosition: Double = longRodStartingPosition
         private set

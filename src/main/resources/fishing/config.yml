@@ -60,13 +60,13 @@ rank-boost-amount: 2.0
 
 
 #Gameplay settings:
-water-amount: 7
+water-area-length-pixels: 70.0 #Amount of pixels in which the fish & rodbox can move in
 rod-box-speed: 0.8
 max-fishing-rod-uses: 50
 
 #Characters:
-water-character: 'ो'
-water-character-height: 10
+water-character: '༁'
+water-character-height: 15
 
 rod-box-character: '्'
 rod-box-character-height: 6
@@ -77,6 +77,7 @@ mini-rod-character-height: 3
 mini-rod-used-character: 'ॏ'
 mini-rod-used-character-height: 3
 
+big-rod-position: 84.0 #The position of the big fishing rod, in UI pixels from the right
 big-rod-character-height: 20
 big-rod-characters:
   - 'ॐ'
@@ -91,12 +92,13 @@ big-rod-characters:
   - '॔'
   - 'ॕ'
   - 'ॕ'
+#  - 'क़' #unduped Unused
   - 'ख़' #unduped
 
 long-rod-character: 'ॖ'
 long-rod-character-height: 10
 long-rod-end-character: 'ॸ'
 long-rod-end-character-height: 10
-long-rod-end-character-offset: 4.0 #Since long rod end character longer than long rod character, we need to offset it to the left.
+long-rod-end-character-offset: 4.5 #Since long rod end character longer than long rod character, we need to offset it to the left.
 
 extension-animation-delay: -1 #How long to delay before starting the extension animation. Can be set to negative values.

@@ -32,7 +32,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
     private val task: BukkitTask
     val fishMovementManager = FishMovementManager(
         0.0 + caughtFish.variant.minigameCharacterHeight,
-        (FishingUtil.fishingConfig.waterCharacterHeight * FishingUtil.fishingConfig.waterAmount).toDouble(),
+        FishingUtil.fishingConfig.waterAreaLengthPixels,
         caughtFish
     )
 
@@ -44,8 +44,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
     private val rodBoxMinPosition = 0.0 + FishingUtil.fishingConfig.rodBoxCharacterHeight
 
     /** The rod box's max position in UI pixels, from the right */
-    private val rodBoxMaxPosition =
-        (FishingUtil.fishingConfig.waterCharacterHeight * FishingUtil.fishingConfig.waterAmount).toDouble()
+    private val rodBoxMaxPosition = FishingUtil.fishingConfig.waterAreaLengthPixels
 
     /** The rod box's position in UI pixels, from the right */
     var rodBoxPosition = rodBoxMinPosition + (rodBoxMaxPosition - rodBoxMinPosition) / 2

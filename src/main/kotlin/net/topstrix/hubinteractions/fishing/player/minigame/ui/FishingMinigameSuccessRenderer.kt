@@ -12,7 +12,7 @@ class FishingMinigameSuccessRenderer(override val minigameState: FishingMinigame
     override fun render() {
         val title = Component.text()
         // WATER
-        renderCharacters(title, FishingUtil.fishingConfig.waterCharacter, FishingUtil.fishingConfig.waterAmount)
+        renderCharacters(title, FishingUtil.fishingConfig.waterCharacter, 1)
         // FISH
         renderCharacterSeparately(
             title, minigameState.minigameManager.caughtFish.variant.minigameCharacter,

@@ -13,7 +13,7 @@ class FishingMinigameRodCastUIRenderer(override val minigameState: FishingMiniga
     override fun render() {
         val title = Component.text()
         // WATER
-        renderCharacters(title, FishingUtil.fishingConfig.waterCharacter, FishingUtil.fishingConfig.waterAmount)
+        renderCharacters(title, FishingUtil.fishingConfig.waterCharacter, 1)
         // FISH
         renderCharacterSeparately(
             title, minigameState.minigameManager.caughtFish.variant.minigameCharacter,
@@ -34,9 +34,9 @@ class FishingMinigameRodCastUIRenderer(override val minigameState: FishingMiniga
         // BIG ROD ANIMATION
         when (minigameState.stateTicksPassed) {
             in 0 until FishingUtil.fishingConfig.bigRodCharacters.size -> {
-                renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[minigameState.stateTicksPassed], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
+                renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[minigameState.stateTicksPassed], FishingUtil.fishingConfig.bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
             }
-            else -> renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[FishingUtil.fishingConfig.bigRodCharacters.size - 1], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
+            else -> renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[FishingUtil.fishingConfig.bigRodCharacters.size - 1], FishingUtil.fishingConfig.bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
         }
 
         // LONG ROD EXTENSION ANIMATION

@@ -29,18 +29,18 @@ class FishMovementManager(
 
     var heatmap = hashMapOf<Int, Double>()
     init {
-        for (i in 0 until FishingUtil.fishingConfig.waterAmount) {
-            heatmap[i] = 100.0 / FishingUtil.fishingConfig.waterAmount //14.2%
-        }
-        for (i in 0 until FishingUtil.fishingConfig.waterAmount / 2) {
-            val heatmapValue = heatmap[i]!!
-            heatmap[i] = heatmap[i]!! - heatmapValue / 2.0
-            heatmap[FishingUtil.fishingConfig.waterAmount - 1 - i] = heatmap[FishingUtil.fishingConfig.waterAmount - 1 - i]!! - heatmapValue / 2.0
-            for (j in i + 1 until FishingUtil.fishingConfig.waterAmount - 1 - i) {
-                heatmap[j] = heatmap[j]!! + heatmapValue / (FishingUtil.fishingConfig.waterAmount - 1 - i - i - 1)
-            }
-        }
-//todo: heatmap code
+//        for (i in 0 until FishingUtil.fishingConfig.waterAmount) {
+//            heatmap[i] = 100.0 / FishingUtil.fishingConfig.waterAmount //14.2%
+//        }
+//        for (i in 0 until FishingUtil.fishingConfig.waterAmount / 2) {
+//            val heatmapValue = heatmap[i]!!
+//            heatmap[i] = heatmap[i]!! - heatmapValue / 2.0
+//            heatmap[FishingUtil.fishingConfig.waterAmount - 1 - i] = heatmap[FishingUtil.fishingConfig.waterAmount - 1 - i]!! - heatmapValue / 2.0
+//            for (j in i + 1 until FishingUtil.fishingConfig.waterAmount - 1 - i) {
+//                heatmap[j] = heatmap[j]!! + heatmapValue / (FishingUtil.fishingConfig.waterAmount - 1 - i - i - 1)
+//            }
+//        }
+////todo: heatmap code
 
     }
     /**
