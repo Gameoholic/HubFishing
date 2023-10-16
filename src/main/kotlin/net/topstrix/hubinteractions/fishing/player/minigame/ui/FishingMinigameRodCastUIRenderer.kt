@@ -3,6 +3,7 @@ package net.topstrix.hubinteractions.fishing.player.minigame.ui
 import net.kyori.adventure.text.Component
 import net.topstrix.hubinteractions.fishing.player.minigame.states.FishingMinigameRodCastState
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
+import org.bukkit.Bukkit
 
 /**
  * Renders everything the GameplayUIRenderer does, and also animates
@@ -33,28 +34,31 @@ class FishingMinigameRodCastUIRenderer(override val minigameState: FishingMiniga
         }
         // BIG ROD ANIMATION
         when (minigameState.stateTicksPassed) {
-            0 -> renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[0], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
-            in 1..4 -> {
+            in 0 until FishingUtil.fishingConfig.bigRodCharacters.size -> {
                 renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[minigameState.stateTicksPassed], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
             }
-            else -> renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[5], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
+            else -> renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[FishingUtil.fishingConfig.bigRodCharacters.size - 1], bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
         }
 
-        //LONG ROD EXTENSION ANIMATION
+        // LONG ROD EXTENSION ANIMATION
         if (minigameState.extensionTicksPassed > 0) {
             val evenPixelAmount = (minigameState.longRodStartingPosition - minigameState.longRodPosition).toInt()
             val unevenPixelAmount = (minigameState.longRodStartingPosition - minigameState.longRodPosition)
             for (i in 0 until evenPixelAmount - longRodExtraWidth + 1) { //We don't animate the last X frames based on the longrod extra width. We add +1 so the last frame isn't skipped.
-                renderCharacterSeparately(title, FishingUtil.fishingConfig.longRodCharacter,
-                    minigameState.longRodStartingPosition - i,
-                    FishingUtil.fishingConfig.longRodCharacterHeight)
+                    renderCharacterSeparately(title, FishingUtil.fishingConfig.longRodCharacter,
+                        minigameState.longRodStartingPosition - i,
+                        FishingUtil.fishingConfig.longRodCharacterHeight)
             }
-            //Because the actual position may be a decimal, we render an extra long rod character to make it extend to the needed position perfectly
+            // Because the actual position may be a decimal, we render an extra long rod character to make it extend to the needed position perfectly
             if (unevenPixelAmount > evenPixelAmount) {
                 renderCharacterSeparately(title, FishingUtil.fishingConfig.longRodCharacter,
                     minigameState.longRodPosition + longRodExtraWidth,
                     FishingUtil.fishingConfig.longRodCharacterHeight)
             }
+            // We render the end point of the rod line
+            renderCharacterSeparately(title, 'ॸ', //todo: config
+                minigameState.longRodPosition + longRodExtraWidth + 4.0, //todo: config
+                FishingUtil.fishingConfig.longRodCharacterHeight)
         }
 
 

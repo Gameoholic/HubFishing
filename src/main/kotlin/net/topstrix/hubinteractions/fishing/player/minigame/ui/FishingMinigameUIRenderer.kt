@@ -29,7 +29,7 @@ abstract class FishingMinigameUIRenderer {
     /** The difference in positions between every mini fishing rod character, in UI pixels from the right*/
     protected val minFishingRodsOffset = FishingUtil.fishingConfig.miniRodCharacterHeight
     /** The position of the big fishing rod, in UI pixels from the right */
-    val bigRodPosition = 80.0
+    val bigRodPosition = 84.0 //todo: I'm not sure why it's 84 and not 80.
 
     /**
      * Renders the fishing minigame UI to the player.

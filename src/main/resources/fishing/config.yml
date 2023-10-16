@@ -36,8 +36,8 @@ epic-fish-xp: 30
 epic-fish-display-name: "<dark_purple>Epic"
 epic-fish-crate-shard-chance: 0.1
 
-legendary-fish-fishes-required-to-spawn-min: 5 #500
-legendary-fish-fishes-required-to-spawn-max: 5 #1000
+legendary-fish-fishes-required-to-spawn-min: 500 #500
+legendary-fish-fishes-required-to-spawn-max: 1000 #1000
 legendary-fish-minigame-min-direction-duration: 5
 legendary-fish-minigame-max-direction-duration: 10
 legendary-fish-minigame-speed: 1.3
@@ -62,7 +62,7 @@ rank-boost-amount: 2.0
 #Gameplay settings:
 water-amount: 7
 rod-box-speed: 0.8
-max-fishing-rod-uses: 3
+max-fishing-rod-uses: 50
 
 #Characters:
 water-character: 'ो'
@@ -77,14 +77,22 @@ mini-rod-character-height: 3
 mini-rod-used-character: 'ॏ'
 mini-rod-used-character-height: 3
 
-big-rod-character-height: 10
+big-rod-character-height: 20
 big-rod-characters:
   - 'ॐ'
+  - 'ॐ'
+  - '॑'
   - '॑'
   - '॒'
+  - '॒'
+  - '॓'
   - '॓'
   - '॔'
+  - '॔'
   - 'ॕ'
+  - 'ॕ'
+  - 'क़' #unduped
+  - 'ख़' #unduped
 
 long-rod-character: 'ॖ'
 long-rod-character-height: 10

@@ -3,7 +3,12 @@ legendary-fish-spawn-sound:
   source: MASTER
   volume: 1f
   pitch: 0f
-fish-catch-sound:
+fish-found-sound:
+  name: "minecraft:entity.experience_orb.pickup"
+  source: MASTER
+  volume: 1f
+  pitch: 0f
+fishing-minigame-miss-sound:
   name: "minecraft:entity.experience_orb.pickup"
   source: MASTER
   volume: 1f

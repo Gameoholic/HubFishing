@@ -2,4 +2,4 @@ rank-boost-display-none-content: "<aqua>The lake is currently <red>not</red> boo
 rank-boost-display-boosted-content: "<aqua>Boosted by <bold><player></bold>.<br>Rare fish spawn chances are increased by <bold><red>2x."
 stats-display-content: "<White>Playtime: <playtime><br><red>Level: <level>. To level up: <xp>/<total_xp_to_level_up> (<remaining_xp_to_level_up>)<br><white>Fishes Caught: <fishes_caught><br><common_fishes_caught> <rare_fishes_caught> <epic_fishes_caught> <legendary_fishes_caught>" #xp, total_xp, total_xp_to_level_up, level, remaining_xp_to_level_up, playtime, fishes_caught, common_fishes_caught, rare_fishes_caught, epic_fishes_caught, legendary_fishes_caught
 legendary-fish-spawn-message: "<gold>A legendary fish has spawned! Catch it for extra loot!"
-fish-catch-message: "You've caught a <rarity> fish."
+fish-found-message: "You've found a <rarity> fish."

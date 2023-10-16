@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import net.kyori.adventure.sound.Sound
 
 class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): FishingMinigameState, Listener {
     override var stateTicksPassed = 0
@@ -21,7 +22,7 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
     /** The target (max) position of the long rod, in UI pixels to the left*/
     val longRodTargetPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2 //Center of rodbox
     /** The starting position of the long rod, in UI pixels to the left*/
-    val longRodStartingPosition = uiRenderer.bigRodPosition - FishingUtil.fishingConfig.bigRodCharacterHeight
+    val longRodStartingPosition = uiRenderer.bigRodPosition - FishingUtil.fishingConfig.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
     /** The position of right-most pixel of the long rod, in UI pixels to the left*/
     var longRodPosition: Double = longRodStartingPosition
         private set
@@ -36,6 +37,7 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
         Bukkit.getPluginManager().registerEvents(this, HubInteractions.plugin)
     }
 
+    var a = 0
     override fun onTick() {
         stateTicksPassed++
 
@@ -52,11 +54,14 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
      * Plays the animation for the long rod extending.
      */
     private fun playLongRodAnimation() {
+        val extensionAnimationDelay = -1 // By how many ticks to delay the extension. Use negative value to make it start earlier //todo: config and refactor
         //If bigrod cast animation finished, we start longrod extend animation
-        if (stateTicksPassed >= FishingUtil.fishingConfig.bigRodCharacters.size && longRodPosition > longRodTargetPosition) {
-            extensionTicksPassed = stateTicksPassed - FishingUtil.fishingConfig.bigRodCharacters.size + 1 //How many ticks passed, since extension
+        if (stateTicksPassed - extensionAnimationDelay >= FishingUtil.fishingConfig.bigRodCharacters.size &&
+            longRodPosition > longRodTargetPosition) {
+            extensionTicksPassed = (stateTicksPassed - extensionAnimationDelay) -
+                FishingUtil.fishingConfig.bigRodCharacters.size + 1 // How many ticks passed, since extension
             longRodPosition = longRodStartingPosition - extensionTicksPassed * rodExtendingSpeed
-            if (longRodPosition < longRodTargetPosition) //Cap position, if speed is too high, and it passes target pos.
+            if (longRodPosition < longRodTargetPosition) // Cap position, if speed is too high, and it passes target pos.
                 longRodPosition = longRodTargetPosition
         }
     }
@@ -72,6 +77,8 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
                 fishCaught = true
             }
             else {
+                Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)?.playSound(
+                    FishingUtil.fishingConfig.fishingMinigameMissSound, Sound.Emitter.self())
                 fishCaught = false
                 minigameManager.fishingRodUsesLeft--
             }

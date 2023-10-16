@@ -6,7 +6,6 @@ import net.kyori.adventure.sound.Sound
 import net.topstrix.hubinteractions.fishing.crate.Crate
 import net.topstrix.hubinteractions.fishing.fish.FishVariant
 import net.topstrix.hubinteractions.fishing.util.LoggerUtil
-import net.topstrix.hubinteractions.shared.serialization.LocationSerializer
 import net.topstrix.hubinteractions.shared.serialization.SoundSerializer
 import net.topstrix.hubinteractions.shared.serialization.WorldSerializer
 import org.bukkit.Material
@@ -146,8 +145,9 @@ data class FishingConfig(
     @SerialName("level-xp-requirement-growth-cap") val levelXPRequirementGrowthCap: Int,
     @SerialName("legendary-fish-spawn-message") val legendaryFishSpawnMessage: String,
     @SerialName("legendary-fish-spawn-sound") val legendaryFishSpawnSound: @Serializable(with = SoundSerializer::class) Sound,
-    @SerialName("fish-catch-message") val fishCatchMessage: String,
-    @SerialName("fish-catch-sound") val fishCatchSound: @Serializable(with = SoundSerializer::class) Sound,
+    @SerialName("fish-found-message") val fishFoundMessage: String,
+    @SerialName("fish-found-sound") val fishFoundSound: @Serializable(with = SoundSerializer::class) Sound,
+    @SerialName("fishing-minigame-miss-sound") val fishingMinigameMissSound: @Serializable(with = SoundSerializer::class) Sound,
     )
 
 

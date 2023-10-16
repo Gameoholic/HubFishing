@@ -74,12 +74,12 @@ class FishingPlayer(
         // Send message & play sound:
         Bukkit.getPlayer(uuid)?.let {
             it.sendMessage(MiniMessage.miniMessage().deserialize(
-                PlaceholderAPI.setPlaceholders(it, FishingUtil.fishingConfig.fishCatchMessage),
+                PlaceholderAPI.setPlaceholders(it, FishingUtil.fishingConfig.fishFoundMessage),
                 Placeholder.component("rarity",
                     MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(it, caughtFish.variant.rarity.displayName))
                 ))
             )
-            it.playSound(FishingUtil.fishingConfig.fishCatchSound, Sound.Emitter.self())
+            it.playSound(FishingUtil.fishingConfig.fishFoundSound, Sound.Emitter.self())
         }
         caughtFish.caught = true
         FishingMinigameManager(this, caughtFish)
