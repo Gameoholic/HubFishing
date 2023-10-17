@@ -5,9 +5,9 @@ world:
   name: "world" #world used for cleaning up old fishing displays
 
 #Fish rarities:
-common-fish-minigame-min-direction-duration: 30
-common-fish-minigame-max-direction-duration: 50
-common-fish-minigame-speed: 0.3
+common-fish-minigame-min-direction-duration: 80
+common-fish-minigame-max-direction-duration: 100
+common-fish-minigame-speed: 0.2
 common-fish-alive-time-min: 100
 common-fish-alive-time-max: 200
 common-fish-xp: 2
@@ -16,9 +16,9 @@ common-fish-crate-shard-chance: 0.005
 
 rare-fish-fishes-required-to-spawn-min: 20 #20
 rare-fish-fishes-required-to-spawn-max: 40 #40
-rare-fish-minigame-min-direction-duration: 15
-rare-fish-minigame-max-direction-duration: 25
-rare-fish-minigame-speed: 0.6
+rare-fish-minigame-min-direction-duration: 40
+rare-fish-minigame-max-direction-duration: 60
+rare-fish-minigame-speed: 0.4
 rare-fish-alive-time-min: 100
 rare-fish-alive-time-max: 200
 rare-fish-xp: 5
@@ -27,9 +27,9 @@ rare-fish-crate-shard-chance: 0.01
 
 epic-fish-fishes-required-to-spawn-min: 100 #100
 epic-fish-fishes-required-to-spawn-max: 200 #200
-epic-fish-minigame-min-direction-duration: 10
-epic-fish-minigame-max-direction-duration: 20
-epic-fish-minigame-speed: 1.0
+epic-fish-minigame-min-direction-duration: 20
+epic-fish-minigame-max-direction-duration: 30
+epic-fish-minigame-speed: 0.75
 epic-fish-alive-time-min: 100
 epic-fish-alive-time-max: 200
 epic-fish-xp: 30
@@ -39,8 +39,8 @@ epic-fish-crate-shard-chance: 0.1
 legendary-fish-fishes-required-to-spawn-min: 500 #500
 legendary-fish-fishes-required-to-spawn-max: 1000 #1000
 legendary-fish-minigame-min-direction-duration: 5
-legendary-fish-minigame-max-direction-duration: 10
-legendary-fish-minigame-speed: 1.3
+legendary-fish-minigame-max-direction-duration: 30
+legendary-fish-minigame-speed: 1.0
 legendary-fish-alive-time-min: 100
 legendary-fish-alive-time-max: 200
 legendary-fish-xp: 100
@@ -61,7 +61,7 @@ rank-boost-amount: 2.0
 
 # Gameplay settings:
 water-area-start-position: 12.6 # Position from the right
-water-area-length-pixels: 55.4 # Amount of pixels in which the fish & rodbox can move in
+water-area-length-pixels: 49.0 # Amount of pixels in which the fish & rodbox can move in
 rod-box-speed: 0.8
 max-fishing-rod-uses: 50
 
@@ -110,17 +110,19 @@ big-rod-characters:
   - '॒'
   - '॓'
   - '॓'
+  - '੔'
+  - '੔'
   - '॔'
   - '॔'
   - 'ॕ'
   - 'ॕ'
-#  - 'क़' #unduped Unused
+  #  - 'क़' #unduped Unused
   - 'ख़' #unduped
 
 
 fishing-minigame-success-animation-length: 26
 fishing-minigame-success-animation-speed: 2
-bucket-character-height: 12
+bucket-character-height: 15
 bucket-character-offset: 2.0 #By how many pixels to the left to offset the bucket relative to fish
 bucket-characters:
   - '༒'
@@ -130,8 +132,8 @@ bucket-characters:
   - '༖'
   - '༗'
   - '༘'
-  - '༙'
-  - '༚'
+  - '༙' #this
+  - '༚' #this
   - '༛'
   - '༜'
   - '༝'
