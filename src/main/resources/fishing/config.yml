@@ -121,6 +121,7 @@ big-rod-characters:
 fishing-minigame-success-animation-length: 40
 fishing-minigame-success-animation-speed: 2
 bucket-character-height: 12
+bucket-character-offset: 2.0 #By how many pixels to the left to offset the bucket relative to fish
 bucket-characters:
   - '༒'
   - '༓'

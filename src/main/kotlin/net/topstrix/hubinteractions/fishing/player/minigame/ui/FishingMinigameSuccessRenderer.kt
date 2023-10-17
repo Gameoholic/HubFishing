@@ -10,8 +10,8 @@ import net.topstrix.hubinteractions.fishing.util.FishingUtil
  */
 class FishingMinigameSuccessRenderer(override val minigameState: FishingMinigameSuccessState): FishingMinigameUIRenderer() {
 
-    var a = 0
-    var m = 0
+    private var bucketAnimationFrame = 0
+    private var bucketAnimationDelay = 0 // When equal to animation speed, will increment the frame and reset this value to 0
     override fun render() {
         val title = Component.text()
         // WATER
@@ -62,15 +62,15 @@ class FishingMinigameSuccessRenderer(override val minigameState: FishingMinigame
         // BUCKET ANIM
         val fishPosition = minigameState.minigameManager.fishMovementManager.fishPosition
         val fishHeight = minigameState.minigameManager.caughtFish.variant.minigameCharacterHeight
-        renderCharacterSeparately(title, FishingUtil.fishingConfig.bucketCharacters[a],
-             fishPosition + fishHeight / 2.0, //We make the bucket centered on fish
+        renderCharacterSeparately(title, FishingUtil.fishingConfig.bucketCharacters[bucketAnimationFrame],
+             fishPosition + fishHeight / 2.0 + FishingUtil.fishingConfig.bucketOffset, //We make the bucket centered on fish
             FishingUtil.fishingConfig.bucketCharacterHeight)
 
-        if (a < FishingUtil.fishingConfig.bucketCharacters.size - 1) {
-            m++
-            if (m == FishingUtil.fishingConfig.fishingMinigameSuccessAnimationSpeed) {
-                a++
-                m = 0
+        if (bucketAnimationFrame < FishingUtil.fishingConfig.bucketCharacters.size - 1) {
+            bucketAnimationDelay++
+            if (bucketAnimationDelay == FishingUtil.fishingConfig.fishingMinigameSuccessAnimationSpeed) {
+                bucketAnimationFrame++
+                bucketAnimationDelay = 0
             }
         }
 

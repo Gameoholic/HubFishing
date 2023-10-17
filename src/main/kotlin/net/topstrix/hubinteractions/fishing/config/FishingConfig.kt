@@ -170,6 +170,7 @@ data class FishingConfig(
     @SerialName("bucket-characters") val bucketCharacters: List<Char>,
     @SerialName("fishing-minigame-success-animation-length") val fishingMinigameSuccessAnimationLength: Int,
     @SerialName("fishing-minigame-success-animation-speed") val fishingMinigameSuccessAnimationSpeed: Int,
+    @SerialName("bucket-character-offset") val bucketOffset: Double
     )
 
 
