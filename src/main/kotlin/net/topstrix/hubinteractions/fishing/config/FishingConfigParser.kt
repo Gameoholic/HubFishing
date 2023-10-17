@@ -20,7 +20,7 @@ object FishingConfigParser {
             "fishing/fish_lake_managers.yml",
             "fishing/fish_variants.yml",
             "fishing/menus.yml",
-            "fishing/messages.yml",
+            "fishing/strings.yml",
             "fishing/sounds.yml",
             "fishing/sql.yml",
         )

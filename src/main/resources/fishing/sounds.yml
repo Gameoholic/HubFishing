@@ -13,3 +13,18 @@ fishing-minigame-miss-sound:
   source: MASTER
   volume: 1f
   pitch: 0f
+level-up-sound:
+  name: "minecraft:entity.firework_rocket.blast"
+  source: MASTER
+  volume: 1f
+  pitch: 1f
+shard-receive-sound:
+  name: "minecraft:entity.experience_orb.pickup"
+  source: MASTER
+  volume: 1f
+  pitch: 0f
+crate-craft-sound:
+  name: "minecraft:entity.experience_orb.pickup"
+  source: MASTER
+  volume: 1f
+  pitch: 0f

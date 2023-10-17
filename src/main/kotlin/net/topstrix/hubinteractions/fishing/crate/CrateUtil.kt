@@ -1,5 +1,10 @@
 package net.topstrix.hubinteractions.fishing.crate
 
+import me.clip.placeholderapi.PlaceholderAPI
+import net.kyori.adventure.sound.Sound
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.fish.FishVariant
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
@@ -26,10 +31,35 @@ object CrateUtil {
         if (playerData.crateShards!![crate]!! >= crate.amountOfShardsToCraft) {
             playerData.resetCrateShards(crate)
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), crate.commandToCraft)
-            Bukkit.broadcastMessage("spawning crate ${crate.displayName}")
+            Bukkit.getPlayer(uuid)?.let {
+                it.sendMessage(
+                    MiniMessage.miniMessage().deserialize(
+                        PlaceholderAPI.setPlaceholders(it, FishingUtil.fishingConfig.crateCraftMessage),
+                        Placeholder.component(
+                            "crate", MiniMessage.miniMessage().deserialize(
+                                PlaceholderAPI.setPlaceholders(it, crate.displayName)
+                            )
+                        )
+                    )
+                )
+                it.playSound(FishingUtil.fishingConfig.crateCraftSound, Sound.Emitter.self())
+            }
+        } else {
+            Bukkit.getPlayer(uuid)?.let {
+                it.sendMessage(
+                    MiniMessage.miniMessage().deserialize(
+                        PlaceholderAPI.setPlaceholders(it, FishingUtil.fishingConfig.shardReceiveMessage),
+                        Placeholder.component(
+                            "shard", MiniMessage.miniMessage().deserialize(
+                                PlaceholderAPI.setPlaceholders(it, crate.displayName)
+                            )
+                        )
+                    )
+                )
+                it.playSound(FishingUtil.fishingConfig.shardReceiveSound, Sound.Emitter.self())
+            }
         }
 
-        Bukkit.broadcastMessage("giving crate shard ${crate.displayName}")
     }
 
     /**

@@ -27,7 +27,7 @@ object HubInteractions {
         plugin.saveResource("fishing/fish_variants.yml", true)
         plugin.saveResource("fishing/menus.yml", true)
         plugin.saveResource("fishing/sql.yml", true)
-        plugin.saveResource("fishing/messages.yml", true)
+        plugin.saveResource("fishing/strings.yml", true)
         plugin.saveResource("fishing/sounds.yml", true)
 
         plugin.getCommand("test")!!.setExecutor(TestCommand)

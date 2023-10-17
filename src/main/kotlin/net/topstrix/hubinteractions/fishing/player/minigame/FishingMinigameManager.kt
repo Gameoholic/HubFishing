@@ -1,6 +1,11 @@
 package net.topstrix.hubinteractions.fishing.player.minigame
 
+import com.github.gameoholic.partigon.Partigon
+import me.clip.placeholderapi.PlaceholderAPI
+import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import net.kyori.adventure.title.TitlePart
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.crate.CrateUtil
@@ -9,6 +14,7 @@ import net.topstrix.hubinteractions.fishing.player.FishingPlayer
 import net.topstrix.hubinteractions.fishing.player.minigame.states.*
 import net.topstrix.hubinteractions.fishing.player.minigame.states.util.FishMovementManager
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
+import net.topstrix.hubinteractions.shared.particles.LevelUpParticle
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.ArmorStand
@@ -44,7 +50,8 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
     private val rodBoxMinPosition = FishingUtil.fishingConfig.waterAreaStartPosition
 
     /** The rod box's max position in UI pixels, from the right */
-    private val rodBoxMaxPosition = FishingUtil.fishingConfig.waterAreaStartPosition + FishingUtil.fishingConfig.waterAreaLengthPixels
+    private val rodBoxMaxPosition =
+        FishingUtil.fishingConfig.waterAreaStartPosition + FishingUtil.fishingConfig.waterAreaLengthPixels
 
     /** The rod box's position in UI pixels, from the right */
     var rodBoxPosition = rodBoxMinPosition + (rodBoxMaxPosition - rodBoxMinPosition) / 2
@@ -52,10 +59,12 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
     var fishingRodUsesLeft = FishingUtil.fishingConfig.maxFishingRodUses
 
     var waterAnimationFrame = 0
-    private var waterAnimationDelay = 0 // When reaches the water animation speed (2 for example), will animate the next frame of the water animation and reset to 0.
+    private var waterAnimationDelay =
+        0 // When reaches the water animation speed (2 for example), will animate the next frame of the water animation and reset to 0.
 
     init {
-        val player = Bukkit.getPlayer(fishingPlayer.uuid) ?: throw RuntimeException("Player is null on FishingMinigameManager init")
+        val player = Bukkit.getPlayer(fishingPlayer.uuid)
+            ?: throw RuntimeException("Player is null on FishingMinigameManager init")
 
         task = object : BukkitRunnable() {
             override fun run() {
@@ -73,7 +82,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
             return
         }
         // If player left premises of lake, or hook is dead, end game
-        if (!fishingPlayer.fishLakeManager.fishingPlayers.any { it.uuid == fishingPlayer.uuid} || fishingPlayer.hook.isDead) {
+        if (!fishingPlayer.fishLakeManager.fishingPlayers.any { it.uuid == fishingPlayer.uuid } || fishingPlayer.hook.isDead) {
             endMinigame(MinigameEndReason.PLAYER_LEFT)
             return
         }
@@ -129,12 +138,13 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         }
         if (state is FishingMinigameRodCastState && (state as FishingMinigameRodCastState).fishCaught == false) {
             state.onDisable()
-            state = FishingMinigameGameplayState( //todo: should every class just use the config statically or should I pass variables like this?
-                this,
-                rodBoxMinPosition,
-                rodBoxMaxPosition,
-                FishingUtil.fishingConfig.rodBoxSpeed
-            )
+            state =
+                FishingMinigameGameplayState( //todo: should every class just use the config statically or should I pass variables like this?
+                    this,
+                    rodBoxMinPosition,
+                    rodBoxMaxPosition,
+                    FishingUtil.fishingConfig.rodBoxSpeed
+                )
             state.onEnable()
         }
         if (state is FishingMinigameRodCastState && (state as FishingMinigameRodCastState).fishCaught == true) {
@@ -157,7 +167,8 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
             EntityType.ARMOR_STAND
         ) as ArmorStand
 
-        val key = NamespacedKey(HubInteractions.plugin, "fishing-removable") //Mark entity, for removal upon server start
+        val key =
+            NamespacedKey(HubInteractions.plugin, "fishing-removable") //Mark entity, for removal upon server start
         armorStand.persistentDataContainer.set(key, PersistentDataType.BOOLEAN, true)
 
         armorStand.isInvisible = true
@@ -192,14 +203,9 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
      */
     private fun endMinigame(minigameEndReason: MinigameEndReason) {
         if (minigameEndReason == MinigameEndReason.FISH_CAUGHT) {
-            FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
-                it.increaseFishesCaught(caughtFish.variant, 1)
-                it.increaseXP(caughtFish.variant.rarity.xp)
-            }
-            CrateUtil.attemptGiveShard(fishingPlayer.uuid, caughtFish.variant)
+            onSuccessfulFish()
             caughtFish.remove()
-        }
-        else if (minigameEndReason == MinigameEndReason.RAN_OUT_OF_ATTEMPTS) {
+        } else if (minigameEndReason == MinigameEndReason.RAN_OUT_OF_ATTEMPTS) {
             FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
                 it.increaseFishesUncaught(caughtFish.variant, 1)
             }
@@ -218,7 +224,47 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         fishingPlayer.hook.remove()
     }
 
+    /**
+     * Called when the player succeeded in the fishing minigame.
+     */
+    private fun onSuccessfulFish() {
+        FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let { playerData ->
+            playerData.increaseFishesCaught(caughtFish.variant, 1)
+            val oldLevel = playerData.levelData!!.level
+            playerData.increaseXP(caughtFish.variant.rarity.xp)
+            val newLevel = playerData.levelData!!.level
+            Bukkit.getPlayer(fishingPlayer.uuid)?.let {
+                it.sendActionBar(
+                    MiniMessage.miniMessage().deserialize(
+                        PlaceholderAPI.setPlaceholders(it, FishingUtil.fishingConfig.XPGainedActionBarMessage),
+                        Placeholder.component("xp", text(caughtFish.variant.rarity.xp.toString()))
+                    )
+                )
+                if (newLevel > oldLevel) {
+                    it.sendMessage(
+                        MiniMessage.miniMessage().deserialize(
+                            PlaceholderAPI.setPlaceholders(it, FishingUtil.fishingConfig.levelUpMessage),
+                            Placeholder.component("new_level", text(newLevel.toString())),
+                            Placeholder.component("old_level", text(oldLevel.toString()))
+                        )
+                    )
 
+                    it.playSound(FishingUtil.fishingConfig.levelUpSound, Sound.Emitter.self())
+
+                    val particle = LevelUpParticle.getParticle()
+                    particle.start()
+                    object: BukkitRunnable() {
+                        override fun run() {
+                            particle.stop()
+                            this.cancel()
+                        }
+                    }.runTaskTimer(Partigon.plugin, 50L, 1L)
+                }
+            }
+
+        }
+        CrateUtil.attemptGiveShard(fishingPlayer.uuid, caughtFish.variant)
+    }
 
 
 }

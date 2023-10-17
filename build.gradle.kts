@@ -30,8 +30,21 @@ repositories {
     maven {
         url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     }
+    maven {
+        url = uri("https://jitpack.io")
+    }
 }
 
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+
+        // e.g this is how you would add jitpack
+        maven { url = uri("https://jitpack.io") }
+        // Add any repositories you would be adding to all projects here
+    }
+}
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
@@ -41,9 +54,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0") //todo: shade
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3") //todo: shade
     implementation("com.charleskorn.kaml:kaml:0.55.0") //todo: shade
-    implementation("com.github.gameoholic:partigon:1.0.0") //todo: shade
     implementation("com.zaxxer:HikariCP:5.0.1")
 
+    compileOnly("com.github.gameoholic:partigon:1.0.2")
     compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
     compileOnly("me.clip:placeholderapi:2.11.4")
 }
@@ -85,7 +98,8 @@ tasks {
         // helper function to relocate a package into our package
         fun reloc(pkg: String) = relocate(pkg, "${project.group}.${project.name}.dependency.$pkg")
 
-        reloc("org.jetbrains.kotlinx:kotlinx-serialization-json")
+        reloc("com.github.gameoholic:partigon")
+
     }
 
 }

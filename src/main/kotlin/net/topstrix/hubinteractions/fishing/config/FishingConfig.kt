@@ -158,6 +158,13 @@ data class FishingConfig(
     @SerialName("info-box-character") val infoBoxCharacter: Char,
     @SerialName("info-box-character-height") val infoBoxCharacterHeight: Int,
     @SerialName("info-box-position") val infoBoxPosition: Double,
+    @SerialName("level-up-message") val levelUpMessage: String,
+    @SerialName("level-up-sound") val levelUpSound: @Serializable(with = SoundSerializer::class) Sound,
+    @SerialName("xp-gained-action-bar-message") val XPGainedActionBarMessage: String,
+    @SerialName("shard-receive-message") val shardReceiveMessage: String,
+    @SerialName("shard-receive-sound") val shardReceiveSound: @Serializable(with = SoundSerializer::class) Sound,
+    @SerialName("crate-craft-message") val crateCraftMessage: String,
+    @SerialName("crate-craft-sound") val crateCraftSound: @Serializable(with = SoundSerializer::class) Sound,
     )
 
 
