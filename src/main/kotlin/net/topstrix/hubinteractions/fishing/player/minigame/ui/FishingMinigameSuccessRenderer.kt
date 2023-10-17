@@ -74,6 +74,9 @@ class FishingMinigameSuccessRenderer(override val minigameState: FishingMinigame
             }
         }
 
+        // INFO BOX
+        renderCharacterSeparately(title, FishingUtil.fishingConfig.infoBoxCharacter, FishingUtil.fishingConfig.infoBoxPosition, FishingUtil.fishingConfig.infoBoxCharacterHeight)
+
         display(minigameState.minigameManager.fishingPlayer.uuid, title)
     }
 }

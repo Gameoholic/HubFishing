@@ -96,8 +96,8 @@ mini-rod-used-character: 'ॏ'
 mini-rod-used-character-height: 3
 
 info-box-character: '༑'
-info-box-character-height: 10
-info-box-position: 50.0
+info-box-character-height: 18
+info-box-position: 79.5
 
 big-rod-position: 84.0 #The position of the big fishing rod, in UI pixels from the right
 big-rod-character-height: 20
@@ -118,7 +118,7 @@ big-rod-characters:
   - 'ख़' #unduped
 
 
-fishing-minigame-success-animation-length: 40
+fishing-minigame-success-animation-length: 26
 fishing-minigame-success-animation-speed: 2
 bucket-character-height: 12
 bucket-character-offset: 2.0 #By how many pixels to the left to offset the bucket relative to fish

@@ -34,9 +34,7 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
         renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[0], FishingUtil.fishingConfig.bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
 
         // INFO BOX
-//        renderCharacterSeparately(title, FishingUtil.fishingConfig.infoBoxCharacter, FishingUtil.fishingConfig.infoBoxPosition, FishingUtil.fishingConfig.infoBoxCharacterHeight)
-        //renderCharacterSeparately(title, '༑', 0.0, 20)
-
+        renderCharacterSeparately(title, FishingUtil.fishingConfig.infoBoxCharacter, FishingUtil.fishingConfig.infoBoxPosition, FishingUtil.fishingConfig.infoBoxCharacterHeight)
 
 
         display(minigameState.minigameManager.fishingPlayer.uuid, title)
