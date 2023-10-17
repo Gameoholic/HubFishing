@@ -74,6 +74,8 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
         //rod cast animation finished
         if (longRodPosition <= longRodTargetPosition) {
             if (didRodCatchFish()) {
+                Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)?.playSound(
+                    FishingUtil.fishingConfig.fishingMinigameCatchSound, Sound.Emitter.self())
                 fishCaught = true
             }
             else {

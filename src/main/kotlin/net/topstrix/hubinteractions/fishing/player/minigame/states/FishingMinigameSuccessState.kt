@@ -11,7 +11,11 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
-class FishingMinigameSuccessState(val minigameManager: FishingMinigameManager): FishingMinigameState, Listener {
+class FishingMinigameSuccessState(
+    val longRodStartingPosition: Double, // needed for the renderer
+    val longRodPosition: Double, // needed for the renderer
+    val minigameManager: FishingMinigameManager
+) : FishingMinigameState, Listener {
     override var stateTicksPassed: Int = 0
     private val uiRenderer: FishingMinigameUIRenderer = FishingMinigameSuccessRenderer(this)
 

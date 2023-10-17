@@ -21,7 +21,7 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
         )
         // ROD BOX
         renderCharacterSeparately(title, FishingUtil.fishingConfig.rodBoxCharacter, minigameState.minigameManager.rodBoxPosition, FishingUtil.fishingConfig.rodBoxCharacterHeight)
-        // FISHING RODS
+        // MINI RODS
         for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses) { //3,1
             if ((FishingUtil.fishingConfig.maxFishingRodUses - i) > minigameState.minigameManager.fishingRodUsesLeft)
                 renderCharacterSeparately(title, FishingUtil.fishingConfig.miniRodUsedCharacter,

@@ -28,3 +28,8 @@ crate-craft-sound:
   source: MASTER
   volume: 1f
   pitch: 0f
+fishing-minigame-catch-sound:
+  name: "minecraft:entity.firework_rocket.blast"
+  source: MASTER
+  volume: 1f
+  pitch: 2f

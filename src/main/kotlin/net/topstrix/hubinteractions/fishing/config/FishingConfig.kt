@@ -165,6 +165,11 @@ data class FishingConfig(
     @SerialName("shard-receive-sound") val shardReceiveSound: @Serializable(with = SoundSerializer::class) Sound,
     @SerialName("crate-craft-message") val crateCraftMessage: String,
     @SerialName("crate-craft-sound") val crateCraftSound: @Serializable(with = SoundSerializer::class) Sound,
+    @SerialName("fishing-minigame-catch-sound") val fishingMinigameCatchSound: @Serializable(with = SoundSerializer::class) Sound,
+    @SerialName("bucket-character-height") val bucketCharacterHeight: Int,
+    @SerialName("bucket-characters") val bucketCharacters: List<Char>,
+    @SerialName("fishing-minigame-success-animation-length") val fishingMinigameSuccessAnimationLength: Int,
+    @SerialName("fishing-minigame-success-animation-speed") val fishingMinigameSuccessAnimationSpeed: Int,
     )
 
 

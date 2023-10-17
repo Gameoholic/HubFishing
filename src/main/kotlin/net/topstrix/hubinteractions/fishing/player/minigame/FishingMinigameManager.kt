@@ -123,7 +123,8 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
             state.onEnable()
             return
         }
-        if ((state is FishingMinigameSuccessState || state is FishingMinigameFailureState) && state.stateTicksPassed >= 10) {
+        if ((state is FishingMinigameSuccessState || state is FishingMinigameFailureState)
+            && state.stateTicksPassed >= FishingUtil.fishingConfig.fishingMinigameSuccessAnimationLength) {
             state.onDisable()
             if (state is FishingMinigameSuccessState)
                 endMinigame(MinigameEndReason.FISH_CAUGHT)
@@ -149,7 +150,11 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         }
         if (state is FishingMinigameRodCastState && (state as FishingMinigameRodCastState).fishCaught == true) {
             state.onDisable()
-            state = FishingMinigameSuccessState(this)
+            state = FishingMinigameSuccessState(
+                (state as FishingMinigameRodCastState).longRodStartingPosition,
+                (state as FishingMinigameRodCastState).longRodPosition,
+                this
+            )
             state.onEnable()
             return
         }
@@ -253,7 +258,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
 
                     val particle = LevelUpParticle.getParticle()
                     particle.start()
-                    object: BukkitRunnable() {
+                    object : BukkitRunnable() {
                         override fun run() {
                             particle.stop()
                             this.cancel()

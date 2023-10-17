@@ -39,10 +39,6 @@ class FishingMinigameGameplayState(
     var rodCast = false
         private set
 
-    /** The ticks that have passed since the rod being cast */
-    var rodBeingCastTicks = 0
-
-
     override fun onEnable() {
         Bukkit.getPluginManager().registerEvents(this, HubInteractions.plugin)
     }

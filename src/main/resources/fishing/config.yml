@@ -117,6 +117,25 @@ big-rod-characters:
 #  - 'क़' #unduped Unused
   - 'ख़' #unduped
 
+
+fishing-minigame-success-animation-length: 40
+fishing-minigame-success-animation-speed: 2
+bucket-character-height: 12
+bucket-characters:
+  - '༒'
+  - '༓'
+  - '༔'
+  - '༕'
+  - '༖'
+  - '༗'
+  - '༘'
+  - '༙'
+  - '༚'
+  - '༛'
+  - '༜'
+  - '༝'
+  - '༞'
+
 long-rod-character: 'ॖ'
 long-rod-character-height: 10
 long-rod-end-character: 'ॸ'
