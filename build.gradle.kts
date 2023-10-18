@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "net.topstrix"
-version = "0.1.0"
+version = "0.1.1"
 description = "Hub Interactions"
 val apiVersion = "1.20"
 
@@ -56,7 +56,7 @@ dependencies {
     implementation("com.charleskorn.kaml:kaml:0.55.0") //todo: shade
     implementation("com.zaxxer:HikariCP:5.0.1")
 
-    compileOnly("com.github.gameoholic:partigon:1.0.2")
+    //compileOnly("com.github.gameoholic:partigon:1.0.2")
     compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
     compileOnly("me.clip:placeholderapi:2.11.4")
 }
