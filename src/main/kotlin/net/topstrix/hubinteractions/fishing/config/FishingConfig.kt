@@ -26,8 +26,8 @@ data class FishingConfig(
     @SerialName("rod-box-character-height") val rodBoxCharacterHeight: Int,
     @SerialName("mini-rod-character") val miniRodCharacter: Char,
     @SerialName("mini-rod-character-height") val miniRodCharacterHeight: Int,
-    @SerialName("mini-rod-used-character") val miniRodUsedCharacter: Char,
-    @SerialName("mini-rod-used-character-height") val miniRodUsedCharacterHeight: Int,
+    @SerialName("mini-rod-animation-speed") val miniRodsAnimationSpeed: Int,
+    @SerialName("mini-rod-used-characters") val miniRodUsedCharacters: List<Char>,
     @SerialName("big-rod-character-height") val bigRodCharacterHeight: Int,
     @SerialName("big-rod-characters") val bigRodCharacters: List<Char>,
     @SerialName("long-rod-character-height") val longRodCharacterHeight: Int,
@@ -170,7 +170,9 @@ data class FishingConfig(
     @SerialName("bucket-characters") val bucketCharacters: List<Char>,
     @SerialName("fishing-minigame-success-animation-length") val fishingMinigameSuccessAnimationLength: Int,
     @SerialName("fishing-minigame-success-animation-speed") val fishingMinigameSuccessAnimationSpeed: Int,
-    @SerialName("bucket-character-offset") val bucketOffset: Double
+    @SerialName("bucket-character-offset") val bucketOffset: Double,
+    @SerialName("mini-rods-characters-position") val miniRodsCharactersPosition: Double,
+
     )
 
 

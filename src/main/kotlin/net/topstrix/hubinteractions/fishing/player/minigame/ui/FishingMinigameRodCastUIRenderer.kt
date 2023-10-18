@@ -22,14 +22,19 @@ class FishingMinigameRodCastUIRenderer(override val minigameState: FishingMiniga
         )
         // ROD BOX
         renderCharacterSeparately(title, FishingUtil.fishingConfig.rodBoxCharacter, minigameState.minigameManager.rodBoxPosition, FishingUtil.fishingConfig.rodBoxCharacterHeight)
-        // FISHING RODS
+        // MINI RODS
         for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses) {
-            if ((FishingUtil.fishingConfig.maxFishingRodUses - i) > minigameState.minigameManager.fishingRodUsesLeft)
-                renderCharacterSeparately(title, FishingUtil.fishingConfig.miniRodUsedCharacter,
-                    miniFishingRodsPosition + minFishingRodsOffset * i, FishingUtil.fishingConfig.miniRodCharacterHeight)
+            val miniRodFrame = minigameState.minigameManager.miniFishingRodFrames[i]
+
+            val miniRodCharacter = if (miniRodFrame != -1) // If rod is used and has an animation frame
+                FishingUtil.fishingConfig.miniRodUsedCharacters[miniRodFrame]
             else
-                renderCharacterSeparately(title, FishingUtil.fishingConfig.miniRodCharacter,
-                    miniFishingRodsPosition + minFishingRodsOffset * i, FishingUtil.fishingConfig.miniRodUsedCharacterHeight)
+                FishingUtil.fishingConfig.miniRodCharacter
+
+            renderCharacterSeparately(
+                title, miniRodCharacter,
+                FishingUtil.fishingConfig.miniRodsCharactersPosition + minFishingRodsOffset * i, FishingUtil.fishingConfig.miniRodCharacterHeight
+            )
         }
         // BIG ROD ANIMATION
         when (minigameState.stateTicksPassed) {

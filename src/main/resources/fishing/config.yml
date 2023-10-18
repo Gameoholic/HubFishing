@@ -63,7 +63,7 @@ rank-boost-amount: 2.0
 water-area-start-position: 12.6 # Position from the right
 water-area-length-pixels: 49.0 # Amount of pixels in which the fish & rodbox can move in
 rod-box-speed: 0.8
-max-fishing-rod-uses: 50
+max-fishing-rod-uses: 3
 
 # Characters:
 water-characters:
@@ -90,10 +90,13 @@ rod-box-character: '्'
 rod-box-character-height: 6
 
 mini-rod-character: 'ॎ'
-mini-rod-character-height: 3
-
-mini-rod-used-character: 'ॏ'
-mini-rod-used-character-height: 3
+mini-rod-character-height: 5
+mini-rod-animation-speed: 20
+mini-rod-used-characters:
+  - 'ᅀ'
+  - 'ᅁ'
+  - 'ᅂ'
+mini-rods-characters-position: 50.0 # The position of the first mini fishing rod character, in UI pixels from the right
 
 info-box-character: '༑'
 info-box-character-height: 18

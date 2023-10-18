@@ -59,8 +59,10 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
     var fishingRodUsesLeft = FishingUtil.fishingConfig.maxFishingRodUses
 
     var waterAnimationFrame = 0
-    private var waterAnimationDelay =
-        0 // When reaches the water animation speed (2 for example), will animate the next frame of the water animation and reset to 0.
+    private var waterAnimationDelay = 0 // When reaches the water animation speed (2 for example), will animate the next frame of the water animation and reset to 0.
+
+    var miniFishingRodFrames = mutableListOf<Int>() // The character to be used on each mini fishing rod
+    private var miniFishingRodsAnimationDelay = 0
 
     init {
         val player = Bukkit.getPlayer(fishingPlayer.uuid)
@@ -72,6 +74,9 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
             }
         }.runTaskTimer(HubInteractions.plugin, 1L, 1L)
         state.onEnable()
+
+        for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses)
+            miniFishingRodFrames.add(-1) // Because none of the rods are used, they do not have an animation frame
 
         spawnAndRideArmorStand(player)
     }
@@ -98,6 +103,26 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
             if (waterAnimationFrame >= FishingUtil.fishingConfig.waterCharacters.size)
                 waterAnimationFrame = 0
         }
+
+
+        for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses) {
+            if ((FishingUtil.fishingConfig.maxFishingRodUses - i) - 1 == fishingRodUsesLeft) { // We check if fishing rod [i] is used, AND is not on the last frame of the used animation (otherwise we just leave it)
+                if (miniFishingRodFrames[i] == FishingUtil.fishingConfig.miniRodUsedCharacters.size - 1) {  // If on last frame, we leave this rod and stop the animation
+                    miniFishingRodsAnimationDelay = -1
+                    break
+                }
+                if (miniFishingRodsAnimationDelay == -1 || miniFishingRodsAnimationDelay >= FishingUtil.fishingConfig.miniRodsAnimationSpeed) { // If the rod just broke, OR another frame should be animated, animate it.
+                    miniFishingRodFrames[i]++
+                    miniFishingRodsAnimationDelay = 0
+                }
+                if (miniFishingRodsAnimationDelay != -1)
+                    miniFishingRodsAnimationDelay++
+                break
+            }
+        }
+
+
+
 
         //todo: use predicates for this?
         if (state.stateTicksPassed >= 20 && state is FishingMinigameFishFoundState) {

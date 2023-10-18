@@ -28,20 +28,19 @@ class FishingMinigameFailureRenderer(override val minigameState: FishingMinigame
         )
         // FISHING ROD
         renderCharacterSeparately(title, 'F', 80.0, 6)
-        // FISHING RODS
-        for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses) { //3,1
-            if ((FishingUtil.fishingConfig.maxFishingRodUses - i) > minigameState.minigameManager.fishingRodUsesLeft)
-                renderCharacterSeparately(
-                    title, FishingUtil.fishingConfig.miniRodUsedCharacter,
-                    miniFishingRodsPosition + minFishingRodsOffset * i, FishingUtil.fishingConfig.miniRodCharacterHeight
-                )
+        // MINI RODS
+        for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses) {
+            val miniRodFrame = minigameState.minigameManager.miniFishingRodFrames[i]
+
+            val miniRodCharacter = if (miniRodFrame != -1) // If rod is used and has an animation frame
+                FishingUtil.fishingConfig.miniRodUsedCharacters[miniRodFrame]
             else
-                renderCharacterSeparately(
-                    title,
-                    FishingUtil.fishingConfig.miniRodCharacter,
-                    miniFishingRodsPosition + minFishingRodsOffset * i,
-                    FishingUtil.fishingConfig.miniRodUsedCharacterHeight
-                )
+                FishingUtil.fishingConfig.miniRodCharacter
+
+            renderCharacterSeparately(
+                title, miniRodCharacter,
+                FishingUtil.fishingConfig.miniRodsCharactersPosition + minFishingRodsOffset * i, FishingUtil.fishingConfig.miniRodCharacterHeight
+            )
         }
 
         // INFO BOX

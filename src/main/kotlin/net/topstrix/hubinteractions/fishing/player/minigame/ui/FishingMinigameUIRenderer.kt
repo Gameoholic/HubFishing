@@ -25,8 +25,6 @@ abstract class FishingMinigameUIRenderer {
      * but a side effect is that the last position is X pixels to the right. So we discard the last X pixels for the long rod.
      */
     val longRodExtraWidth = 1
-    /** The position of the first mini fishing rod character, in UI pixels from the right */
-    protected val miniFishingRodsPosition = 100.0
     /** The difference in positions between every mini fishing rod character, in UI pixels from the right*/
     protected val minFishingRodsOffset = FishingUtil.fishingConfig.miniRodCharacterHeight
     /** The position of the big fishing rod, in UI pixels from the right */
