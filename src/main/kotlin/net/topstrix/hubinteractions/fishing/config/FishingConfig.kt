@@ -178,7 +178,10 @@ data class FishingConfig(
     @SerialName("clock-characters") val clockCharacters: List<Char>,
     @SerialName("clock-character-height") val clockCharacterHeight: Int,
     @SerialName("clock-position") val clockPosition: Double,
-
+    @SerialName("time-restriction-strike-message") val timeRestrictionStrikeMessage: String,
+    @SerialName("time-restriction-warning-delay") val timeRestrictionWarningDelay: Int,
+    @SerialName("time-restriction-strike-delay") val timeRestrictionStrikeDelay: Int,
+    @SerialName("time-restriction-strike-sound") val timeRestrictionStrikeSound: @Serializable(with = SoundSerializer::class) Sound,
     )
 
 

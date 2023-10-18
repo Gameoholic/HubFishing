@@ -1,6 +1,7 @@
 package net.topstrix.hubinteractions.fishing.player.minigame.states
 
 import me.clip.placeholderapi.PlaceholderAPI
+import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameManager
@@ -41,6 +42,11 @@ class FishingMinigameGameplayState(
      */
     var passedTimeRestriction = false
 
+    /**
+     * How many ticks have passed since the last time restriction strike was received.
+     */
+    var ticksPassedSinceLastTimeRestriction = 0
+
 
     /**
      * Whether the player right-clicked. If true, signals to the minigame manager to switch states
@@ -55,6 +61,7 @@ class FishingMinigameGameplayState(
 
     override fun onTick() {
         stateTicksPassed++
+        ticksPassedSinceLastTimeRestriction++
 
         val player = Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)!! //TODO: what if null? Remove !!.
 
@@ -62,12 +69,21 @@ class FishingMinigameGameplayState(
         determineRodBoxPosition(player)
 
         // If player spent too much time without doing anything:
-        if (stateTicksPassed > 100 && !passedTimeRestriction) {
+        if (!passedTimeRestriction && ticksPassedSinceLastTimeRestriction > FishingUtil.fishingConfig.timeRestrictionWarningDelay) {
             passedTimeRestriction = true
             player.sendMessage(MiniMessage.miniMessage().deserialize(
                 PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.passedTimeRestrictionMessage))
             )
             player.playSound(FishingUtil.fishingConfig.passedTimeRestrictionSound)
+        }
+        // If time passed after waning was given, and player still hasn't done anything, remove an attempt
+        if (passedTimeRestriction && ticksPassedSinceLastTimeRestriction >
+            FishingUtil.fishingConfig.timeRestrictionStrikeDelay + FishingUtil.fishingConfig.timeRestrictionWarningDelay) {
+            Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)?.playSound(
+                FishingUtil.fishingConfig.timeRestrictionStrikeSound, Sound.Emitter.self())
+            minigameManager.fishingRodUsesLeft--
+            passedTimeRestriction = false
+            ticksPassedSinceLastTimeRestriction = 0
         }
 
         uiRenderer.render()

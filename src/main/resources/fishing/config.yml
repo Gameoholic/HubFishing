@@ -64,6 +64,8 @@ water-area-start-position: 12.6 # Position from the right
 water-area-length-pixels: 49.0 # Amount of pixels in which the fish & rodbox can move in
 rod-box-speed: 0.8
 max-fishing-rod-uses: 3
+time-restriction-warning-delay: 100 # How many ticks to wait before displaying time warning
+time-restriction-strike-delay: 40 # How many ticks to wait after warning before removing attempt from player
 
 # Characters:
 water-characters:

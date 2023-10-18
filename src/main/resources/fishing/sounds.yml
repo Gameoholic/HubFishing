@@ -38,3 +38,8 @@ passed-time-restriction-sound:
   source: MASTER
   volume: 1f
   pitch: 0f
+time-restriction-strike-sound:
+  name: "minecraft:block.lever.click"
+  source: MASTER
+  volume: 1f
+  pitch: 2f
