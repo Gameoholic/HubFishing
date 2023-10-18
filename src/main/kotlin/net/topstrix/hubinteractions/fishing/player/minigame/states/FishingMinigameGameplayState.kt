@@ -79,6 +79,9 @@ class FishingMinigameGameplayState(
         // If time passed after waning was given, and player still hasn't done anything, remove an attempt
         if (passedTimeRestriction && ticksPassedSinceLastTimeRestriction >
             FishingUtil.fishingConfig.timeRestrictionStrikeDelay + FishingUtil.fishingConfig.timeRestrictionWarningDelay) {
+            player.sendMessage(MiniMessage.miniMessage().deserialize(
+                PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.timeRestrictionStrikeMessage))
+            )
             Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)?.playSound(
                 FishingUtil.fishingConfig.timeRestrictionStrikeSound, Sound.Emitter.self())
             minigameManager.fishingRodUsesLeft--
