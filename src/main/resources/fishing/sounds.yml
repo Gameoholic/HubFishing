@@ -7,12 +7,12 @@ fish-found-sound:
   name: "minecraft:entity.experience_orb.pickup"
   source: MASTER
   volume: 1f
-  pitch: 0f
+  pitch: 1f
 fishing-minigame-miss-sound:
-  name: "minecraft:entity.experience_orb.pickup"
+  name: "minecraft:entity.arrow.hit"
   source: MASTER
   volume: 1f
-  pitch: 0f
+  pitch: 2f
 level-up-sound:
   name: "minecraft:entity.firework_rocket.blast"
   source: MASTER
@@ -33,3 +33,8 @@ fishing-minigame-catch-sound:
   source: MASTER
   volume: 1f
   pitch: 2f
+passed-time-restriction-sound:
+  name: "minecraft:block.lever.click"
+  source: MASTER
+  volume: 1f
+  pitch: 0f

@@ -9,6 +9,9 @@ import net.topstrix.hubinteractions.fishing.util.FishingUtil
  * Renders water, fish and the rodbox on the player's screen.
  */
 class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinigameGameplayState): FishingMinigameUIRenderer() {
+
+    private var clockAnimationFrame = 0
+    private var clockAnimationDelay = 0 // When equal to animation speed, will increment the frame and reset this value to 0
     override fun render() {
         val title = Component.text()
         // WATER
@@ -40,6 +43,19 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
 
         // INFO BOX
         renderCharacterSeparately(title, FishingUtil.fishingConfig.infoBoxCharacter, FishingUtil.fishingConfig.infoBoxPosition, FishingUtil.fishingConfig.infoBoxCharacterHeight)
+
+        // CLOCK
+        if (minigameState.passedTimeRestriction) {
+            renderCharacterSeparately(title, FishingUtil.fishingConfig.clockCharacters[clockAnimationFrame], FishingUtil.fishingConfig.clockPosition, FishingUtil.fishingConfig.clockCharacterHeight)
+
+            clockAnimationDelay++
+            if (clockAnimationDelay == FishingUtil.fishingConfig.clockAnimationSpeed) {
+                clockAnimationFrame++
+                if (clockAnimationFrame >= FishingUtil.fishingConfig.clockCharacters.size)
+                    clockAnimationFrame = 0
+                clockAnimationDelay = 0
+            }
+        }
 
 
         display(minigameState.minigameManager.fishingPlayer.uuid, title)

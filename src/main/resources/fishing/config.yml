@@ -148,4 +148,17 @@ long-rod-end-character: 'ॸ'
 long-rod-end-character-height: 10
 long-rod-end-character-offset: 4.5 #Since long rod end character longer than long rod character, we need to offset it to the left.
 
+clock-animation-speed: 2
+clock-character-height: 5
+clock-characters:
+  - 'ቀ'
+  - 'ቁ'
+  - 'ቂ'
+  - 'ቃ'
+  - 'ቄ'
+  - 'ቅ'
+  - 'ቆ'
+  - 'ቇ'
+clock-position: 35.0
+
 extension-animation-delay: -1 #How long to delay before starting the extension animation. Can be set to negative values.

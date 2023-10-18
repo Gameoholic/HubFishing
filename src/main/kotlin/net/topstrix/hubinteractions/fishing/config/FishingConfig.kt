@@ -172,6 +172,12 @@ data class FishingConfig(
     @SerialName("fishing-minigame-success-animation-speed") val fishingMinigameSuccessAnimationSpeed: Int,
     @SerialName("bucket-character-offset") val bucketOffset: Double,
     @SerialName("mini-rods-characters-position") val miniRodsCharactersPosition: Double,
+    @SerialName("passed-time-restriction-message") val passedTimeRestrictionMessage: String,
+    @SerialName("passed-time-restriction-sound") val passedTimeRestrictionSound: @Serializable(with = SoundSerializer::class) Sound,
+    @SerialName("clock-animation-speed") val clockAnimationSpeed: Int,
+    @SerialName("clock-characters") val clockCharacters: List<Char>,
+    @SerialName("clock-character-height") val clockCharacterHeight: Int,
+    @SerialName("clock-position") val clockPosition: Double,
 
     )
 

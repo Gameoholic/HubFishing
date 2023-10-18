@@ -1,5 +1,7 @@
 package net.topstrix.hubinteractions.fishing.player.minigame.states
 
+import me.clip.placeholderapi.PlaceholderAPI
+import net.kyori.adventure.text.minimessage.MiniMessage
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameManager
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameState
@@ -34,8 +36,15 @@ class FishingMinigameGameplayState(
 
     private val uiRenderer: FishingMinigameGameplayUIRenderer = FishingMinigameGameplayUIRenderer(this)
 
+    /**
+     * Whether the time restriction was passed and the clock should be animated.
+     */
+    var passedTimeRestriction = false
 
-    /** Whether the player right-clicked. If true, signals to the minigame manager to switch states */
+
+    /**
+     * Whether the player right-clicked. If true, signals to the minigame manager to switch states
+     */
     var rodCast = false
         private set
 
@@ -51,6 +60,16 @@ class FishingMinigameGameplayState(
 
         minigameManager.fishMovementManager.updateFishPosition()
         determineRodBoxPosition(player)
+
+        // If player spent too much time without doing anything:
+        if (stateTicksPassed > 100 && !passedTimeRestriction) {
+            passedTimeRestriction = true
+            player.sendMessage(MiniMessage.miniMessage().deserialize(
+                PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.passedTimeRestrictionMessage))
+            )
+            player.playSound(FishingUtil.fishingConfig.passedTimeRestrictionSound)
+        }
+
         uiRenderer.render()
     }
 
