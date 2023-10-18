@@ -21,29 +21,29 @@ rare-fish-minigame-max-direction-duration: 60
 rare-fish-minigame-speed: 0.4
 rare-fish-alive-time-min: 100
 rare-fish-alive-time-max: 200
-rare-fish-xp: 5
+rare-fish-xp: 10
 rare-fish-display-name: "<blue>Rare"
-rare-fish-crate-shard-chance: 0.01
+rare-fish-crate-shard-chance: 0.0075
 
-epic-fish-fishes-required-to-spawn-min: 100 #100
-epic-fish-fishes-required-to-spawn-max: 200 #200
+epic-fish-fishes-required-to-spawn-min: 150 #100
+epic-fish-fishes-required-to-spawn-max: 300 #200
 epic-fish-minigame-min-direction-duration: 20
 epic-fish-minigame-max-direction-duration: 30
 epic-fish-minigame-speed: 0.75
 epic-fish-alive-time-min: 100
 epic-fish-alive-time-max: 200
-epic-fish-xp: 30
+epic-fish-xp: 50
 epic-fish-display-name: "<dark_purple>Epic"
 epic-fish-crate-shard-chance: 0.1
 
 legendary-fish-fishes-required-to-spawn-min: 500 #500
-legendary-fish-fishes-required-to-spawn-max: 1000 #1000
+legendary-fish-fishes-required-to-spawn-max: 1500 #1000
 legendary-fish-minigame-min-direction-duration: 5
 legendary-fish-minigame-max-direction-duration: 30
 legendary-fish-minigame-speed: 1.0
 legendary-fish-alive-time-min: 100
 legendary-fish-alive-time-max: 200
-legendary-fish-xp: 100
+legendary-fish-xp: 200
 legendary-fish-display-name: "<gold>Legendary"
 legendary-fish-crate-shard-chance: 1.0
 
