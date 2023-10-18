@@ -90,13 +90,13 @@ rod-box-character: '्'
 rod-box-character-height: 6
 
 mini-rod-character: 'ॎ'
-mini-rod-character-height: 5
-mini-rod-animation-speed: 20
+mini-rod-character-height: 6
+mini-rod-animation-speed: 2
 mini-rod-used-characters:
   - 'ᅀ'
   - 'ᅁ'
   - 'ᅂ'
-mini-rods-characters-position: 50.0 # The position of the first mini fishing rod character, in UI pixels from the right
+mini-rods-characters-position: 48.0 # The position of the first mini fishing rod character, in UI pixels from the right
 
 info-box-character: '༑'
 info-box-character-height: 18
@@ -113,8 +113,8 @@ big-rod-characters:
   - '॒'
   - '॓'
   - '॓'
-  - '੔'
-  - '੔'
+  #  - '੔' unused
+  #  - '੔' unused
   - '॔'
   - '॔'
   - 'ॕ'

@@ -61,7 +61,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
     var waterAnimationFrame = 0
     private var waterAnimationDelay = 0 // When reaches the water animation speed (2 for example), will animate the next frame of the water animation and reset to 0.
 
-    var miniFishingRodFrames = mutableListOf<Int>() // The character to be used on each mini fishing rod
+    var miniFishingRodFrames = mutableListOf<Int>() // The animation frame to be used on each mini fishing rod. If set to -1, will not be animated and instead use the 'unused' mini rod character
     private var miniFishingRodsAnimationDelay = 0
 
     init {
@@ -105,6 +105,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         }
 
 
+        // Mini rods animation: (only one at a time)
         for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses) {
             if ((FishingUtil.fishingConfig.maxFishingRodUses - i) - 1 == fishingRodUsesLeft) { // We check if fishing rod [i] is used, AND is not on the last frame of the used animation (otherwise we just leave it)
                 if (miniFishingRodFrames[i] == FishingUtil.fishingConfig.miniRodUsedCharacters.size - 1) {  // If on last frame, we leave this rod and stop the animation
