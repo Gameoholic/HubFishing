@@ -1,6 +1,6 @@
 package net.topstrix.hubinteractions.fishing.player.minigame
 
-import com.github.gameoholic.partigon.Partigon
+//import com.github.gameoholic.partigon.Partigon
 import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.Component.text
@@ -14,7 +14,7 @@ import net.topstrix.hubinteractions.fishing.player.FishingPlayer
 import net.topstrix.hubinteractions.fishing.player.minigame.states.*
 import net.topstrix.hubinteractions.fishing.player.minigame.states.util.FishMovementManager
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
-import net.topstrix.hubinteractions.shared.particles.LevelUpParticle
+//import net.topstrix.hubinteractions.shared.particles.LevelUpParticle
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.ArmorStand
@@ -304,14 +304,14 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
 
                     it.playSound(FishingUtil.fishingConfig.levelUpSound, Sound.Emitter.self())
 
-                    val particle = LevelUpParticle.getParticle()
-                    particle.start()
-                    object : BukkitRunnable() {
-                        override fun run() {
-                            particle.stop()
-                            this.cancel()
-                        }
-                    }.runTaskTimer(Partigon.plugin, 50L, 1L)
+//                    val particle = LevelUpParticle.getParticle()
+//                    particle.start()
+//                    object : BukkitRunnable() {
+//                        override fun run() {
+//                            particle.stop()
+//                            this.cancel()
+//                        }
+//                    }.runTaskTimer(Partigon.plugin, 50L, 1L)
                 }
             }
 

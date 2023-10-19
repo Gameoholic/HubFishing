@@ -1,10 +1,8 @@
 package net.topstrix.hubinteractions.commands
 
-import com.github.gameoholic.partigon.Partigon
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.title.Title
 import net.kyori.adventure.title.TitlePart
-import net.topstrix.hubinteractions.shared.particles.LevelUpParticle
 import org.bukkit.Bukkit
 import org.bukkit.Particle
 import org.bukkit.command.Command
