@@ -19,6 +19,7 @@ data class FishingConfig(
     @SerialName("fish-variants") val fishVariants: List<FishVariant>,
     @SerialName("crates") val crates: List<Crate>,
     @SerialName("water-area-length-pixels") val waterAreaLengthPixels: Double,
+    @SerialName("water-area-fish-padding") val waterAreaFishPadding: Double,
     @SerialName("water-characters") val waterCharacters: List<Char>,
     @SerialName("water-character-height") val waterCharacterHeight: Int,
     @SerialName("rod-box-speed") val rodBoxSpeed: Double,

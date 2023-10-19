@@ -18,7 +18,6 @@ object HubInteractions {
 
         protocolManager = ProtocolLibrary.getProtocolManager()
 
-        plugin.saveResource("config.yml", false)
         plugin.saveResource("elytraspots.yml", false)
 
         plugin.saveResource("fishing/config.yml", false)

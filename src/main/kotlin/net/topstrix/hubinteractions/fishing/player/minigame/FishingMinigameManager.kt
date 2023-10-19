@@ -1,6 +1,5 @@
 package net.topstrix.hubinteractions.fishing.player.minigame
 
-//import com.github.gameoholic.partigon.Partigon
 import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.Component.text
@@ -14,7 +13,6 @@ import net.topstrix.hubinteractions.fishing.player.FishingPlayer
 import net.topstrix.hubinteractions.fishing.player.minigame.states.*
 import net.topstrix.hubinteractions.fishing.player.minigame.states.util.FishMovementManager
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
-//import net.topstrix.hubinteractions.shared.particles.LevelUpParticle
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.ArmorStand
@@ -37,8 +35,8 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
     private var state: FishingMinigameState = FishingMinigameFishFoundState(this)
     private val task: BukkitTask
     val fishMovementManager = FishMovementManager(
-        FishingUtil.fishingConfig.waterAreaStartPosition + caughtFish.variant.minigameCharacterHeight,
-        FishingUtil.fishingConfig.waterAreaStartPosition - caughtFish.variant.minigameCharacterHeight + FishingUtil.fishingConfig.waterAreaLengthPixels,
+        FishingUtil.fishingConfig.waterAreaStartPosition + FishingUtil.fishingConfig.waterAreaFishPadding,
+        FishingUtil.fishingConfig.waterAreaStartPosition + FishingUtil.fishingConfig.waterAreaLengthPixels - FishingUtil.fishingConfig.waterAreaFishPadding,
         caughtFish
     )
 
@@ -127,10 +125,12 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         // If player is no longer riding armor stand, end the game.
         if (!armorStand.passengers.contains(player)) {
             armorStand.addPassenger(player)
-            state.onDisable()
-            state = FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.PLAYER_SURRENDERED)
-            state.onEnable()
-            return
+            if (state !is FishingMinigameFailureState) {
+                state.onDisable()
+                state = FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.PLAYER_SURRENDERED)
+                state.onEnable()
+                return
+            }
         }
         if (state.stateTicksPassed >= 20 && state is FishingMinigameFishFoundState) {
             state.onDisable()
