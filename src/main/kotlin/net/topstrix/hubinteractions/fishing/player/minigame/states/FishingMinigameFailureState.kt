@@ -1,23 +1,41 @@
 package net.topstrix.hubinteractions.fishing.player.minigame.states
 
+import me.clip.placeholderapi.PlaceholderAPI
+import net.kyori.adventure.text.minimessage.MiniMessage
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameManager
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameState
 import net.topstrix.hubinteractions.fishing.player.minigame.ui.FishingMinigameFailureRenderer
-import net.topstrix.hubinteractions.fishing.player.minigame.ui.FishingMinigameSuccessRenderer
 import net.topstrix.hubinteractions.fishing.player.minigame.ui.FishingMinigameUIRenderer
+import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
-class FishingMinigameFailureState(val minigameManager: FishingMinigameManager): FishingMinigameState, Listener {
+class FishingMinigameFailureState(val minigameManager: FishingMinigameManager, val failureReason: FailureReason): FishingMinigameState, Listener {
     override var stateTicksPassed = 0
     private val uiRenderer: FishingMinigameUIRenderer = FishingMinigameFailureRenderer(this)
 
+    enum class FailureReason {
+        RAN_OUT_OF_ATTEMPTS,
+        /**
+         * Player has left the fishing minigame voluntarily.
+         */
+        PLAYER_SURRENDERED
+    }
+
     override fun onEnable() {
         Bukkit.getPluginManager().registerEvents(this, HubInteractions.plugin)
+        Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)?.let {
+            if (failureReason == FailureReason.PLAYER_SURRENDERED)
+                it.sendMessage(MiniMessage.miniMessage().deserialize(
+                    PlaceholderAPI.setPlaceholders(it, FishingUtil.fishingConfig.minigameLeaveMessage))
+                )
+            it.playSound(FishingUtil.fishingConfig.minigameFailureSound)
+        }
+
     }
 
     override fun onTick() {

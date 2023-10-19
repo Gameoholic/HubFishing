@@ -56,7 +56,11 @@ dependencies {
     implementation("com.charleskorn.kaml:kaml:0.55.0") //todo: shade
     implementation("com.zaxxer:HikariCP:5.0.1")
 
+<<<<<<< HEAD
+    compileOnly("com.github.gameoholic:partigon:1.0.5")
+=======
     //compileOnly("com.github.gameoholic:partigon:1.0.2")
+>>>>>>> 2ec19e4b6d0a07da1633a0d9b125e9b69e777097
     compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
     compileOnly("me.clip:placeholderapi:2.11.4")
 }
@@ -98,7 +102,8 @@ tasks {
         // helper function to relocate a package into our package
         fun reloc(pkg: String) = relocate(pkg, "${project.group}.${project.name}.dependency.$pkg")
 
-        reloc("com.github.gameoholic:partigon")
+        reloc("com.github.gameoholic")
+        reloc("kotlin")
 
     }
 

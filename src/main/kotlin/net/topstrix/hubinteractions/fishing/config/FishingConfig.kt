@@ -182,6 +182,8 @@ data class FishingConfig(
     @SerialName("time-restriction-warning-delay") val timeRestrictionWarningDelay: Int,
     @SerialName("time-restriction-strike-delay") val timeRestrictionStrikeDelay: Int,
     @SerialName("time-restriction-strike-sound") val timeRestrictionStrikeSound: @Serializable(with = SoundSerializer::class) Sound,
+    @SerialName("minigame-failure-sound") val minigameFailureSound: @Serializable(with = SoundSerializer::class) Sound,
+    @SerialName("minigame-leave-message") val minigameLeaveMessage: String,
     )
 
 
