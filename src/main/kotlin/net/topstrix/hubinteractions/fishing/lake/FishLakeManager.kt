@@ -21,6 +21,7 @@ import org.bukkit.entity.TextDisplay
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerFishEvent
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import java.lang.RuntimeException
@@ -105,7 +106,13 @@ class FishLakeManager(
      */
     fun addPlayer(uuid: UUID) {
         allPlayers.add(uuid)
+
         val item = ItemStack(Material.FISHING_ROD)
+        val meta = item.itemMeta
+        meta.isUnbreakable = true
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+        item.itemMeta = meta
+
         Bukkit.getPlayer(uuid)?.let {
             it.inventory.addItem(item)
             if (it.hasPermission(FishingUtil.fishingConfig.rankBoostPermission)) {
