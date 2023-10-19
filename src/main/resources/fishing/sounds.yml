@@ -43,3 +43,8 @@ time-restriction-strike-sound:
   source: MASTER
   volume: 1f
   pitch: 2f
+minigame-failure-sound:
+  name: "minecraft:entity.arrow.hit"
+  source: MASTER
+  volume: 1f
+  pitch: 0f

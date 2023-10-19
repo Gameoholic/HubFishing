@@ -83,17 +83,14 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
 
     fun onTick() {
         val player = Bukkit.getPlayer(fishingPlayer.uuid) ?: run {
-            endMinigame(MinigameEndReason.PLAYER_LEFT)
+            endMinigame(MinigameEndReason.PLAYER_LOGGED_OFF)
             return
         }
         // If player left premises of lake, or hook is dead, end game
         if (!fishingPlayer.fishLakeManager.fishingPlayers.any { it.uuid == fishingPlayer.uuid } || fishingPlayer.hook.isDead) {
-            endMinigame(MinigameEndReason.PLAYER_LEFT)
+            endMinigame(MinigameEndReason.PLAYER_LOGGED_OFF)
             return
         }
-
-        if (!armorStand.passengers.contains(player))
-            armorStand.addPassenger(player)
 
         // Water animation:
         waterAnimationDelay++
@@ -126,6 +123,15 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
 
 
         //todo: use predicates for this?
+
+        // If player is no longer riding armor stand, end the game.
+        if (!armorStand.passengers.contains(player)) {
+            armorStand.addPassenger(player)
+            state.onDisable()
+            state = FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.PLAYER_SURRENDERED)
+            state.onEnable()
+            return
+        }
         if (state.stateTicksPassed >= 20 && state is FishingMinigameFishFoundState) {
             state.onDisable()
             state = FishingMinigameStartAnimState(this)
@@ -145,7 +151,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         }
         if (state is FishingMinigameGameplayState && fishingRodUsesLeft == 0) {
             state.onDisable()
-            state = FishingMinigameFailureState(this)
+            state = FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.RAN_OUT_OF_ATTEMPTS)
             state.onEnable()
             return
         }
@@ -162,6 +168,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
             state.onDisable()
             state = FishingMinigameRodCastState(this)
             state.onEnable()
+            return
         }
         if (state is FishingMinigameRodCastState && (state as FishingMinigameRodCastState).fishCaught == false) {
             state.onDisable()
@@ -173,6 +180,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
                     FishingUtil.fishingConfig.rodBoxSpeed
                 )
             state.onEnable()
+            return
         }
         if (state is FishingMinigameRodCastState && (state as FishingMinigameRodCastState).fishCaught == true) {
             state.onDisable()
@@ -217,30 +225,44 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
          * The fish was caught successfully.
          */
         FISH_CAUGHT,
-
         /**
          * The minigame ended in failure because the player ran out of attempts.
          */
         RAN_OUT_OF_ATTEMPTS,
-
         /**
          * The player left the server.
          */
-        PLAYER_LEFT
+        PLAYER_LOGGED_OFF,
+        /**
+         * The player chose to leave the fishing minigame.
+         */
+        PLAYER_SURRENDERED
     }
 
     /**
      * Ends the minigame and cleans everything up.
      */
     private fun endMinigame(minigameEndReason: MinigameEndReason) {
-        if (minigameEndReason == MinigameEndReason.FISH_CAUGHT) {
-            onSuccessfulFish()
-            caughtFish.remove()
-        } else if (minigameEndReason == MinigameEndReason.RAN_OUT_OF_ATTEMPTS) {
-            FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
-                it.increaseFishesUncaught(caughtFish.variant, 1)
+        when (minigameEndReason) {
+            MinigameEndReason.FISH_CAUGHT -> {
+                onSuccessfulFish()
+                caughtFish.remove()
             }
-            caughtFish.caught = false
+            MinigameEndReason.RAN_OUT_OF_ATTEMPTS -> {
+                FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
+                    it.increaseFishesUncaught(caughtFish.variant, 1)
+                }
+                caughtFish.caught = false
+            }
+            MinigameEndReason.PLAYER_SURRENDERED -> {
+                FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
+                    it.increaseFishesUncaught(caughtFish.variant, 1)
+                }
+                caughtFish.caught = false
+            }
+            else -> {
+                caughtFish.caught = false
+            }
         }
         armorStand.remove()
         Bukkit.getPlayer(fishingPlayer.uuid)?.let {
