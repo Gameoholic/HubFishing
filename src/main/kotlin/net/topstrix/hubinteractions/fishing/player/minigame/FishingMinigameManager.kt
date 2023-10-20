@@ -84,8 +84,8 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
             endMinigame(MinigameEndReason.PLAYER_LOGGED_OFF)
             return
         }
-        // If player left premises of lake, or hook is dead, end game
-        if (!fishingPlayer.fishLakeManager.fishingPlayers.any { it.uuid == fishingPlayer.uuid } || fishingPlayer.hook.isDead) {
+        // If player left premises of lake, end game
+        if (!fishingPlayer.fishLakeManager.fishingPlayers.any { it.uuid == fishingPlayer.uuid }) {
             endMinigame(MinigameEndReason.PLAYER_LOGGED_OFF)
             return
         }
@@ -125,7 +125,16 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         // If player is no longer riding armor stand, end the game.
         if (!armorStand.passengers.contains(player)) {
             armorStand.addPassenger(player)
-            if (state !is FishingMinigameFailureState) {
+            if (state !is FishingMinigameFailureState && state !is FishingMinigameSuccessState) {
+                state.onDisable()
+                state = FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.PLAYER_SURRENDERED)
+                state.onEnable()
+                return
+            }
+        }
+        // If rod is dead for some reason, end the game.
+        if (fishingPlayer.hook.isDead) {
+            if (state !is FishingMinigameFailureState && state !is FishingMinigameSuccessState) {
                 state.onDisable()
                 state = FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.PLAYER_SURRENDERED)
                 state.onEnable()

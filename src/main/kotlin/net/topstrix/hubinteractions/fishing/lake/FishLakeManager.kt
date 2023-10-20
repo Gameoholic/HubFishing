@@ -21,6 +21,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerFishEvent
+import org.bukkit.event.player.PlayerItemHeldEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
@@ -369,21 +370,21 @@ class FishLakeManager(
         }
     }
     @EventHandler
-    fun onPlayerDropItemEvent(e: InventoryClickEvent) {
+    fun onPlayerItemHeldEvent(e: InventoryClickEvent) {
         allPlayers.firstOrNull { it == e.whoClicked.uniqueId } ?: return
         if (e.isCancelled) return
         if (e.currentItem?.type == Material.FISHING_ROD)
             e.isCancelled = true
     }
     @EventHandler
-    fun onPlayerDropItemEvent(e: PlayerSwapHandItemsEvent) {
+    fun onPlayerItemHeldEvent(e: PlayerSwapHandItemsEvent) {
         allPlayers.firstOrNull { it == e.player.uniqueId } ?: return
         if (e.isCancelled) return
         if (e.mainHandItem?.type == Material.FISHING_ROD || e.offHandItem?.type == Material.FISHING_ROD)
             e.isCancelled = true
     }
     @EventHandler
-    fun onPlayerDropItemEvent(e: PlayerDropItemEvent) {
+    fun onPlayerItemHeldEvent(e: PlayerDropItemEvent) {
         allPlayers.firstOrNull { it == e.player.uniqueId } ?: return
         if (e.isCancelled) return
         if (e.itemDrop.itemStack.type == Material.FISHING_ROD)
