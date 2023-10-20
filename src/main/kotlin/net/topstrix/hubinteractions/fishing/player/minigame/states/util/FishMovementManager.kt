@@ -25,7 +25,10 @@ class FishMovementManager(
     /** The maximum amount of ticks the fish will head in the current direction */
     private var fishMaxDirectionTime = 0
     /** The fish's position in UI pixels, from the right */
-    var fishPosition = fishMinPosition + (fishMaxPosition - fishMinPosition) / 2
+    var fishPosition = rnd.nextDouble(
+        fishMinPosition + FishingUtil.fishingConfig.waterAreaFishSpawnPadding,
+        fishMaxPosition - FishingUtil.fishingConfig.waterAreaFishSpawnPadding)
+
 
     var heatmap = hashMapOf<Int, Double>()
     init {
