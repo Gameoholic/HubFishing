@@ -1,8 +1,6 @@
 package net.topstrix.hubinteractions.fishing.lake
 
 import me.clip.placeholderapi.PlaceholderAPI
-import net.kyori.adventure.key.Key
-import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
@@ -20,7 +18,10 @@ import org.bukkit.entity.EntityType
 import org.bukkit.entity.TextDisplay
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerFishEvent
+import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
@@ -351,7 +352,7 @@ class FishLakeManager(
     fun onPlayerFishEvent(e: PlayerFishEvent) {
         if (e.isCancelled) return
 
-        val playerUUID = this.allPlayers.firstOrNull { it == e.player.uniqueId } ?: return
+        val playerUUID = allPlayers.firstOrNull { it == e.player.uniqueId } ?: return
 
 
         //We don't care what happens in this event, if the player is in the middle of a fishing minigame
@@ -367,4 +368,26 @@ class FishLakeManager(
             removePlayerFromFishingPlayers(e.player.uniqueId)
         }
     }
+    @EventHandler
+    fun onPlayerDropItemEvent(e: InventoryClickEvent) {
+        allPlayers.firstOrNull { it == e.whoClicked.uniqueId } ?: return
+        if (e.isCancelled) return
+        if (e.currentItem?.type == Material.FISHING_ROD)
+            e.isCancelled = true
+    }
+    @EventHandler
+    fun onPlayerDropItemEvent(e: PlayerSwapHandItemsEvent) {
+        allPlayers.firstOrNull { it == e.player.uniqueId } ?: return
+        if (e.isCancelled) return
+        if (e.mainHandItem?.type == Material.FISHING_ROD || e.offHandItem?.type == Material.FISHING_ROD)
+            e.isCancelled = true
+    }
+    @EventHandler
+    fun onPlayerDropItemEvent(e: PlayerDropItemEvent) {
+        allPlayers.firstOrNull { it == e.player.uniqueId } ?: return
+        if (e.isCancelled) return
+        if (e.itemDrop.itemStack.type == Material.FISHING_ROD)
+            e.isCancelled = true
+    }
+
 }
