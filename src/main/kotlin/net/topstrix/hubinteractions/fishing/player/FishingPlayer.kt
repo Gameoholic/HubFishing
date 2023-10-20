@@ -82,7 +82,8 @@ class FishingPlayer(
             it.playSound(FishingUtil.fishingConfig.fishFoundSound, Sound.Emitter.self())
         }
         caughtFish.caught = true
-        FishingMinigameManager(this, caughtFish)
+        val lakePlayer = fishLakeManager.allPlayers.first { it.uuid == uuid }
+        lakePlayer.minigameManager = FishingMinigameManager(this, lakePlayer, caughtFish)
     }
 
     /**

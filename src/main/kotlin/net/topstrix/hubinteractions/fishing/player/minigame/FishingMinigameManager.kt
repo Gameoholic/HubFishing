@@ -10,6 +10,7 @@ import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.crate.CrateUtil
 import net.topstrix.hubinteractions.fishing.fish.Fish
 import net.topstrix.hubinteractions.fishing.player.FishingPlayer
+import net.topstrix.hubinteractions.fishing.player.LakePlayer
 import net.topstrix.hubinteractions.fishing.player.minigame.states.*
 import net.topstrix.hubinteractions.fishing.player.minigame.states.util.FishMovementManager
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
@@ -29,9 +30,10 @@ import java.lang.RuntimeException
  * Manages a fishing minigame session for a player.
  *
  * @param fishingPlayer The player this minigame manager's for
+ * @param lakePlayer The player this minigame manager's for
  * @param caughtFish The fish that was caught
  */
-class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: Fish) {
+class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakePlayer: LakePlayer, val caughtFish: Fish) {
     private var state: FishingMinigameState = FishingMinigameFishFoundState(this)
     private val task: BukkitTask
     val fishMovementManager = FishMovementManager(
@@ -79,13 +81,21 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         spawnAndRideArmorStand(player)
     }
 
-    fun onTick() {
-        val player = Bukkit.getPlayer(fishingPlayer.uuid) ?: run {
-            endMinigame(MinigameEndReason.PLAYER_LOGGED_OFF)
+    fun onPlayerLogOff(player: Player) {
+        armorStand.removePassenger(player) // Fix bug where armor stand would respawn when player re-logs because is still passenger
+        endMinigame(MinigameEndReason.PLAYER_LOGGED_OFF)
+    }
+
+    fun onRodDeath() {
+        if (state !is FishingMinigameFailureState && state !is FishingMinigameSuccessState) {
+            state.onDisable()
+            state = FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.PLAYER_SURRENDERED)
+            state.onEnable()
             return
         }
-        // If player left premises of lake, end game
-        if (!fishingPlayer.fishLakeManager.fishingPlayers.any { it.uuid == fishingPlayer.uuid }) {
+    }
+    fun onTick() {
+        val player = Bukkit.getPlayer(fishingPlayer.uuid) ?: run {
             endMinigame(MinigameEndReason.PLAYER_LOGGED_OFF)
             return
         }
@@ -132,15 +142,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
                 return
             }
         }
-        // If rod is dead for some reason, end the game.
-        if (fishingPlayer.hook.isDead) {
-            if (state !is FishingMinigameFailureState && state !is FishingMinigameSuccessState) {
-                state.onDisable()
-                state = FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.PLAYER_SURRENDERED)
-                state.onEnable()
-                return
-            }
-        }
+
         if (state.stateTicksPassed >= 20 && state is FishingMinigameFishFoundState) {
             state.onDisable()
             state = FishingMinigameStartAnimState(this)
@@ -257,23 +259,13 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
                 onSuccessfulFish()
                 caughtFish.remove()
             }
-            MinigameEndReason.RAN_OUT_OF_ATTEMPTS -> {
-                FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
-                    it.increaseFishesUncaught(caughtFish.variant, 1)
-                }
-                caughtFish.caught = false
-            }
-            MinigameEndReason.PLAYER_SURRENDERED -> {
-                FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
-                    it.increaseFishesUncaught(caughtFish.variant, 1)
-                }
-                caughtFish.caught = false
-            }
             else -> {
+                FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
+                    it.increaseFishesUncaught(caughtFish.variant, 1)
+                }
                 caughtFish.caught = false
             }
         }
-        armorStand.remove()
         Bukkit.getPlayer(fishingPlayer.uuid)?.let {
             it.sendTitlePart(
                 TitlePart.TITLE,
@@ -284,6 +276,8 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
         state.onDisable()
         task.cancel()
         fishingPlayer.hook.remove()
+        armorStand.remove()
+        lakePlayer.minigameManager = null
     }
 
     /**
@@ -326,6 +320,11 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, val caughtFish: F
 
         }
         CrateUtil.attemptGiveShard(fishingPlayer.uuid, caughtFish.variant)
+    }
+
+    fun onQuitDifferent(player: Player) {
+        armorStand.removePassenger(player)
+        armorStand.remove()
     }
 
 
