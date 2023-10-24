@@ -8,6 +8,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
 
+//todo: Improve this even further
 class FishAIManager(val fish: Fish) {
 
     private var state: State = State.CONSTANT_SPEED
@@ -26,7 +27,7 @@ class FishAIManager(val fish: Fish) {
     /**
      * The speed at which the fish rotates per tick, in yaw degrees.
      */
-    private val rotationSpeed = 10f
+    private val rotationSpeed = (Random.nextInt(5, 15) * fish.variant.speed).toFloat()
 
     /**
      * The remaining rotation (yaw) the fish has to do. If set to 0, fish is not rotating, or has finished rotating.
@@ -140,12 +141,12 @@ class FishAIManager(val fish: Fish) {
     private fun determineStateSwitchState() {
         if (state == State.ROTATING) {
             state = State.ACCELERATING
-            acceleration = 0.005
+            acceleration = Random.nextDouble(0.0, 0.01) * fish.variant.speed
             return
         }
 
         if (state == State.CLOSE_TO_DESTINATION) {
-            acceleration = -0.005
+            acceleration = -Random.nextDouble(0.0, 0.01) * fish.variant.speed
             return
         }
 
@@ -163,11 +164,11 @@ class FishAIManager(val fish: Fish) {
             var rnd = Random.nextInt(2)
             if (rnd == 0) {
                 state = State.ACCELERATING
-                acceleration = 0.005
+                acceleration = Random.nextDouble(0.0, 0.01) * fish.variant.speed
             }
             else {
                 state = State.DECELERATING
-                acceleration = -0.005
+                acceleration = -Random.nextDouble(0.0, 0.01) * fish.variant.speed
             }
         }
 
