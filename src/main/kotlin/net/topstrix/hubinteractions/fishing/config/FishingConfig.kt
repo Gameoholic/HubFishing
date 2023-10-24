@@ -190,6 +190,7 @@ data class FishingConfig(
     @SerialName("time-restriction-strike-sound") val timeRestrictionStrikeSound: @Serializable(with = SoundSerializer::class) Sound,
     @SerialName("minigame-failure-sound") val minigameFailureSound: @Serializable(with = SoundSerializer::class) Sound,
     @SerialName("minigame-leave-message") val minigameLeaveMessage: String,
+    @SerialName("hook-cooldown") val hookCooldown: Int,
     )
 
 

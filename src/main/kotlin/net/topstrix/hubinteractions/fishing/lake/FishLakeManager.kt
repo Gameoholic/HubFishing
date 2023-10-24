@@ -367,7 +367,7 @@ class FishLakeManager(
 
         if (e.state == PlayerFishEvent.State.FISHING) {
             e.hook.waitTime = 10000000
-            fishingPlayers.add(FishingPlayer(this, lakePlayer.uuid, e.hook, 40))
+            fishingPlayers.add(FishingPlayer(this, lakePlayer.uuid, e.hook, FishingUtil.fishingConfig.hookCooldown))
         }
         if (e.state == PlayerFishEvent.State.REEL_IN) {
             removePlayerFromFishingPlayers(e.player.uniqueId)

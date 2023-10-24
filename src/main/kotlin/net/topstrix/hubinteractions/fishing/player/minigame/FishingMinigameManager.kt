@@ -277,6 +277,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
         task.cancel()
         fishingPlayer.hook.remove()
         armorStand.remove()
+        textDisplay.remove()
         lakePlayer.minigameManager = null
     }
 
