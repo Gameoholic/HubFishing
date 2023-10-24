@@ -19,7 +19,10 @@ import org.bukkit.entity.EntityType
 import org.bukkit.entity.TextDisplay
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryDragEvent
+import org.bukkit.event.inventory.InventoryInteractEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -374,8 +377,14 @@ class FishLakeManager(
     fun onPlayerItemHeldEvent(e: InventoryClickEvent) {
         allPlayers.firstOrNull { it.uuid == e.whoClicked.uniqueId } ?: return
         if (e.isCancelled) return
+
+        if (e.click == ClickType.NUMBER_KEY) {
+            // This covers for cases where you try to move the fishing rod from the hotbar to the upper inventory using number keys
+            if (e.whoClicked.inventory.getItem(e.hotbarButton)?.type == Material.FISHING_ROD)
+                e.isCancelled = true
+        }
         if (e.currentItem?.type == Material.FISHING_ROD)
-            e.isCancelled = true
+                e.isCancelled = true
     }
     @EventHandler
     fun onPlayerItemHeldEvent(e: PlayerSwapHandItemsEvent) {

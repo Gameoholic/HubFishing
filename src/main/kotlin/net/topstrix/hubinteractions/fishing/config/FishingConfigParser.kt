@@ -45,7 +45,8 @@ object FishingConfigParser {
     private fun loadFishRarities(fishingConfig: FishingConfig) {
         FishRarity.COMMON.minigameMinDirectionDuration = fishingConfig.commonFishMinigameMinDirectionDuration
         FishRarity.COMMON.minigameMaxDirectionDuration = fishingConfig.commonFishMinigameMaxDirectionDuration
-        FishRarity.COMMON.minigameSpeed = fishingConfig.commonFishMinigameSpeed
+        FishRarity.COMMON.minigameMinSpeed = fishingConfig.commonFishMinigameMinSpeed
+        FishRarity.COMMON.minigameMaxSpeed = fishingConfig.commonFishMinigameMaxSpeed
         FishRarity.COMMON.fishesRequiredToSpawnMin = 0
         FishRarity.COMMON.fishesRequiredToSpawnMax = 0
         FishRarity.COMMON.aliveTimeMin = fishingConfig.commonFishAliveTimeMin
@@ -56,7 +57,8 @@ object FishingConfigParser {
 
         FishRarity.RARE.minigameMinDirectionDuration = fishingConfig.rareFishMinigameMinDirectionDuration
         FishRarity.RARE.minigameMaxDirectionDuration = fishingConfig.rareFishMinigameMaxDirectionDuration
-        FishRarity.RARE.minigameSpeed = fishingConfig.rareFishMinigameSpeed
+        FishRarity.RARE.minigameMinSpeed = fishingConfig.rareFishMinigameMinSpeed
+        FishRarity.RARE.minigameMaxSpeed = fishingConfig.rareFishMinigameMaxSpeed
         FishRarity.RARE.fishesRequiredToSpawnMin = fishingConfig.rareFishFishesRequiredToSpawnMin
         FishRarity.RARE.fishesRequiredToSpawnMax = fishingConfig.rareFishFishesRequiredToSpawnMax
         FishRarity.RARE.aliveTimeMin = fishingConfig.rareFishAliveTimeMin
@@ -67,7 +69,8 @@ object FishingConfigParser {
 
         FishRarity.EPIC.minigameMinDirectionDuration = fishingConfig.epicFishMinigameMinDirectionDuration
         FishRarity.EPIC.minigameMaxDirectionDuration = fishingConfig.epicFishMinigameMaxDirectionDuration
-        FishRarity.EPIC.minigameSpeed = fishingConfig.epicFishMinigameSpeed
+        FishRarity.EPIC.minigameMinSpeed = fishingConfig.epicFishMinigameMinSpeed
+        FishRarity.EPIC.minigameMaxSpeed = fishingConfig.epicFishMinigameMaxSpeed
         FishRarity.EPIC.fishesRequiredToSpawnMin = fishingConfig.epicFishFishesRequiredToSpawnMin
         FishRarity.EPIC.fishesRequiredToSpawnMax = fishingConfig.epicFishFishesRequiredToSpawnMax
         FishRarity.EPIC.aliveTimeMin = fishingConfig.epicFishAliveTimeMin
@@ -78,7 +81,8 @@ object FishingConfigParser {
 
         FishRarity.LEGENDARY.minigameMinDirectionDuration = fishingConfig.legendaryFishMinigameMinDirectionDuration
         FishRarity.LEGENDARY.minigameMaxDirectionDuration = fishingConfig.legendaryFishMinigameMaxDirectionDuration
-        FishRarity.LEGENDARY.minigameSpeed = fishingConfig.legendaryFishMinigameSpeed
+        FishRarity.LEGENDARY.minigameMinSpeed = fishingConfig.legendaryFishMinigameMinSpeed
+        FishRarity.LEGENDARY.minigameMaxSpeed = fishingConfig.legendaryFishMinigameMaxSpeed
         FishRarity.LEGENDARY.fishesRequiredToSpawnMin = fishingConfig.legendaryFishFishesRequiredToSpawnMin
         FishRarity.LEGENDARY.fishesRequiredToSpawnMax = fishingConfig.legendaryFishFishesRequiredToSpawnMax
         FishRarity.LEGENDARY.aliveTimeMin = fishingConfig.legendaryFishAliveTimeMin

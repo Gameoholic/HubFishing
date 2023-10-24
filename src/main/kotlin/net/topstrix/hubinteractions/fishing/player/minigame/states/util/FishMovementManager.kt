@@ -17,20 +17,31 @@ class FishMovementManager(
 ) {
     private val rnd = Random()
 
-    private enum class FishDirection {LEFT, RIGHT}
+    private enum class FishDirection { LEFT, RIGHT }
+
     private var fishDirection: FishDirection = FishDirection.LEFT
 
     /** The amount of ticks the fish is heading in the current direction */
     private var fishDirectionTime = 0
+
     /** The maximum amount of ticks the fish will head in the current direction */
     private var fishMaxDirectionTime = 0
+
     /** The fish's position in UI pixels, from the right */
     var fishPosition = rnd.nextDouble(
         fishMinPosition + FishingUtil.fishingConfig.waterAreaFishSpawnPadding,
-        fishMaxPosition - FishingUtil.fishingConfig.waterAreaFishSpawnPadding)
+        fishMaxPosition - FishingUtil.fishingConfig.waterAreaFishSpawnPadding
+    )
+
+    private val fishSpeed =
+        if (caughtFish.variant.rarity.minigameMaxSpeed == caughtFish.variant.rarity.minigameMinSpeed)
+            caughtFish.variant.rarity.minigameMinSpeed
+        else
+            rnd.nextDouble(caughtFish.variant.rarity.minigameMinSpeed, caughtFish.variant.rarity.minigameMaxSpeed)
 
 
     var heatmap = hashMapOf<Int, Double>()
+
     init {
 //        for (i in 0 until FishingUtil.fishingConfig.waterAmount) {
 //            heatmap[i] = 100.0 / FishingUtil.fishingConfig.waterAmount //14.2%
@@ -46,6 +57,7 @@ class FishMovementManager(
 ////todo: heatmap code
 
     }
+
     /**
      * Determines and updates the fish position based on algorithm
      */
@@ -72,9 +84,9 @@ class FishMovementManager(
      */
     private fun moveFishInDirection() {
         if (fishDirection == FishDirection.RIGHT)
-            fishPosition -= caughtFish.variant.rarity.minigameSpeed
+            fishPosition -= fishSpeed
         else
-            fishPosition += caughtFish.variant.rarity.minigameSpeed
+            fishPosition += fishSpeed
     }
 
     /**

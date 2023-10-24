@@ -56,19 +56,19 @@ class FishingPlayer(
             return
         displayHookParticles()
 
-        //Fish catch detection
-        val caughtFishes = fishLakeManager.fishes.filter { !it.caught && it.checkHitboxCollision(hook.location) }
+        //Fish find detection
+        val foundFishes = fishLakeManager.fishes.filter { !it.caught && it.checkHitboxCollision(hook.location) }
 
-        //If multiple fish are caught, get the one with the rarest rarity
-        if (caughtFishes.isNotEmpty()) {
-            val caughtFish = caughtFishes
-                .first { it.variant.rarity.value == caughtFishes.maxOf { caughtFish -> caughtFish.variant.rarity.value } }
-            onCatchFish(caughtFish)
+        //If multiple fish are found, get the one with the rarest rarity
+        if (foundFishes.isNotEmpty()) {
+            val caughtFish = foundFishes
+                .first { it.variant.rarity.value == foundFishes.maxOf { caughtFish -> caughtFish.variant.rarity.value } }
+            onFindFish(caughtFish)
             return
         }
     }
 
-    private fun onCatchFish(caughtFish: Fish) {
+    private fun onFindFish(caughtFish: Fish) {
         LoggerUtil.debug("Player $uuid caught fish $caughtFish")
         fishingState = FishingPlayerState.FISH_CAUGHT
         // Send message & play sound:

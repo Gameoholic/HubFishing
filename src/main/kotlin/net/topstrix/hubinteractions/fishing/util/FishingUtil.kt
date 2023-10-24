@@ -76,11 +76,11 @@ object FishingUtil {
                 val playerInFishingArea = player.location.x > it.corner1.x && player.location.x < it.corner2.x &&
                     player.location.y > it.corner1.y && player.location.y < it.corner2.y &&
                     player.location.z > it.corner1.z && player.location.z < it.corner2.z
-                if (it.allPlayers.any { uuid -> uuid == player.uniqueId } && !playerInFishingArea)
+                if (it.allPlayers.any { lakePlayer -> lakePlayer.uuid == player.uniqueId } && !playerInFishingArea)
                     it.removePlayer(player.uniqueId)
 
                 //We only add player to the lake manager, if they're in its region, and if player data for this player was correctly loaded
-                else if (!it.allPlayers.any { uuid -> uuid == player.uniqueId } && playerInFishingArea &&
+                else if (!it.allPlayers.any { lakePlayer -> lakePlayer.uuid == player.uniqueId } && playerInFishingArea &&
                     playerData.any { playerData -> playerData.playerUUID == player.uniqueId }) {
                     if (player.hasPermission(it.permissionRequiredToEnter)) {
                         it.addPlayer(player.uniqueId)
