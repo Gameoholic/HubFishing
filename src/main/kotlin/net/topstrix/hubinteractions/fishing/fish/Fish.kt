@@ -1,8 +1,10 @@
 package net.topstrix.hubinteractions.fishing.fish
 
+import com.github.gameoholic.partigon.particle.PartigonParticle
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
 import net.topstrix.hubinteractions.fishing.util.LoggerUtil
+import net.topstrix.hubinteractions.shared.particles.LegendaryFishParticle
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
@@ -42,6 +44,8 @@ class Fish(
      */
     var caught = false
 
+    private val particle: PartigonParticle?
+
     private val AIManager: FishAIManager
 
     init {
@@ -60,6 +64,11 @@ class Fish(
         armorStand.equipment.setItem(EquipmentSlot.HEAD, itemStack)
 
         AIManager = FishAIManager(this)
+        particle = if (variant.rarity == FishRarity.LEGENDARY)
+            LegendaryFishParticle.getParticle(armorStand)
+        else
+            null
+        particle?.start()
     }
 
     fun onTick() {
@@ -89,6 +98,7 @@ class Fish(
     fun remove() {
         fishLakeManager.fishes.remove(this)
         armorStand.remove()
+        particle?.stop()
     }
 
 

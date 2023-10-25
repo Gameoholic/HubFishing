@@ -1,15 +1,9 @@
-package net.topstrix.hubinteractions.elytraspots
+package net.topstrix.hubinteractions.shared.particles
 
-import com.github.gameoholic.partigon.particle.PartigonParticle
 import com.github.gameoholic.partigon.particle.PartigonParticle.Companion.partigonParticleBuilder
-import com.github.gameoholic.partigon.particle.envelope.Envelope
 import com.github.gameoholic.partigon.particle.envelope.EnvelopeGroup
-import com.github.gameoholic.partigon.particle.envelope.TrigonometricEnvelope
 import com.github.gameoholic.partigon.particle.envelope.wrapper.CircleEnvelopeWrapper
 import com.github.gameoholic.partigon.particle.envelope.wrapper.CircleEnvelopeWrapper.circleEnvelopeGroup
-import com.github.gameoholic.partigon.particle.envelope.wrapper.CurveEnvelopeWrapper
-import com.github.gameoholic.partigon.particle.envelope.wrapper.CurveEnvelopeWrapper.curveEnvelope
-import com.github.gameoholic.partigon.particle.loop.BounceLoop
 import com.github.gameoholic.partigon.particle.loop.RepeatLoop
 import com.github.gameoholic.partigon.util.EnvelopePair
 import com.github.gameoholic.partigon.util.EnvelopeTriple
@@ -40,13 +34,6 @@ object ElytraSpotParticle {
                         CircleEnvelopeWrapper.CircleDirection.RIGHT,
                         RepeatLoop(100),
                     ).getEnvelopes().toTypedArray(),
-
-                    curveEnvelope(
-                        Envelope.PropertyType.POS_Y,
-                        0.0.envelope, 4.0.envelope,
-                        CurveEnvelopeWrapper.CurveOrientation.BELOW,
-                        BounceLoop(200),
-                    )
                 )
                 extra = 0.05.envelope
                 count = 0.envelope

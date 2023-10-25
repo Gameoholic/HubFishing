@@ -1,5 +1,13 @@
 package net.topstrix.hubinteractions.commands
 
+import com.github.gameoholic.partigon.particle.PartigonParticle
+import com.github.gameoholic.partigon.particle.envelope.Envelope
+import com.github.gameoholic.partigon.particle.envelope.EnvelopeGroup
+import com.github.gameoholic.partigon.particle.envelope.TrigonometricEnvelope
+import com.github.gameoholic.partigon.particle.envelope.wrapper.CircleEnvelopeWrapper
+import com.github.gameoholic.partigon.particle.loop.RepeatLoop
+import com.github.gameoholic.partigon.util.EnvelopePair
+import com.github.gameoholic.partigon.util.Utils.envelope
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.title.Title
 import net.kyori.adventure.title.TitlePart
@@ -19,6 +27,8 @@ import java.time.Duration
 
 object Test2Command : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
+        val location = (sender as Player).location
+
 
         return true
     }

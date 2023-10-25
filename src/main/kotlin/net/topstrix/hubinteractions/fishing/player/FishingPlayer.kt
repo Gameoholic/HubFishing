@@ -90,7 +90,6 @@ class FishingPlayer(
      * Displays the fishing rod particles, when the rod is ready.
      */
     private fun displayHookParticles() {
-        Bukkit.broadcastMessage("Hook is at ${hook.location}")
         hook.world.spawnParticle(
             Particle.END_ROD,
             hook.location,

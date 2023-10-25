@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "net.topstrix"
-version = "0.2.1"
+version = "0.2.3"
 description = "Hub Interactions"
 val apiVersion = "1.20"
 

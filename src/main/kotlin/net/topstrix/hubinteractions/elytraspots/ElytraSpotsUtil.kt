@@ -9,12 +9,14 @@ import net.topstrix.hubinteractions.elytraspots.config.ElytraSpotsFileParser
 import net.topstrix.hubinteractions.elytraspots.listeners.EntityToggleGlideListener
 import net.topstrix.hubinteractions.elytraspots.listeners.PlayerMoveListener
 import net.topstrix.hubinteractions.elytraspots.listeners.PlayerQuitListener
+import net.topstrix.hubinteractions.shared.particles.ElytraSpotParticle
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import org.bukkit.scheduler.BukkitRunnable
 
 object ElytraSpotsUtil {
     lateinit var elytraSpotsConfig: ElytraSpotsConfig
@@ -29,9 +31,14 @@ object ElytraSpotsUtil {
         Bukkit.getPluginManager().registerEvents(EntityToggleGlideListener, HubInteractions.plugin)
         Bukkit.getPluginManager().registerEvents(PlayerMoveListener, HubInteractions.plugin)
 
-        elytraSpotsConfig.elytraSpots.forEach {
-            ElytraSpotParticle.startParticle(it.location)
-        }
+        // Delay particle start until partigon has fully loaded
+        object: BukkitRunnable() {
+            override fun run() {
+                elytraSpotsConfig.elytraSpots.forEach {
+                    ElytraSpotParticle.startParticle(it.location)
+                }
+            }
+        }.runTask(HubInteractions.plugin)
     }
 
     fun activateElytra(player: Player, elytraSpot: ElytraSpot) {
