@@ -18,7 +18,8 @@ import org.bukkit.entity.Player
 object SpawnFishCommand : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
         if (sender !is Player) return true
-        val fishLakeManager = FishingUtil.fishLakeManagers.firstOrNull { it.allPlayers.contains(sender.uniqueId) }
+        val fishLakeManager =
+            FishingUtil.fishLakeManagers.firstOrNull { it.allPlayers.any { lakePlayer -> lakePlayer.uuid == sender.uniqueId } }
         if (fishLakeManager == null) {
             sender.sendMessage(
                 text().content("You can only use this command in a lake.").color(NamedTextColor.RED).build()

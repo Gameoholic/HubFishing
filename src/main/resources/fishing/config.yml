@@ -64,6 +64,7 @@ rank-boost-amount: 2.0
 
 
 # Gameplay settings:
+hook-cooldown: 60
 water-area-start-position: 12.6 # Position from the right
 water-area-length-pixels: 49.0 # Amount of pixels in which the fish & rodbox can move in
 water-area-fish-padding: 2.0 # Amount of pixels of padding to add in the corners of the area fish can move in

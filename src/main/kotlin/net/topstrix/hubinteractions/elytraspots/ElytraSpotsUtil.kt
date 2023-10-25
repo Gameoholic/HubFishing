@@ -28,6 +28,10 @@ object ElytraSpotsUtil {
         Bukkit.getPluginManager().registerEvents(PlayerQuitListener, HubInteractions.plugin)
         Bukkit.getPluginManager().registerEvents(EntityToggleGlideListener, HubInteractions.plugin)
         Bukkit.getPluginManager().registerEvents(PlayerMoveListener, HubInteractions.plugin)
+
+        elytraSpotsConfig.elytraSpots.forEach {
+            ElytraSpotParticle.startParticle(it.location)
+        }
     }
 
     fun activateElytra(player: Player, elytraSpot: ElytraSpot) {

@@ -14,6 +14,7 @@ import net.topstrix.hubinteractions.fishing.player.LakePlayer
 import net.topstrix.hubinteractions.fishing.player.minigame.states.*
 import net.topstrix.hubinteractions.fishing.player.minigame.states.util.FishMovementManager
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
+import net.topstrix.hubinteractions.shared.particles.LevelUpParticle
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.ArmorStand
@@ -308,14 +309,14 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
 
                     it.playSound(FishingUtil.fishingConfig.levelUpSound, Sound.Emitter.self())
 
-//                    val particle = LevelUpParticle.getParticle()
-//                    particle.start()
-//                    object : BukkitRunnable() {
-//                        override fun run() {
-//                            particle.stop()
-//                            this.cancel()
-//                        }
-//                    }.runTaskTimer(Partigon.plugin, 50L, 1L)
+                    val particle = LevelUpParticle.getParticle(it.location)
+                    particle.start()
+                    object : BukkitRunnable() {
+                        override fun run() {
+                            particle.stop()
+                            this.cancel()
+                        }
+                    }.runTaskTimer(HubInteractions.plugin, 50L, 1L)
                 }
             }
 

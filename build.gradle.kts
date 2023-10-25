@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "net.topstrix"
-version = "0.1.1"
+version = "0.2.1"
 description = "Hub Interactions"
 val apiVersion = "1.20"
 
@@ -47,7 +47,7 @@ allprojects {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
+    compileOnly(kotlin("stdlib-jdk8"))
     paperweight.paperDevBundle("1.20.1-R0.1-SNAPSHOT") //the paper dev bundle is a compile-only dependency, paper itself provides it. No need to shade
 
     implementation("net.kyori:adventure-text-minimessage:4.14.0") //todo: shade
@@ -56,11 +56,7 @@ dependencies {
     implementation("com.charleskorn.kaml:kaml:0.55.0") //todo: shade
     implementation("com.zaxxer:HikariCP:5.0.1")
 
-<<<<<<< HEAD
-    compileOnly("com.github.gameoholic:partigon:1.0.5")
-=======
-    //compileOnly("com.github.gameoholic:partigon:1.0.2")
->>>>>>> 2ec19e4b6d0a07da1633a0d9b125e9b69e777097
+    compileOnly("com.github.gameoholic:partigon:1.0.10")
     compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
     compileOnly("me.clip:placeholderapi:2.11.4")
 }
@@ -98,13 +94,12 @@ tasks {
     }
 
 
+
     shadowJar {
         // helper function to relocate a package into our package
         fun reloc(pkg: String) = relocate(pkg, "${project.group}.${project.name}.dependency.$pkg")
 
-        reloc("com.github.gameoholic")
-        reloc("kotlin")
-
+        //relocate("kotlin", "com.github.gameoholic.partigon.dependency.kotlin")
     }
 
 }
