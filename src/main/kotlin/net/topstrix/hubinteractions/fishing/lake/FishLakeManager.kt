@@ -59,6 +59,7 @@ class FishLakeManager(
     val permissionRequiredToEnter: String,
     private val fishSpawningAlgorithmCurve: Double, //todo: doc all these
     rankBoostDisplayLocation: Location,
+    val surfaceYLevel: Double,
 ) : Listener {
 
     /** Players that are in the lake's region */
@@ -158,6 +159,9 @@ class FishLakeManager(
      * Should be called when player leaves its premises.
      */
     fun removePlayer(uuid: UUID) {
+        fishingPlayers.firstOrNull { it.uuid == uuid }?.let {
+            it.onRemove()
+        }
         fishingPlayers.removeAll { it.uuid == uuid }
         allPlayers.removeAll { it.uuid == uuid }
 
@@ -180,6 +184,9 @@ class FishLakeManager(
      * Should be called when a player finishes the minigame or cancels their rod.
      */
     fun removePlayerFromFishingPlayers(uuid: UUID) {
+        fishingPlayers.firstOrNull { it.uuid == uuid }?.let {
+            it.onRemove()
+        }
         fishingPlayers.removeAll { it.uuid == uuid }
     }
 

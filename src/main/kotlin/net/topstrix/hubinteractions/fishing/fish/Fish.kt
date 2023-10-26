@@ -3,8 +3,11 @@ package net.topstrix.hubinteractions.fishing.fish
 import com.github.gameoholic.partigon.particle.PartigonParticle
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
+import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import net.topstrix.hubinteractions.fishing.util.LoggerUtil
+import net.topstrix.hubinteractions.shared.particles.FishCatchParticle
 import net.topstrix.hubinteractions.shared.particles.LegendaryFishParticle
+import net.topstrix.hubinteractions.shared.particles.RodCatchParticle
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
@@ -13,6 +16,7 @@ import org.bukkit.entity.EntityType
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
+import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 import kotlin.math.absoluteValue
 import kotlin.math.max
@@ -94,11 +98,22 @@ class Fish(
 
     /**
      * Removes the fish from its fish lake, and removes the armor stand that holds it.
+     * @param withEffect Whether to spawn a particle effect
      */
-    fun remove() {
+    fun remove(withEffect: Boolean = false) {
         fishLakeManager.fishes.remove(this)
         armorStand.remove()
         particle?.stop()
+
+        if (withEffect) {
+            val catchParticle = FishCatchParticle.getParticle(hitboxLocation.clone().apply { this.y = fishLakeManager.surfaceYLevel })
+            catchParticle.start()
+            object: BukkitRunnable() {
+                override fun run() {
+                    catchParticle.stop()
+                }
+            }.runTask(HubInteractions.plugin)
+        }
     }
 
 

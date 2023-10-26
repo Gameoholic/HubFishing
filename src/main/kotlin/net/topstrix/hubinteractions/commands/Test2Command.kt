@@ -14,6 +14,8 @@ import net.kyori.adventure.title.TitlePart
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import net.topstrix.hubinteractions.shared.particles.LevelUpParticle
+import net.topstrix.hubinteractions.shared.particles.RodCatchParticle
+import net.topstrix.hubinteractions.shared.particles.RodWaitingParticle
 //import net.topstrix.hubinteractions.shared.particles.LevelUpParticle
 import org.bukkit.Bukkit
 import org.bukkit.Particle
@@ -29,6 +31,8 @@ object Test2Command : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
         val location = (sender as Player).location
 
+
+        RodCatchParticle.getParticle(location).start()
 
         return true
     }

@@ -50,7 +50,8 @@ object FishingUtil {
                 fishLakeManagerSettings.statsDisplayLocation,
                 fishLakeManagerSettings.permissionRequiredToEnter,
                 fishLakeManagerSettings.fishSpawningAlgorithmCurve,
-                fishLakeManagerSettings.rankBoostDisplayLocation
+                fishLakeManagerSettings.rankBoostDisplayLocation,
+                fishLakeManagerSettings.surfaceYLevel
             )
         }
         fishLakeManagers = fishLakeManagersList

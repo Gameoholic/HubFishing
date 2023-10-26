@@ -258,7 +258,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
         when (minigameEndReason) {
             MinigameEndReason.FISH_CAUGHT -> {
                 onSuccessfulFish()
-                caughtFish.remove()
+                caughtFish.remove(true)
             }
             else -> {
                 FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {

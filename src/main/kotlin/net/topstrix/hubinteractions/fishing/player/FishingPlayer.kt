@@ -1,17 +1,22 @@
 package net.topstrix.hubinteractions.fishing.player
 
+import com.github.gameoholic.partigon.particle.PartigonParticle
 import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
+import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.fish.Fish
 import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameManager
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import net.topstrix.hubinteractions.fishing.util.LoggerUtil
+import net.topstrix.hubinteractions.shared.particles.RodCatchParticle
+import net.topstrix.hubinteractions.shared.particles.RodWaitingParticle
 import org.bukkit.Bukkit
 import org.bukkit.Particle
 import org.bukkit.entity.FishHook
+import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 
 /**
@@ -34,6 +39,8 @@ class FishingPlayer(
     /** How many ticks have passed since last second. When it gets to 20, resets to 0 and updates playtime by 1 */
     private var ticksPassedSinceLastSecond = 0
 
+    private var hookReadyParticle: PartigonParticle? = null
+
     fun onTick() {
         //Update fishing playtime, if rod is out
         ticksPassedSinceLastSecond++
@@ -54,7 +61,10 @@ class FishingPlayer(
         //We only proceed if fishing rod is ready, and hasn't caught any fish
         if (fishingState != FishingPlayerState.ROD_READY)
             return
-        displayHookParticles()
+        if (hookReadyParticle == null) {
+            hookReadyParticle = RodWaitingParticle.getParticle(hook.location)
+            hookReadyParticle?.start()
+        }
 
         //Fish find detection
         val foundFishes = fishLakeManager.fishes.filter { !it.caught && it.checkHitboxCollision(hook.location) }
@@ -81,24 +91,29 @@ class FishingPlayer(
             )
             it.playSound(FishingUtil.fishingConfig.fishFoundSound, Sound.Emitter.self())
         }
+
+        hookReadyParticle?.stop()
+        hookReadyParticle = null
+
         caughtFish.caught = true
         val lakePlayer = fishLakeManager.allPlayers.first { it.uuid == uuid }
         lakePlayer.minigameManager = FishingMinigameManager(this, lakePlayer, caughtFish)
+
+        val catchParticle = RodCatchParticle.getParticle(hook.location.apply { this.y += 0.25 })
+        catchParticle.start()
+        object: BukkitRunnable() {
+            override fun run() {
+                catchParticle.stop()
+            }
+        }.runTask(HubInteractions.plugin)
     }
 
     /**
-     * Displays the fishing rod particles, when the rod is ready.
+     * Called when the fishing player is removed.
      */
-    private fun displayHookParticles() {
-        hook.world.spawnParticle(
-            Particle.END_ROD,
-            hook.location,
-            1,
-            0.1,
-            0.1,
-            0.1,
-            0.1
-        )
+    fun onRemove() {
+        hookReadyParticle?.stop()
+        hookReadyParticle = null
     }
 
 

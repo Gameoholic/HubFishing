@@ -18,4 +18,5 @@ data class FishLakeManagerSettings(
     @SerialName("rank-boost-display-location") val rankBoostDisplayLocation: @Serializable(with = LocationSerializer::class) Location,
     @SerialName("permission-required-to-enter") val permissionRequiredToEnter: String,
     @SerialName("fish-spawning-algorithm-curve") val fishSpawningAlgorithmCurve: Double,
+    @SerialName("surface-y-level") val surfaceYLevel: Double,
 )

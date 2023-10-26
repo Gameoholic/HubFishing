@@ -20,6 +20,7 @@ fish-lake-managers:
       y: 140.0
       z: -286.0
     armor-stand-y-level: 67.0
+    surface-y-level: 69.17
     fish-amount-chances:
       1: 0.5
       2: 0.4
