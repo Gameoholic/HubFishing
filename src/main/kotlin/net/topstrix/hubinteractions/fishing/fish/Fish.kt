@@ -76,7 +76,7 @@ class Fish(
             //Because armor stand has no gravity, it will sink the moment it stops moving. We must maintain its position.
 
             armorStand.teleport(
-                Location(armorStand.world, armorStand.x, fishLakeManager.armorStandYLevel, armorStand.z)
+                Location(armorStand.world, armorStand.x, fishLakeManager.armorStandYLevel, armorStand.z, armorStand.yaw, armorStand.pitch)
             )
             return
         }
