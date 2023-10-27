@@ -2,6 +2,7 @@ package net.topstrix.hubinteractions.fishing.player.minigame
 
 import net.topstrix.hubinteractions.fishing.fish.Fish
 import net.topstrix.hubinteractions.fishing.fish.FishRarity
+import net.topstrix.hubinteractions.fishing.player.minigame.states.FishingMinigameMissState
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import java.util.*
 
@@ -10,6 +11,7 @@ import java.util.*
  * @param fishMaxPosition The fish's max position in UI pixels, from the right
  */
 class FishMovementManager(
+    private val minigameManager: FishingMinigameManager,
     private val fishMinPosition: Double,
     private val fishMaxPosition: Double,
     private val caughtFish: Fish
@@ -82,10 +84,16 @@ class FishMovementManager(
      * Moves fish in its current direction.
      */
     private fun moveFishInDirection() {
-        if (fishDirection == FishDirection.RIGHT)
-            fishPosition -= fishSpeed
+        // If miss, fish has slow motion effect
+        val fishSpeedModified = if (minigameManager.state is FishingMinigameMissState)
+            fishSpeed / 2.0
         else
-            fishPosition += fishSpeed
+            fishSpeed
+
+        if (fishDirection == FishDirection.RIGHT)
+            fishPosition -= fishSpeedModified
+        else
+            fishPosition += fishSpeedModified
     }
 
     /**

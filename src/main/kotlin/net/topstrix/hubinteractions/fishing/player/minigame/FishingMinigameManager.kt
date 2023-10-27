@@ -34,9 +34,11 @@ import java.lang.RuntimeException
  * @param caughtFish The fish that was caught
  */
 class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakePlayer: LakePlayer, val caughtFish: Fish) {
-    private var state: FishingMinigameState = FishingMinigameFishFoundState(this)
+    var state: FishingMinigameState = FishingMinigameFishFoundState(this)
+        private set
     private val task: BukkitTask
     val fishMovementManager = FishMovementManager(
+        this,
         FishingUtil.fishingConfig.waterAreaStartPosition + FishingUtil.fishingConfig.waterAreaFishPadding,
         FishingUtil.fishingConfig.waterAreaStartPosition + FishingUtil.fishingConfig.waterAreaLengthPixels - FishingUtil.fishingConfig.waterAreaFishPadding,
         caughtFish

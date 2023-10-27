@@ -33,6 +33,8 @@ class FishingMinigameMissState(
     override fun onTick() {
         stateTicksPassed++
 
+        minigameManager.fishMovementManager.updateFishPosition()
+
         uiRenderer.render()
     }
 
