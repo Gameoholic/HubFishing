@@ -18,9 +18,9 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
     private val uiRenderer = FishingMinigameRodCastUIRenderer(this)
 
     /** The speed in pixels, at which the rod will extend per tick */
-    val rodExtendingSpeed = 3 //todo: from config. the -1 extra width too please
+    private val rodExtendingSpeed = 3 //todo: from config. the -1 extra width too please
     /** The target (max) position of the long rod, in UI pixels to the left*/
-    val longRodTargetPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2 //Center of rodbox
+    private val longRodTargetPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2 //Center of rodbox
     /** The starting position of the long rod, in UI pixels to the left*/
     val longRodStartingPosition = FishingUtil.fishingConfig.bigRodPosition - FishingUtil.fishingConfig.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
     /** The position of right-most pixel of the long rod, in UI pixels to the left*/

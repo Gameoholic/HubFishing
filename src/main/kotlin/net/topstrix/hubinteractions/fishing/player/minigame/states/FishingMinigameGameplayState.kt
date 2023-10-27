@@ -45,7 +45,7 @@ class FishingMinigameGameplayState(
     /**
      * How many ticks have passed since the last time restriction strike was received.
      */
-    var ticksPassedSinceLastTimeRestriction = 0
+    private var ticksPassedSinceLastTimeRestriction = 0
 
 
     /**

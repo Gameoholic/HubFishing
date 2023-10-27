@@ -12,7 +12,6 @@ import net.topstrix.hubinteractions.fishing.fish.Fish
 import net.topstrix.hubinteractions.fishing.player.FishingPlayer
 import net.topstrix.hubinteractions.fishing.player.LakePlayer
 import net.topstrix.hubinteractions.fishing.player.minigame.states.*
-import net.topstrix.hubinteractions.fishing.player.minigame.states.util.FishMovementManager
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import net.topstrix.hubinteractions.shared.particles.LevelUpParticle
 import org.bukkit.Bukkit
@@ -183,6 +182,15 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
             return
         }
         if (state is FishingMinigameRodCastState && (state as FishingMinigameRodCastState).fishCaught == false) {
+            state.onDisable()
+            if (fishingRodUsesLeft > 0)
+                state = FishingMinigameMissState(this)
+            else
+                state = FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.RAN_OUT_OF_ATTEMPTS)
+            state.onEnable()
+            return
+        }
+        if (state is FishingMinigameMissState && state.stateTicksPassed > 20) {
             state.onDisable()
             state =
                 FishingMinigameGameplayState( //todo: should every class just use the config statically or should I pass variables like this?

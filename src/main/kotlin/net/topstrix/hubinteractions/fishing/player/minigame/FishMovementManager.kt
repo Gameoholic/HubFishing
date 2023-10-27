@@ -1,10 +1,9 @@
-package net.topstrix.hubinteractions.fishing.player.minigame.states.util
+package net.topstrix.hubinteractions.fishing.player.minigame
 
 import net.topstrix.hubinteractions.fishing.fish.Fish
 import net.topstrix.hubinteractions.fishing.fish.FishRarity
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * @param fishMinPosition The fish's min position in UI pixels, from the right
