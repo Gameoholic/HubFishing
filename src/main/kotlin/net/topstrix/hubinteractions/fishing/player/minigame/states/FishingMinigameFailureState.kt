@@ -5,7 +5,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameManager
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameState
-import net.topstrix.hubinteractions.fishing.player.minigame.ui.FishingMinigameFailureRenderer
+import net.topstrix.hubinteractions.fishing.player.minigame.ui.FishingMinigameFailureUIRenderer
 import net.topstrix.hubinteractions.fishing.player.minigame.ui.FishingMinigameUIRenderer
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import org.bukkit.Bukkit
@@ -16,7 +16,10 @@ import org.bukkit.event.player.PlayerInteractEvent
 
 class FishingMinigameFailureState(val minigameManager: FishingMinigameManager, val failureReason: FailureReason): FishingMinigameState, Listener {
     override var stateTicksPassed = 0
-    private val uiRenderer: FishingMinigameUIRenderer = FishingMinigameFailureRenderer(this)
+    private val uiRenderer: FishingMinigameUIRenderer = FishingMinigameFailureUIRenderer(this)
+
+    val longRodStartingPosition = FishingUtil.fishingConfig.bigRodPosition - FishingUtil.fishingConfig.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
+    val longRodPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2
 
     enum class FailureReason {
         RAN_OUT_OF_ATTEMPTS,

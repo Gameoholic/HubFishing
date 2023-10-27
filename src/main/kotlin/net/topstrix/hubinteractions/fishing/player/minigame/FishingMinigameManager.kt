@@ -192,7 +192,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
             state.onEnable()
             return
         }
-        if (state is FishingMinigameMissState && state.stateTicksPassed > 20) {
+        if (state is FishingMinigameMissState && state.stateTicksPassed >= 2) {
             state.onDisable()
             state =
                 FishingMinigameGameplayState( //todo: should every class just use the config statically or should I pass variables like this?

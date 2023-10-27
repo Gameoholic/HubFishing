@@ -191,6 +191,15 @@ data class FishingConfig(
     @SerialName("minigame-failure-sound") val minigameFailureSound: @Serializable(with = SoundSerializer::class) Sound,
     @SerialName("minigame-leave-message") val minigameLeaveMessage: String,
     @SerialName("hook-cooldown") val hookCooldown: Int,
+    @SerialName("rod-break-animation-speed") val rodBreakAnimationSpeed: Int,
+    @SerialName("rod-break-animation-height") val rodBreakAnimationHeight: Int,
+    @SerialName("rod-break-characters") val rodBreakCharacters: List<Char>,
+    @SerialName("rod-long-break-animation-speed") val rodLongBreakAnimationSpeed: Int,
+    @SerialName("rod-long-break-animation-height") val rodLongBreakAnimationHeight: Int,
+    @SerialName("rod-long-break-characters") val rodLongBreakCharacters: List<Char>,
+    @SerialName("rod-long-end-break-characters") val rodLongEndBreakCharacters: List<Char>,
+    @SerialName("rod-long-end-break-animation-height") val rodLongEndBreakAnimationHeight: Int,
+    @SerialName("rod-long-end-break-animation-speed") val rodLongEndBreakAnimationSpeed: Int,
     )
 
 

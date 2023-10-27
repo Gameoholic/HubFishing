@@ -172,4 +172,28 @@ clock-characters:
   - 'ቇ'
 clock-position: 35.0
 
+rod-break-animation-speed: 2
+rod-break-animation-height: 20
+rod-break-characters:
+  - 'ഡ'
+  - 'ഢ'
+  - 'ണ'
+  - 'ത'
+
+rod-long-break-animation-speed: 2
+rod-long-break-animation-height: 10
+rod-long-break-characters:
+  - 'ॖ'
+  - 'ॖ'
+  - 'ꉁ'
+
+rod-long-end-break-animation-speed: 2
+rod-long-end-break-animation-height: 10
+rod-long-end-break-characters:
+  - ''
+  - ''
+  - ''
+#  - '' unused
+
+
 extension-animation-delay: -1 #How long to delay before starting the extension animation. Can be set to negative values.

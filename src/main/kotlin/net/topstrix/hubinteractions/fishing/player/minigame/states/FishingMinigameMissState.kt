@@ -1,12 +1,9 @@
 package net.topstrix.hubinteractions.fishing.player.minigame.states
 
-import me.clip.placeholderapi.PlaceholderAPI
-import net.kyori.adventure.text.minimessage.MiniMessage
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameManager
 import net.topstrix.hubinteractions.fishing.player.minigame.FishingMinigameState
-import net.topstrix.hubinteractions.fishing.player.minigame.ui.FishingMinigameFailureRenderer
-import net.topstrix.hubinteractions.fishing.player.minigame.ui.FishingMinigameMissRenderer
+import net.topstrix.hubinteractions.fishing.player.minigame.ui.FishingMinigameMissUIRenderer
 import net.topstrix.hubinteractions.fishing.player.minigame.ui.FishingMinigameUIRenderer
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import org.bukkit.Bukkit
@@ -19,7 +16,7 @@ class FishingMinigameMissState(
     val minigameManager: FishingMinigameManager
 ) : FishingMinigameState, Listener {
     override var stateTicksPassed = 0
-    private val uiRenderer: FishingMinigameUIRenderer = FishingMinigameMissRenderer(this)
+    private val uiRenderer: FishingMinigameUIRenderer = FishingMinigameMissUIRenderer(this)
 
     val longRodStartingPosition = FishingUtil.fishingConfig.bigRodPosition - FishingUtil.fishingConfig.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
     val longRodPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2
