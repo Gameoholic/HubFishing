@@ -84,16 +84,10 @@ class FishMovementManager(
      * Moves fish in its current direction.
      */
     private fun moveFishInDirection() {
-        // If miss, fish has slow motion effect
-        val fishSpeedModified = if (minigameManager.state is FishingMinigameMissState)
-            fishSpeed / 2.0
-        else
-            fishSpeed
-
         if (fishDirection == FishDirection.RIGHT)
-            fishPosition -= fishSpeedModified
+            fishPosition -= fishSpeed
         else
-            fishPosition += fishSpeedModified
+            fishPosition += fishSpeed
     }
 
     /**
