@@ -43,7 +43,7 @@ object LegendaryFishParticle {
 
     fun getParticle2(location: Location): PartigonParticle {
         fun builder() =
-            PartigonParticle.partigonParticleBuilder(location, Particle.PORTAL) {
+            PartigonParticle.partigonParticleBuilder(location, Particle.CRIT_MAGIC) {
                 envelopes = listOf(
                     *CircleEnvelopeWrapper.circleEnvelopeGroup(
                         EnvelopeGroup.EnvelopeGroupType.POSITION,
@@ -53,9 +53,9 @@ object LegendaryFishParticle {
                         RepeatLoop(40),
                     ).getEnvelopes().toTypedArray(),
                     *CircleEnvelopeWrapper.circleEnvelopeGroup(
-                        EnvelopeGroup.EnvelopeGroupType.POSITION,
-                        EnvelopePair(0.5.envelope, 0.0.envelope),
-                        EnvelopePair(0.0.envelope, (-0.5).envelope),
+                        EnvelopeGroup.EnvelopeGroupType.OFFSET,
+                        EnvelopePair(0.25.envelope, 0.0.envelope),
+                        EnvelopePair(0.0.envelope, (-0.25).envelope),
                         CircleEnvelopeWrapper.CircleDirection.RIGHT,
                         RepeatLoop(40),
                     ).getEnvelopes().toTypedArray(),
@@ -63,7 +63,7 @@ object LegendaryFishParticle {
                 animationFrameAmount = 40
                 animationInterval = 20
                 count = 0.0.envelope
-                extra = 0.3.envelope
+                extra = 1.5.envelope
             }
 
         val particle = builder().build()
