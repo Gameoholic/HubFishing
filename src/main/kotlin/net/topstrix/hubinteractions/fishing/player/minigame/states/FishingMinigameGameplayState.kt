@@ -47,6 +47,8 @@ class FishingMinigameGameplayState(
      */
     private var ticksPassedSinceLastTimeRestriction = 0
 
+    var failedBecauseOfTimeRestriction = false
+
 
     /**
      * Whether the player right-clicked. If true, signals to the minigame manager to switch states
@@ -68,6 +70,8 @@ class FishingMinigameGameplayState(
         minigameManager.fishMovementManager.updateFishPosition()
         determineRodBoxPosition(player)
 
+        failedBecauseOfTimeRestriction = false
+
         // If player spent too much time without doing anything:
         if (!passedTimeRestriction && ticksPassedSinceLastTimeRestriction > FishingUtil.fishingConfig.timeRestrictionWarningDelay) {
             passedTimeRestriction = true
@@ -87,6 +91,7 @@ class FishingMinigameGameplayState(
             minigameManager.fishingRodUsesLeft--
             passedTimeRestriction = false
             ticksPassedSinceLastTimeRestriction = 0
+            failedBecauseOfTimeRestriction = true
         }
 
         uiRenderer.render()

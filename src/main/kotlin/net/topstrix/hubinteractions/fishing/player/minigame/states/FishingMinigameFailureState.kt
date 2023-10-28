@@ -22,7 +22,14 @@ class FishingMinigameFailureState(val minigameManager: FishingMinigameManager, v
     val longRodPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2
 
     enum class FailureReason {
+        /**
+         * Player has run out of attempts, and their last action was using the rod
+         */
         RAN_OUT_OF_ATTEMPTS,
+        /**
+         * Player has run out of attempts, and their last attempt was lost because of the timer
+         */
+        RAN_OUT_OF_TIME,
         /**
          * Player has left the fishing minigame voluntarily.
          */

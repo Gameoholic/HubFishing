@@ -164,7 +164,10 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
         }
         if (state is FishingMinigameGameplayState && fishingRodUsesLeft == 0) {
             state.onDisable()
-            state = FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.RAN_OUT_OF_ATTEMPTS)
+            state = if ((state as FishingMinigameGameplayState).failedBecauseOfTimeRestriction)
+                FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.RAN_OUT_OF_TIME)
+            else
+                FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.RAN_OUT_OF_ATTEMPTS)
             state.onEnable()
             return
         }
@@ -185,10 +188,10 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
         }
         if (state is FishingMinigameRodCastState && (state as FishingMinigameRodCastState).fishCaught == false) {
             state.onDisable()
-            if (fishingRodUsesLeft > 0)
-                state = FishingMinigameMissState(this)
+            state = if (fishingRodUsesLeft > 0)
+                FishingMinigameMissState(this)
             else
-                state = FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.RAN_OUT_OF_ATTEMPTS)
+                FishingMinigameFailureState(this, FishingMinigameFailureState.FailureReason.RAN_OUT_OF_ATTEMPTS)
             state.onEnable()
             return
         }
