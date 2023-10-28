@@ -5,6 +5,7 @@ import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import net.topstrix.hubinteractions.fishing.util.LoggerUtil
+import net.topstrix.hubinteractions.shared.particles.EpicFishParticle
 import net.topstrix.hubinteractions.shared.particles.FishCatchParticle
 import net.topstrix.hubinteractions.shared.particles.LegendaryFishParticle
 import net.topstrix.hubinteractions.shared.particles.RodCatchParticle
@@ -48,7 +49,7 @@ class Fish(
      */
     var caught = false
 
-    private val particle: PartigonParticle?
+    private val particles: List<PartigonParticle>?
 
     private val AIManager: FishAIManager
 
@@ -68,11 +69,17 @@ class Fish(
         armorStand.equipment.setItem(EquipmentSlot.HEAD, itemStack)
 
         AIManager = FishAIManager(this)
-        particle = if (variant.rarity == FishRarity.LEGENDARY)
-            LegendaryFishParticle.getParticle(armorStand)
+        particles = if (variant.rarity == FishRarity.LEGENDARY)
+            listOf(LegendaryFishParticle.getParticle1(armorStand.location.apply {
+                this.y = fishLakeManager.surfaceYLevel
+            }),
+                LegendaryFishParticle.getParticle2(armorStand.location.apply { this.y = fishLakeManager.surfaceYLevel })
+            )
+        else if (variant.rarity == FishRarity.EPIC)
+            listOf(EpicFishParticle.getParticle(armorStand.location.apply { this.y = fishLakeManager.surfaceYLevel }))
         else
             null
-        particle?.start()
+        particles?.forEach { it.start() }
     }
 
     fun onTick() {
@@ -80,7 +87,14 @@ class Fish(
             //Because armor stand has no gravity, it will sink the moment it stops moving. We must maintain its position.
 
             armorStand.teleport(
-                Location(armorStand.world, armorStand.x, fishLakeManager.armorStandYLevel, armorStand.z, armorStand.yaw, armorStand.pitch)
+                Location(
+                    armorStand.world,
+                    armorStand.x,
+                    fishLakeManager.armorStandYLevel,
+                    armorStand.z,
+                    armorStand.yaw,
+                    armorStand.pitch
+                )
             )
             return
         }
@@ -89,6 +103,9 @@ class Fish(
             remove()
             return
         }
+
+        particles?.forEach { it.originLocation = armorStand.location.apply { this.y = fishLakeManager.surfaceYLevel } }
+
 
         AIManager.onTick()
         //Update hitbox location to match armorstand's loc
@@ -103,12 +120,13 @@ class Fish(
     fun remove(withEffect: Boolean = false) {
         fishLakeManager.fishes.remove(this)
         armorStand.remove()
-        particle?.stop()
+        particles?.forEach { it.stop() }
 
         if (withEffect) {
-            val catchParticle = FishCatchParticle.getParticle(hitboxLocation.clone().apply { this.y = fishLakeManager.surfaceYLevel })
+            val catchParticle =
+                FishCatchParticle.getParticle(hitboxLocation.clone().apply { this.y = fishLakeManager.surfaceYLevel })
             catchParticle.start()
-            object: BukkitRunnable() {
+            object : BukkitRunnable() {
                 override fun run() {
                     catchParticle.stop()
                 }
