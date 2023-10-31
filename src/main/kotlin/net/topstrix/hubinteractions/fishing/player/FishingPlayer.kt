@@ -62,7 +62,7 @@ class FishingPlayer(
         if (fishingState != FishingPlayerState.ROD_READY)
             return
         if (hookReadyParticle == null) {
-            hookReadyParticle = RodWaitingParticle.getParticle(hook.location)
+            hookReadyParticle = RodWaitingParticle.getParticle(hook)
             hookReadyParticle?.start()
         }
 

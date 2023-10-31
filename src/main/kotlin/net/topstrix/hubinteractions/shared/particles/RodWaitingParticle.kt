@@ -9,10 +9,12 @@ import com.github.gameoholic.partigon.util.EnvelopePair
 import com.github.gameoholic.partigon.util.Utils.envelope
 import org.bukkit.Location
 import org.bukkit.Particle
+import org.bukkit.entity.Entity
 
 object RodWaitingParticle {
-    fun getParticle(location: Location) =
-        partigonParticle(location, Particle.SPELL_INSTANT) {
+    fun getParticle(entity: Entity) =
+        partigonParticle(entity.location, Particle.SPELL_INSTANT) {
+            this.entity = entity
             envelopes = listOf(
                 *CircleEnvelopeWrapper.circleEnvelopeGroup(
                     EnvelopeGroup.EnvelopeGroupType.POSITION,
