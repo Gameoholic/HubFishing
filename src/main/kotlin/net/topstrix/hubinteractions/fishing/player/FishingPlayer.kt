@@ -1,6 +1,6 @@
 package net.topstrix.hubinteractions.fishing.player
 
-import com.github.gameoholic.partigon.particle.PartigonParticle
+import xyz.gameoholic.partigon.particle.PartigonParticle
 import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.minimessage.MiniMessage

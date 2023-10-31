@@ -1,12 +1,12 @@
 package net.topstrix.hubinteractions.shared.particles
 
-import com.github.gameoholic.partigon.particle.PartigonParticle
-import com.github.gameoholic.partigon.particle.PartigonParticle.Companion.partigonParticle
-import com.github.gameoholic.partigon.particle.envelope.EnvelopeGroup
-import com.github.gameoholic.partigon.particle.envelope.wrapper.CircleEnvelopeWrapper
-import com.github.gameoholic.partigon.particle.loop.RepeatLoop
-import com.github.gameoholic.partigon.util.EnvelopePair
-import com.github.gameoholic.partigon.util.Utils.envelope
+import xyz.gameoholic.partigon.particle.PartigonParticle
+import xyz.gameoholic.partigon.particle.PartigonParticle.Companion.partigonParticle
+import xyz.gameoholic.partigon.particle.envelope.EnvelopeGroup
+import xyz.gameoholic.partigon.particle.envelope.wrapper.CircleEnvelopeWrapper
+import xyz.gameoholic.partigon.particle.loop.RepeatLoop
+import xyz.gameoholic.partigon.util.EnvelopePair
+import xyz.gameoholic.partigon.util.Utils.envelope
 import org.bukkit.Location
 import org.bukkit.Particle
 import org.bukkit.entity.Entity

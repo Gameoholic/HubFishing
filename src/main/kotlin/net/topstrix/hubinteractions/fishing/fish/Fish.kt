@@ -1,6 +1,6 @@
 package net.topstrix.hubinteractions.fishing.fish
 
-import com.github.gameoholic.partigon.particle.PartigonParticle
+import xyz.gameoholic.partigon.particle.PartigonParticle
 import net.topstrix.hubinteractions.HubInteractions
 import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
 import net.topstrix.hubinteractions.fishing.util.FishingUtil

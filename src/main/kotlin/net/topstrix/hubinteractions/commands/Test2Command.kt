@@ -1,13 +1,13 @@
 package net.topstrix.hubinteractions.commands
 
-import com.github.gameoholic.partigon.particle.PartigonParticle
-import com.github.gameoholic.partigon.particle.envelope.Envelope
-import com.github.gameoholic.partigon.particle.envelope.EnvelopeGroup
-import com.github.gameoholic.partigon.particle.envelope.TrigonometricEnvelope
-import com.github.gameoholic.partigon.particle.envelope.wrapper.CircleEnvelopeWrapper
-import com.github.gameoholic.partigon.particle.loop.RepeatLoop
-import com.github.gameoholic.partigon.util.EnvelopePair
-import com.github.gameoholic.partigon.util.Utils.envelope
+import xyz.gameoholic.partigon.particle.PartigonParticle
+import xyz.gameoholic.partigon.particle.envelope.Envelope
+import xyz.gameoholic.partigon.particle.envelope.EnvelopeGroup
+import xyz.gameoholic.partigon.particle.envelope.TrigonometricEnvelope
+import xyz.gameoholic.partigon.particle.envelope.wrapper.CircleEnvelopeWrapper
+import xyz.gameoholic.partigon.particle.loop.RepeatLoop
+import xyz.gameoholic.partigon.util.EnvelopePair
+import xyz.gameoholic.partigon.util.Utils.envelope
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.title.Title
 import net.kyori.adventure.title.TitlePart

@@ -1,15 +1,15 @@
 package net.topstrix.hubinteractions.shared.particles
 
-import com.github.gameoholic.partigon.particle.PartigonParticle.Companion.partigonParticleBuilder
-import com.github.gameoholic.partigon.particle.envelope.EnvelopeGroup
-import com.github.gameoholic.partigon.particle.envelope.wrapper.CircleEnvelopeWrapper
-import com.github.gameoholic.partigon.particle.envelope.wrapper.CircleEnvelopeWrapper.circleEnvelopeGroup
-import com.github.gameoholic.partigon.particle.loop.RepeatLoop
-import com.github.gameoholic.partigon.util.EnvelopePair
-import com.github.gameoholic.partigon.util.EnvelopeTriple
-import com.github.gameoholic.partigon.util.Utils.envelope
-import com.github.gameoholic.partigon.util.rotation.RotationOptions
-import com.github.gameoholic.partigon.util.rotation.RotationType
+import xyz.gameoholic.partigon.particle.PartigonParticle.Companion.partigonParticleBuilder
+import xyz.gameoholic.partigon.particle.envelope.EnvelopeGroup
+import xyz.gameoholic.partigon.particle.envelope.wrapper.CircleEnvelopeWrapper
+import xyz.gameoholic.partigon.particle.envelope.wrapper.CircleEnvelopeWrapper.circleEnvelopeGroup
+import xyz.gameoholic.partigon.particle.loop.RepeatLoop
+import xyz.gameoholic.partigon.util.EnvelopePair
+import xyz.gameoholic.partigon.util.EnvelopeTriple
+import xyz.gameoholic.partigon.util.Utils.envelope
+import xyz.gameoholic.partigon.util.rotation.RotationOptions
+import xyz.gameoholic.partigon.util.rotation.RotationType
 import org.bukkit.Location
 import org.bukkit.Particle
 

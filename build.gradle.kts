@@ -23,7 +23,6 @@ java {
 
 repositories {
     mavenCentral()
-    mavenLocal()
     maven {
         url = uri("https://repo.dmulloy2.net/repository/public/")
     }
@@ -31,7 +30,7 @@ repositories {
         url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     }
     maven {
-        url = uri("https://jitpack.io")
+        url = uri("https://repo.gameoholic.xyz/releases")
     }
 }
 
@@ -56,7 +55,7 @@ dependencies {
     implementation("com.charleskorn.kaml:kaml:0.55.0") //todo: shade
     implementation("com.zaxxer:HikariCP:5.0.1")
 
-    compileOnly("com.github.gameoholic:partigon:1.0.10")
+    compileOnly("xyz.gameoholic:partigon:1.1.0")
     compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
     compileOnly("me.clip:placeholderapi:2.11.4")
 }
@@ -99,7 +98,7 @@ tasks {
         // helper function to relocate a package into our package
         fun reloc(pkg: String) = relocate(pkg, "${project.group}.${project.name}.dependency.$pkg")
 
-        //relocate("kotlin", "com.github.gameoholic.partigon.dependency.kotlin")
+        //relocate("kotlin", "xyz.gameoholic.partigon.dependency.kotlin")
     }
 
 }
