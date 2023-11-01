@@ -1,5 +1,6 @@
 package net.topstrix.hubinteractions.fishing.data.sql
 import com.zaxxer.hikari.HikariDataSource
+import kotlinx.coroutines.delay
 import net.topstrix.hubinteractions.fishing.crate.Crate
 import net.topstrix.hubinteractions.fishing.data.PlayerData
 import net.topstrix.hubinteractions.fishing.fish.FishVariant
@@ -175,7 +176,7 @@ object SQLUtil {
         }
         connection?.close()
     }
-    fun uploadPlayerData(playerData: PlayerData) {
+    suspend fun uploadPlayerData(playerData: PlayerData) {
         var query = """
             UPDATE fishing_player_data 
             SET xp = ${playerData.xp}, playtime = ${playerData.playtime}

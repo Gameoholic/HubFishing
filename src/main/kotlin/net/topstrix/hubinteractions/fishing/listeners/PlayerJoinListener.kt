@@ -10,6 +10,7 @@ import net.topstrix.hubinteractions.fishing.displays.PlayerDisplayManager
 import net.topstrix.hubinteractions.fishing.player.FishingPlayerState
 import net.topstrix.hubinteractions.fishing.util.FishingUtil
 import net.topstrix.hubinteractions.fishing.util.LoggerUtil
+import net.topstrix.hubinteractions.shared.coroutines.MinecraftDispatchers
 import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.entity.Display
@@ -20,23 +21,29 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.inventory.EquipmentSlot
+import org.bukkit.scheduler.BukkitRunnable
 
 object PlayerJoinListener: Listener {
-    @EventHandler
-    fun onPlayerJoinEvent(e: PlayerJoinEvent) = runBlocking {
-        //Load player data
+    private val scope = CoroutineScope(MinecraftDispatchers.Background)
 
+    @EventHandler
+    fun onPlayerJoinEvent(e: PlayerJoinEvent) {
+        //Load player data
         LoggerUtil.debug("Loading player data for ${e.player.uniqueId}")
         val playerData = PlayerData(e.player.uniqueId)
 
-        launch {
+        scope.launch {
             try {
                 withTimeout(FishingUtil.fishingConfig.sqlQueryTimeout) {
                     if (playerData.fetchData()) {
-                        FishingUtil.playerData.add(playerData)
-                        LoggerUtil.debug("Successfully loaded player data for ${e.player.uniqueId}")
-                        //Spawn displays
-                        FishingUtil.playerDisplayManagers[e.player.uniqueId] = PlayerDisplayManager(e.player.uniqueId).apply { spawnDisplays() }
+                        object: BukkitRunnable() {
+                            override fun run() {
+                                FishingUtil.playerData.add(playerData)
+                                LoggerUtil.debug("Successfully loaded player data for ${e.player.uniqueId}")
+                                //Spawn displays
+                                FishingUtil.playerDisplayManagers[e.player.uniqueId] = PlayerDisplayManager(e.player.uniqueId).apply { spawnDisplays() }
+                            }
+                        }.runTask(HubInteractions.plugin)
                     }
                     else {
                         LoggerUtil.debug("Couldn't load player data for ${e.player.uniqueId}")

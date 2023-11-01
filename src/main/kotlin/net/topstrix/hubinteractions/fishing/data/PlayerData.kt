@@ -33,7 +33,7 @@ class PlayerData(val playerUUID: UUID) {
      * instance of PlayerData with the data.
      * @return Whether the operation was successful or not.
      */
-    fun fetchData(): Boolean {
+    suspend fun fetchData(): Boolean {
         SQLUtil.fetchPlayerData(this)
         xp?.let {
             levelData = LevelUtil.getLevelData(it)
@@ -49,7 +49,7 @@ class PlayerData(val playerUUID: UUID) {
     /**
      * Uploads the data of this PlayerData instance to the database.
      */
-    fun uploadData() {
+    suspend fun uploadData() {
         LoggerUtil.debug("Uploading player data for player ${playerUUID}")
         SQLUtil.uploadPlayerData(this) //todo: better db query wrapper. that returns null, or the result. so if null here we throw error. if not we say success.
     }
