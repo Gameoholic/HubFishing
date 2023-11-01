@@ -9,6 +9,7 @@ import net.topstrix.hubinteractions.fishing.data.PlayerData
 import net.topstrix.hubinteractions.fishing.data.sql.SQLUtil
 import net.topstrix.hubinteractions.fishing.displays.PlayerDisplayManager
 import net.topstrix.hubinteractions.fishing.lake.FishLakeManager
+import net.topstrix.hubinteractions.fishing.listeners.PlayerInteractEntityListener
 import net.topstrix.hubinteractions.fishing.listeners.PlayerJoinListener
 import net.topstrix.hubinteractions.fishing.listeners.PlayerQuitListener
 import org.bukkit.Bukkit
@@ -58,6 +59,7 @@ object FishingUtil {
 
         Bukkit.getPluginManager().registerEvents(PlayerJoinListener, HubInteractions.plugin)
         Bukkit.getPluginManager().registerEvents(PlayerQuitListener, HubInteractions.plugin)
+        Bukkit.getPluginManager().registerEvents(PlayerInteractEntityListener, HubInteractions.plugin)
 
         HubInteractions.plugin.getCommand("spawnfish")!!.setExecutor(SpawnFishCommand)
         HubInteractions.plugin.getCommand("fishing")!!.setExecutor(FishingCommand)
