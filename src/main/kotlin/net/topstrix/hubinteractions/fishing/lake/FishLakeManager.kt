@@ -412,7 +412,6 @@ class FishLakeManager(
     fun onPlayerQuitEvent(e: PlayerQuitEvent) {
         // If player leaves server, remove from collections nad clean up managers
         val lakePlayer = allPlayers.firstOrNull { it.uuid == e.player.uniqueId } ?: return
-        println("player left! remvoing.")
         removePlayer(e.player.uniqueId)
         lakePlayer.minigameManager?.onPlayerLogOff(e.player)
     }
