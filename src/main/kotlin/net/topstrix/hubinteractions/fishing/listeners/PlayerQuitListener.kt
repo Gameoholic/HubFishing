@@ -34,7 +34,7 @@ object PlayerQuitListener : Listener {
                 }
                 catch (ex: TimeoutCancellationException) {
                     ex.printStackTrace()
-                    LoggerUtil.debug("Couldn't upload player data for ${playerData.playerUUID} - timed out $ex")
+                    LoggerUtil.error("Couldn't upload player data for ${playerData.playerUUID} - timed out $ex")
                 }
             }
         }

@@ -33,7 +33,7 @@ class PlayerData(val playerUUID: UUID) {
      * instance of PlayerData with the data.
      * @return Whether the operation was successful or not.
      */
-    suspend fun fetchData(): Boolean {
+    fun fetchData(): Boolean {
         SQLUtil.fetchPlayerData(this)
         xp?.let {
             levelData = LevelUtil.getLevelData(it)

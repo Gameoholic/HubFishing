@@ -46,7 +46,7 @@ object PlayerJoinListener: Listener {
                         }.runTask(HubInteractions.plugin)
                     }
                     else {
-                        LoggerUtil.debug("Couldn't load player data for ${e.player.uniqueId}")
+                        LoggerUtil.error("Couldn't load player data for ${e.player.uniqueId}")
                     }
                 }
             }
