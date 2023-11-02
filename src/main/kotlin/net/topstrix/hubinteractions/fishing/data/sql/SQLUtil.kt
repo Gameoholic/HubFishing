@@ -99,9 +99,6 @@ object SQLUtil {
 
     private fun createTable() {
         execUpdateQuery("""
-            DROP TABLE fishing_player_data;
-        """.trimIndent())
-        execUpdateQuery("""
             CREATE TABLE IF NOT EXISTS fishing_player_data (
                 uuid VARCHAR(36) NOT NULL,
                 xp INT NOT NULL DEFAULT 0,
