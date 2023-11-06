@@ -10,8 +10,8 @@ plugins {
     kotlin("plugin.serialization") version "1.9.0"
 }
 
-group = "net.topstrix"
-version = "0.3.1"
+group = "xyz.gameoholic"
+version = "0.3.2"
 description = "Hub Interactions"
 val apiVersion = "1.20"
 

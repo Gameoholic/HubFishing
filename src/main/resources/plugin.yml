@@ -1,6 +1,6 @@
 name: '$name'
 version: '$version'
-main: net.topstrix.hubinteractions.HubInteractionsPlugin
+main: xyz.gameoholic.hubfishing.HubFishingPlugin
 description: '$description'
 api-version: '$apiVersion'
 authors:

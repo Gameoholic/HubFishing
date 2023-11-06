@@ -1,2 +1,2 @@
-rootProject.name = "HubInteractions"
+rootProject.name = "HubFishing"
 
