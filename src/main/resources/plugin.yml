@@ -10,12 +10,16 @@ commands:
   test:
     description: Test
     usage: /test
+    permission: hubfishing.command.test
   test2:
     description: Test2
     usage: /test2
+    permission: hubfishing.command.test2
   spawnfish:
     description: Spawns a fish in your current lake.
     usage: /spawnfish <variant_id?> <alive_time?> <fish_speed?>
+    permission: hubfishing.command.spawnfish
   fishing:
     description: Opens the fishing menu.
     usage: /fishing
+    permission: hubfishing.command.fishing
