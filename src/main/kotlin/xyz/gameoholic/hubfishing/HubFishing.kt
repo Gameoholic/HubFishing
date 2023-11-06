@@ -4,8 +4,7 @@ import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.ProtocolManager
 import xyz.gameoholic.hubfishing.commands.Test2Command
 import xyz.gameoholic.hubfishing.commands.TestCommand
-import xyz.gameoholic.hubfishing.elytraspots.ElytraSpotsUtil
-import xyz.gameoholic.hubfishing.fishing.util.FishingUtil
+import xyz.gameoholic.hubfishing.util.FishingUtil
 import org.bukkit.scheduler.BukkitRunnable
 
 object HubFishing {
@@ -20,19 +19,17 @@ object HubFishing {
 
         plugin.saveResource("elytraspots.yml", false)
 
-        plugin.saveResource("fishing/config.yml", false)
-        plugin.saveResource("fishing/crates.yml", false)
-        plugin.saveResource("fishing/fish_lake_managers.yml", false)
-        plugin.saveResource("fishing/fish_variants.yml", false)
-        plugin.saveResource("fishing/menus.yml", false)
-        plugin.saveResource("fishing/sql.yml", false)
-        plugin.saveResource("fishing/strings.yml", false)
-        plugin.saveResource("fishing/sounds.yml", false)
+        plugin.saveResource("config.yml", false)
+        plugin.saveResource("crates.yml", false)
+        plugin.saveResource("fish_lake_managers.yml", false)
+        plugin.saveResource("fish_variants.yml", false)
+        plugin.saveResource("menus.yml", false)
+        plugin.saveResource("sql.yml", false)
+        plugin.saveResource("strings.yml", false)
+        plugin.saveResource("sounds.yml", false)
 
         plugin.getCommand("test")!!.setExecutor(TestCommand)
         plugin.getCommand("test2")!!.setExecutor(Test2Command)
-
-        ElytraSpotsUtil.onEnable()
 
         FishingUtil.onEnable()
 
