@@ -37,6 +37,7 @@ import java.util.*
 import kotlin.collections.HashMap
 import kotlin.math.min
 import kotlin.math.pow
+import kotlin.random.Random
 
 
 /**
@@ -71,8 +72,6 @@ class FishLakeManager(
 
     /** Players that are currently fishing */
     val fishingPlayers = mutableListOf<FishingPlayer>()
-
-    val rnd = kotlin.random.Random
 
     /** All fishes currently in the lake */
     var fishes = mutableListOf<Fish>()
@@ -241,8 +240,8 @@ class FishLakeManager(
         location: Location = determineSpawnLocation(),
         fishRarity: FishRarity = determineFishRarity(),
         fishVariant: FishVariant = FishingUtil.fishingConfig.fishVariants.filter { it.rarity == fishRarity }
-            .random(rnd),
-        fishAliveTime: Int = fishRarity.aliveTimeMin + rnd.nextInt(fishRarity.aliveTimeMax)
+            .random(Random),
+        fishAliveTime: Int = fishRarity.aliveTimeMin + Random.nextInt(fishRarity.aliveTimeMax)
     ) {
         // Custom spawn message & sound for legendary fish
         if (fishRarity == FishRarity.LEGENDARY) {
@@ -275,7 +274,7 @@ class FishLakeManager(
         val curve = fishSpawningAlgorithmCurve
         var playersAmount = fishingPlayers.size + 1 //We want fishes to spawn even if 0 players, so we give +1
         val chance = 1 - Math.E.pow(-curve * playersAmount.toDouble().pow(2.0))
-        val rand = rnd.nextDouble()
+        val rand = Random.nextDouble()
         return rand <= chance
     }
 
@@ -284,7 +283,7 @@ class FishLakeManager(
      * @throws RuntimeException If fish chances configured are invalid.
      */
     private fun determineAmountOfFishToSpawn(): Int {
-        val rand = rnd.nextDouble()
+        val rand = Random.nextDouble()
 
         /**
          * Fish chances are provided from 0.0 to 1.0, with the lower it is, the more rare it is.
@@ -323,7 +322,7 @@ class FishLakeManager(
     private fun getSpawnLocationComponent(component1: Double, component2: Double): Double {
         //Bound in Random#nextDouble must be positive.
         if (component2 - component1 > 0)
-            return rnd.nextDouble(component2 - component1)
+            return Random.nextDouble(component2 - component1)
         return 0.0
     }
 
@@ -358,7 +357,7 @@ class FishLakeManager(
      * @return The amount of fishes to be spawned, until the fish of the chosen rarity can spawn.
      */
     private fun getFishesQueueAmount(fishRarity: FishRarity): Int {
-        val amount = rnd.nextInt(fishRarity.fishesRequiredToSpawnMin, fishRarity.fishesRequiredToSpawnMax + 1)
+        val amount = Random.nextInt(fishRarity.fishesRequiredToSpawnMin, fishRarity.fishesRequiredToSpawnMax + 1)
         LoggerUtil.debug("Updating fishes queue amount for $fishRarity - $amount")
         return amount
     }
