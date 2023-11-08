@@ -28,8 +28,11 @@ import java.util.*
 class HubFishingPlugin: JavaPlugin() {
 
     lateinit var protocolManager: ProtocolManager
+        private set
     lateinit var config: FishingConfig
+        private set
     lateinit var fishLakeManagers: List<FishLakeManager>
+        private set
 
     /**
      * Player data is guaranteed to not be null or invalid, if it's in this list.
@@ -51,10 +54,9 @@ class HubFishingPlugin: JavaPlugin() {
         saveResource("strings.yml", false)
         saveResource("sounds.yml", false)
         config = FishingConfigParser.parseConfig()
-
+        fishLakeManagers = FishingConfigParser.getFishLakeManagers()
 
         SQLUtil.load(config.fishVariants)
-        createFishLakeManagers()
         FishingUtil.removeOldEntities()
 
 
@@ -87,29 +89,7 @@ class HubFishingPlugin: JavaPlugin() {
         }.runTaskTimer(this, 0L, 1L)
     }
 
-    /**
-     * Creates fish lake managers from config
-     */
-    private fun createFishLakeManagers() {
-        val fishLakeManagersList = mutableListOf<FishLakeManager>()
-        config.fishLakeManagersSettings.forEach {
-            fishLakeManagersList += FishLakeManager(
-                it.spawnCorner1,
-                it.spawnCorner2,
-                it.corner1,
-                it.corner2,
-                it.armorStandYLevel,
-                it.fishAmountChances,
-                it.maxFishCount,
-                it.statsDisplayLocation,
-                it.permissionRequiredToEnter,
-                it.fishSpawningAlgorithmCurve,
-                it.rankBoostDisplayLocation,
-                it.surfaceYLevel
-            )
-        }
-        fishLakeManagers = fishLakeManagersList
-    }
+
 
 
 }

@@ -4,11 +4,13 @@ import com.charleskorn.kaml.Yaml
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.fish.FishRarity
 import xyz.gameoholic.hubfishing.injection.inject
+import xyz.gameoholic.hubfishing.lake.FishLakeManager
 import java.nio.file.Files
 import kotlin.io.path.Path
 
 object FishingConfigParser {
     private val plugin: HubFishingPlugin by inject()
+
     /**
      * Parses the fishing config files and returns the config for them.
      * @return The fishing config
@@ -85,6 +87,26 @@ object FishingConfigParser {
         FishRarity.LEGENDARY.aliveTimeMax = fishingConfig.legendaryFishAliveTimeMax
         FishRarity.LEGENDARY.xp = fishingConfig.legendaryFishXP
         FishRarity.LEGENDARY.displayName = fishingConfig.legendaryFishDisplayName
+    }
+
+    /**
+     * Creates fish lake managers from config
+     */
+    fun getFishLakeManagers(): List<FishLakeManager> = plugin.config.fishLakeManagersSettings.map {
+        FishLakeManager(
+            it.spawnCorner1,
+            it.spawnCorner2,
+            it.corner1,
+            it.corner2,
+            it.armorStandYLevel,
+            it.fishAmountChances,
+            it.maxFishCount,
+            it.statsDisplayLocation,
+            it.permissionRequiredToEnter,
+            it.fishSpawningAlgorithmCurve,
+            it.rankBoostDisplayLocation,
+            it.surfaceYLevel
+        )
     }
 
 

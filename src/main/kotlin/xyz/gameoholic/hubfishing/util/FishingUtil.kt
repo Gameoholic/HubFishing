@@ -17,7 +17,6 @@ object FishingUtil {
         val key = NamespacedKey(plugin, "fishing-removable")
 
         //Before removing the entities, we must load the chunks.
-
         plugin.fishLakeManagers.forEach {
             for (x in it.corner1.x.toInt() .. it.corner2.x.toInt()) {
                 for (y in it.corner1.y.toInt() .. it.corner2.y.toInt()) {
