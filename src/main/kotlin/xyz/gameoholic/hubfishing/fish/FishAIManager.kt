@@ -277,8 +277,8 @@ class FishAIManager(val fish: Fish) {
     private fun generateNextLocation() {
         val currentLocation = fish.armorStand.location
         do {
-            val x = fish.fishLakeManager.spawnCorner1.blockX + fish.fishLakeManager.rnd.nextInt(fish.fishLakeManager.spawnCorner2.blockX - fish.fishLakeManager.spawnCorner1.blockX + 1)
-            val z = fish.fishLakeManager.spawnCorner1.blockZ + fish.fishLakeManager.rnd.nextInt(fish.fishLakeManager.spawnCorner2.blockZ - fish.fishLakeManager.spawnCorner1.blockZ + 1)
+            val x = fish.fishLakeManager.spawnCorner1.blockX + Random.nextInt(fish.fishLakeManager.spawnCorner2.blockX - fish.fishLakeManager.spawnCorner1.blockX + 1)
+            val z = fish.fishLakeManager.spawnCorner1.blockZ + Random.nextInt(fish.fishLakeManager.spawnCorner2.blockZ - fish.fishLakeManager.spawnCorner1.blockZ + 1)
             nextLocation = Location(currentLocation.world, x.toDouble(), currentLocation.y, z.toDouble())
         } while (currentLocation.clone().distanceSquared(nextLocation) <= 1.0)
     }
