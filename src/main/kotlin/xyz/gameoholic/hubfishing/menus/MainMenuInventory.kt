@@ -295,8 +295,9 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
 
         e.isCancelled = true
 
-        val clickedItem: ItemStack = e.currentItem ?: return
-        handleClick(clickedItem, player)
+        e.currentItem?.let{
+            handleClick(it, player)
+        }
     }
 
     override fun handleClick(clickedItem: ItemStack, player: Player) {
