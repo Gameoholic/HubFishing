@@ -30,7 +30,6 @@ class HubFishingPlugin: JavaPlugin() {
     lateinit var protocolManager: ProtocolManager
         private set
     lateinit var config: FishingConfig
-        private set
     lateinit var fishLakeManagers: List<FishLakeManager>
         private set
 
