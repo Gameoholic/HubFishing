@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
 import java.time.Duration
 
 object Test2Command : CommandExecutor {
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (sender !is Player) return true
         sender.sendTitlePart(
             TitlePart.TIMES,

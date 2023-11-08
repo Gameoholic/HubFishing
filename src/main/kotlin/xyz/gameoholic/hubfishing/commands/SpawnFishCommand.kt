@@ -16,7 +16,7 @@ import org.bukkit.entity.Player
  * /spawnfish <variant_id> <alive_time>
  */
 object SpawnFishCommand : CommandExecutor {
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (sender !is Player) return true
         val fishLakeManager =
             FishingUtil.fishLakeManagers.firstOrNull { it.allPlayers.any { lakePlayer -> lakePlayer.uuid == sender.uniqueId } }
