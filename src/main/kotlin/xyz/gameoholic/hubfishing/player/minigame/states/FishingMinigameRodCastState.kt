@@ -1,6 +1,5 @@
 package xyz.gameoholic.hubfishing.player.minigame.states
 
-import xyz.gameoholic.hubfishing.HubFishing
 import xyz.gameoholic.hubfishing.player.minigame.FishingMinigameManager
 import xyz.gameoholic.hubfishing.player.minigame.FishingMinigameState
 import xyz.gameoholic.hubfishing.player.minigame.ui.FishingMinigameRodCastUIRenderer
@@ -11,8 +10,12 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import net.kyori.adventure.sound.Sound
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 
 class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): FishingMinigameState, Listener {
+    private val plugin: HubFishingPlugin by inject()
+
     override var stateTicksPassed = 0
 
     private val uiRenderer = FishingMinigameRodCastUIRenderer(this)
@@ -33,8 +36,8 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
     var fishCaught: Boolean? = null
 
     override fun onEnable() {
-        Bukkit.getPluginManager().registerEvents(this, HubFishing.plugin)
-        Bukkit.getPluginManager().registerEvents(this, HubFishing.plugin)
+        Bukkit.getPluginManager().registerEvents(this, plugin)
+        Bukkit.getPluginManager().registerEvents(this, plugin)
     }
 
     var a = 0

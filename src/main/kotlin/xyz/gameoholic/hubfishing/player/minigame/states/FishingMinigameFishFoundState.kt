@@ -15,7 +15,8 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.event.player.PlayerInteractEvent
-import xyz.gameoholic.hubfishing.HubFishing
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 
 /**
  * In this state, the fish was lured and collided with the fishing rod's hitbox.
@@ -23,10 +24,11 @@ import xyz.gameoholic.hubfishing.HubFishing
  * spawns an exclamation mark display.
  */
 class FishingMinigameFishFoundState(private val minigameManager: FishingMinigameManager): FishingMinigameState, Listener {
+    private val plugin: HubFishingPlugin by inject()
 
     override var stateTicksPassed = 0
     override fun onEnable() {
-        Bukkit.getPluginManager().registerEvents(this, HubFishing.plugin)
+        Bukkit.getPluginManager().registerEvents(this, plugin)
 
         minigameManager.fishingPlayer.hook.velocity = minigameManager.fishingPlayer.hook.velocity.apply { this.y -= 0.15 } //Emulate bobber going down
         displayFishCaughtParticles()
@@ -53,7 +55,7 @@ class FishingMinigameFishFoundState(private val minigameManager: FishingMinigame
         minigameManager.textDisplay.backgroundColor = Color.fromARGB(0, 0, 0, 0)
 
 
-        Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)?.showEntity(HubFishing.plugin, minigameManager.textDisplay)
+        Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)?.showEntity(plugin, minigameManager.textDisplay)
     }
 
 

@@ -2,6 +2,8 @@ package xyz.gameoholic.hubfishing.fish
 
 import org.bukkit.Location
 import org.bukkit.util.Vector
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.min
@@ -9,6 +11,7 @@ import kotlin.random.Random
 
 //todo: Improve this even further
 class FishAIManager(val fish: Fish) {
+    private val plugin: HubFishingPlugin by inject()
 
     private var state: State = State.CONSTANT_SPEED
 

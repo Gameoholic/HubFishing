@@ -1,7 +1,6 @@
 package xyz.gameoholic.hubfishing.listeners
 
 import kotlinx.coroutines.*
-import xyz.gameoholic.hubfishing.HubFishing
 import xyz.gameoholic.hubfishing.data.PlayerData
 import xyz.gameoholic.hubfishing.displays.PlayerDisplayManager
 import xyz.gameoholic.hubfishing.util.FishingUtil
@@ -11,9 +10,13 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.scheduler.BukkitRunnable
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 
 object PlayerJoinListener: Listener {
     private val scope = CoroutineScope(MinecraftDispatchers.Background)
+
+    private val plugin: HubFishingPlugin by inject()
 
     @EventHandler
     fun onPlayerJoinEvent(e: PlayerJoinEvent) {
@@ -32,7 +35,7 @@ object PlayerJoinListener: Listener {
                                 //Spawn displays
                                 FishingUtil.playerDisplayManagers[e.player.uniqueId] = PlayerDisplayManager(e.player.uniqueId).apply { spawnDisplays() }
                             }
-                        }.runTask(HubFishing.plugin)
+                        }.runTask(plugin)
                     }
                     else {
                         LoggerUtil.error("Couldn't load player data for ${e.player.uniqueId}")

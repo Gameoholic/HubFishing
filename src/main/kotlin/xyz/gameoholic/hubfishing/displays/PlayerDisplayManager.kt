@@ -5,7 +5,6 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
-import xyz.gameoholic.hubfishing.HubFishing
 import xyz.gameoholic.hubfishing.data.PlayerData
 import xyz.gameoholic.hubfishing.fish.FishRarity
 import xyz.gameoholic.hubfishing.util.FishingUtil
@@ -15,6 +14,8 @@ import org.bukkit.entity.Display
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.TextDisplay
 import org.bukkit.persistence.PersistentDataType
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 import java.util.*
 
 
@@ -25,6 +26,8 @@ import java.util.*
  * This class must only be created after the player data has been loaded properly.
  */
 class PlayerDisplayManager(private val uuid: UUID) {
+    private val plugin: HubFishingPlugin by inject()
+
     private val displays = mutableListOf<TextDisplay>()
     private val playerData: PlayerData = FishingUtil.playerData.first { it.playerUUID == uuid }
 
@@ -38,14 +41,14 @@ class PlayerDisplayManager(private val uuid: UUID) {
                 .spawnEntity(it.statsDisplayLocation, EntityType.TEXT_DISPLAY) as TextDisplay
 
             val key =
-                NamespacedKey(HubFishing.plugin, "fishing-removable") //Mark entity, for removal upon server start
+                NamespacedKey(plugin, "fishing-removable") //Mark entity, for removal upon server start
             display.persistentDataContainer.set(key, PersistentDataType.BOOLEAN, true)
 
             display.isVisibleByDefault = false
             display.text(getDisplayText())
             display.alignment = TextDisplay.TextAlignment.CENTER
             display.billboard = Display.Billboard.CENTER
-            player.showEntity(HubFishing.plugin, display)
+            player.showEntity(plugin, display)
 
             displays.add(display)
         }

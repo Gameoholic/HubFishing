@@ -5,7 +5,6 @@ import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
-import xyz.gameoholic.hubfishing.HubFishing
 import xyz.gameoholic.hubfishing.fish.Fish
 import xyz.gameoholic.hubfishing.lake.FishLakeManager
 import xyz.gameoholic.hubfishing.player.minigame.FishingMinigameManager
@@ -16,6 +15,8 @@ import xyz.gameoholic.hubfishing.particles.RodWaitingParticle
 import org.bukkit.Bukkit
 import org.bukkit.entity.FishHook
 import org.bukkit.scheduler.BukkitRunnable
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 import java.util.*
 
 /**
@@ -32,6 +33,8 @@ class FishingPlayer(
     val hook: FishHook,
     private var hookCooldown: Int
 ) {
+    private val plugin: HubFishingPlugin by inject()
+
     var fishingState: FishingPlayerState = FishingPlayerState.ROD_WAITING
         private set
 
@@ -104,7 +107,7 @@ class FishingPlayer(
             override fun run() {
                 catchParticle.stop()
             }
-        }.runTask(HubFishing.plugin)
+        }.runTask(plugin)
     }
 
     /**

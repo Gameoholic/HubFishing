@@ -1,6 +1,5 @@
 package xyz.gameoholic.hubfishing.util
 
-import xyz.gameoholic.hubfishing.HubFishing
 import xyz.gameoholic.hubfishing.commands.FishingCommand
 import xyz.gameoholic.hubfishing.commands.SpawnFishCommand
 import xyz.gameoholic.hubfishing.config.FishingConfig
@@ -17,10 +16,13 @@ import org.bukkit.NamespacedKey
 import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.util.Vector
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 import java.util.*
 
 
 object FishingUtil {
+    private val plugin: HubFishingPlugin by inject()
 
     lateinit var fishingConfig: FishingConfig
 
@@ -57,12 +59,12 @@ object FishingUtil {
         }
         fishLakeManagers = fishLakeManagersList
 
-        Bukkit.getPluginManager().registerEvents(PlayerJoinListener, HubFishing.plugin)
-        Bukkit.getPluginManager().registerEvents(PlayerQuitListener, HubFishing.plugin)
-        Bukkit.getPluginManager().registerEvents(PlayerInteractEntityListener, HubFishing.plugin)
+        Bukkit.getPluginManager().registerEvents(PlayerJoinListener, plugin)
+        Bukkit.getPluginManager().registerEvents(PlayerQuitListener, plugin)
+        Bukkit.getPluginManager().registerEvents(PlayerInteractEntityListener, plugin)
 
-        HubFishing.plugin.getCommand("spawnfish")!!.setExecutor(SpawnFishCommand)
-        HubFishing.plugin.getCommand("fishing")!!.setExecutor(FishingCommand)
+        plugin.getCommand("spawnfish")!!.setExecutor(SpawnFishCommand)
+        plugin.getCommand("fishing")!!.setExecutor(FishingCommand)
 
         SQLUtil.load(fishingConfig.fishVariants, fishingConfig.crates)
     }
@@ -108,7 +110,7 @@ object FishingUtil {
      * (displays, armor stands, etc.) will remain. This gets rid of them.
      */
     private fun removeOldEntities() {
-        val key = NamespacedKey(HubFishing.plugin, "fishing-removable")
+        val key = NamespacedKey(plugin, "fishing-removable")
 
         //Before removing the entities, we must load the chunks.
 

@@ -5,7 +5,6 @@ import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
-import xyz.gameoholic.hubfishing.HubFishing
 import xyz.gameoholic.hubfishing.fish.FishVariant
 import xyz.gameoholic.hubfishing.util.FishingUtil
 import org.bukkit.Bukkit
@@ -19,9 +18,13 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.scheduler.BukkitRunnable
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 import java.util.UUID
 
 class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
+    private val plugin: HubFishingPlugin by inject()
+
     val player = Bukkit.getPlayer(playerUUID)
     override val inv: Inventory = Bukkit.createInventory(
         this,
@@ -36,7 +39,7 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
 
     override fun registerEvents() {
         if (eventsAreRegistered) return
-        Bukkit.getPluginManager().registerEvents(this, HubFishing.plugin)
+        Bukkit.getPluginManager().registerEvents(this, plugin)
         eventsAreRegistered = true
     }
 
@@ -156,7 +159,7 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
         )
         //Make item uniquely identifiable for inventory click detection with ID
         meta.persistentDataContainer.set(
-            NamespacedKey(HubFishing.plugin, "menu_item"),
+            NamespacedKey(plugin, "menu_item"),
             PersistentDataType.STRING,
             "close_menu"
         )
@@ -184,7 +187,7 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
 
     override fun handleClick(clickedItem: ItemStack, player: Player) {
         val menuItemId = clickedItem.itemMeta.persistentDataContainer
-            .get(NamespacedKey(HubFishing.plugin, "menu_item"), PersistentDataType.STRING)
+            .get(NamespacedKey(plugin, "menu_item"), PersistentDataType.STRING)
         when (menuItemId) {
             "coming_soon" -> {}
             "close_menu" -> handleCloseMenuItemClick(player)
@@ -201,7 +204,7 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
             override fun run() {
                 player.closeInventory()
             }
-        }.runTask(HubFishing.plugin)
+        }.runTask(plugin)
     }
 
 

@@ -2,7 +2,6 @@ package xyz.gameoholic.hubfishing.player.minigame.states
 
 import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.text.minimessage.MiniMessage
-import xyz.gameoholic.hubfishing.HubFishing
 import xyz.gameoholic.hubfishing.player.minigame.FishingMinigameManager
 import xyz.gameoholic.hubfishing.player.minigame.FishingMinigameState
 import xyz.gameoholic.hubfishing.player.minigame.ui.FishingMinigameFailureUIRenderer
@@ -13,8 +12,12 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 
 class FishingMinigameFailureState(val minigameManager: FishingMinigameManager, val failureReason: FailureReason): FishingMinigameState, Listener {
+    private val plugin: HubFishingPlugin by inject()
+
     override var stateTicksPassed = 0
     private val uiRenderer: FishingMinigameUIRenderer = FishingMinigameFailureUIRenderer(this)
 
@@ -37,7 +40,7 @@ class FishingMinigameFailureState(val minigameManager: FishingMinigameManager, v
     }
 
     override fun onEnable() {
-        Bukkit.getPluginManager().registerEvents(this, HubFishing.plugin)
+        Bukkit.getPluginManager().registerEvents(this, plugin)
         Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)?.let {
             if (failureReason == FailureReason.PLAYER_SURRENDERED)
                 it.sendMessage(MiniMessage.miniMessage().deserialize(

@@ -7,14 +7,17 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.event.player.PlayerInteractEvent
-import xyz.gameoholic.hubfishing.HubFishing
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 
 class FishingMinigameStartAnimState(private val minigameManager: FishingMinigameManager): FishingMinigameState,
     Listener {
+    private val plugin: HubFishingPlugin by inject()
+
     override var stateTicksPassed = 0
 
     override fun onEnable() {
-        Bukkit.getPluginManager().registerEvents(this, HubFishing.plugin)
+        Bukkit.getPluginManager().registerEvents(this, plugin)
 
         minigameManager.textDisplay.remove()
     }

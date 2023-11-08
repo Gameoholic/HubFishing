@@ -1,7 +1,6 @@
 package xyz.gameoholic.hubfishing.fish
 
 import xyz.gameoholic.partigon.particle.PartigonParticle
-import xyz.gameoholic.hubfishing.HubFishing
 import xyz.gameoholic.hubfishing.lake.FishLakeManager
 import xyz.gameoholic.hubfishing.util.LoggerUtil
 import xyz.gameoholic.hubfishing.particles.EpicFishParticle
@@ -15,6 +14,8 @@ import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.scheduler.BukkitRunnable
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 
 
 /**
@@ -31,6 +32,8 @@ class Fish(
     val variant: FishVariant,
     private val maxAliveTime: Int
 ) {
+    private val plugin: HubFishingPlugin by inject()
+
     val armorStand: ArmorStand
     private var aliveTime = 0
 
@@ -49,7 +52,7 @@ class Fish(
         val armorStandLoc = hitboxLocation.clone().apply { this.y = fishLakeManager.armorStandYLevel }
         LoggerUtil.debug("Spawning fish $variant at $armorStandLoc")
         armorStand = armorStandLoc.world.spawnEntity(armorStandLoc, EntityType.ARMOR_STAND) as ArmorStand
-        val key = NamespacedKey(HubFishing.plugin, "fishing-removable") //Mark entity for removal upon server start
+        val key = NamespacedKey(plugin, "fishing-removable") //Mark entity for removal upon server start
         armorStand.persistentDataContainer.set(key, PersistentDataType.BOOLEAN, true)
         val itemStack = ItemStack(variant.material)
         val meta = itemStack.itemMeta
@@ -122,7 +125,7 @@ class Fish(
                 override fun run() {
                     catchParticle.stop()
                 }
-            }.runTask(HubFishing.plugin)
+            }.runTask(plugin)
         }
     }
 

@@ -4,7 +4,6 @@ import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
-import xyz.gameoholic.hubfishing.HubFishing
 import xyz.gameoholic.hubfishing.fish.Fish
 import xyz.gameoholic.hubfishing.fish.FishRarity
 import xyz.gameoholic.hubfishing.fish.FishVariant
@@ -27,6 +26,8 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.player.FishingPlayer
 import java.lang.RuntimeException
 import java.util.*
@@ -59,6 +60,7 @@ class FishLakeManager(
     rankBoostDisplayLocation: Location,
     val surfaceYLevel: Double,
 ) : Listener {
+    private val plugin: HubFishingPlugin by inject()
 
     /** Players that are in the lake's region */
     val allPlayers = mutableListOf<LakePlayer>()
@@ -93,12 +95,12 @@ class FishLakeManager(
         epicFishesQueueAmount = getFishesQueueAmount(FishRarity.EPIC).toDouble()
         legendaryFishesQueueAmount = getFishesQueueAmount(FishRarity.LEGENDARY).toDouble()
 
-        Bukkit.getPluginManager().registerEvents(this, HubFishing.plugin)
+        Bukkit.getPluginManager().registerEvents(this, plugin)
 
         rankBoostDisplay = rankBoostDisplayLocation.world
             .spawnEntity(rankBoostDisplayLocation, EntityType.TEXT_DISPLAY) as TextDisplay
         val key =
-            NamespacedKey(HubFishing.plugin, "fishing-removable") //Mark entity, for removal upon server start
+            NamespacedKey(plugin, "fishing-removable") //Mark entity, for removal upon server start
         rankBoostDisplay.persistentDataContainer.set(key, PersistentDataType.BOOLEAN, true)
         rankBoostDisplay.alignment = TextDisplay.TextAlignment.CENTER
         rankBoostDisplay.billboard = Display.Billboard.CENTER

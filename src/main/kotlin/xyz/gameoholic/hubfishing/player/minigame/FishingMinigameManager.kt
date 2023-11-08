@@ -21,7 +21,8 @@ import org.bukkit.entity.TextDisplay
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
-import xyz.gameoholic.hubfishing.HubFishing
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.player.FishingPlayer
 import java.lang.RuntimeException
 
@@ -34,6 +35,8 @@ import java.lang.RuntimeException
  * @param caughtFish The fish that was caught
  */
 class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakePlayer: LakePlayer, val caughtFish: Fish) {
+    private val plugin: HubFishingPlugin by inject()
+
     var state: FishingMinigameState = FishingMinigameFishFoundState(this)
         private set
     private val task: BukkitTask
@@ -74,7 +77,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
             override fun run() {
                 onTick()
             }
-        }.runTaskTimer(HubFishing.plugin, 1L, 1L)
+        }.runTaskTimer(plugin, 1L, 1L)
         state.onEnable()
 
         for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses)
@@ -232,7 +235,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
         ) as ArmorStand
 
         val key =
-            NamespacedKey(HubFishing.plugin, "fishing-removable") //Mark entity, for removal upon server start
+            NamespacedKey(plugin, "fishing-removable") //Mark entity, for removal upon server start
         armorStand.persistentDataContainer.set(key, PersistentDataType.BOOLEAN, true)
 
         armorStand.isInvisible = true
@@ -329,7 +332,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
                             particle.stop()
                             this.cancel()
                         }
-                    }.runTaskTimer(HubFishing.plugin, 50L, 1L)
+                    }.runTaskTimer(plugin, 50L, 1L)
                 }
             }
 
