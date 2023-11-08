@@ -32,11 +32,7 @@ object SpawnFishCommand : CommandExecutor {
         if (args != null && args.isNotEmpty()) {
             fishVariant = FishingUtil.fishingConfig.fishVariants.firstOrNull { it.id == args[0] }
             if (fishVariant == null) {
-                var fishVariantsString = ""
-                FishingUtil.fishingConfig.fishVariants.forEach {
-                    fishVariantsString += "${it.id}, "
-                }
-                fishVariantsString = fishVariantsString.dropLast(2)
+                val fishVariantsString = FishingUtil.fishingConfig.fishVariants.joinToString { it.id }
                 sender.sendMessage(
                     text().content("Invalid variant ID! Valid variant ID's are: $fishVariantsString")
                         .color(NamedTextColor.RED).build()
