@@ -7,6 +7,7 @@ import xyz.gameoholic.hubfishing.injection.inject
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.io.path.Path
 
 object FishingConfigParser {
     private val plugin: HubFishingPlugin by inject()
@@ -27,8 +28,8 @@ object FishingConfigParser {
         )
         var input = ""
         files.forEach {
-            val filePath = File(plugin.dataFolder, it).path
-            input += Files.readString(Path.of(filePath)) + "\n"
+            val filePath = Path("${plugin.dataFolder}/$it")
+            input += Files.readString(filePath) + "\n"
         }
         val fishingConfig = Yaml.default.decodeFromString(FishingConfig.serializer(), input)
 
