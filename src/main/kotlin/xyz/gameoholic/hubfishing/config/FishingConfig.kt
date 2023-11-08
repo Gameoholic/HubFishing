@@ -17,7 +17,7 @@ data class FishingConfig(
     @SerialName("log-level") val logLevel: LoggerUtil.LogLevel,
     @SerialName("fish-lake-managers") val fishLakeManagersSettings: List<FishLakeManagerSettings>,
     @SerialName("fish-variants") val fishVariants: List<FishVariant>,
-    @SerialName("crates") val crates: List<Crate>,
+    val crates: List<Crate>,
     @SerialName("water-area-length-pixels") val waterAreaLengthPixels: Double,
     @SerialName("water-area-fish-padding") val waterAreaFishPadding: Double,
     @SerialName("water-area-fish-spawn-padding") val waterAreaFishSpawnPadding: Double,
