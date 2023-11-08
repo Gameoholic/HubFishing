@@ -3,7 +3,7 @@ package xyz.gameoholic.hubfishing.player.minigame
 import xyz.gameoholic.hubfishing.fish.Fish
 import xyz.gameoholic.hubfishing.fish.FishRarity
 import xyz.gameoholic.hubfishing.util.FishingUtil
-import java.util.*
+import kotlin.random.Random
 
 /**
  * @param fishMinPosition The fish's min position in UI pixels, from the right
@@ -15,8 +15,6 @@ class FishMovementManager(
     private val fishMaxPosition: Double,
     private val caughtFish: Fish
 ) {
-    private val rnd = Random()
-
     private enum class FishDirection { LEFT, RIGHT }
 
     private var fishDirection: FishDirection = FishDirection.LEFT
@@ -28,7 +26,7 @@ class FishMovementManager(
     private var fishMaxDirectionTime = 0
 
     /** The fish's position in UI pixels, from the right */
-    var fishPosition = rnd.nextDouble(
+    var fishPosition = Random.nextDouble(
         fishMinPosition + FishingUtil.fishingConfig.waterAreaFishSpawnPadding,
         fishMaxPosition - FishingUtil.fishingConfig.waterAreaFishSpawnPadding
     )
@@ -37,7 +35,7 @@ class FishMovementManager(
         if (caughtFish.variant.rarity.minigameMaxSpeed == caughtFish.variant.rarity.minigameMinSpeed)
             caughtFish.variant.rarity.minigameMinSpeed
         else
-            rnd.nextDouble(caughtFish.variant.rarity.minigameMinSpeed, caughtFish.variant.rarity.minigameMaxSpeed)
+            Random.nextDouble(caughtFish.variant.rarity.minigameMinSpeed, caughtFish.variant.rarity.minigameMaxSpeed)
 
 
     var heatmap = hashMapOf<Int, Double>()
@@ -105,6 +103,6 @@ class FishMovementManager(
      * Determines the amount of ticks the fish will move in a direction, based on its rarity.
      */
     private fun determineFishDirectionDuration(fishRarity: FishRarity): Int {
-        return rnd.nextInt(fishRarity.minigameMinDirectionDuration, fishRarity.minigameMaxDirectionDuration + 1)
+        return Random.nextInt(fishRarity.minigameMinDirectionDuration, fishRarity.minigameMaxDirectionDuration + 1)
     }
 }

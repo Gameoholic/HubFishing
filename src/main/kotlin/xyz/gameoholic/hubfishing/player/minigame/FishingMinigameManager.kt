@@ -8,7 +8,6 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import net.kyori.adventure.title.TitlePart
 import xyz.gameoholic.hubfishing.fish.Fish
 import xyz.gameoholic.hubfishing.player.LakePlayer
-import xyz.gameoholic.hubfishing.player.minigame.states.*
 import xyz.gameoholic.hubfishing.util.FishingUtil
 import xyz.gameoholic.hubfishing.particles.LevelUpParticle
 import org.bukkit.Bukkit
@@ -23,6 +22,7 @@ import org.bukkit.scheduler.BukkitTask
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.player.FishingPlayer
+import xyz.gameoholic.hubfishing.player.minigame.states.*
 import java.lang.RuntimeException
 
 

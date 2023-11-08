@@ -4,6 +4,10 @@ import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
+import org.bukkit.Bukkit
+import org.bukkit.Location
+import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import xyz.gameoholic.hubfishing.fish.Fish
 import xyz.gameoholic.hubfishing.fish.FishRarity
 import xyz.gameoholic.hubfishing.fish.FishVariant
@@ -11,7 +15,6 @@ import xyz.gameoholic.hubfishing.player.FishingPlayerState
 import xyz.gameoholic.hubfishing.player.LakePlayer
 import xyz.gameoholic.hubfishing.util.FishingUtil
 import xyz.gameoholic.hubfishing.util.LoggerUtil
-import org.bukkit.*
 import org.bukkit.entity.Display
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.TextDisplay
@@ -31,6 +34,7 @@ import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.player.FishingPlayer
 import java.lang.RuntimeException
 import java.util.*
+import kotlin.collections.HashMap
 import kotlin.math.min
 import kotlin.math.pow
 
