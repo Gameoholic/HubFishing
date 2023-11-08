@@ -9,10 +9,10 @@ import xyz.gameoholic.hubfishing.util.FishingUtil
 import org.bukkit.Bukkit
 import java.lang.RuntimeException
 import java.util.UUID
-
+import kotlin.random.Random
 object CrateUtil {
 
-    val rnd = kotlin.random.Random
+    val rnd = Random
 
     /**
      * Attempts to give a crate shard to the player.
