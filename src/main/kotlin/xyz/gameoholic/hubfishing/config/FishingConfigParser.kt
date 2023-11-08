@@ -4,9 +4,7 @@ import com.charleskorn.kaml.Yaml
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.fish.FishRarity
 import xyz.gameoholic.hubfishing.injection.inject
-import java.io.File
 import java.nio.file.Files
-import java.nio.file.Path
 import kotlin.io.path.Path
 
 object FishingConfigParser {

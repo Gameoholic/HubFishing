@@ -22,6 +22,7 @@ import xyz.gameoholic.hubfishing.lake.FishLakeManager
 import xyz.gameoholic.hubfishing.listeners.PlayerInteractEntityListener
 import xyz.gameoholic.hubfishing.listeners.PlayerJoinListener
 import xyz.gameoholic.hubfishing.listeners.PlayerQuitListener
+import xyz.gameoholic.hubfishing.util.FishingUtil
 import java.util.*
 
 class HubFishingPlugin: JavaPlugin() {
@@ -54,7 +55,7 @@ class HubFishingPlugin: JavaPlugin() {
 
         SQLUtil.load(config.fishVariants)
         createFishLakeManagers()
-        removeOldEntities()
+        FishingUtil.removeOldEntities()
 
 
         getCommand("spawnfish")!!.setExecutor(SpawnFishCommand)
@@ -86,6 +87,9 @@ class HubFishingPlugin: JavaPlugin() {
         }.runTaskTimer(this, 0L, 1L)
     }
 
+    /**
+     * Creates fish lake managers from config
+     */
     private fun createFishLakeManagers() {
         val fishLakeManagersList = mutableListOf<FishLakeManager>()
         config.fishLakeManagersSettings.forEach {
@@ -108,30 +112,4 @@ class HubFishingPlugin: JavaPlugin() {
     }
 
 
-    /**
-     * In the event of a crash / server close, old fishing related entities
-     * (displays, armor stands, etc.) will remain. This gets rid of them.
-     */
-    private fun removeOldEntities() {
-        val key = NamespacedKey(this, "fishing-removable")
-
-        //Before removing the entities, we must load the chunks.
-
-        fishLakeManagers.forEach {
-            for (x in it.corner1.x.toInt() .. it.corner2.x.toInt()) {
-                for (y in it.corner1.y.toInt() .. it.corner2.y.toInt()) {
-                    for (z in it.corner1.z.toInt() .. it.corner2.z.toInt()) {
-                        config.world.getBlockAt(x, y, z).location.chunk.load()
-                    }
-                }
-            }
-        }
-
-        config.world.entities.forEach {
-            val container: PersistentDataContainer = it.persistentDataContainer
-            if (container.has(key, PersistentDataType.BOOLEAN)) {
-                it.remove()
-            }
-        }
-    }
 }
