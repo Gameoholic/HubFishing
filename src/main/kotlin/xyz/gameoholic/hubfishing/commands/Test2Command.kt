@@ -19,7 +19,7 @@ object Test2Command : CommandExecutor {
         )
         sender.sendTitlePart(
             TitlePart.TITLE,
-            MiniMessage.miniMessage().deserialize(args!![0]!!)
+            MiniMessage.miniMessage().deserialize(args[0])
         )
 
         return true
