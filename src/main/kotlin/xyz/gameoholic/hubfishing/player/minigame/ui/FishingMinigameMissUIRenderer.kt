@@ -1,19 +1,22 @@
 package xyz.gameoholic.hubfishing.player.minigame.ui
 
 import net.kyori.adventure.text.Component
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.player.minigame.states.FishingMinigameMissState
-import xyz.gameoholic.hubfishing.util.FishingUtil
 
 
 /**
  * Renders water, fish and the rodbox on the player's screen.
  */
-class FishingMinigameMissUIRenderer(override val minigameState: FishingMinigameMissState) :
+class FishingMinigameMissUIRenderer(override val minigameState: FishingMinigameMissState):
     FishingMinigameUIRenderer() {
+    private val plugin: HubFishingPlugin by inject()
+
     override fun render() {
         val title = Component.text()
         // WATER
-        renderCharacter(title, FishingUtil.fishingConfig.waterCharacters[minigameState.minigameManager.waterAnimationFrame], false)
+        renderCharacter(title, plugin.config.waterCharacters[minigameState.minigameManager.waterAnimationFrame], false)
         // FISH
         renderCharacterSeparately(
             title, minigameState.minigameManager.caughtFish.variant.minigameCharacter,
@@ -22,12 +25,12 @@ class FishingMinigameMissUIRenderer(override val minigameState: FishingMinigameM
         )
         // ROD BOX
         renderCharacterSeparately(
-            title, FishingUtil.fishingConfig.rodBoxCharacter, minigameState.minigameManager.rodBoxPosition,
-            FishingUtil.fishingConfig.rodBoxCharacterHeight
+            title, plugin.config.rodBoxCharacter, minigameState.minigameManager.rodBoxPosition,
+            plugin.config.rodBoxCharacterHeight
         )
 
         // BIG ROD
-        renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[FishingUtil.fishingConfig.bigRodCharacters.size - 1], FishingUtil.fishingConfig.bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
+        renderCharacterSeparately(title, plugin.config.bigRodCharacters[plugin.config.bigRodCharacters.size - 1], plugin.config.bigRodPosition, plugin.config.bigRodCharacterHeight)
 
 
 
@@ -35,38 +38,38 @@ class FishingMinigameMissUIRenderer(override val minigameState: FishingMinigameM
         val evenPixelAmount = (minigameState.longRodStartingPosition - minigameState.longRodPosition).toInt()
         val unevenPixelAmount = (minigameState.longRodStartingPosition - minigameState.longRodPosition)
         for (i in 0 until evenPixelAmount - longRodExtraWidth + 1) { //We don't animate the last X frames based on the longrod extra width. We add +1 so the last frame isn't skipped.
-            renderCharacterSeparately(title, FishingUtil.fishingConfig.longRodCharacter,
+            renderCharacterSeparately(title, plugin.config.longRodCharacter,
                 minigameState.longRodStartingPosition - i,
-                FishingUtil.fishingConfig.longRodCharacterHeight)
+                plugin.config.longRodCharacterHeight)
         }
         // Because the actual position may be a decimal, we render an extra long rod character to make it extend to the needed position perfectly
         if (unevenPixelAmount > evenPixelAmount) {
-            renderCharacterSeparately(title, FishingUtil.fishingConfig.longRodCharacter,
+            renderCharacterSeparately(title, plugin.config.longRodCharacter,
                 minigameState.longRodPosition + longRodExtraWidth,
-                FishingUtil.fishingConfig.longRodCharacterHeight)
+                plugin.config.longRodCharacterHeight)
         }
         // We render the end point of the rod line
-        renderCharacterSeparately(title, FishingUtil.fishingConfig.longRodEndCharacter,
-            minigameState.longRodPosition + longRodExtraWidth + FishingUtil.fishingConfig.longRodEndCharacterOffset, // We offset the long end character because it's actually longer and isn't centered.
-            FishingUtil.fishingConfig.longRodEndCharacterHeight)
+        renderCharacterSeparately(title, plugin.config.longRodEndCharacter,
+            minigameState.longRodPosition + longRodExtraWidth + plugin.config.longRodEndCharacterOffset, // We offset the long end character because it's actually longer and isn't centered.
+            plugin.config.longRodEndCharacterHeight)
 
         // MINI RODS
-        for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses) {
+        for (i in 0 until plugin.config.maxFishingRodUses) {
             val miniRodFrame = minigameState.minigameManager.miniFishingRodFrames[i]
 
             val miniRodCharacter = if (miniRodFrame != -1) // If rod is used and has an animation frame
-                FishingUtil.fishingConfig.miniRodUsedCharacters[miniRodFrame]
+                plugin.config.miniRodUsedCharacters[miniRodFrame]
             else
-                FishingUtil.fishingConfig.miniRodCharacter
+                plugin.config.miniRodCharacter
 
             renderCharacterSeparately(
                 title, miniRodCharacter,
-                FishingUtil.fishingConfig.miniRodsCharactersPosition + minFishingRodsOffset * i, FishingUtil.fishingConfig.miniRodCharacterHeight
+                plugin.config.miniRodsCharactersPosition + minFishingRodsOffset * i, plugin.config.miniRodCharacterHeight
             )
         }
 
         // INFO BOX
-        renderCharacterSeparately(title, FishingUtil.fishingConfig.infoBoxCharacter, FishingUtil.fishingConfig.infoBoxPosition, FishingUtil.fishingConfig.infoBoxCharacterHeight)
+        renderCharacterSeparately(title, plugin.config.infoBoxCharacter, plugin.config.infoBoxPosition, plugin.config.infoBoxCharacterHeight)
 
 
         display(minigameState.minigameManager.fishingPlayer.uuid, title)

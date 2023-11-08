@@ -3,11 +3,12 @@ package xyz.gameoholic.hubfishing.commands
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.NamedTextColor
 import xyz.gameoholic.hubfishing.fish.FishVariant
-import xyz.gameoholic.hubfishing.util.FishingUtil
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 
 
 /**
@@ -16,10 +17,12 @@ import org.bukkit.entity.Player
  * /spawnfish <variant_id> <alive_time>
  */
 object SpawnFishCommand : CommandExecutor {
+    private val plugin: HubFishingPlugin by inject()
+
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (sender !is Player) return true
         val fishLakeManager =
-            FishingUtil.fishLakeManagers.firstOrNull { it.allPlayers.any { lakePlayer -> lakePlayer.uuid == sender.uniqueId } }
+            plugin.fishLakeManagers.firstOrNull { it.lakePlayers.any { lakePlayer -> lakePlayer.uuid == sender.uniqueId } }
         if (fishLakeManager == null) {
             sender.sendMessage(
                 text().content("You can only use this command in a lake.").color(NamedTextColor.RED).build()
@@ -30,9 +33,9 @@ object SpawnFishCommand : CommandExecutor {
         //Arg 0 - fish variant ID
         var fishVariant: FishVariant? = null
         if (args != null && args.isNotEmpty()) {
-            fishVariant = FishingUtil.fishingConfig.fishVariants.firstOrNull { it.id == args[0] }
+            fishVariant = plugin.config.fishVariants.firstOrNull { it.id == args[0] }
             if (fishVariant == null) {
-                val fishVariantsString = FishingUtil.fishingConfig.fishVariants.joinToString { it.id }
+                val fishVariantsString = plugin.config.fishVariants.joinToString { it.id }
                 sender.sendMessage(
                     text().content("Invalid variant ID! Valid variant ID's are: $fishVariantsString")
                         .color(NamedTextColor.RED).build()

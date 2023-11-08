@@ -4,7 +4,6 @@ import xyz.gameoholic.hubfishing.player.minigame.FishingMinigameManager
 import xyz.gameoholic.hubfishing.player.minigame.FishingMinigameState
 import xyz.gameoholic.hubfishing.player.minigame.ui.FishingMinigameMissUIRenderer
 import xyz.gameoholic.hubfishing.player.minigame.ui.FishingMinigameUIRenderer
-import xyz.gameoholic.hubfishing.util.FishingUtil
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -21,8 +20,8 @@ class FishingMinigameMissState(
     override var stateTicksPassed = 0
     private val uiRenderer: FishingMinigameUIRenderer = FishingMinigameMissUIRenderer(this)
 
-    val longRodStartingPosition = FishingUtil.fishingConfig.bigRodPosition - FishingUtil.fishingConfig.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
-    val longRodPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2
+    val longRodStartingPosition = plugin.config.bigRodPosition - plugin.config.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
+    val longRodPosition = minigameManager.rodBoxPosition - plugin.config.rodBoxCharacterHeight / 2
 
     override fun onEnable() {
         Bukkit.getPluginManager().registerEvents(this, plugin)

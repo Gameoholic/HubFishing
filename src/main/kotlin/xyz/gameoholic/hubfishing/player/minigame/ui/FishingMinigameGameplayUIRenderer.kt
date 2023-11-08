@@ -1,21 +1,24 @@
 package xyz.gameoholic.hubfishing.player.minigame.ui
 
 import net.kyori.adventure.text.Component
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.player.minigame.states.FishingMinigameGameplayState
-import xyz.gameoholic.hubfishing.util.FishingUtil
 
 
 /**
  * Renders water, fish and the rodbox on the player's screen.
  */
 class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinigameGameplayState): FishingMinigameUIRenderer() {
+    private val plugin: HubFishingPlugin by inject()
+
 
     private var clockAnimationFrame = 0
     private var clockAnimationDelay = 0 // When equal to animation speed, will increment the frame and reset this value to 0
     override fun render() {
         val title = Component.text()
         // WATER
-        renderCharacter(title, FishingUtil.fishingConfig.waterCharacters[minigameState.minigameManager.waterAnimationFrame], false)
+        renderCharacter(title, plugin.config.waterCharacters[minigameState.minigameManager.waterAnimationFrame], false)
         // FISH
         renderCharacterSeparately(
             title, minigameState.minigameManager.caughtFish.variant.minigameCharacter,
@@ -23,35 +26,35 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
             minigameState.minigameManager.caughtFish.variant.minigameCharacterHeight
         )
         // ROD BOX
-        renderCharacterSeparately(title, FishingUtil.fishingConfig.rodBoxCharacter, minigameState.minigameManager.rodBoxPosition, FishingUtil.fishingConfig.rodBoxCharacterHeight)
+        renderCharacterSeparately(title, plugin.config.rodBoxCharacter, minigameState.minigameManager.rodBoxPosition, plugin.config.rodBoxCharacterHeight)
         // MINI RODS
-        for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses) {
+        for (i in 0 until plugin.config.maxFishingRodUses) {
             val miniRodFrame = minigameState.minigameManager.miniFishingRodFrames[i]
 
             val miniRodCharacter = if (miniRodFrame != -1) // If rod is used and has an animation frame
-                FishingUtil.fishingConfig.miniRodUsedCharacters[miniRodFrame]
+                plugin.config.miniRodUsedCharacters[miniRodFrame]
             else
-                FishingUtil.fishingConfig.miniRodCharacter
+                plugin.config.miniRodCharacter
 
             renderCharacterSeparately(
                 title, miniRodCharacter,
-                FishingUtil.fishingConfig.miniRodsCharactersPosition + minFishingRodsOffset * i, FishingUtil.fishingConfig.miniRodCharacterHeight
+                plugin.config.miniRodsCharactersPosition + minFishingRodsOffset * i, plugin.config.miniRodCharacterHeight
             )
         }
         // BIG ROD
-        renderCharacterSeparately(title, FishingUtil.fishingConfig.bigRodCharacters[0], FishingUtil.fishingConfig.bigRodPosition, FishingUtil.fishingConfig.bigRodCharacterHeight)
+        renderCharacterSeparately(title, plugin.config.bigRodCharacters[0], plugin.config.bigRodPosition, plugin.config.bigRodCharacterHeight)
 
         // INFO BOX
-        renderCharacterSeparately(title, FishingUtil.fishingConfig.infoBoxCharacter, FishingUtil.fishingConfig.infoBoxPosition, FishingUtil.fishingConfig.infoBoxCharacterHeight)
+        renderCharacterSeparately(title, plugin.config.infoBoxCharacter, plugin.config.infoBoxPosition, plugin.config.infoBoxCharacterHeight)
 
         // CLOCK
         if (minigameState.passedTimeRestriction) {
-            renderCharacterSeparately(title, FishingUtil.fishingConfig.clockCharacters[clockAnimationFrame], FishingUtil.fishingConfig.clockPosition, FishingUtil.fishingConfig.clockCharacterHeight)
+            renderCharacterSeparately(title, plugin.config.clockCharacters[clockAnimationFrame], plugin.config.clockPosition, plugin.config.clockCharacterHeight)
 
             clockAnimationDelay++
-            if (clockAnimationDelay == FishingUtil.fishingConfig.clockAnimationSpeed) {
+            if (clockAnimationDelay == plugin.config.clockAnimationSpeed) {
                 clockAnimationFrame++
-                if (clockAnimationFrame >= FishingUtil.fishingConfig.clockCharacters.size)
+                if (clockAnimationFrame >= plugin.config.clockCharacters.size)
                     clockAnimationFrame = 0
                 clockAnimationDelay = 0
             }

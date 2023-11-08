@@ -8,7 +8,6 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import net.kyori.adventure.title.TitlePart
 import xyz.gameoholic.hubfishing.fish.Fish
 import xyz.gameoholic.hubfishing.player.LakePlayer
-import xyz.gameoholic.hubfishing.util.FishingUtil
 import xyz.gameoholic.hubfishing.particles.LevelUpParticle
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
@@ -41,8 +40,8 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
     private val task: BukkitTask
     val fishMovementManager = FishMovementManager(
         this,
-        FishingUtil.fishingConfig.waterAreaStartPosition + FishingUtil.fishingConfig.waterAreaFishPadding,
-        FishingUtil.fishingConfig.waterAreaStartPosition + FishingUtil.fishingConfig.waterAreaLengthPixels - FishingUtil.fishingConfig.waterAreaFishPadding,
+        plugin.config.waterAreaStartPosition + plugin.config.waterAreaFishPadding,
+        plugin.config.waterAreaStartPosition + plugin.config.waterAreaLengthPixels - plugin.config.waterAreaFishPadding,
         caughtFish
     )
 
@@ -51,16 +50,16 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
     lateinit var textDisplay: TextDisplay
 
     /** The rod box's min position in UI pixels, from the right */
-    private val rodBoxMinPosition = FishingUtil.fishingConfig.waterAreaStartPosition
+    private val rodBoxMinPosition = plugin.config.waterAreaStartPosition
 
     /** The rod box's max position in UI pixels, from the right */
     private val rodBoxMaxPosition =
-        FishingUtil.fishingConfig.waterAreaStartPosition + FishingUtil.fishingConfig.waterAreaLengthPixels
+        plugin.config.waterAreaStartPosition + plugin.config.waterAreaLengthPixels
 
     /** The rod box's position in UI pixels, from the right */
     var rodBoxPosition = rodBoxMinPosition + (rodBoxMaxPosition - rodBoxMinPosition) / 2
 
-    var fishingRodUsesLeft = FishingUtil.fishingConfig.maxFishingRodUses
+    var fishingRodUsesLeft = plugin.config.maxFishingRodUses
 
     var waterAnimationFrame = 0
     private var waterAnimationDelay = 0 // When reaches the water animation speed (2 for example), will animate the next frame of the water animation and reset to 0.
@@ -79,7 +78,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
         }.runTaskTimer(plugin, 1L, 1L)
         state.onEnable()
 
-        for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses)
+        for (i in 0 until plugin.config.maxFishingRodUses)
             miniFishingRodFrames.add(-1) // Because none of the rods are used, they do not have an animation frame
 
         spawnAndRideArmorStand(player)
@@ -106,22 +105,22 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
 
         // Water animation:
         waterAnimationDelay++
-        if (waterAnimationDelay >= FishingUtil.fishingConfig.waterAnimationSpeed) {
+        if (waterAnimationDelay >= plugin.config.waterAnimationSpeed) {
             waterAnimationDelay = 0
             waterAnimationFrame++
-            if (waterAnimationFrame >= FishingUtil.fishingConfig.waterCharacters.size)
+            if (waterAnimationFrame >= plugin.config.waterCharacters.size)
                 waterAnimationFrame = 0
         }
 
 
         // Mini rods animation: (only one at a time)
-        for (i in 0 until FishingUtil.fishingConfig.maxFishingRodUses) {
-            if ((FishingUtil.fishingConfig.maxFishingRodUses - i) - 1 == fishingRodUsesLeft) { // We check if fishing rod [i] is used, AND is not on the last frame of the used animation (otherwise we just leave it)
-                if (miniFishingRodFrames[i] == FishingUtil.fishingConfig.miniRodUsedCharacters.size - 1) {  // If on last frame, we leave this rod and stop the animation
+        for (i in 0 until plugin.config.maxFishingRodUses) {
+            if ((plugin.config.maxFishingRodUses - i) - 1 == fishingRodUsesLeft) { // We check if fishing rod [i] is used, AND is not on the last frame of the used animation (otherwise we just leave it)
+                if (miniFishingRodFrames[i] == plugin.config.miniRodUsedCharacters.size - 1) {  // If on last frame, we leave this rod and stop the animation
                     miniFishingRodsAnimationDelay = -1
                     break
                 }
-                if (miniFishingRodsAnimationDelay == -1 || miniFishingRodsAnimationDelay >= FishingUtil.fishingConfig.miniRodsAnimationSpeed) { // If the rod just broke, OR another frame should be animated, animate it.
+                if (miniFishingRodsAnimationDelay == -1 || miniFishingRodsAnimationDelay >= plugin.config.miniRodsAnimationSpeed) { // If the rod just broke, OR another frame should be animated, animate it.
                     miniFishingRodFrames[i]++
                     miniFishingRodsAnimationDelay = 0
                 }
@@ -159,7 +158,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
                 this,
                 rodBoxMinPosition,
                 rodBoxMaxPosition,
-                FishingUtil.fishingConfig.rodBoxSpeed
+                plugin.config.rodBoxSpeed
             )
             state.onEnable()
             return
@@ -174,7 +173,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
             return
         }
         if ((state is FishingMinigameSuccessState || state is FishingMinigameFailureState)
-            && state.stateTicksPassed >= FishingUtil.fishingConfig.fishingMinigameSuccessAnimationLength) {
+            && state.stateTicksPassed >= plugin.config.fishingMinigameSuccessAnimationLength) {
             state.onDisable()
             if (state is FishingMinigameSuccessState)
                 endMinigame(MinigameEndReason.FISH_CAUGHT)
@@ -204,7 +203,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
                     this,
                     rodBoxMinPosition,
                     rodBoxMaxPosition,
-                    FishingUtil.fishingConfig.rodBoxSpeed
+                    plugin.config.rodBoxSpeed
                 )
             state.onEnable()
             return
@@ -276,7 +275,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
                 caughtFish.remove(true)
             }
             else -> {
-                FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
+                plugin.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
                     it.increaseFishesUncaught(caughtFish.variant, 1)
                 }
                 caughtFish.caught = false
@@ -301,7 +300,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
      * Called when the player succeeded in the fishing minigame.
      */
     private fun onSuccessfulFish() {
-        FishingUtil.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let { playerData ->
+        plugin.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let { playerData ->
             playerData.increaseFishesCaught(caughtFish.variant, 1)
             val oldLevel = playerData.levelData!!.level
             playerData.increaseXP(caughtFish.variant.rarity.xp)
@@ -309,20 +308,20 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
             Bukkit.getPlayer(fishingPlayer.uuid)?.let {
                 it.sendActionBar(
                     MiniMessage.miniMessage().deserialize(
-                        PlaceholderAPI.setPlaceholders(it, FishingUtil.fishingConfig.XPGainedActionBarMessage),
+                        PlaceholderAPI.setPlaceholders(it, plugin.config.XPGainedActionBarMessage),
                         Placeholder.component("xp", text(caughtFish.variant.rarity.xp.toString()))
                     )
                 )
                 if (newLevel > oldLevel) {
                     it.sendMessage(
                         MiniMessage.miniMessage().deserialize(
-                            PlaceholderAPI.setPlaceholders(it, FishingUtil.fishingConfig.levelUpMessage),
+                            PlaceholderAPI.setPlaceholders(it, plugin.config.levelUpMessage),
                             Placeholder.component("new_level", text(newLevel.toString())),
                             Placeholder.component("old_level", text(oldLevel.toString()))
                         )
                     )
 
-                    it.playSound(FishingUtil.fishingConfig.levelUpSound, Sound.Emitter.self())
+                    it.playSound(plugin.config.levelUpSound, Sound.Emitter.self())
 
                     val particle = LevelUpParticle.getParticle(it.location)
                     particle.start()

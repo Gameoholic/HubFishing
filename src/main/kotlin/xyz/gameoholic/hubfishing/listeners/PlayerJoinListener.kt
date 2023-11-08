@@ -6,7 +6,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import xyz.gameoholic.hubfishing.data.PlayerData
 import xyz.gameoholic.hubfishing.displays.PlayerDisplayManager
-import xyz.gameoholic.hubfishing.util.FishingUtil
 import xyz.gameoholic.hubfishing.util.LoggerUtil
 import xyz.gameoholic.hubfishing.coroutines.MinecraftDispatchers
 import org.bukkit.event.EventHandler
@@ -29,14 +28,14 @@ object PlayerJoinListener: Listener {
 
         scope.launch {
             try {
-                withTimeout(FishingUtil.fishingConfig.sqlQueryTimeout) {
+                withTimeout(plugin.config.sqlQueryTimeout) {
                     if (playerData.fetchData()) {
                         object: BukkitRunnable() {
                             override fun run() {
-                                FishingUtil.playerData.add(playerData)
+                                plugin.playerData.add(playerData)
                                 LoggerUtil.debug("Successfully loaded player data for ${e.player.uniqueId}")
                                 //Spawn displays
-                                FishingUtil.playerDisplayManagers[e.player.uniqueId] = PlayerDisplayManager(e.player.uniqueId).apply { spawnDisplays() }
+                                plugin.playerDisplayManagers[e.player.uniqueId] = PlayerDisplayManager(e.player.uniqueId).apply { spawnDisplays() }
                             }
                         }.runTask(plugin)
                     }

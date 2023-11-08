@@ -1,8 +1,9 @@
 package xyz.gameoholic.hubfishing.player.minigame
 
+import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.fish.Fish
 import xyz.gameoholic.hubfishing.fish.FishRarity
-import xyz.gameoholic.hubfishing.util.FishingUtil
+import xyz.gameoholic.hubfishing.injection.inject
 import kotlin.random.Random
 
 /**
@@ -15,6 +16,8 @@ class FishMovementManager(
     private val fishMaxPosition: Double,
     private val caughtFish: Fish
 ) {
+    private val plugin: HubFishingPlugin by inject()
+
     private enum class FishDirection { LEFT, RIGHT }
 
     private var fishDirection: FishDirection = FishDirection.LEFT
@@ -27,8 +30,8 @@ class FishMovementManager(
 
     /** The fish's position in UI pixels, from the right */
     var fishPosition = Random.nextDouble(
-        fishMinPosition + FishingUtil.fishingConfig.waterAreaFishSpawnPadding,
-        fishMaxPosition - FishingUtil.fishingConfig.waterAreaFishSpawnPadding
+        fishMinPosition + plugin.config.waterAreaFishSpawnPadding,
+        fishMaxPosition - plugin.config.waterAreaFishSpawnPadding
     )
 
     private val fishSpeed =
@@ -41,15 +44,15 @@ class FishMovementManager(
     var heatmap = hashMapOf<Int, Double>()
 
     init {
-//        for (i in 0 until FishingUtil.fishingConfig.waterAmount) {
-//            heatmap[i] = 100.0 / FishingUtil.fishingConfig.waterAmount //14.2%
+//        for (i in 0 until plugin.config.waterAmount) {
+//            heatmap[i] = 100.0 / plugin.config.waterAmount //14.2%
 //        }
-//        for (i in 0 until FishingUtil.fishingConfig.waterAmount / 2) {
+//        for (i in 0 until plugin.config.waterAmount / 2) {
 //            val heatmapValue = heatmap[i]!!
 //            heatmap[i] = heatmap[i]!! - heatmapValue / 2.0
-//            heatmap[FishingUtil.fishingConfig.waterAmount - 1 - i] = heatmap[FishingUtil.fishingConfig.waterAmount - 1 - i]!! - heatmapValue / 2.0
-//            for (j in i + 1 until FishingUtil.fishingConfig.waterAmount - 1 - i) {
-//                heatmap[j] = heatmap[j]!! + heatmapValue / (FishingUtil.fishingConfig.waterAmount - 1 - i - i - 1)
+//            heatmap[plugin.config.waterAmount - 1 - i] = heatmap[plugin.config.waterAmount - 1 - i]!! - heatmapValue / 2.0
+//            for (j in i + 1 until plugin.config.waterAmount - 1 - i) {
+//                heatmap[j] = heatmap[j]!! + heatmapValue / (plugin.config.waterAmount - 1 - i - i - 1)
 //            }
 //        }
 ////todo: heatmap code

@@ -13,11 +13,11 @@ object LoggerUtil {
         DEBUG(0)
     }
     fun debug(msg: String) {
-        if (FishingUtil.fishingConfig.logLevel.value <= LogLevel.DEBUG.value)
+        if (plugin.config.logLevel.value <= LogLevel.DEBUG.value)
             plugin.logger.info("[Fishing] DEBUG: $msg")
     }
     fun error(msg: String) {
-        if (FishingUtil.fishingConfig.logLevel.value <= LogLevel.ERROR.value)
+        if (plugin.config.logLevel.value <= LogLevel.ERROR.value)
             plugin.logger.info("[Fishing] ERROR: $msg")
     }
 }

@@ -3,7 +3,6 @@ package xyz.gameoholic.hubfishing.player.minigame.states
 import xyz.gameoholic.hubfishing.player.minigame.FishingMinigameManager
 import xyz.gameoholic.hubfishing.player.minigame.FishingMinigameState
 import xyz.gameoholic.hubfishing.player.minigame.ui.FishingMinigameRodCastUIRenderer
-import xyz.gameoholic.hubfishing.util.FishingUtil
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -23,9 +22,9 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
     /** The speed in pixels, at which the rod will extend per tick */
     private val rodExtendingSpeed = 3 //todo: from config. the -1 extra width too please
     /** The target (max) position of the long rod, in UI pixels to the left*/
-    private val longRodTargetPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2 //Center of rodbox
+    private val longRodTargetPosition = minigameManager.rodBoxPosition - plugin.config.rodBoxCharacterHeight / 2 //Center of rodbox
     /** The starting position of the long rod, in UI pixels to the left*/
-    val longRodStartingPosition = FishingUtil.fishingConfig.bigRodPosition - FishingUtil.fishingConfig.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
+    val longRodStartingPosition = plugin.config.bigRodPosition - plugin.config.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
     /** The position of right-most pixel of the long rod, in UI pixels to the left*/
     var longRodPosition: Double = longRodStartingPosition
         private set
@@ -57,12 +56,12 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
      * Plays the animation for the long rod extending.
      */
     private fun playLongRodAnimation() {
-        val extensionAnimationDelay = FishingUtil.fishingConfig.extensionAnimationDelay // By how many ticks to delay the extension. Use negative value to make it start earlier
+        val extensionAnimationDelay = plugin.config.extensionAnimationDelay // By how many ticks to delay the extension. Use negative value to make it start earlier
         //If bigrod cast animation finished, we start longrod extend animation
-        if (stateTicksPassed - extensionAnimationDelay >= FishingUtil.fishingConfig.bigRodCharacters.size &&
+        if (stateTicksPassed - extensionAnimationDelay >= plugin.config.bigRodCharacters.size &&
             longRodPosition > longRodTargetPosition) {
             extensionTicksPassed = (stateTicksPassed - extensionAnimationDelay) -
-                FishingUtil.fishingConfig.bigRodCharacters.size + 1 // How many ticks passed, since extension
+                plugin.config.bigRodCharacters.size + 1 // How many ticks passed, since extension
             longRodPosition = longRodStartingPosition - extensionTicksPassed * rodExtendingSpeed
             if (longRodPosition < longRodTargetPosition) // Cap position, if speed is too high, and it passes target pos.
                 longRodPosition = longRodTargetPosition
@@ -78,12 +77,12 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
         if (longRodPosition <= longRodTargetPosition) {
             if (didRodCatchFish()) {
                 Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)?.playSound(
-                    FishingUtil.fishingConfig.fishingMinigameCatchSound, Sound.Emitter.self())
+                    plugin.config.fishingMinigameCatchSound, Sound.Emitter.self())
                 fishCaught = true
             }
             else {
                 Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)?.playSound(
-                    FishingUtil.fishingConfig.fishingMinigameMissSound, Sound.Emitter.self())
+                    plugin.config.fishingMinigameMissSound, Sound.Emitter.self())
                 fishCaught = false
                 minigameManager.fishingRodUsesLeft--
             }
@@ -97,7 +96,7 @@ class FishingMinigameRodCastState(val minigameManager: FishingMinigameManager): 
         val fishHitboxWidth = minigameManager.caughtFish.variant.minigameHitboxWidth
         val fishCenteredPosition = minigameManager.fishMovementManager.fishPosition -
             minigameManager.caughtFish.variant.minigameCharacterHeight / 2
-        val rodBoxCenteredPosition = minigameManager.rodBoxPosition - FishingUtil.fishingConfig.rodBoxCharacterHeight / 2
+        val rodBoxCenteredPosition = minigameManager.rodBoxPosition - plugin.config.rodBoxCharacterHeight / 2
         return rodBoxCenteredPosition < fishCenteredPosition + fishHitboxWidth
             && rodBoxCenteredPosition > fishCenteredPosition - fishHitboxWidth
     }

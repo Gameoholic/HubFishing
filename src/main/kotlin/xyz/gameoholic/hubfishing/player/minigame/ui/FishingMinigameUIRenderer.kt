@@ -7,8 +7,9 @@ import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.title.Title
 import net.kyori.adventure.title.TitlePart
 import xyz.gameoholic.hubfishing.player.minigame.FishingMinigameState
-import xyz.gameoholic.hubfishing.util.FishingUtil
 import org.bukkit.Bukkit
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 import java.text.DecimalFormat
 import java.time.Duration
 import java.util.UUID
@@ -18,6 +19,8 @@ import java.util.UUID
  * title.
  */
 abstract class FishingMinigameUIRenderer {
+    private val plugin: HubFishingPlugin by inject()
+
     abstract val minigameState: FishingMinigameState
 
     /**
@@ -26,7 +29,7 @@ abstract class FishingMinigameUIRenderer {
      */
     val longRodExtraWidth = 1
     /** The difference in positions between every mini fishing rod character, in UI pixels from the right*/
-    protected val minFishingRodsOffset = FishingUtil.fishingConfig.miniRodCharacterHeight
+    protected val minFishingRodsOffset = plugin.config.miniRodCharacterHeight
     /** The position of the big fishing rod, in UI pixels from the right */
 
     /**

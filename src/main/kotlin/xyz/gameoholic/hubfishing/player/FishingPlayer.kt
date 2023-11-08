@@ -8,7 +8,6 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import xyz.gameoholic.hubfishing.fish.Fish
 import xyz.gameoholic.hubfishing.lake.FishLakeManager
 import xyz.gameoholic.hubfishing.player.minigame.FishingMinigameManager
-import xyz.gameoholic.hubfishing.util.FishingUtil
 import xyz.gameoholic.hubfishing.util.LoggerUtil
 import xyz.gameoholic.hubfishing.particles.RodCatchParticle
 import xyz.gameoholic.hubfishing.particles.RodWaitingParticle
@@ -47,7 +46,7 @@ class FishingPlayer(
         //Update fishing playtime, if rod is out
         ticksPassedSinceLastSecond++
         if (ticksPassedSinceLastSecond >= 20) {
-            FishingUtil.playerData.first {it.playerUUID == uuid}.increasePlaytime(1)
+            plugin.playerData.first {it.playerUUID == uuid}.increasePlaytime(1)
             ticksPassedSinceLastSecond = 0
         }
 
@@ -86,19 +85,19 @@ class FishingPlayer(
         // Send message & play sound:
         Bukkit.getPlayer(uuid)?.let {
             it.sendMessage(MiniMessage.miniMessage().deserialize(
-                PlaceholderAPI.setPlaceholders(it, FishingUtil.fishingConfig.fishFoundMessage),
+                PlaceholderAPI.setPlaceholders(it, plugin.config.fishFoundMessage),
                 Placeholder.component("rarity",
                     MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(it, caughtFish.variant.rarity.displayName))
                 ))
             )
-            it.playSound(FishingUtil.fishingConfig.fishFoundSound, Sound.Emitter.self())
+            it.playSound(plugin.config.fishFoundSound, Sound.Emitter.self())
         }
 
         hookReadyParticle?.stop()
         hookReadyParticle = null
 
         caughtFish.caught = true
-        val lakePlayer = fishLakeManager.allPlayers.first { it.uuid == uuid }
+        val lakePlayer = fishLakeManager.lakePlayers.first { it.uuid == uuid }
         lakePlayer.minigameManager = FishingMinigameManager(this, lakePlayer, caughtFish)
 
         val catchParticle = RodCatchParticle.getParticle(hook.location.apply { this.y += 0.25 })

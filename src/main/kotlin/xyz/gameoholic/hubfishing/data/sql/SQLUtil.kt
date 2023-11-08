@@ -2,14 +2,17 @@ package xyz.gameoholic.hubfishing.data.sql
 import com.zaxxer.hikari.HikariDataSource
 import xyz.gameoholic.hubfishing.data.PlayerData
 import xyz.gameoholic.hubfishing.fish.FishVariant
-import xyz.gameoholic.hubfishing.util.FishingUtil
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.util.LoggerUtil
 import java.sql.Connection
 import java.util.UUID
 
 object SQLUtil {
-    private val url = "jdbc:mysql://${FishingUtil.fishingConfig.sqlIP}:" +
-        "${FishingUtil.fishingConfig.sqlPort}/${FishingUtil.fishingConfig.sqlDatabaseName}"
+    private val plugin: HubFishingPlugin by inject()
+
+    private val url = "jdbc:mysql://${plugin.config.sqlIP}:" +
+        "${plugin.config.sqlPort}/${plugin.config.sqlDatabaseName}"
 
     private val dataSource = HikariDataSource()
 
@@ -21,8 +24,8 @@ object SQLUtil {
 
     private fun createDataSource() {
         dataSource.jdbcUrl = url
-        dataSource.username = FishingUtil.fishingConfig.sqlUsername
-        dataSource.password = FishingUtil.fishingConfig.sqlPassword
+        dataSource.username = plugin.config.sqlUsername
+        dataSource.password = plugin.config.sqlPassword
     }
     private fun execIntQuery(query: String): Int? {
         var connection: Connection? = null
@@ -140,14 +143,14 @@ object SQLUtil {
                     else if (column.endsWith("_fishes_caught")) {
                         val fishVariantId = column.split("_fishes_caught")[0]
                         val amount = result.getInt(i)
-                        FishingUtil.fishingConfig.fishVariants.firstOrNull { it.id == fishVariantId }?.let {
+                        plugin.config.fishVariants.firstOrNull { it.id == fishVariantId }?.let {
                             playerData.fishesCaught!![it] = amount
                         }
                     }
                     else if (column.endsWith("_fishes_uncaught")) {
                         val fishVariantId = column.split("_fishes_uncaught")[0]
                         val amount = result.getInt(i)
-                        FishingUtil.fishingConfig.fishVariants.firstOrNull { it.id == fishVariantId }?.let {
+                        plugin.config.fishVariants.firstOrNull { it.id == fishVariantId }?.let {
                             playerData.fishesUncaught!![it] = amount
                         }
                     }

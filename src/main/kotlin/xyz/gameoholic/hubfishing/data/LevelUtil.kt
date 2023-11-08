@@ -1,8 +1,10 @@
 package xyz.gameoholic.hubfishing.data
 
-import xyz.gameoholic.hubfishing.util.FishingUtil
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 
 object LevelUtil {
+    private val plugin: HubFishingPlugin by inject()
 
     /**
      * @param level The current level of the player, starting from 1.
@@ -19,16 +21,16 @@ object LevelUtil {
     fun getLevelData(xp: Int): LevelData {
         var remainingXP = xp
         var level = 1
-        var levelUpRequiredXP = FishingUtil.fishingConfig.levelInitialXPRequirement
-        var levelUpGrowthXP = FishingUtil.fishingConfig.levelXPRequirementGrowth
+        var levelUpRequiredXP = plugin.config.levelInitialXPRequirement
+        var levelUpGrowthXP = plugin.config.levelXPRequirementGrowth
         while (remainingXP >= levelUpRequiredXP) {
             level++
             remainingXP -= levelUpRequiredXP
-            if (level % FishingUtil.fishingConfig.levelGrowthDelay == 0)
-                levelUpGrowthXP = (levelUpGrowthXP * FishingUtil.fishingConfig.levelXPRequirementGrowthMultiplier).toInt()
+            if (level % plugin.config.levelGrowthDelay == 0)
+                levelUpGrowthXP = (levelUpGrowthXP * plugin.config.levelXPRequirementGrowthMultiplier).toInt()
             levelUpRequiredXP += levelUpGrowthXP
-            if (levelUpRequiredXP > FishingUtil.fishingConfig.levelXPRequirementGrowthCap)
-                levelUpRequiredXP = FishingUtil.fishingConfig.levelXPRequirementGrowthCap
+            if (levelUpRequiredXP > plugin.config.levelXPRequirementGrowthCap)
+                levelUpRequiredXP = plugin.config.levelXPRequirementGrowthCap
         }
         return LevelData(level, remainingXP, levelUpRequiredXP, levelUpRequiredXP - remainingXP)
     }

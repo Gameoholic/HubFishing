@@ -2,7 +2,8 @@ package xyz.gameoholic.hubfishing.data
 
 import xyz.gameoholic.hubfishing.data.sql.SQLUtil
 import xyz.gameoholic.hubfishing.fish.FishVariant
-import xyz.gameoholic.hubfishing.util.FishingUtil
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.util.LoggerUtil
 import java.util.*
 import kotlin.collections.HashMap
@@ -19,6 +20,8 @@ import kotlin.collections.HashMap
  * from the database.
  */
 class PlayerData(val playerUUID: UUID) {
+    private val plugin: HubFishingPlugin by inject()
+
     var fishesCaught: HashMap<FishVariant, Int>? = null
     var fishesUncaught: HashMap<FishVariant, Int>? = null
     var xp: Int? = null
@@ -38,8 +41,8 @@ class PlayerData(val playerUUID: UUID) {
         }
 
         return !(fishesCaught == null || fishesUncaught == null || xp == null || playtime == null
-            || fishesCaught?.size != FishingUtil.fishingConfig.fishVariants.size ||
-            fishesUncaught?.size != FishingUtil.fishingConfig.fishVariants.size)
+            || fishesCaught?.size != plugin.config.fishVariants.size ||
+            fishesUncaught?.size != plugin.config.fishVariants.size)
     }
 
     /**
@@ -57,7 +60,7 @@ class PlayerData(val playerUUID: UUID) {
     fun increasePlaytime(amount: Int) {
         if (playtime == null) return
         playtime?.let { playtime = it + amount }
-        FishingUtil.playerDisplayManagers[playerUUID]?.updateDisplays()
+        plugin.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
 
     /**
@@ -71,7 +74,7 @@ class PlayerData(val playerUUID: UUID) {
             xp = it + amount
             levelData = LevelUtil.getLevelData(it + amount)
         }
-        FishingUtil.playerDisplayManagers[playerUUID]?.updateDisplays()
+        plugin.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
 
     /**
@@ -81,7 +84,7 @@ class PlayerData(val playerUUID: UUID) {
     fun increaseFishesCaught(fishVariant: FishVariant, amount: Int) {
         if (fishesCaught == null) return
         fishesCaught!![fishVariant]?.let { fishesCaught!![fishVariant] = it + amount }
-        FishingUtil.playerDisplayManagers[playerUUID]?.updateDisplays()
+        plugin.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
 
     /**
@@ -91,6 +94,6 @@ class PlayerData(val playerUUID: UUID) {
     fun increaseFishesUncaught(fishVariant: FishVariant, amount: Int) {
         if (fishesUncaught == null) return
         fishesUncaught!![fishVariant]?.let { fishesUncaught!![fishVariant] = it + amount }
-        FishingUtil.playerDisplayManagers[playerUUID]?.updateDisplays()
+        plugin.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
 }

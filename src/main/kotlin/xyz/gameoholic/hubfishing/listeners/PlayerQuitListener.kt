@@ -5,26 +5,29 @@ import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import xyz.gameoholic.hubfishing.data.PlayerData
-import xyz.gameoholic.hubfishing.util.FishingUtil
 import xyz.gameoholic.hubfishing.util.LoggerUtil
 import xyz.gameoholic.hubfishing.coroutines.MinecraftDispatchers
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
+import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.injection.inject
 
 object PlayerQuitListener : Listener {
+    private val plugin: HubFishingPlugin by inject()
+
     private val scope = CoroutineScope(MinecraftDispatchers.Background)
 
     @EventHandler
     fun onPlayerQuitEvent(e: PlayerQuitEvent) {
         //Upload player data
-        FishingUtil.playerData.firstOrNull { it.playerUUID == e.player.uniqueId }?.let {
-            FishingUtil.playerData.remove(it)
+        plugin.playerData.firstOrNull { it.playerUUID == e.player.uniqueId }?.let {
+            plugin.playerData.remove(it)
             val playerData = PlayerData(e.player.uniqueId)
 
             scope.launch {
                 try {
-                    withTimeout(FishingUtil.fishingConfig.sqlQueryTimeout) {
+                    withTimeout(plugin.config.sqlQueryTimeout) {
                         it.uploadData()
                     }
                 }
@@ -36,9 +39,9 @@ object PlayerQuitListener : Listener {
         }
 
         //Remove all player displays
-        FishingUtil.playerDisplayManagers[e.player.uniqueId]?.let {
+        plugin.playerDisplayManagers[e.player.uniqueId]?.let {
             it.removeDisplays()
-            FishingUtil.playerDisplayManagers.remove(e.player.uniqueId)
+            plugin.playerDisplayManagers.remove(e.player.uniqueId)
         }
     }
 }

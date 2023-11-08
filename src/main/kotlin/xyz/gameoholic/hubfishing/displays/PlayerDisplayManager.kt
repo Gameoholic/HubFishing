@@ -7,7 +7,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import xyz.gameoholic.hubfishing.data.PlayerData
 import xyz.gameoholic.hubfishing.fish.FishRarity
-import xyz.gameoholic.hubfishing.util.FishingUtil
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Display
@@ -29,14 +28,14 @@ class PlayerDisplayManager(private val uuid: UUID) {
     private val plugin: HubFishingPlugin by inject()
 
     private val displays = mutableListOf<TextDisplay>()
-    private val playerData: PlayerData = FishingUtil.playerData.first { it.playerUUID == uuid }
+    private val playerData: PlayerData = plugin.playerData.first { it.playerUUID == uuid }
 
     /**
      * Spawns the displays for a player, and makes them visible only to them.
      */
     fun spawnDisplays() {
         val player = Bukkit.getPlayer(uuid) ?: return
-        FishingUtil.fishLakeManagers.forEach {
+        plugin.fishLakeManagers.forEach {
             val display = it.statsDisplayLocation.world
                 .spawnEntity(it.statsDisplayLocation, EntityType.TEXT_DISPLAY) as TextDisplay
 
@@ -71,7 +70,7 @@ class PlayerDisplayManager(private val uuid: UUID) {
     private fun getDisplayText(): Component {
         val player = Bukkit.getPlayer(playerData.playerUUID)
         return MiniMessage.miniMessage().deserialize(
-            PlaceholderAPI.setPlaceholders(player, FishingUtil.fishingConfig.statsDisplayContent),
+            PlaceholderAPI.setPlaceholders(player, plugin.config.statsDisplayContent),
             Placeholder.component(
                 "playtime",
                 text((playerData.playtime?.let { it / 3600 }).toString())

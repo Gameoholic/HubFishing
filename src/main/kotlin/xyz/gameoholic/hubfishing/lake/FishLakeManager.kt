@@ -13,7 +13,6 @@ import xyz.gameoholic.hubfishing.fish.FishRarity
 import xyz.gameoholic.hubfishing.fish.FishVariant
 import xyz.gameoholic.hubfishing.player.FishingPlayerState
 import xyz.gameoholic.hubfishing.player.LakePlayer
-import xyz.gameoholic.hubfishing.util.FishingUtil
 import xyz.gameoholic.hubfishing.util.LoggerUtil
 import org.bukkit.entity.Display
 import org.bukkit.entity.EntityType
@@ -29,6 +28,7 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
+import org.bukkit.util.Vector
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.player.FishingPlayer
@@ -68,7 +68,7 @@ class FishLakeManager(
     private val plugin: HubFishingPlugin by inject()
 
     /** Players that are in the lake's region */
-    val allPlayers = mutableListOf<LakePlayer>()
+    val lakePlayers = mutableListOf<LakePlayer>()
 
     /** Players that are currently fishing */
     val fishingPlayers = mutableListOf<FishingPlayer>()
@@ -89,7 +89,8 @@ class FishLakeManager(
     private val rankBoostDisplay: TextDisplay
 
     /** Whether this current lake's fish chances are boosted by someone with a rank. */
-    private var isBoosted: Boolean = true //We set to true, so changing it to false in init() would set the text immediately
+    private var isBoosted: Boolean =
+        true //We set to true, so changing it to false in init() would set the text immediately
     private var queueDecreaseAmount = 1.0
 
     init {
@@ -115,7 +116,7 @@ class FishLakeManager(
      * Should be called when a player enters its premises.
      */
     fun addPlayer(uuid: UUID) {
-        allPlayers.add(LakePlayer(uuid))
+        lakePlayers.add(LakePlayer(uuid))
 
         val item = ItemStack(Material.FISHING_ROD)
         val meta = item.itemMeta
@@ -125,7 +126,7 @@ class FishLakeManager(
 
         Bukkit.getPlayer(uuid)?.let {
             it.inventory.addItem(item)
-            if (it.hasPermission(FishingUtil.fishingConfig.rankBoostPermission)) {
+            if (it.hasPermission(plugin.config.rankBoostPermission)) {
                 setIsBoosted(true, it.name)
             }
         }
@@ -140,19 +141,19 @@ class FishLakeManager(
         if (value == isBoosted) return //We only do stuff if the value for isBoosted has changed
         if (!value) {
             rankBoostDisplay.text(
-                MiniMessage.miniMessage().deserialize(FishingUtil.fishingConfig.rankBoostDisplayNoneContent)
+                MiniMessage.miniMessage().deserialize(plugin.config.rankBoostDisplayNoneContent)
             )
             queueDecreaseAmount = 1.0
         } else {
             rankBoostDisplay.text(
                 MiniMessage.miniMessage().deserialize(
-                    FishingUtil.fishingConfig.rankBoostDisplayBoostedContent, Placeholder.component(
+                    plugin.config.rankBoostDisplayBoostedContent, Placeholder.component(
                         "player",
                         text(boosterName ?: "?")
                     )
                 )
             )
-            queueDecreaseAmount = FishingUtil.fishingConfig.rankBoostAmount
+            queueDecreaseAmount = plugin.config.rankBoostAmount
         }
         isBoosted = value
     }
@@ -166,7 +167,7 @@ class FishLakeManager(
             it.onRemove()
         }
         fishingPlayers.removeAll { it.uuid == uuid }
-        allPlayers.removeAll { it.uuid == uuid }
+        lakePlayers.removeAll { it.uuid == uuid }
 
         Bukkit.getPlayer(uuid)?.let {
             it.inventory.remove(Material.FISHING_ROD)
@@ -174,8 +175,8 @@ class FishLakeManager(
 
         //Check if there are still any boosters in the lake
         setIsBoosted(false)
-        allPlayers.mapNotNull { Bukkit.getPlayer(it.uuid) }.forEach {
-            if (it.hasPermission(FishingUtil.fishingConfig.rankBoostPermission)) {
+        lakePlayers.mapNotNull { Bukkit.getPlayer(it.uuid) }.forEach {
+            if (it.hasPermission(plugin.config.rankBoostPermission)) {
                 setIsBoosted(true, it.name)
                 return@forEach
             }
@@ -201,14 +202,42 @@ class FishLakeManager(
         fishingPlayers.toList().forEach { // fishing players can be removed, so we convert to list
             if (it.hook.isDead) {  // If hook is no longer alive for some reason, remove from fishing players
                 removePlayerFromFishingPlayers(it.uuid)
-                allPlayers.first { lakePlayer -> lakePlayer.uuid == it.uuid }.minigameManager?.onRodDeath()
-            }
-            else
+                lakePlayers.first { lakePlayer -> lakePlayer.uuid == it.uuid }.minigameManager?.onRodDeath()
+            } else
                 it.onTick()
         }
     }
 
     fun onSecondPassed() {
+        // Add/remove players from fish lake managers, handle logic
+        Bukkit.getOnlinePlayers().forEach {
+            // Remove player if no longer in this lake's area
+            val playerInFishingArea = it.location.x > corner1.x && it.location.x < corner2.x &&
+                it.location.y > corner1.y && it.location.y < corner2.y &&
+                it.location.z > corner1.z && it.location.z < corner2.z
+            if (lakePlayers.any { lakePlayer ->
+                    lakePlayer.uuid == it.uniqueId
+                } && !playerInFishingArea)
+                removePlayer(it.uniqueId)
+
+            // Add player if in lake's area
+            else if (!lakePlayers.any { lakePlayer ->
+                    lakePlayer.uuid == it.uniqueId
+                } && playerInFishingArea && plugin.playerData.any { playerData ->
+                    playerData.playerUUID == it.uniqueId } // Make sure player has their data loaded
+                ) {
+                if (it.hasPermission(permissionRequiredToEnter)) {
+                   addPlayer(it.uniqueId)
+                }
+                // If player doesn't have permission to enter lake, launch them away
+                else {
+                    val rnd = java.util.Random()
+                    val velocity = Vector(rnd.nextDouble(-2.0, 2.0), 2.0, rnd.nextDouble(-2.0, 2.0))
+                    it.velocity = velocity
+                }
+            }
+        }
+
         attemptFishSpawnCycle()
     }
 
@@ -239,19 +268,21 @@ class FishLakeManager(
     fun spawnFish(
         location: Location = determineSpawnLocation(),
         fishRarity: FishRarity = determineFishRarity(),
-        fishVariant: FishVariant = FishingUtil.fishingConfig.fishVariants.filter { it.rarity == fishRarity }
+        fishVariant: FishVariant = plugin.config.fishVariants.filter { it.rarity == fishRarity }
             .random(Random),
         fishAliveTime: Int = fishRarity.aliveTimeMin + Random.nextInt(fishRarity.aliveTimeMax)
     ) {
         // Custom spawn message & sound for legendary fish
         if (fishRarity == FishRarity.LEGENDARY) {
-            allPlayers.forEach {
-                lakePlayer -> lakePlayer
+            lakePlayers.forEach { lakePlayer ->
+                lakePlayer
                 Bukkit.getPlayer(lakePlayer.uuid)?.let {
-                    it.sendMessage(MiniMessage.miniMessage().deserialize(
-                        PlaceholderAPI.setPlaceholders(it, FishingUtil.fishingConfig.legendaryFishSpawnMessage)
-                    ))
-                    it.playSound(FishingUtil.fishingConfig.legendaryFishSpawnSound, location.x, location.y, location.z)
+                    it.sendMessage(
+                        MiniMessage.miniMessage().deserialize(
+                            PlaceholderAPI.setPlaceholders(it, plugin.config.legendaryFishSpawnMessage)
+                        )
+                    )
+                    it.playSound(plugin.config.legendaryFishSpawnSound, location.x, location.y, location.z)
                 }
             }
         }
@@ -367,7 +398,7 @@ class FishLakeManager(
     fun onPlayerFishEvent(e: PlayerFishEvent) {
         if (e.isCancelled) return
 
-        val lakePlayer = allPlayers.firstOrNull { it.uuid == e.player.uniqueId } ?: return
+        val lakePlayer = lakePlayers.firstOrNull { it.uuid == e.player.uniqueId } ?: return
 
 
         //We don't care what happens in this event, if the player is in the middle of a fishing minigame
@@ -377,15 +408,16 @@ class FishLakeManager(
 
         if (e.state == PlayerFishEvent.State.FISHING) {
             e.hook.waitTime = 10000000
-            fishingPlayers.add(FishingPlayer(this, lakePlayer.uuid, e.hook, FishingUtil.fishingConfig.hookCooldown))
+            fishingPlayers.add(FishingPlayer(this, lakePlayer.uuid, e.hook, plugin.config.hookCooldown))
         }
         if (e.state == PlayerFishEvent.State.REEL_IN) {
             removePlayerFromFishingPlayers(e.player.uniqueId)
         }
     }
+
     @EventHandler
     fun onPlayerItemHeldEvent(e: InventoryClickEvent) {
-        allPlayers.firstOrNull { it.uuid == e.whoClicked.uniqueId } ?: return
+        lakePlayers.firstOrNull { it.uuid == e.whoClicked.uniqueId } ?: return
         if (e.isCancelled) return
 
         if (e.click == ClickType.NUMBER_KEY) {
@@ -394,18 +426,20 @@ class FishLakeManager(
                 e.isCancelled = true
         }
         if (e.currentItem?.type == Material.FISHING_ROD)
-                e.isCancelled = true
+            e.isCancelled = true
     }
+
     @EventHandler
     fun onPlayerItemHeldEvent(e: PlayerSwapHandItemsEvent) {
-        allPlayers.firstOrNull { it.uuid == e.player.uniqueId } ?: return
+        lakePlayers.firstOrNull { it.uuid == e.player.uniqueId } ?: return
         if (e.isCancelled) return
         if (e.mainHandItem?.type == Material.FISHING_ROD || e.offHandItem?.type == Material.FISHING_ROD)
             e.isCancelled = true
     }
+
     @EventHandler
     fun onPlayerItemHeldEvent(e: PlayerDropItemEvent) {
-        allPlayers.firstOrNull { it.uuid == e.player.uniqueId } ?: return
+        lakePlayers.firstOrNull { it.uuid == e.player.uniqueId } ?: return
         if (e.isCancelled) return
         if (e.itemDrop.itemStack.type == Material.FISHING_ROD)
             e.isCancelled = true
@@ -414,7 +448,7 @@ class FishLakeManager(
     @EventHandler
     fun onPlayerQuitEvent(e: PlayerQuitEvent) {
         // If player leaves server, remove from collections nad clean up managers
-        val lakePlayer = allPlayers.firstOrNull { it.uuid == e.player.uniqueId } ?: return
+        val lakePlayer = lakePlayers.firstOrNull { it.uuid == e.player.uniqueId } ?: return
         removePlayer(e.player.uniqueId)
         lakePlayer.minigameManager?.onPlayerLogOff(e.player)
     }
