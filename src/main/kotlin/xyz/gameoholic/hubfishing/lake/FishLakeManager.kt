@@ -224,10 +224,11 @@ class FishLakeManager(
             else if (!lakePlayers.any { lakePlayer ->
                     lakePlayer.uuid == it.uniqueId
                 } && playerInFishingArea && plugin.playerData.any { playerData ->
-                    playerData.playerUUID == it.uniqueId } // Make sure player has their data loaded
-                ) {
+                    playerData.playerUUID == it.uniqueId
+                } // Make sure player has their data loaded
+            ) {
                 if (it.hasPermission(permissionRequiredToEnter)) {
-                   addPlayer(it.uniqueId)
+                    addPlayer(it.uniqueId)
                 }
                 // If player doesn't have permission to enter lake, launch them away
                 else {
@@ -275,7 +276,6 @@ class FishLakeManager(
         // Custom spawn message & sound for legendary fish
         if (fishRarity == FishRarity.LEGENDARY) {
             lakePlayers.forEach { lakePlayer ->
-                lakePlayer
                 Bukkit.getPlayer(lakePlayer.uuid)?.let {
                     it.sendMessage(
                         MiniMessage.miniMessage().deserialize(
