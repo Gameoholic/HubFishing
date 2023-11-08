@@ -2,8 +2,10 @@ package xyz.gameoholic.hubfishing
 
 import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.ProtocolManager
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.scheduler.BukkitScheduler
 import xyz.gameoholic.hubfishing.commands.Test2Command
 import xyz.gameoholic.hubfishing.commands.TestCommand
 import xyz.gameoholic.hubfishing.injection.bind
@@ -32,6 +34,8 @@ class HubFishingPlugin: JavaPlugin() {
         getCommand("test2")!!.setExecutor(Test2Command)
 
         FishingUtil.onEnable()
+
+
 
         object : BukkitRunnable() {
             override fun run() {
