@@ -7,10 +7,10 @@ authors:
   - Gameoholic
 depend: [ ProtocolLib, PlaceholderAPI, Partigon ]
 commands:
-  test:
-    description: Test
-    usage: /test
-    permission: hubfishing.command.test
+  reloadconfig:
+    description: Reloads the config.
+    usage: /reloadconfig
+    permission: hubfishing.command.reloadconfig
   test2:
     description: Test2
     usage: /test2

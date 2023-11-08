@@ -3,15 +3,12 @@ package xyz.gameoholic.hubfishing
 import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.ProtocolManager
 import org.bukkit.Bukkit
-import org.bukkit.NamespacedKey
-import org.bukkit.persistence.PersistentDataContainer
-import org.bukkit.persistence.PersistentDataType
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
 import xyz.gameoholic.hubfishing.commands.FishingCommand
 import xyz.gameoholic.hubfishing.commands.SpawnFishCommand
 import xyz.gameoholic.hubfishing.commands.Test2Command
-import xyz.gameoholic.hubfishing.commands.TestCommand
+import xyz.gameoholic.hubfishing.commands.ReloadConfigCommand
 import xyz.gameoholic.hubfishing.config.FishingConfig
 import xyz.gameoholic.hubfishing.config.FishingConfigParser
 import xyz.gameoholic.hubfishing.data.PlayerData
@@ -61,7 +58,7 @@ class HubFishingPlugin: JavaPlugin() {
 
         getCommand("spawnfish")!!.setExecutor(SpawnFishCommand)
         getCommand("fishing")!!.setExecutor(FishingCommand)
-        getCommand("test")!!.setExecutor(TestCommand)
+        getCommand("test")!!.setExecutor(ReloadConfigCommand)
         getCommand("test2")!!.setExecutor(Test2Command)
 
 
