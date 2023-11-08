@@ -104,14 +104,14 @@ abstract class FishingMinigameUIRenderer {
      * @param removeShadow Whether to remove the shadow from the characters
      */
     protected fun renderCharacters(component: TextComponent.Builder, character: Char, amount: Int, removeShadow: Boolean = true) {
-        for (i in 0 until amount) {
+        /** We don't want there to be spaces between the characters, so we add
+         *  a space after each water character (excluding the last one).
+         */
+        repeat(amount - 1) {
             renderCharacter(component, character, removeShadow)
-            /** We don't want there to be spaces between the characters, so we add
-             *  a space after each water character (excluding the last one).
-             */
-            if (i < amount - 1)
-                renderSpace(component, -1.0)
+            renderSpace(component, -1.0)
         }
+        renderCharacter(component, character, removeShadow)
     }
 
     /**

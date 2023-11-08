@@ -250,7 +250,7 @@ class FishLakeManager(
         if (!shouldSpawnFish() || fishes.size >= maxFishCount) return
         val amount = min(determineAmountOfFishToSpawn(), maxFishCount - fishes.size)
         LoggerUtil.debug("Spawning $amount fishes.")
-        for (i in 0 until amount) {
+        repeat(amount) {
             spawnFish()
         }
     }
