@@ -44,7 +44,7 @@ class Fish(
      */
     var caught = false
 
-    private val particles: List<PartigonParticle>?
+    private val particles: List<PartigonParticle>
 
     private val AIManager: FishAIManager
 
@@ -73,7 +73,7 @@ class Fish(
         else if (variant.rarity == FishRarity.EPIC)
             listOf(EpicFishParticle.getParticle(armorStand.location.apply { this.y = fishLakeManager.surfaceYLevel }))
         else
-            null
+            listOf()
         particles?.forEach { it.start() }
     }
 
@@ -99,7 +99,9 @@ class Fish(
             return
         }
 
-        particles?.forEach { it.originLocation = armorStand.location.apply { this.y = fishLakeManager.surfaceYLevel } }
+        particles.forEach {
+            it.originLocation = armorStand.location.apply { this.y = fishLakeManager.surfaceYLevel }
+        }
 
 
         AIManager.onTick()
