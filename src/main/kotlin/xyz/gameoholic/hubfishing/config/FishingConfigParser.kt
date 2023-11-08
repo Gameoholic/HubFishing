@@ -18,7 +18,6 @@ object FishingConfigParser {
     fun parseConfig(): FishingConfig {
         var files = listOf(
             "config.yml",
-            "crates.yml",
             "fish_lake_managers.yml",
             "fish_variants.yml",
             "menus.yml",
@@ -55,7 +54,6 @@ object FishingConfigParser {
         FishRarity.COMMON.aliveTimeMax = fishingConfig.commonFishAliveTimeMax
         FishRarity.COMMON.xp = fishingConfig.commonFishXP
         FishRarity.COMMON.displayName = fishingConfig.commonFishDisplayName
-        FishRarity.COMMON.crateShardChance = fishingConfig.commonFishCrateShardChance
 
         FishRarity.RARE.minigameMinDirectionDuration = fishingConfig.rareFishMinigameMinDirectionDuration
         FishRarity.RARE.minigameMaxDirectionDuration = fishingConfig.rareFishMinigameMaxDirectionDuration
@@ -67,7 +65,6 @@ object FishingConfigParser {
         FishRarity.RARE.aliveTimeMax = fishingConfig.rareFishAliveTimeMax
         FishRarity.RARE.xp = fishingConfig.rareFishXP
         FishRarity.RARE.displayName = fishingConfig.rareFishDisplayName
-        FishRarity.RARE.crateShardChance = fishingConfig.rareFishCrateShardChance
 
         FishRarity.EPIC.minigameMinDirectionDuration = fishingConfig.epicFishMinigameMinDirectionDuration
         FishRarity.EPIC.minigameMaxDirectionDuration = fishingConfig.epicFishMinigameMaxDirectionDuration
@@ -79,7 +76,6 @@ object FishingConfigParser {
         FishRarity.EPIC.aliveTimeMax = fishingConfig.epicFishAliveTimeMax
         FishRarity.EPIC.xp = fishingConfig.epicFishXP
         FishRarity.EPIC.displayName = fishingConfig.epicFishDisplayName
-        FishRarity.EPIC.crateShardChance = fishingConfig.epicFishCrateShardChance
 
         FishRarity.LEGENDARY.minigameMinDirectionDuration = fishingConfig.legendaryFishMinigameMinDirectionDuration
         FishRarity.LEGENDARY.minigameMaxDirectionDuration = fishingConfig.legendaryFishMinigameMaxDirectionDuration
@@ -91,7 +87,6 @@ object FishingConfigParser {
         FishRarity.LEGENDARY.aliveTimeMax = fishingConfig.legendaryFishAliveTimeMax
         FishRarity.LEGENDARY.xp = fishingConfig.legendaryFishXP
         FishRarity.LEGENDARY.displayName = fishingConfig.legendaryFishDisplayName
-        FishRarity.LEGENDARY.crateShardChance = fishingConfig.legendaryFishCrateShardChance
     }
 
 

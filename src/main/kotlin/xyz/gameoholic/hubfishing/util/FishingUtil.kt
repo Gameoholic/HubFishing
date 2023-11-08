@@ -66,7 +66,7 @@ object FishingUtil {
         plugin.getCommand("spawnfish")!!.setExecutor(SpawnFishCommand)
         plugin.getCommand("fishing")!!.setExecutor(FishingCommand)
 
-        SQLUtil.load(fishingConfig.fishVariants, fishingConfig.crates)
+        SQLUtil.load(fishingConfig.fishVariants)
     }
 
     fun onTick() {

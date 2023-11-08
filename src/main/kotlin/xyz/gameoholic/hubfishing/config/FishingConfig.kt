@@ -3,7 +3,6 @@ package xyz.gameoholic.hubfishing.config
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import net.kyori.adventure.sound.Sound
-import xyz.gameoholic.hubfishing.crate.Crate
 import xyz.gameoholic.hubfishing.fish.FishVariant
 import xyz.gameoholic.hubfishing.util.LoggerUtil
 import xyz.gameoholic.hubfishing.serialization.SoundSerializer
@@ -17,7 +16,6 @@ data class FishingConfig(
     @SerialName("log-level") val logLevel: LoggerUtil.LogLevel,
     @SerialName("fish-lake-managers") val fishLakeManagersSettings: List<FishLakeManagerSettings>,
     @SerialName("fish-variants") val fishVariants: List<FishVariant>,
-    val crates: List<Crate>,
     @SerialName("water-area-length-pixels") val waterAreaLengthPixels: Double,
     @SerialName("water-area-fish-padding") val waterAreaFishPadding: Double,
     @SerialName("water-area-fish-spawn-padding") val waterAreaFishSpawnPadding: Double,
@@ -126,26 +124,6 @@ data class FishingConfig(
     @SerialName("fishing-collection-menu-close-item-index") val fishingCollectionMenuCloseItemIndex: Int,
     @SerialName("fishing-collection-menu-close-item-name") val fishingCollectionMenuCloseItemName: String,
     @SerialName("fishing-collection-menu-close-item-lore") val fishingCollectionMenuCloseItemLore: String,
-    @SerialName("common-fish-crate-shard-chance") val commonFishCrateShardChance: Double,
-    @SerialName("rare-fish-crate-shard-chance") val rareFishCrateShardChance: Double,
-    @SerialName("epic-fish-crate-shard-chance") val epicFishCrateShardChance: Double,
-    @SerialName("legendary-fish-crate-shard-chance") val legendaryFishCrateShardChance: Double,
-    @SerialName("main-menu-crate-shards-item-name") val mainMenuCrateShardsItemName: String,
-    @SerialName("main-menu-crate-shards-item-lore") val mainMenuCrateShardsItemLore: String,
-    @SerialName("main-menu-crate-shards-item-index") val mainMenuCrateShardsItemIndex: Int,
-    @SerialName("main-menu-crate-shards-item-material") val mainMenuCrateShardsItemMaterial: Material,
-    @SerialName("main-menu-crate-shards-item-model-data") val mainMenuCrateShardsItemModelData: Int,
-    @SerialName("crate-shards-menu-size") val crateShardsMenuSize: Int,
-    @SerialName("crate-shards-menu-name") val crateShardsMenuName: String,
-    @SerialName("crate-shards-menu-close-item-material") val crateShardsMenuCloseItemMaterial: Material,
-    @SerialName("crate-shards-menu-close-item-model-data") val crateShardsMenuCloseItemModelData: Int,
-    @SerialName("crate-shards-menu-close-item-index") val crateShardsMenuCloseItemIndex: Int,
-    @SerialName("crate-shards-menu-close-item-name") val crateShardsMenuCloseItemName: String,
-    @SerialName("crate-shards-menu-close-item-lore") val crateShardsMenuCloseItemLore: String,
-    @SerialName("crate-shards-menu-crate-min-index") val crateShardsMenuCrateMinIndex: Int,
-    @SerialName("crate-shards-menu-crate-max-index") val crateShardsMenuCrateMaxIndex: Int,
-    @SerialName("crate-shards-menu-crate-name") val crateShardsMenuCrateName: String,
-    @SerialName("crate-shards-menu-crate-lore") val crateShardsMenuCrateLore: String,
     @SerialName("level-initial-xp-requirement") val levelInitialXPRequirement: Int,
     @SerialName("level-xp-requirement-growth") val levelXPRequirementGrowth: Int,
     @SerialName("level-xp-requirement-growth-multiplier") val levelXPRequirementGrowthMultiplier: Double,
@@ -167,10 +145,6 @@ data class FishingConfig(
     @SerialName("level-up-message") val levelUpMessage: String,
     @SerialName("level-up-sound") val levelUpSound: @Serializable(with = SoundSerializer::class) Sound,
     @SerialName("xp-gained-action-bar-message") val XPGainedActionBarMessage: String,
-    @SerialName("shard-receive-message") val shardReceiveMessage: String,
-    @SerialName("shard-receive-sound") val shardReceiveSound: @Serializable(with = SoundSerializer::class) Sound,
-    @SerialName("crate-craft-message") val crateCraftMessage: String,
-    @SerialName("crate-craft-sound") val crateCraftSound: @Serializable(with = SoundSerializer::class) Sound,
     @SerialName("fishing-minigame-catch-sound") val fishingMinigameCatchSound: @Serializable(with = SoundSerializer::class) Sound,
     @SerialName("bucket-character-height") val bucketCharacterHeight: Int,
     @SerialName("bucket-characters") val bucketCharacters: List<Char>,

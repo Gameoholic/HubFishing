@@ -6,7 +6,6 @@ import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import net.kyori.adventure.title.TitlePart
-import xyz.gameoholic.hubfishing.crate.CrateUtil
 import xyz.gameoholic.hubfishing.fish.Fish
 import xyz.gameoholic.hubfishing.player.LakePlayer
 import xyz.gameoholic.hubfishing.player.minigame.states.*
@@ -337,7 +336,6 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
             }
 
         }
-        CrateUtil.attemptGiveShard(fishingPlayer.uuid, caughtFish.variant)
     }
 
     fun onQuitDifferent(player: Player) {

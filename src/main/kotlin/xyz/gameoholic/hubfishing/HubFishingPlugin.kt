@@ -22,7 +22,6 @@ class HubFishingPlugin: JavaPlugin() {
         protocolManager = ProtocolLibrary.getProtocolManager()
 
         saveResource("config.yml", false)
-        saveResource("crates.yml", false)
         saveResource("fish_lake_managers.yml", false)
         saveResource("fish_variants.yml", false)
         saveResource("menus.yml", false)

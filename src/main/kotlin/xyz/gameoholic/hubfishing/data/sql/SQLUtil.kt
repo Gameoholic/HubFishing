@@ -1,6 +1,5 @@
 package xyz.gameoholic.hubfishing.data.sql
 import com.zaxxer.hikari.HikariDataSource
-import xyz.gameoholic.hubfishing.crate.Crate
 import xyz.gameoholic.hubfishing.data.PlayerData
 import xyz.gameoholic.hubfishing.fish.FishVariant
 import xyz.gameoholic.hubfishing.util.FishingUtil
@@ -14,11 +13,10 @@ object SQLUtil {
 
     private val dataSource = HikariDataSource()
 
-    fun load(fishVariants: List<FishVariant>, crates: List<Crate>) {
+    fun load(fishVariants: List<FishVariant>) {
         createDataSource()
         createTable()
         createFishVariantsColumns(fishVariants)
-        createCratesColumns(crates)
     }
 
     private fun createDataSource() {
@@ -68,11 +66,6 @@ object SQLUtil {
         fishVariants.forEach {
             createColumnIfNotExists("${it.id}_fishes_caught")
             createColumnIfNotExists("${it.id}_fishes_uncaught")
-        }
-    }
-    private fun createCratesColumns(crates: List<Crate>) {
-        crates.forEach {
-            createColumnIfNotExists("${it.id}_crate_shards")
         }
     }
     private fun createColumnIfNotExists(columnName: String) {
@@ -135,7 +128,6 @@ object SQLUtil {
             if (result.next()) {
                 playerData.fishesCaught = hashMapOf()
                 playerData.fishesUncaught = hashMapOf()
-                playerData.crateShards = hashMapOf()
 
                 val metaData = result.metaData
                 val columnCount = metaData.columnCount
@@ -159,13 +151,6 @@ object SQLUtil {
                             playerData.fishesUncaught!![it] = amount
                         }
                     }
-                    else if (column.endsWith("_crate_shards")) {
-                        val crateId = column.split("_crate_shards")[0]
-                        val amount = result.getInt(i)
-                        FishingUtil.fishingConfig.crates.firstOrNull { it.id == crateId }?.let {
-                            playerData.crateShards!![it] = amount
-                        }
-                    }
                 }
             }
         }
@@ -185,9 +170,6 @@ object SQLUtil {
         }
         playerData.fishesUncaught!!.forEach {
             query += ", ${it.key.id}_fishes_uncaught = ${it.value}"
-        }
-        playerData.crateShards!!.forEach {
-            query += ", ${it.key.id}_crate_shards = ${it.value}"
         }
         query += """
              WHERE 

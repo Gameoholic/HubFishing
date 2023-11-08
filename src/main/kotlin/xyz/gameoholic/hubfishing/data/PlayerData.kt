@@ -1,6 +1,5 @@
 package xyz.gameoholic.hubfishing.data
 
-import xyz.gameoholic.hubfishing.crate.Crate
 import xyz.gameoholic.hubfishing.data.sql.SQLUtil
 import xyz.gameoholic.hubfishing.fish.FishVariant
 import xyz.gameoholic.hubfishing.util.FishingUtil
@@ -22,7 +21,6 @@ import kotlin.collections.HashMap
 class PlayerData(val playerUUID: UUID) {
     var fishesCaught: HashMap<FishVariant, Int>? = null
     var fishesUncaught: HashMap<FishVariant, Int>? = null
-    var crateShards: HashMap<Crate, Int>? = null
     var xp: Int? = null
     var levelData: LevelUtil.LevelData? = null
     var playtime: Int? = null
@@ -41,9 +39,7 @@ class PlayerData(val playerUUID: UUID) {
 
         return !(fishesCaught == null || fishesUncaught == null || xp == null || playtime == null
             || fishesCaught?.size != FishingUtil.fishingConfig.fishVariants.size ||
-            fishesUncaught?.size != FishingUtil.fishingConfig.fishVariants.size ||
-            crateShards?.size != FishingUtil.fishingConfig.crates.size
-            )
+            fishesUncaught?.size != FishingUtil.fishingConfig.fishVariants.size)
     }
 
     /**
@@ -96,21 +92,5 @@ class PlayerData(val playerUUID: UUID) {
         if (fishesUncaught == null) return
         fishesUncaught!![fishVariant]?.let { fishesUncaught!![fishVariant] = it + amount }
         FishingUtil.playerDisplayManagers[playerUUID]?.updateDisplays()
-    }
-
-    /**
-     * Increases the crate shards for a certain crate by a certain amount.
-     */
-    fun increaseCrateShards(crate: Crate, amount: Int) {
-        if (crateShards == null) return
-        crateShards!![crate]?.let { crateShards!![crate] = it + amount }
-    }
-
-    /**
-     * Sets the crate shards for a certain crate to 0.
-     */
-    fun resetCrateShards(crate: Crate) {
-        if (crateShards == null) return
-        crateShards!![crate]?.let { crateShards!![crate] = 0 }
     }
 }

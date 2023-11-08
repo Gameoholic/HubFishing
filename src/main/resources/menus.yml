@@ -33,12 +33,6 @@ main-menu-stats-item-index: 5
 main-menu-stats-item-material: "PAPER"
 main-menu-stats-item-model-data: 1
 
-main-menu-crate-shards-item-name: "<gold>Crate Shards"
-main-menu-crate-shards-item-lore: "<white>Earn <gold>Crate Shards</gold> from fishing.<br><white>Forge enough of them to get a <red>crate.<br><white><red>0.5%</red> chance to get a shard from <gray>common</gray> fish.<br><white><red>1%</red> chance to get a shard from <blue>rare</blue> fish.<br><white><red>10%</red> chance to get a shard from <dark_purple>epic</dark_purple> fish.<br><white><gold>100%</gold> chance to get a shard from <gold>legendary</gold> fish."
-main-menu-crate-shards-item-index: "6"
-main-menu-crate-shards-item-material: "STONE"
-main-menu-crate-shards-item-model-data: 1
-
 #fishing collection menu:
 fishing-collection-menu-size: 36
 fishing-collection-menu-name: "Fish Collections"
@@ -56,17 +50,3 @@ fishing-collection-menu-undiscovered-fish-material: "BARRIER"
 fishing-collection-menu-undiscovered-fish-lore: "<rarity><br><gray>You have not discovered<br>this fish yet!"
 fishing-collection-menu-discovered-fish-lore: "<rarity><br><white>You have discovered this fish!<br>You've caught it <times_caught> times." #times_caught
 
-#crate shards menu:
-crate-shards-menu-size: 36
-crate-shards-menu-name: "Crate Shards"
-
-crate-shards-menu-close-item-name: "Close"
-crate-shards-menu-close-item-lore: "Closes this menu"
-crate-shards-menu-close-item-index: 32
-crate-shards-menu-close-item-material: "BARRIER"
-crate-shards-menu-close-item-model-data: 1
-
-crate-shards-menu-crate-min-index: 1
-crate-shards-menu-crate-max-index: 34
-crate-shards-menu-crate-name: "<crate> shard"
-crate-shards-menu-crate-lore: "<white>Your shards: <red><current_shards></red> / <required_shards><br><white>Obtain <red><shards_left></red> more shards to forge a <gold><crate></gold> crate!"
