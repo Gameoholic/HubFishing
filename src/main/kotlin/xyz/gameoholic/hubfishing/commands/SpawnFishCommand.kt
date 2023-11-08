@@ -42,16 +42,12 @@ object SpawnFishCommand : CommandExecutor {
         }
 
         //Arg 1 - fish alive time
-        var fishAliveTime: Int? = null
-        if (args != null && args.size > 1) {
-            fishAliveTime = args[1].toIntOrNull()
-            if (fishAliveTime == null) {
-                sender.sendMessage(
-                    text().content("Invalid fish alive time provided! Must be whole number.")
-                        .color(NamedTextColor.RED).build()
-                )
-                return true
-            }
+        args.getOrNull(1)?.toIntOrNull() ?: run {
+            sender.sendMessage(
+                text().content("Invalid fish alive time provided! Must be whole number.")
+                    .color(NamedTextColor.RED).build()
+            )
+            return true
         }
 
         //Arg 2 - fish speed
@@ -73,8 +69,8 @@ object SpawnFishCommand : CommandExecutor {
             )
         }
 
-        if (fishVariant != null && fishAliveTime != null)
-            fishLakeManager.spawnFish(fishVariant = fishVariant, fishAliveTime = fishAliveTime)
+        if (fishVariant != null && args[1] != null)
+            fishLakeManager.spawnFish(fishVariant = fishVariant, fishAliveTime = args[1].toInt())
         else if (fishVariant != null)
             fishLakeManager.spawnFish(fishVariant = fishVariant)
         else
