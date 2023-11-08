@@ -344,7 +344,5 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
         unregisterEvents()
     }
 
-    override fun getInventory(): Inventory {
-        return inv
-    }
+    override fun getInventory() = inv
 }
