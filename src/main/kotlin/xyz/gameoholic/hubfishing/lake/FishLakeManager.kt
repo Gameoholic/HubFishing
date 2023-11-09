@@ -369,17 +369,12 @@ class FishLakeManager(
         legendaryFishesQueueAmount -= queueDecreaseAmount
 
         LoggerUtil.debug("Current queue amounts: Rare: $rareFishesQueueAmount, Epic: $epicFishesQueueAmount, Leg: $legendaryFishesQueueAmount")
-        if (legendaryFishesQueueAmount <= 0) {
-            legendaryFishesQueueAmount = getFishesQueueAmount(FishRarity.LEGENDARY).toDouble()
-            return FishRarity.LEGENDARY
-        } else if (epicFishesQueueAmount <= 0) {
-            epicFishesQueueAmount = getFishesQueueAmount(FishRarity.EPIC).toDouble()
-            return FishRarity.EPIC
-        } else if (rareFishesQueueAmount <= 0) {
-            rareFishesQueueAmount = getFishesQueueAmount(FishRarity.RARE).toDouble()
-            return FishRarity.RARE
+        return when {
+            legendaryFishesQueueAmount <= 0 -> FishRarity.LEGENDARY
+            epicFishesQueueAmount <= 0 -> FishRarity.EPIC
+            rareFishesQueueAmount <= 0 -> FishRarity.RARE
+            else -> FishRarity.COMMON
         }
-        return FishRarity.COMMON
     }
 
     /**
