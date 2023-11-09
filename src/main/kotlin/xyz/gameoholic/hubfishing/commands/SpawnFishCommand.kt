@@ -33,9 +33,9 @@ object SpawnFishCommand : CommandExecutor {
         //Arg 0 - fish variant ID
         var fishVariant: FishVariant? = null
         if (args != null && args.isNotEmpty()) {
-            fishVariant = plugin.config.fishVariants.firstOrNull { it.id == args[0] }
+            fishVariant = plugin.config.fishVariants.variants.firstOrNull { it.id == args[0] }
             if (fishVariant == null) {
-                val fishVariantsString = plugin.config.fishVariants.joinToString { it.id }
+                val fishVariantsString = plugin.config.fishVariants.variants.joinToString { it.id }
                 sender.sendMessage(
                     text().content("Invalid variant ID! Valid variant ID's are: $fishVariantsString")
                         .color(NamedTextColor.RED).build()

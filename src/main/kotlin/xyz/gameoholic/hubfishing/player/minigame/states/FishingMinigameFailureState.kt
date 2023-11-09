@@ -20,8 +20,8 @@ class FishingMinigameFailureState(val minigameManager: FishingMinigameManager, v
     override var stateTicksPassed = 0
     private val uiRenderer: FishingMinigameUIRenderer = FishingMinigameFailureUIRenderer(this)
 
-    val longRodStartingPosition = plugin.config.bigRodPosition - plugin.config.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
-    val longRodPosition = minigameManager.rodBoxPosition - plugin.config.rodBoxCharacterHeight / 2
+    val longRodStartingPosition = plugin.config.fishingMinigame.bigRodPosition - plugin.config.fishingMinigame.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
+    val longRodPosition = minigameManager.rodBoxPosition - plugin.config.fishingMinigame.rodBoxCharacterHeight / 2
 
     enum class FailureReason {
         /**
@@ -43,9 +43,9 @@ class FishingMinigameFailureState(val minigameManager: FishingMinigameManager, v
         Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)?.let {
             if (failureReason == FailureReason.PLAYER_SURRENDERED)
                 it.sendMessage(MiniMessage.miniMessage().deserialize(
-                    PlaceholderAPI.setPlaceholders(it, plugin.config.minigameLeaveMessage))
+                    PlaceholderAPI.setPlaceholders(it, plugin.config.strings.minigameLeaveMessage))
                 )
-            it.playSound(plugin.config.minigameFailureSound)
+            it.playSound(plugin.config.sounds.minigameFailureSound)
         }
 
     }

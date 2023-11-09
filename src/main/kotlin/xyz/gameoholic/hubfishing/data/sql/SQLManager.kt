@@ -16,8 +16,8 @@ import java.util.UUID
 class SQLManager {
     private val plugin: HubFishingPlugin by inject()
 
-    private val url = "jdbc:mysql://${plugin.config.sqlIP}:" +
-        "${plugin.config.sqlPort}/${plugin.config.sqlDatabaseName}"
+    private val url = "jdbc:mysql://${plugin.config.sql.sqlIP}:" +
+        "${plugin.config.sql.sqlPort}/${plugin.config.sql.sqlDatabaseName}"
 
     private val dataSource = HikariDataSource()
 
@@ -29,8 +29,8 @@ class SQLManager {
 
     private fun createDataSource() {
         dataSource.jdbcUrl = url
-        dataSource.username = plugin.config.sqlUsername
-        dataSource.password = plugin.config.sqlPassword
+        dataSource.username = plugin.config.sql.sqlUsername
+        dataSource.password = plugin.config.sql.sqlPassword
     }
     private fun execIntQuery(query: String): Int? {
         var connection: Connection? = null
@@ -71,7 +71,7 @@ class SQLManager {
 
 
     private fun createFishVariantsColumns() {
-        plugin.config.fishVariants.forEach {
+        plugin.config.fishVariants.variants.forEach {
             createColumnIfNotExists("${it.id}_fishes_caught")
             createColumnIfNotExists("${it.id}_fishes_uncaught")
         }
@@ -148,14 +148,14 @@ class SQLManager {
                     else if (column.endsWith("_fishes_caught")) {
                         val fishVariantId = column.split("_fishes_caught")[0]
                         val amount = result.getInt(i)
-                        plugin.config.fishVariants.firstOrNull { it.id == fishVariantId }?.let {
+                        plugin.config.fishVariants.variants.firstOrNull { it.id == fishVariantId }?.let {
                             playerData.fishesCaught!![it] = amount
                         }
                     }
                     else if (column.endsWith("_fishes_uncaught")) {
                         val fishVariantId = column.split("_fishes_uncaught")[0]
                         val amount = result.getInt(i)
-                        plugin.config.fishVariants.firstOrNull { it.id == fishVariantId }?.let {
+                        plugin.config.fishVariants.variants.firstOrNull { it.id == fishVariantId }?.let {
                             playerData.fishesUncaught!![it] = amount
                         }
                     }

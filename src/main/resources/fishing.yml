@@ -1,0 +1,19 @@
+log-level: DEBUG
+
+#General:
+world:
+  name: "world" #world used for cleaning up old fishing displays
+
+#Levels: 20/min. 200/ 10 min
+level-initial-xp-requirement: 5
+level-xp-requirement-growth: 5
+level-xp-requirement-growth-cap: 10000
+level-xp-requirement-growth-multiplier: 2.0
+level-growth-delay: 5
+
+# Rank boost:
+rank-boost-permission: "ice"
+rank-boost-amount: 2.0
+
+# Hook cooldown:
+hook-cooldown: 60

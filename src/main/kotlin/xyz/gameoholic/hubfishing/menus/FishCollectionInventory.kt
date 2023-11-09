@@ -27,9 +27,9 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
     val player = Bukkit.getPlayer(playerUUID)
     override val inv: Inventory = Bukkit.createInventory(
         this,
-        plugin.config.fishingCollectionMenuSize,
+        plugin.config.menus.fishingCollectionMenuSize,
         MiniMessage.miniMessage().deserialize(
-            PlaceholderAPI.setPlaceholders(player, plugin.config.fishingCollectionMenuName)
+            PlaceholderAPI.setPlaceholders(player, plugin.config.menus.fishingCollectionMenuName)
         )
     )
 
@@ -64,8 +64,8 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
     private fun getInventoryItems(): HashMap<Int, ItemStack> {
         val items = hashMapOf<Int, ItemStack>()
 
-        val startIndex = plugin.config.fishingCollectionMenuFishMinIndex
-        val maxIndex = plugin.config.fishingCollectionMenuFishMaxIndex
+        val startIndex = plugin.config.menus.fishingCollectionMenuFishMinIndex
+        val maxIndex = plugin.config.menus.fishingCollectionMenuFishMaxIndex
 
         //sort fishes caught by rarity
         val fishesCaught = plugin.playerData.firstOrNull { it.playerUUID == playerUUID }?.let {
@@ -88,14 +88,14 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
             var item: ItemStack
             var meta: ItemMeta
             if (timesCaught > 0) {
-                item = ItemStack(plugin.config.fishingCollectionMenuUndiscoveredFishMaterial, 1)
+                item = ItemStack(plugin.config.menus.fishingCollectionMenuUndiscoveredFishMaterial, 1)
                 meta = item.itemMeta
                 meta.displayName(
                     MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(player, fishVariant.name))
                         .decoration(TextDecoration.ITALIC, false)
                 )
                 meta.lore(
-                    plugin.config.fishingCollectionMenuDiscoveredFishLore.split("<newline>", "<br>")
+                    plugin.config.menus.fishingCollectionMenuDiscoveredFishLore.split("<newline>", "<br>")
                     .map {
                         MiniMessage.miniMessage().deserialize(
                             PlaceholderAPI.setPlaceholders(player, it),
@@ -115,7 +115,7 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
                         .decoration(TextDecoration.ITALIC, false)
                 )
                 meta.lore(
-                    plugin.config.fishingCollectionMenuUndiscoveredFishLore.split("<newline>", "<br>")
+                    plugin.config.menus.fishingCollectionMenuUndiscoveredFishLore.split("<newline>", "<br>")
                     .map {
                         MiniMessage.miniMessage().deserialize(
                             PlaceholderAPI.setPlaceholders(player, it),
@@ -134,26 +134,26 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
             items[i] = item
             fishIndex++
         }
-        items[plugin.config.fishingCollectionMenuCloseItemIndex] = getCloseItem()
+        items[plugin.config.menus.fishingCollectionMenuCloseItemIndex] = getCloseItem()
 
         return items
     }
 
     private fun getCloseItem(): ItemStack {
-        val item = ItemStack(plugin.config.fishingCollectionMenuCloseItemMaterial, 1)
+        val item = ItemStack(plugin.config.menus.fishingCollectionMenuCloseItemMaterial, 1)
         val meta = item.itemMeta
 
         meta.displayName(
             MiniMessage.miniMessage().deserialize(
                 PlaceholderAPI.setPlaceholders(
                     player,
-                    plugin.config.fishingCollectionMenuCloseItemName
+                    plugin.config.menus.fishingCollectionMenuCloseItemName
                 )
             )
                 .decoration(TextDecoration.ITALIC, false)
         )
         meta.lore(
-            plugin.config.fishingCollectionMenuCloseItemLore.split("<newline>", "<br>")
+            plugin.config.menus.fishingCollectionMenuCloseItemLore.split("<newline>", "<br>")
             .map {
                 MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(player, it))
                     .decoration(TextDecoration.ITALIC, false)
@@ -165,7 +165,7 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
             PersistentDataType.STRING,
             "close_menu"
         )
-        meta.setCustomModelData(plugin.config.fishingCollectionMenuCloseItemModelData)
+        meta.setCustomModelData(plugin.config.menus.fishingCollectionMenuCloseItemModelData)
 
         item.itemMeta = meta
         return item

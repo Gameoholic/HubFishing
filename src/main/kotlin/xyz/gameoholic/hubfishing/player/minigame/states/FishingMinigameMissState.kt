@@ -20,8 +20,8 @@ class FishingMinigameMissState(
     override var stateTicksPassed = 0
     private val uiRenderer: FishingMinigameUIRenderer = FishingMinigameMissUIRenderer(this)
 
-    val longRodStartingPosition = plugin.config.bigRodPosition - plugin.config.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
-    val longRodPosition = minigameManager.rodBoxPosition - plugin.config.rodBoxCharacterHeight / 2
+    val longRodStartingPosition = plugin.config.fishingMinigame.bigRodPosition - plugin.config.fishingMinigame.bigRodCharacterHeight + 4.0 //TODo: I'm not sure why it's 4.0.
+    val longRodPosition = minigameManager.rodBoxPosition - plugin.config.fishingMinigame.rodBoxCharacterHeight / 2
 
     override fun onEnable() {
         Bukkit.getPluginManager().registerEvents(this, plugin)

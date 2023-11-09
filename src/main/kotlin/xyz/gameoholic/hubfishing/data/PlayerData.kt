@@ -41,8 +41,8 @@ class PlayerData(val playerUUID: UUID) {
         }
 
         return !(fishesCaught == null || fishesUncaught == null || xp == null || playtime == null
-            || fishesCaught?.size != plugin.config.fishVariants.size ||
-            fishesUncaught?.size != plugin.config.fishVariants.size)
+            || fishesCaught?.size != plugin.config.fishVariants.variants.size ||
+            fishesUncaught?.size != plugin.config.fishVariants.variants.size)
     }
 
     /**

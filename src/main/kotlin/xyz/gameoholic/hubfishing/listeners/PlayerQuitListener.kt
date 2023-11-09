@@ -27,7 +27,7 @@ object PlayerQuitListener : Listener {
 
             scope.launch {
                 try {
-                    withTimeout(plugin.config.sqlQueryTimeout) {
+                    withTimeout(plugin.config.sql.sqlQueryTimeout) {
                         it.uploadData()
                     }
                 }

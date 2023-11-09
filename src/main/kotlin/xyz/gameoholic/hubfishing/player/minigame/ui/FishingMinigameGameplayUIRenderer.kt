@@ -18,7 +18,7 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
     override fun render() {
         val title = Component.text()
         // WATER
-        renderCharacter(title, plugin.config.waterCharacters[minigameState.minigameManager.waterAnimationFrame], false)
+        renderCharacter(title, plugin.config.fishingMinigame.waterCharacters[minigameState.minigameManager.waterAnimationFrame], false)
         // FISH
         renderCharacterSeparately(
             title, minigameState.minigameManager.caughtFish.variant.minigameCharacter,
@@ -26,35 +26,35 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
             minigameState.minigameManager.caughtFish.variant.minigameCharacterHeight
         )
         // ROD BOX
-        renderCharacterSeparately(title, plugin.config.rodBoxCharacter, minigameState.minigameManager.rodBoxPosition, plugin.config.rodBoxCharacterHeight)
+        renderCharacterSeparately(title, plugin.config.fishingMinigame.rodBoxCharacter, minigameState.minigameManager.rodBoxPosition, plugin.config.fishingMinigame.rodBoxCharacterHeight)
         // MINI RODS
-        for (i in 0 until plugin.config.maxFishingRodUses) {
+        for (i in 0 until plugin.config.fishingMinigame.maxFishingRodUses) {
             val miniRodFrame = minigameState.minigameManager.miniFishingRodFrames[i]
 
             val miniRodCharacter = if (miniRodFrame != -1) // If rod is used and has an animation frame
-                plugin.config.miniRodUsedCharacters[miniRodFrame]
+                plugin.config.fishingMinigame.miniRodUsedCharacters[miniRodFrame]
             else
-                plugin.config.miniRodCharacter
+                plugin.config.fishingMinigame.miniRodCharacter
 
             renderCharacterSeparately(
                 title, miniRodCharacter,
-                plugin.config.miniRodsCharactersPosition + minFishingRodsOffset * i, plugin.config.miniRodCharacterHeight
+                plugin.config.fishingMinigame.miniRodsCharactersPosition + minFishingRodsOffset * i, plugin.config.fishingMinigame.miniRodCharacterHeight
             )
         }
         // BIG ROD
-        renderCharacterSeparately(title, plugin.config.bigRodCharacters[0], plugin.config.bigRodPosition, plugin.config.bigRodCharacterHeight)
+        renderCharacterSeparately(title, plugin.config.fishingMinigame.bigRodCharacters[0], plugin.config.fishingMinigame.bigRodPosition, plugin.config.fishingMinigame.bigRodCharacterHeight)
 
         // INFO BOX
-        renderCharacterSeparately(title, plugin.config.infoBoxCharacter, plugin.config.infoBoxPosition, plugin.config.infoBoxCharacterHeight)
+        renderCharacterSeparately(title, plugin.config.fishingMinigame.infoBoxCharacter, plugin.config.fishingMinigame.infoBoxPosition, plugin.config.fishingMinigame.infoBoxCharacterHeight)
 
         // CLOCK
         if (minigameState.passedTimeRestriction) {
-            renderCharacterSeparately(title, plugin.config.clockCharacters[clockAnimationFrame], plugin.config.clockPosition, plugin.config.clockCharacterHeight)
+            renderCharacterSeparately(title, plugin.config.fishingMinigame.clockCharacters[clockAnimationFrame], plugin.config.fishingMinigame.clockPosition, plugin.config.fishingMinigame.clockCharacterHeight)
 
             clockAnimationDelay++
-            if (clockAnimationDelay == plugin.config.clockAnimationSpeed) {
+            if (clockAnimationDelay == plugin.config.fishingMinigame.clockAnimationSpeed) {
                 clockAnimationFrame++
-                if (clockAnimationFrame >= plugin.config.clockCharacters.size)
+                if (clockAnimationFrame >= plugin.config.fishingMinigame.clockCharacters.size)
                     clockAnimationFrame = 0
                 clockAnimationDelay = 0
             }

@@ -29,7 +29,7 @@ abstract class FishingMinigameUIRenderer {
      */
     val longRodExtraWidth = 1
     /** The difference in positions between every mini fishing rod character, in UI pixels from the right*/
-    protected val minFishingRodsOffset = plugin.config.miniRodCharacterHeight
+    protected val minFishingRodsOffset = plugin.config.fishingMinigame.miniRodCharacterHeight
     /** The position of the big fishing rod, in UI pixels from the right */
 
     /**

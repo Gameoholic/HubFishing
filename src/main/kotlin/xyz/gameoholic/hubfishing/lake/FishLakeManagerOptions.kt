@@ -1,5 +1,5 @@
 @file:UseSerializers(LocationSerializer::class)
-package xyz.gameoholic.hubfishing.config
+package xyz.gameoholic.hubfishing.lake
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -8,7 +8,7 @@ import xyz.gameoholic.hubfishing.serialization.LocationSerializer
 import org.bukkit.Location
 
 @Serializable
-data class FishLakeManagerSettings(
+open class FishLakeManagerOptions(
     @SerialName("spawn-corner-1") val spawnCorner1: Location,
     @SerialName("spawn-corner-2") val spawnCorner2: Location,
     @SerialName("corner-1") val corner1: Location,

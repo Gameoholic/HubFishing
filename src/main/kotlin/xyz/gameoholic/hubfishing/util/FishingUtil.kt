@@ -21,13 +21,13 @@ object FishingUtil {
             for (x in it.corner1.x.toInt() .. it.corner2.x.toInt()) {
                 for (y in it.corner1.y.toInt() .. it.corner2.y.toInt()) {
                     for (z in it.corner1.z.toInt() .. it.corner2.z.toInt()) {
-                        plugin.config.world.getBlockAt(x, y, z).location.chunk.load()
+                        plugin.config.fishing.world.getBlockAt(x, y, z).location.chunk.load()
                     }
                 }
             }
         }
 
-        plugin.config.world.entities.forEach {
+        plugin.config.fishing.world.entities.forEach {
             val container: PersistentDataContainer = it.persistentDataContainer
             if (container.has(key, PersistentDataType.BOOLEAN)) {
                 it.remove()

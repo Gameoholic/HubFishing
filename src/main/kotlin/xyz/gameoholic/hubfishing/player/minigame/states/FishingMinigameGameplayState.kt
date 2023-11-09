@@ -73,21 +73,21 @@ class FishingMinigameGameplayState(
         failedBecauseOfTimeRestriction = false
 
         // If player spent too much time without doing anything:
-        if (!passedTimeRestriction && ticksPassedSinceLastTimeRestriction > plugin.config.timeRestrictionWarningDelay) {
+        if (!passedTimeRestriction && ticksPassedSinceLastTimeRestriction > plugin.config.fishingMinigame.timeRestrictionWarningDelay) {
             passedTimeRestriction = true
             player.sendMessage(MiniMessage.miniMessage().deserialize(
-                PlaceholderAPI.setPlaceholders(player, plugin.config.passedTimeRestrictionMessage))
+                PlaceholderAPI.setPlaceholders(player, plugin.config.strings.passedTimeRestrictionMessage))
             )
-            player.playSound(plugin.config.passedTimeRestrictionSound)
+            player.playSound(plugin.config.sounds.passedTimeRestrictionSound)
         }
         // If time passed after waning was given, and player still hasn't done anything, remove an attempt
         if (passedTimeRestriction && ticksPassedSinceLastTimeRestriction >
-            plugin.config.timeRestrictionStrikeDelay + plugin.config.timeRestrictionWarningDelay) {
+            plugin.config.fishingMinigame.timeRestrictionStrikeDelay + plugin.config.fishingMinigame.timeRestrictionWarningDelay) {
             player.sendMessage(MiniMessage.miniMessage().deserialize(
-                PlaceholderAPI.setPlaceholders(player, plugin.config.timeRestrictionStrikeMessage))
+                PlaceholderAPI.setPlaceholders(player, plugin.config.strings.timeRestrictionStrikeMessage))
             )
             Bukkit.getPlayer(minigameManager.fishingPlayer.uuid)?.playSound(
-                plugin.config.timeRestrictionStrikeSound, Sound.Emitter.self())
+                plugin.config.sounds.timeRestrictionStrikeSound, Sound.Emitter.self())
             minigameManager.fishingRodUsesLeft--
             passedTimeRestriction = false
             ticksPassedSinceLastTimeRestriction = 0

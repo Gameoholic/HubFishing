@@ -70,7 +70,7 @@ class PlayerDisplayManager(private val uuid: UUID) {
     private fun getDisplayText(): Component {
         val player = Bukkit.getPlayer(playerData.playerUUID)
         return MiniMessage.miniMessage().deserialize(
-            PlaceholderAPI.setPlaceholders(player, plugin.config.statsDisplayContent),
+            PlaceholderAPI.setPlaceholders(player, plugin.config.strings.statsDisplayContent),
             Placeholder.component(
                 "playtime",
                 text((playerData.playtime?.let { it / 3600 }).toString())

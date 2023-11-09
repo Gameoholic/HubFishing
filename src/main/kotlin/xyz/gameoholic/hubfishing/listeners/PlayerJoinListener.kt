@@ -28,7 +28,7 @@ object PlayerJoinListener: Listener {
 
         scope.launch {
             try {
-                withTimeout(plugin.config.sqlQueryTimeout) {
+                withTimeout(plugin.config.sql.sqlQueryTimeout) {
                     if (playerData.fetchData()) {
                         object: BukkitRunnable() {
                             override fun run() {

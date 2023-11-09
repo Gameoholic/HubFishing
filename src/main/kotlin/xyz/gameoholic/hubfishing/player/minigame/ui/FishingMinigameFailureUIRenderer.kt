@@ -26,7 +26,7 @@ class FishingMinigameFailureUIRenderer(override val minigameState: FishingMiniga
     override fun render() {
         val title = Component.text()
         // WATER
-        renderCharacter(title, plugin.config.waterCharacters[minigameState.minigameManager.waterAnimationFrame], false)
+        renderCharacter(title, plugin.config.fishingMinigame.waterCharacters[minigameState.minigameManager.waterAnimationFrame], false)
         // FISH
         renderCharacterSeparately(
             title, minigameState.minigameManager.caughtFish.variant.minigameCharacter,
@@ -35,15 +35,15 @@ class FishingMinigameFailureUIRenderer(override val minigameState: FishingMiniga
         )
         // ROD BOX
         renderCharacterSeparately(
-            title, plugin.config.rodBoxCharacter, minigameState.minigameManager.rodBoxPosition,
-            plugin.config.rodBoxCharacterHeight
+            title, plugin.config.fishingMinigame.rodBoxCharacter, minigameState.minigameManager.rodBoxPosition,
+            plugin.config.fishingMinigame.rodBoxCharacterHeight
         )
 
         if (minigameState.failureReason == FishingMinigameFailureState.FailureReason.RAN_OUT_OF_ATTEMPTS) {
             // FISHING ROD
-            renderCharacterSeparately(title, plugin.config.rodBreakCharacters[rodBreakAnimationFrame], plugin.config.bigRodPosition, plugin.config.rodBreakAnimationHeight)
+            renderCharacterSeparately(title, plugin.config.fishingMinigame.rodBreakCharacters[rodBreakAnimationFrame], plugin.config.fishingMinigame.bigRodPosition, plugin.config.fishingMinigame.rodBreakAnimationHeight)
             rodBreakAnimationDelay++
-            if (rodBreakAnimationDelay == plugin.config.rodBreakAnimationSpeed && rodBreakAnimationFrame < plugin.config.rodBreakCharacters.size - 1) {
+            if (rodBreakAnimationDelay == plugin.config.fishingMinigame.rodBreakAnimationSpeed && rodBreakAnimationFrame < plugin.config.fishingMinigame.rodBreakCharacters.size - 1) {
                 rodBreakAnimationFrame++
                 rodBreakAnimationDelay = 0
             }
@@ -52,56 +52,56 @@ class FishingMinigameFailureUIRenderer(override val minigameState: FishingMiniga
             val evenPixelAmount = (minigameState.longRodStartingPosition - minigameState.longRodPosition).toInt()
             val unevenPixelAmount = (minigameState.longRodStartingPosition - minigameState.longRodPosition)
             for (i in 0 until evenPixelAmount - longRodExtraWidth + 1) { //We don't animate the last X frames based on the longrod extra width. We add +1 so the last frame isn't skipped.
-                renderCharacterSeparately(title, plugin.config.rodLongBreakCharacters[rodLongBreakAnimationFrame],
+                renderCharacterSeparately(title, plugin.config.fishingMinigame.rodLongBreakCharacters[rodLongBreakAnimationFrame],
                     minigameState.longRodStartingPosition - i,
-                    plugin.config.rodLongBreakAnimationHeight)
+                    plugin.config.fishingMinigame.rodLongBreakAnimationHeight)
             }
             // Because the actual position may be a decimal, we render an extra long rod character to make it extend to the needed position perfectly
             if (unevenPixelAmount > evenPixelAmount) {
-                renderCharacterSeparately(title, plugin.config.rodLongBreakCharacters[rodLongBreakAnimationFrame],
+                renderCharacterSeparately(title, plugin.config.fishingMinigame.rodLongBreakCharacters[rodLongBreakAnimationFrame],
                     minigameState.longRodPosition + longRodExtraWidth,
-                    plugin.config.rodLongBreakAnimationHeight)
+                    plugin.config.fishingMinigame.rodLongBreakAnimationHeight)
             }
             // We render the end point of the rod line
-            renderCharacterSeparately(title, plugin.config.rodLongEndBreakCharacters[rodLongEndBreakAnimationFrame],
-                minigameState.longRodPosition + longRodExtraWidth + plugin.config.longRodEndCharacterOffset, // We offset the long end character because it's actually longer and isn't centered.
-                plugin.config.rodLongEndBreakAnimationHeight)
+            renderCharacterSeparately(title, plugin.config.fishingMinigame.rodLongEndBreakCharacters[rodLongEndBreakAnimationFrame],
+                minigameState.longRodPosition + longRodExtraWidth + plugin.config.fishingMinigame.longRodEndCharacterOffset, // We offset the long end character because it's actually longer and isn't centered.
+                plugin.config.fishingMinigame.rodLongEndBreakAnimationHeight)
 
             // Handle animation for long rod and rod end point breaking
             rodLongBreakAnimationDelay++
-            if (rodLongBreakAnimationDelay == plugin.config.rodLongBreakAnimationSpeed && rodLongBreakAnimationFrame < plugin.config.rodLongBreakCharacters.size - 1) {
+            if (rodLongBreakAnimationDelay == plugin.config.fishingMinigame.rodLongBreakAnimationSpeed && rodLongBreakAnimationFrame < plugin.config.fishingMinigame.rodLongBreakCharacters.size - 1) {
                 rodLongBreakAnimationFrame++
                 rodLongBreakAnimationDelay = 0
             }
 
             rodLongEndBreakAnimationDelay++
-            if (rodLongEndBreakAnimationDelay == plugin.config.rodLongEndBreakAnimationSpeed && rodLongEndBreakAnimationFrame < plugin.config.rodLongEndBreakCharacters.size - 1) {
+            if (rodLongEndBreakAnimationDelay == plugin.config.fishingMinigame.rodLongEndBreakAnimationSpeed && rodLongEndBreakAnimationFrame < plugin.config.fishingMinigame.rodLongEndBreakCharacters.size - 1) {
                 rodLongEndBreakAnimationFrame++
                 rodLongEndBreakAnimationDelay = 0
             }
         }
         else {
-            renderCharacterSeparately(title, plugin.config.bigRodCharacters[0], plugin.config.bigRodPosition, plugin.config.bigRodCharacterHeight)
+            renderCharacterSeparately(title, plugin.config.fishingMinigame.bigRodCharacters[0], plugin.config.fishingMinigame.bigRodPosition, plugin.config.fishingMinigame.bigRodCharacterHeight)
         }
 
 
         // MINI RODS
-        for (i in 0 until plugin.config.maxFishingRodUses) {
+        for (i in 0 until plugin.config.fishingMinigame.maxFishingRodUses) {
             val miniRodFrame = minigameState.minigameManager.miniFishingRodFrames[i]
 
             val miniRodCharacter = if (miniRodFrame != -1) // If rod is used and has an animation frame
-                plugin.config.miniRodUsedCharacters[miniRodFrame]
+                plugin.config.fishingMinigame.miniRodUsedCharacters[miniRodFrame]
             else
-                plugin.config.miniRodCharacter
+                plugin.config.fishingMinigame.miniRodCharacter
 
             renderCharacterSeparately(
                 title, miniRodCharacter,
-                plugin.config.miniRodsCharactersPosition + minFishingRodsOffset * i, plugin.config.miniRodCharacterHeight
+                plugin.config.fishingMinigame.miniRodsCharactersPosition + minFishingRodsOffset * i, plugin.config.fishingMinigame.miniRodCharacterHeight
             )
         }
 
         // INFO BOX
-        renderCharacterSeparately(title, plugin.config.infoBoxCharacter, plugin.config.infoBoxPosition, plugin.config.infoBoxCharacterHeight)
+        renderCharacterSeparately(title, plugin.config.fishingMinigame.infoBoxCharacter, plugin.config.fishingMinigame.infoBoxPosition, plugin.config.fishingMinigame.infoBoxCharacterHeight)
 
 
         display(minigameState.minigameManager.fishingPlayer.uuid, title)

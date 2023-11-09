@@ -85,12 +85,12 @@ class FishingPlayer(
         // Send message & play sound:
         Bukkit.getPlayer(uuid)?.let {
             it.sendMessage(MiniMessage.miniMessage().deserialize(
-                PlaceholderAPI.setPlaceholders(it, plugin.config.fishFoundMessage),
+                PlaceholderAPI.setPlaceholders(it, plugin.config.strings.fishFoundMessage),
                 Placeholder.component("rarity",
                     MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(it, caughtFish.variant.rarity.displayName))
                 ))
             )
-            it.playSound(plugin.config.fishFoundSound, Sound.Emitter.self())
+            it.playSound(plugin.config.sounds.fishFoundSound, Sound.Emitter.self())
         }
 
         hookReadyParticle?.stop()

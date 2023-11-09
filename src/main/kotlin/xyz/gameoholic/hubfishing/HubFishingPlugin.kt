@@ -9,8 +9,8 @@ import xyz.gameoholic.hubfishing.commands.FishingCommand
 import xyz.gameoholic.hubfishing.commands.SpawnFishCommand
 import xyz.gameoholic.hubfishing.commands.Test2Command
 import xyz.gameoholic.hubfishing.commands.ReloadConfigCommand
-import xyz.gameoholic.hubfishing.config.FishingConfig
-import xyz.gameoholic.hubfishing.config.FishingConfigParser
+import xyz.gameoholic.hubfishing.config.Config
+import xyz.gameoholic.hubfishing.config.ConfigParser
 import xyz.gameoholic.hubfishing.data.PlayerData
 import xyz.gameoholic.hubfishing.data.sql.SQLManager
 import xyz.gameoholic.hubfishing.displays.PlayerDisplayManager
@@ -26,7 +26,7 @@ class HubFishingPlugin: JavaPlugin() {
 
     lateinit var protocolManager: ProtocolManager
         private set
-    lateinit var config: FishingConfig
+    lateinit var config: Config
     lateinit var fishLakeManagers: List<FishLakeManager>
         private set
     lateinit var sqlManager: SQLManager
@@ -43,15 +43,16 @@ class HubFishingPlugin: JavaPlugin() {
 
         protocolManager = ProtocolLibrary.getProtocolManager()
 
-        saveResource("config.yml", false)
+        saveResource("fishing.yml", false)
+        saveResource("fishing_minigame.yml", false)
         saveResource("fish_lake_managers.yml", false)
         saveResource("fish_variants.yml", false)
         saveResource("menus.yml", false)
         saveResource("sql.yml", false)
         saveResource("strings.yml", false)
         saveResource("sounds.yml", false)
-        config = FishingConfigParser.parseConfig()
-        fishLakeManagers = FishingConfigParser.getFishLakeManagers()
+        config = ConfigParser.parseConfig()
+        fishLakeManagers = ConfigParser.getFishLakeManagers()
 
         sqlManager = SQLManager()
 

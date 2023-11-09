@@ -21,16 +21,16 @@ object LevelUtil {
     fun getLevelData(xp: Int): LevelData {
         var remainingXP = xp
         var level = 1
-        var levelUpRequiredXP = plugin.config.levelInitialXPRequirement
-        var levelUpGrowthXP = plugin.config.levelXPRequirementGrowth
+        var levelUpRequiredXP = plugin.config.fishing.levelInitialXPRequirement
+        var levelUpGrowthXP = plugin.config.fishing.levelXPRequirementGrowth
         while (remainingXP >= levelUpRequiredXP) {
             level++
             remainingXP -= levelUpRequiredXP
-            if (level % plugin.config.levelGrowthDelay == 0)
-                levelUpGrowthXP = (levelUpGrowthXP * plugin.config.levelXPRequirementGrowthMultiplier).toInt()
+            if (level % plugin.config.fishing.levelGrowthDelay == 0)
+                levelUpGrowthXP = (levelUpGrowthXP * plugin.config.fishing.levelXPRequirementGrowthMultiplier).toInt()
             levelUpRequiredXP += levelUpGrowthXP
-            if (levelUpRequiredXP > plugin.config.levelXPRequirementGrowthCap)
-                levelUpRequiredXP = plugin.config.levelXPRequirementGrowthCap
+            if (levelUpRequiredXP > plugin.config.fishing.levelXPRequirementGrowthCap)
+                levelUpRequiredXP = plugin.config.fishing.levelXPRequirementGrowthCap
         }
         return LevelData(level, remainingXP, levelUpRequiredXP, levelUpRequiredXP - remainingXP)
     }

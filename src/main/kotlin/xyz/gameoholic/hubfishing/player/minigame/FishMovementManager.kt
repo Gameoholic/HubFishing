@@ -30,8 +30,8 @@ class FishMovementManager(
 
     /** The fish's position in UI pixels, from the right */
     var fishPosition = Random.nextDouble(
-        fishMinPosition + plugin.config.waterAreaFishSpawnPadding,
-        fishMaxPosition - plugin.config.waterAreaFishSpawnPadding
+        fishMinPosition + plugin.config.fishingMinigame.waterAreaFishSpawnPadding,
+        fishMaxPosition - plugin.config.fishingMinigame.waterAreaFishSpawnPadding
     )
 
     private val fishSpeed =

@@ -126,7 +126,7 @@ class FishLakeManager(
 
         Bukkit.getPlayer(uuid)?.let {
             it.inventory.addItem(item)
-            if (it.hasPermission(plugin.config.rankBoostPermission)) {
+            if (it.hasPermission(plugin.config.fishing.rankBoostPermission)) {
                 setIsBoosted(true, it.name)
             }
         }
@@ -141,19 +141,19 @@ class FishLakeManager(
         if (value == isBoosted) return //We only do stuff if the value for isBoosted has changed
         if (!value) {
             rankBoostDisplay.text(
-                MiniMessage.miniMessage().deserialize(plugin.config.rankBoostDisplayNoneContent)
+                MiniMessage.miniMessage().deserialize(plugin.config.strings.rankBoostDisplayNoneContent)
             )
             queueDecreaseAmount = 1.0
         } else {
             rankBoostDisplay.text(
                 MiniMessage.miniMessage().deserialize(
-                    plugin.config.rankBoostDisplayBoostedContent, Placeholder.component(
+                    plugin.config.strings.rankBoostDisplayBoostedContent, Placeholder.component(
                         "player",
                         text(boosterName ?: "?")
                     )
                 )
             )
-            queueDecreaseAmount = plugin.config.rankBoostAmount
+            queueDecreaseAmount = plugin.config.fishing.rankBoostAmount
         }
         isBoosted = value
     }
@@ -176,7 +176,7 @@ class FishLakeManager(
         //Check if there are still any boosters in the lake
         setIsBoosted(false)
         lakePlayers.mapNotNull { Bukkit.getPlayer(it.uuid) }.forEach {
-            if (it.hasPermission(plugin.config.rankBoostPermission)) {
+            if (it.hasPermission(plugin.config.fishing.rankBoostPermission)) {
                 setIsBoosted(true, it.name)
                 return@forEach
             }
@@ -270,7 +270,7 @@ class FishLakeManager(
     fun spawnFish(
         location: Location = determineSpawnLocation(),
         fishRarity: FishRarity = determineFishRarity(),
-        fishVariant: FishVariant = plugin.config.fishVariants.filter { it.rarity == fishRarity }
+        fishVariant: FishVariant = plugin.config.fishVariants.variants.filter { it.rarity == fishRarity }
             .random(Random),
         fishAliveTime: Int = fishRarity.aliveTimeMin + Random.nextInt(fishRarity.aliveTimeMax)
     ) {
@@ -280,10 +280,10 @@ class FishLakeManager(
                 Bukkit.getPlayer(lakePlayer.uuid)?.let {
                     it.sendMessage(
                         MiniMessage.miniMessage().deserialize(
-                            PlaceholderAPI.setPlaceholders(it, plugin.config.legendaryFishSpawnMessage)
+                            PlaceholderAPI.setPlaceholders(it, plugin.config.strings.legendaryFishSpawnMessage)
                         )
                     )
-                    it.playSound(plugin.config.legendaryFishSpawnSound, location.x, location.y, location.z)
+                    it.playSound(plugin.config.sounds.legendaryFishSpawnSound, location.x, location.y, location.z)
                 }
             }
         }
@@ -404,7 +404,7 @@ class FishLakeManager(
 
         if (e.state == PlayerFishEvent.State.FISHING) {
             e.hook.waitTime = 10000000
-            fishingPlayers.add(FishingPlayer(this, lakePlayer.uuid, e.hook, plugin.config.hookCooldown))
+            fishingPlayers.add(FishingPlayer(this, lakePlayer.uuid, e.hook, plugin.config.fishing.hookCooldown))
         }
         if (e.state == PlayerFishEvent.State.REEL_IN) {
             removePlayerFromFishingPlayers(e.player.uniqueId)

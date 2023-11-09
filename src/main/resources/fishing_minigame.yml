@@ -1,66 +1,4 @@
-log-level: DEBUG
-
-#General:
-world:
-  name: "world" #world used for cleaning up old fishing displays
-
-#Fish rarities:
-common-fish-minigame-min-direction-duration: 80
-common-fish-minigame-max-direction-duration: 100
-common-fish-minigame-min-speed: 0.2
-common-fish-minigame-max-speed: 0.5
-common-fish-alive-time-min: 100
-common-fish-alive-time-max: 200
-common-fish-xp: 2
-common-fish-display-name: "<gray>Common"
-
-rare-fish-fishes-required-to-spawn-min: 20 #20
-rare-fish-fishes-required-to-spawn-max: 40 #40
-rare-fish-minigame-min-direction-duration: 40
-rare-fish-minigame-max-direction-duration: 60
-rare-fish-minigame-min-speed: 0.4
-rare-fish-minigame-max-speed: 0.4
-rare-fish-alive-time-min: 100
-rare-fish-alive-time-max: 200
-rare-fish-xp: 10
-rare-fish-display-name: "<blue>Rare"
-
-epic-fish-fishes-required-to-spawn-min: 150 #100
-epic-fish-fishes-required-to-spawn-max: 300 #200
-epic-fish-minigame-min-direction-duration: 20
-epic-fish-minigame-max-direction-duration: 30
-epic-fish-minigame-min-speed: 0.75
-epic-fish-minigame-max-speed: 0.75
-epic-fish-alive-time-min: 100
-epic-fish-alive-time-max: 200
-epic-fish-xp: 50
-epic-fish-display-name: "<dark_purple>Epic"
-
-legendary-fish-fishes-required-to-spawn-min: 500 #500
-legendary-fish-fishes-required-to-spawn-max: 1500 #1000
-legendary-fish-minigame-min-direction-duration: 5
-legendary-fish-minigame-max-direction-duration: 30
-legendary-fish-minigame-min-speed: 1.0
-legendary-fish-minigame-max-speed: 1.0
-legendary-fish-alive-time-min: 100
-legendary-fish-alive-time-max: 200
-legendary-fish-xp: 200
-legendary-fish-display-name: "<gold>Legendary"
-
-#Levels: 20/min. 200/ 10 min
-level-initial-xp-requirement: 5
-level-xp-requirement-growth: 5
-level-xp-requirement-growth-cap: 10000
-level-xp-requirement-growth-multiplier: 2.0
-level-growth-delay: 5
-
-# Rank boost:
-rank-boost-permission: "ice"
-rank-boost-amount: 2.0
-
-
 # Gameplay settings:
-hook-cooldown: 60
 water-area-start-position: 12.6 # Position from the right
 water-area-length-pixels: 49.0 # Amount of pixels in which the fish & rodbox can move in
 water-area-fish-padding: 2.0 # Amount of pixels of padding to add in the corners of the area fish can move in
@@ -69,6 +7,7 @@ rod-box-speed: 0.8
 max-fishing-rod-uses: 3
 time-restriction-warning-delay: 300 # How many ticks to wait before displaying time warning
 time-restriction-strike-delay: 100 # How many ticks to wait after warning before removing attempt from player
+
 
 # Characters:
 water-characters:
