@@ -1,6 +1,6 @@
 package xyz.gameoholic.hubfishing.data
 
-import xyz.gameoholic.hubfishing.data.sql.SQLUtil
+import xyz.gameoholic.hubfishing.data.sql.SQLManager
 import xyz.gameoholic.hubfishing.fish.FishVariant
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
@@ -35,7 +35,7 @@ class PlayerData(val playerUUID: UUID) {
      * @return Whether the operation was successful or not.
      */
     fun fetchData(): Boolean {
-        SQLUtil.fetchPlayerData(this)
+        plugin.sqlManager.fetchPlayerData(this)
         xp?.let {
             levelData = LevelUtil.getLevelData(it)
         }
@@ -50,7 +50,7 @@ class PlayerData(val playerUUID: UUID) {
      */
     suspend fun uploadData() {
         LoggerUtil.debug("Uploading player data for player ${playerUUID}")
-        SQLUtil.uploadPlayerData(this) //todo: better db query wrapper. that returns null, or the result. so if null here we throw error. if not we say success.
+        plugin.sqlManager.uploadPlayerData(this) //todo: better db query wrapper. that returns null, or the result. so if null here we throw error. if not we say success.
     }
 
     /**

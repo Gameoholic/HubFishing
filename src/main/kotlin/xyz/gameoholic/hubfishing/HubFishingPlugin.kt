@@ -12,7 +12,7 @@ import xyz.gameoholic.hubfishing.commands.ReloadConfigCommand
 import xyz.gameoholic.hubfishing.config.FishingConfig
 import xyz.gameoholic.hubfishing.config.FishingConfigParser
 import xyz.gameoholic.hubfishing.data.PlayerData
-import xyz.gameoholic.hubfishing.data.sql.SQLUtil
+import xyz.gameoholic.hubfishing.data.sql.SQLManager
 import xyz.gameoholic.hubfishing.displays.PlayerDisplayManager
 import xyz.gameoholic.hubfishing.injection.bind
 import xyz.gameoholic.hubfishing.lake.FishLakeManager
@@ -29,6 +29,7 @@ class HubFishingPlugin: JavaPlugin() {
     lateinit var config: FishingConfig
     lateinit var fishLakeManagers: List<FishLakeManager>
         private set
+    lateinit var sqlManager: SQLManager
 
     /**
      * Player data is guaranteed to not be null or invalid, if it's in this list.
@@ -52,7 +53,8 @@ class HubFishingPlugin: JavaPlugin() {
         config = FishingConfigParser.parseConfig()
         fishLakeManagers = FishingConfigParser.getFishLakeManagers()
 
-        SQLUtil.load(config.fishVariants)
+        SQLManager()
+        sqlManager.load(config.fishVariants)
         FishingUtil.removeOldEntities()
 
 

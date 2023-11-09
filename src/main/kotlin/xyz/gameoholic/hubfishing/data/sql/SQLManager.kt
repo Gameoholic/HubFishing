@@ -8,7 +8,7 @@ import xyz.gameoholic.hubfishing.util.LoggerUtil
 import java.sql.Connection
 import java.util.UUID
 
-object SQLUtil {
+class SQLManager {
     private val plugin: HubFishingPlugin by inject()
 
     private val url = "jdbc:mysql://${plugin.config.sqlIP}:" +
