@@ -1,32 +1,33 @@
+#Note for self: well documented and good variable names.
 fish-lake-managers:
-  - spawn-corner-1:
+  - spawn-corner-1: # The positive-most location where fish can spawn
       world: "world"
       x: 17.0
       y: 68.8
       z: -293.0
-    spawn-corner-2:
+    spawn-corner-2: # The negative-most location where fish can spawn
       world: "world"
       x: 21.0
       y: 68.8
       z: -289.0
-    corner-1:
+    corner-1: # The positive-most location for the lake's region
       world: "world"
       x: -5.0
       y: 64.0
       z: -295.0
-    corner-2:
+    corner-2: # The negative-most location for the lake's region
       world: "world"
       x: 80.0
       y: 140.0
       z: -286.0
-    armor-stand-y-level: 67.0
-    surface-y-level: 69.17
-    fish-amount-chances:
+    armor-stand-y-level: 67.0 # The y level for the armor stand
+    surface-y-level: 69.17 # The y level used for the fish particles
+    fish-amount-chances: # The chances that a certain amount of fish will spawn, between 0.0 to 1.0. Total must add up to 1.0.
       1: 0.5
       2: 0.4
       3: 0.05
       4: 0.05
-    max-fish-count: 10
+    max-fish-count: 10 # Max amount of fish in the lake, no more than this amount will be there at at ime.
     stats-display-location:
       world: "world"
       x: 24.0
@@ -37,5 +38,5 @@ fish-lake-managers:
       x: 20.0
       y: 73.0
       z: -286.0
-    permission-required-to-enter: test
-    fish-spawning-algorithm-curve: 0.16
+    permission-required-to-enter: test # The permission required to enter the lake. If player doesn't have it, they'll be pushed away from it.
+    fish-spawning-algorithm-curve: 0.16 # How often the fish spawn. Make the number higher to make it more frequent

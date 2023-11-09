@@ -1,52 +1,58 @@
-#Menus:
-#main menu:
-main-menu-size: 36
+# NOTE FOR SELF: This config file is pretty well documented, the property names are good.
+# Main menu:
 main-menu-name: "Fishing Menu"
+main-menu-size: 36
 
+# Main menu close item (closes menu)
 main-menu-close-item-name: "Close"
 main-menu-close-item-lore: "Closes this menu"
 main-menu-close-item-index: 32
 main-menu-close-item-material: "BARRIER"
 main-menu-close-item-model-data: 1
 
+# Main menu fish collection item (opens fish collection)
 main-menu-fish-collection-item-name: "<yellow>Fishing Collections"
 main-menu-fish-collection-item-lore: "<yellow>See what fishes<br>you've caught!"
 main-menu-fish-collection-item-index: 1
 main-menu-fish-collection-item-material: "BOOK"
 main-menu-fish-collection-item-model-data: 1
 
+# Main menu rod customization item (opens rod customization menu)
 main-menu-rod-customization-item-name: "Rod Customization"
 main-menu-rod-customization-item-lore: "<red>Coming soon..."
 main-menu-rod-customization-item-index: 2
 main-menu-rod-customization-item-material: "BARRIER"
 main-menu-rod-customization-item-model-data: 1
 
+# Main menu rewards item (opens rewards menu)
 main-menu-rewards-item-name: "Rewards"
 main-menu-rewards-item-lore: "<red>Coming soon..."
 main-menu-rewards-item-index: 3
 main-menu-rewards-item-material: "BARRIER"
 main-menu-rewards-item-model-data: 1
 
+# Main menu stats item (displays stats)
 main-menu-stats-item-name: "Stats"
 main-menu-stats-item-lore: "<white>Playtime: <playtime><br>Level: <level>. To level up: <xp>/<total_xp_to_level_up> (<remaining_xp_to_level_up>)<br><red>Total XP: <total_xp><br><white>Fishes Caught: <fishes_caught><br><common_fishes_caught> <rare_fishes_caught> <epic_fishes_caught> <legendary_fishes_caught>" #xp, playtime, fishes_caught, common_fishes_caught, rare_fishes_caught, epic_fishes_caught, legendary_fishes_caught
 main-menu-stats-item-index: 5
 main-menu-stats-item-material: "PAPER"
 main-menu-stats-item-model-data: 1
 
-#fishing collection menu:
-fishing-collection-menu-size: 36
+# Fishing collection menu
 fishing-collection-menu-name: "Fish Collections"
+fishing-collection-menu-size: 36
 
+# Fishing collection close item (closes menu)
 fishing-collection-menu-close-item-name: "Close"
 fishing-collection-menu-close-item-lore: "Closes this menu"
 fishing-collection-menu-close-item-index: 32
 fishing-collection-menu-close-item-material: "BARRIER"
 fishing-collection-menu-close-item-model-data: 1
 
-
+# Fishing collection discovered/undiscovered fish items:
 fishing-collection-menu-fish-min-index: 1
 fishing-collection-menu-fish-max-index: 34
 fishing-collection-menu-undiscovered-fish-material: "BARRIER"
-fishing-collection-menu-undiscovered-fish-lore: "<rarity><br><gray>You have not discovered<br>this fish yet!"
-fishing-collection-menu-discovered-fish-lore: "<rarity><br><white>You have discovered this fish!<br>You've caught it <times_caught> times." #times_caught
+fishing-collection-menu-undiscovered-fish-lore: "<rarity><br><gray>You have not discovered<br>this fish yet!" # Fish that have not been discovered yet. Usable parameters: <rarity>
+fishing-collection-menu-discovered-fish-lore: "<rarity><br><white>You have discovered this fish!<br>You've caught it <times_caught> times." # Fish that have been discovered. Usable parameters: <times_caught>, <rarity>
 

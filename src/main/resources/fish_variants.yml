@@ -1,3 +1,4 @@
+#NOTE for myself: options names are good, but doc this shit
 #Fish rarities:
 common-fish-minigame-min-direction-duration: 80
 common-fish-minigame-max-direction-duration: 100
@@ -7,8 +8,8 @@ common-fish-alive-time-min: 100
 common-fish-alive-time-max: 200
 common-fish-xp: 2
 
-rare-fish-fishes-required-to-spawn-min: 20 #20
-rare-fish-fishes-required-to-spawn-max: 40 #40
+rare-fish-fishes-required-to-spawn-min: 20
+rare-fish-fishes-required-to-spawn-max: 40
 rare-fish-minigame-min-direction-duration: 40
 rare-fish-minigame-max-direction-duration: 60
 rare-fish-minigame-min-speed: 0.4
@@ -17,8 +18,8 @@ rare-fish-alive-time-min: 100
 rare-fish-alive-time-max: 200
 rare-fish-xp: 10
 
-epic-fish-fishes-required-to-spawn-min: 150 #100
-epic-fish-fishes-required-to-spawn-max: 300 #200
+epic-fish-fishes-required-to-spawn-min: 150
+epic-fish-fishes-required-to-spawn-max: 200
 epic-fish-minigame-min-direction-duration: 20
 epic-fish-minigame-max-direction-duration: 30
 epic-fish-minigame-min-speed: 0.75
@@ -27,8 +28,8 @@ epic-fish-alive-time-min: 100
 epic-fish-alive-time-max: 200
 epic-fish-xp: 50
 
-legendary-fish-fishes-required-to-spawn-min: 500 #500
-legendary-fish-fishes-required-to-spawn-max: 1500 #1000
+legendary-fish-fishes-required-to-spawn-min: 500
+legendary-fish-fishes-required-to-spawn-max: 1000
 legendary-fish-minigame-min-direction-duration: 5
 legendary-fish-minigame-max-direction-duration: 30
 legendary-fish-minigame-min-speed: 1.0

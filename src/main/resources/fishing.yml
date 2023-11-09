@@ -1,19 +1,24 @@
-log-level: DEBUG
+# NOTE FOR SELF: This config file is pretty well documented, the property names are good.
+log-level: DEBUG # Log level can be DEBUG, INFO, ERROR, NOTHING
 
-#General:
-world:
-  name: "world" #world used for cleaning up old fishing displays
+# General:
+world:  # World used for cleaning up old fishing displays
+  name: "world"
 
-#Levels: 20/min. 200/ 10 min
-level-initial-xp-requirement: 5
-level-xp-requirement-growth: 5
-level-xp-requirement-growth-cap: 10000
-level-xp-requirement-growth-multiplier: 2.0
-level-growth-delay: 5
+# Levels:
+level-initial-xp-requirement: 5 # The amount of XP required to get to level 2
+level-xp-requirement-growth: 5 # How much the XP requirement grows per level
+level-xp-requirement-growth-multiplier: 2.0 # How much the XP requirement growth multiples
+level-growth-delay: 5 # How often (how many levels) to apply the growth multiplier on the XP requirement growth
+level-xp-requirement-growth-cap: 10000 # The max amount of XP that can be set to be needed to level up
 
 # Rank boost:
-rank-boost-permission: "ice"
-rank-boost-amount: 2.0
+# If enabled, players with the required permission that are in a lake, will boost the chances for rare fish to spawn
+# (rare, epic, legendary) by the amount specified for the entire lake. If set to 2.0, for example, will make all fish
+# that are above the rarity of COMMON to appear 2x more often.
+#rank-boost-enabled: TODO
+rank-boost-permission: "ice" # The permission needed to boost a lake's spawn rates
+rank-boost-amount: 2.0 # The amount to boost the spawn rates by
 
-# Hook cooldown:
-hook-cooldown: 60
+# Gameplay:
+hook-cooldown: 60 # How many ticks to wait before the rod can attract a fish
