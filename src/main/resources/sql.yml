@@ -1,6 +1,6 @@
 sql-ip: "localhost"
-sql-port: 3307
-sql-database-name: "topstrix_projectnoname_adminbombs"
-sql-username: "topstrix_global_plan"
-sql-password: "V6VInYzIxBg9Ckp8"
+sql-port: 3306
+sql-database-name: "name"
+sql-username: "username"
+sql-password: "password"
 sql-query-timeout: 1000
