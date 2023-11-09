@@ -54,20 +54,17 @@ class HubFishingPlugin: JavaPlugin() {
         fishLakeManagers = FishingConfigParser.getFishLakeManagers()
 
         sqlManager = SQLManager()
-        FishingUtil.removeOldEntities()
-
 
         getCommand("spawnfish")!!.setExecutor(SpawnFishCommand)
         getCommand("fishing")!!.setExecutor(FishingCommand)
         getCommand("test")!!.setExecutor(ReloadConfigCommand)
         getCommand("test2")!!.setExecutor(Test2Command)
 
-
         Bukkit.getPluginManager().registerEvents(PlayerJoinListener, this)
         Bukkit.getPluginManager().registerEvents(PlayerQuitListener, this)
         Bukkit.getPluginManager().registerEvents(PlayerInteractEntityListener, this)
 
-
+        FishingUtil.removeOldEntities()
 
         object : BukkitRunnable() {
             override fun run() {
