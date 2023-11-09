@@ -195,17 +195,18 @@ class FishLakeManager(
     }
 
     fun onTick() {
-        fishes.forEach {  // fishes can be removed on onTick, so we convert to list
+        fishes.toList().forEach {  // fishes can be removed on onTick, so we convert to list
             it.onTick()
         }
 
-        fishingPlayers.forEach { // fishing players can be removed, so we convert to list
+        fishingPlayers.toList().forEach { // fishing players can be removed, so we create new list
             if (it.hook.isDead) {  // If hook is no longer alive for some reason, remove from fishing players
                 removePlayerFromFishingPlayers(it.uuid)
                 lakePlayers.first { lakePlayer -> lakePlayer.uuid == it.uuid }.minigameManager?.onRodDeath()
             } else
                 it.onTick()
         }
+
     }
 
     fun onSecondPassed() {
