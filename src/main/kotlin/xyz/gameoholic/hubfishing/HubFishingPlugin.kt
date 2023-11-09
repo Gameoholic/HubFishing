@@ -53,8 +53,7 @@ class HubFishingPlugin: JavaPlugin() {
         config = FishingConfigParser.parseConfig()
         fishLakeManagers = FishingConfigParser.getFishLakeManagers()
 
-        SQLManager()
-        sqlManager.load(config.fishVariants)
+        sqlManager = SQLManager()
         FishingUtil.removeOldEntities()
 
 

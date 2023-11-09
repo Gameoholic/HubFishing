@@ -8,6 +8,11 @@ import xyz.gameoholic.hubfishing.util.LoggerUtil
 import java.sql.Connection
 import java.util.UUID
 
+
+/**
+ * Class managing SQL database operations.
+ * Creates all needed tables and columns on initialization.
+ */
 class SQLManager {
     private val plugin: HubFishingPlugin by inject()
 
@@ -16,10 +21,10 @@ class SQLManager {
 
     private val dataSource = HikariDataSource()
 
-    fun load(fishVariants: List<FishVariant>) {
+    init {
         createDataSource()
         createTable()
-        createFishVariantsColumns(fishVariants)
+        createFishVariantsColumns()
     }
 
     private fun createDataSource() {
@@ -65,8 +70,8 @@ class SQLManager {
     }
 
 
-    private fun createFishVariantsColumns(fishVariants: List<FishVariant>) {
-        fishVariants.forEach {
+    private fun createFishVariantsColumns() {
+        plugin.config.fishVariants.forEach {
             createColumnIfNotExists("${it.id}_fishes_caught")
             createColumnIfNotExists("${it.id}_fishes_uncaught")
         }
