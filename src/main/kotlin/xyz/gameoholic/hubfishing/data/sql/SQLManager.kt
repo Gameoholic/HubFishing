@@ -180,4 +180,8 @@ class SQLManager {
         """.trimIndent()
         execUpdateQuery(query)
     }
+
+    fun closeDataSource() {
+        dataSource.close()
+    }
 }

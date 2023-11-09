@@ -87,6 +87,9 @@ class HubFishingPlugin: JavaPlugin() {
         }.runTaskTimer(this, 0L, 1L)
     }
 
+    override fun onDisable() {
+        sqlManager.closeDataSource()
+    }
 
 
 
