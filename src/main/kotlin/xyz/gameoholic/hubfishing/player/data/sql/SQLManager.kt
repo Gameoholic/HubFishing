@@ -163,7 +163,6 @@ class SQLManager {
                     }
                 }
 
-                xp = -1
                 playerData = PlayerData(xp, playtime, fishesCaught, fishesUncaught)
             }
         }
@@ -184,10 +183,10 @@ class SQLManager {
             UPDATE fishing_player_data 
             SET xp = ${playerData.xp}, playtime = ${playerData.playtime}
             """.trimIndent()
-        playerData.fishesCaught!!.forEach {
+        playerData.fishesCaught.forEach {
             query += ", ${it.key.id}_fishes_caught = ${it.value}"
         }
-        playerData.fishesUncaught!!.forEach {
+        playerData.fishesUncaught.forEach {
             query += ", ${it.key.id}_fishes_uncaught = ${it.value}"
         }
         query += """

@@ -11,12 +11,6 @@ import kotlin.collections.HashMap
 
 /**
  * Stores fishing related player data.
- *
- * Upon initialization, loads data for this player from the database,
- * or creates an entry in the database in case there's no data.
- *
- * All parameters will be null until they've been properly retrieved
- * from the database.
  */
 data class PlayerData(
     var xp: Int,

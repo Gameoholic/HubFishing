@@ -31,9 +31,6 @@ class HubFishingPlugin: JavaPlugin() {
         private set
     lateinit var sqlManager: SQLManager
 
-    /**
-     * Player data is guaranteed to not be null or invalid, if it's in this list.
-     */
     val playerData = hashMapOf<UUID, PlayerData>()
 
     val playerDisplayManagers = mutableMapOf<UUID, PlayerDisplayManager>()
