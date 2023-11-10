@@ -1,9 +1,6 @@
 package xyz.gameoholic.hubfishing.listeners
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.TimeoutCancellationException
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.*
 import xyz.gameoholic.hubfishing.data.PlayerData
 import xyz.gameoholic.hubfishing.displays.PlayerDisplayManager
 import xyz.gameoholic.hubfishing.util.LoggerUtil
@@ -16,7 +13,7 @@ import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
 
 object PlayerJoinListener: Listener {
-    private val scope = CoroutineScope(MinecraftDispatchers.Background)
+    private val scope = CoroutineScope(SupervisorJob() + MinecraftDispatchers.Background)
 
     private val plugin: HubFishingPlugin by inject()
 
