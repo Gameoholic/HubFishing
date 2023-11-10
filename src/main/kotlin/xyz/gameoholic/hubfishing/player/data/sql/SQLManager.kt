@@ -56,8 +56,6 @@ class SQLManager {
         var succees = true
         try {
             connection = dataSource.connection
-
-
             val statement = connection.prepareStatement(query)
             statement.executeUpdate()
         }
@@ -176,7 +174,12 @@ class SQLManager {
         connection?.close()
         return playerData
     }
-    suspend fun uploadPlayerData(playerData: PlayerData) {
+
+    /**
+     * Uploads the player data.
+     * @return True if the operation succeeded, false otherwise.
+     */
+    fun uploadPlayerData(playerData: PlayerData): Boolean {
         var query = """
             UPDATE fishing_player_data 
             SET xp = ${playerData.xp}, playtime = ${playerData.playtime}
@@ -191,7 +194,7 @@ class SQLManager {
              WHERE 
             uuid = '${playerData.playerUUID}';
         """.trimIndent()
-        execUpdateQuery(query)
+        return execUpdateQuery(query)
     }
 
     fun closeDataSource() {

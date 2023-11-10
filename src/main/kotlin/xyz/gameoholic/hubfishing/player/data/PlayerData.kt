@@ -31,10 +31,11 @@ class PlayerData(
 
     /**
      * Uploads the data of this PlayerData instance to the database.
+     * @return Whether the operation succeeded or not.
      */
-    suspend fun uploadData() {
-        LoggerUtil.debug("Uploading player data for player ${playerUUID}")
-        plugin.sqlManager.uploadPlayerData(this) //todo: better db query wrapper. that returns null, or the result. so if null here we throw error. if not we say success.
+    fun uploadData(): Boolean {
+        LoggerUtil.debug("Uploading player data for player $playerUUID")
+        return (plugin.sqlManager.uploadPlayerData(this))
     }
 
     /**
