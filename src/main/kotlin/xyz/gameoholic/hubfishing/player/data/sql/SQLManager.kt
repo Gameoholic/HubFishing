@@ -53,18 +53,18 @@ class SQLManager {
     }
     private fun execUpdateQuery(query: String): Boolean {
         var connection: Connection? = null
-        var succees = true
+        var success = true
         try {
             connection = dataSource.connection
             val statement = connection.prepareStatement(query)
             statement.executeUpdate()
         }
         catch (e: Exception) {
-            succees = false
+            success = false
             LoggerUtil.error("Couldn't execute update query: $query. Error: $e")
         }
         connection?.close()
-        return succees
+        return success
     }
 
 
