@@ -27,20 +27,20 @@ object PlayerJoinListener: Listener {
         scope.launch {
             try {
                 withTimeout(plugin.config.sql.sqlQueryTimeout) {
-                    val playerData = PlayerDataLoader.attemptLoadPlayerData(uuid)
-                    if (playerData == null) {
-                        LoggerUtil.error("Couldn't load player data for $uuid")
+                    PlayerDataLoader.attemptLoadPlayerData(uuid).onFailure {
+                        LoggerUtil.error("Couldn't load player data for $uuid! Cause: ${it.cause} Message: ${it.message}")
+                        it.printStackTrace()
                         return@withTimeout
+                    }.onSuccess {
+                        object: BukkitRunnable() { // Sync with main thread
+                            override fun run() {
+                                LoggerUtil.debug("Successfully loaded player data for $uuid")
+                                //Spawn displays
+                                plugin.playerDisplayManagers[e.player.uniqueId] = PlayerDisplayManager(e.player.uniqueId, it)
+                                    .apply { spawnDisplays() }
+                            }
+                        }.runTask(plugin)
                     }
-
-                    object: BukkitRunnable() { // Sync with main thread
-                        override fun run() {
-                            LoggerUtil.debug("Successfully loaded player data for $uuid")
-                            //Spawn displays
-                            plugin.playerDisplayManagers[e.player.uniqueId] = PlayerDisplayManager(e.player.uniqueId, playerData)
-                                .apply { spawnDisplays() }
-                        }
-                    }.runTask(plugin)
                 }
             }
             catch (ex: TimeoutCancellationException) {

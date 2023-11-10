@@ -25,15 +25,17 @@ object PlayerQuitListener : Listener {
             scope.launch {
                 try {
                     withTimeout(plugin.config.sql.sqlQueryTimeout) {
-                        if (it.uploadData(uuid))
+                        it.uploadData(uuid).onFailure {
+                            LoggerUtil.error("Couldn't upload player data for player $uuid. Cause: ${it.cause} Message: ${it.message}")
+                            it.printStackTrace()
+                        }.onSuccess {
                             LoggerUtil.debug("Successfully uploaded player data for player $uuid")
-                        else
-                            LoggerUtil.error("Couldn't upload player data for player $uuid")
+                        }
                     }
                 }
                 catch (ex: TimeoutCancellationException) {
-                    ex.printStackTrace()
                     LoggerUtil.error("Couldn't upload player data for ${e.player.uniqueId} - timed out $ex")
+                    ex.printStackTrace()
                 }
             }
         }

@@ -24,7 +24,10 @@ class SQLManager {
 
     init {
         createDataSource()
-        createTable()
+        createTable().onFailure {
+            LoggerUtil.error("Could not create table! Cause: ${it.cause} Message: ${it.message}")
+            it.printStackTrace()
+        }
         createFishVariantsColumns().onFailure {
             LoggerUtil.error("Could not create fish variants columns! Cause: ${it.cause} Message: ${it.message}")
             it.printStackTrace()

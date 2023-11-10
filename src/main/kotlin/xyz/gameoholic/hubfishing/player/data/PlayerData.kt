@@ -24,9 +24,9 @@ data class PlayerData(
 
     /**
      * Uploads the data of this PlayerData instance to the database.
-     * @return Whether the operation succeeded or not.
+     * @return The result of the operation.
      */
-    fun uploadData(playerUUID: UUID): Boolean {
+    fun uploadData(playerUUID: UUID): Result<Unit> {
         LoggerUtil.debug("Uploading player data for player $playerUUID")
         return (plugin.sqlManager.uploadPlayerData(this, playerUUID))
     }

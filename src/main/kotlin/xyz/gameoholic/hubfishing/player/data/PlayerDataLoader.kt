@@ -4,6 +4,7 @@ import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.listeners.PlayerJoinListener
 import xyz.gameoholic.hubfishing.util.LoggerUtil
+import java.lang.RuntimeException
 import java.util.UUID
 
 object PlayerDataLoader {
@@ -14,18 +15,19 @@ object PlayerDataLoader {
      * If successful, adds to the playerData map in HubFishingPlugin.
      * @return Null if player data failed to load, otherwise, returns the data.
      */
-    fun attemptLoadPlayerData(uuid: UUID): PlayerData? {
-        val playerData = plugin.sqlManager.fetchPlayerData(uuid) ?: return null
-
-        if (playerData.xp == -1 ||
-            playerData.playtime == -1 ||
-            playerData.fishesCaught.size != plugin.config.fishVariants.variants.size ||
-            playerData.fishesUncaught.size != plugin.config.fishVariants.variants.size) {
-            LoggerUtil.error("Player data for $uuid is invalid ($playerData)")
-            return null
+    fun attemptLoadPlayerData(uuid: UUID): Result<PlayerData> {
+        val playerDataResult = plugin.sqlManager.fetchPlayerData(uuid).onSuccess {
+            if (it.xp == -1 ||
+                it.playtime == -1 ||
+                it.fishesCaught.size != plugin.config.fishVariants.variants.size ||
+                it.fishesUncaught.size != plugin.config.fishVariants.variants.size
+            ) {
+                return Result.failure(RuntimeException("Player data loaded for $uuid is invalid ($it). Fish variants size: ${plugin.config.fishVariants.variants.size}"))
+            }
+            plugin.playerData[uuid] = it
+            return Result.success(it)
         }
-        plugin.playerData[uuid] = playerData
-        return playerData
+        return playerDataResult
     }
 
 }
