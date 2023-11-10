@@ -1,4 +1,4 @@
-package xyz.gameoholic.hubfishing.data
+package xyz.gameoholic.hubfishing.player.data
 
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject

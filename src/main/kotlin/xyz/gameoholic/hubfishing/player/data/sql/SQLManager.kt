@@ -1,7 +1,6 @@
-package xyz.gameoholic.hubfishing.data.sql
+package xyz.gameoholic.hubfishing.player.data.sql
 import com.zaxxer.hikari.HikariDataSource
-import xyz.gameoholic.hubfishing.data.PlayerData
-import xyz.gameoholic.hubfishing.fish.FishVariant
+import xyz.gameoholic.hubfishing.player.data.PlayerData
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.util.LoggerUtil

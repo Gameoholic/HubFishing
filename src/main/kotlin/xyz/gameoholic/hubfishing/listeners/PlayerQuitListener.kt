@@ -1,7 +1,7 @@
 package xyz.gameoholic.hubfishing.listeners
 
 import kotlinx.coroutines.*
-import xyz.gameoholic.hubfishing.data.PlayerData
+import xyz.gameoholic.hubfishing.player.data.PlayerData
 import xyz.gameoholic.hubfishing.util.LoggerUtil
 import xyz.gameoholic.hubfishing.coroutines.MinecraftDispatchers
 import org.bukkit.event.EventHandler

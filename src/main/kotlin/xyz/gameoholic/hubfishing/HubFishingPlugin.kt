@@ -11,8 +11,8 @@ import xyz.gameoholic.hubfishing.commands.Test2Command
 import xyz.gameoholic.hubfishing.commands.ReloadConfigCommand
 import xyz.gameoholic.hubfishing.config.Config
 import xyz.gameoholic.hubfishing.config.ConfigParser
-import xyz.gameoholic.hubfishing.data.PlayerData
-import xyz.gameoholic.hubfishing.data.sql.SQLManager
+import xyz.gameoholic.hubfishing.player.data.PlayerData
+import xyz.gameoholic.hubfishing.player.data.sql.SQLManager
 import xyz.gameoholic.hubfishing.displays.PlayerDisplayManager
 import xyz.gameoholic.hubfishing.injection.bind
 import xyz.gameoholic.hubfishing.lake.FishLakeManager

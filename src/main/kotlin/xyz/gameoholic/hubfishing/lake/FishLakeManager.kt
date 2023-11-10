@@ -188,10 +188,10 @@ class FishLakeManager(
      * Should be called when a player finishes the minigame or cancels their rod.
      */
     fun removePlayerFromFishingPlayers(uuid: UUID) {
-        fishingPlayers.firstOrNull { it.uuid == uuid }?.let {
+        fishingPlayers.first { it.uuid == uuid }.let {
+            fishingPlayers.remove(it)
             it.onRemove()
         }
-        fishingPlayers.removeAll { it.uuid == uuid }
     }
 
     fun onTick() {

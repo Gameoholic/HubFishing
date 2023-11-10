@@ -1,6 +1,5 @@
-package xyz.gameoholic.hubfishing.data
+package xyz.gameoholic.hubfishing.player.data
 
-import xyz.gameoholic.hubfishing.data.sql.SQLManager
 import xyz.gameoholic.hubfishing.fish.FishVariant
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject

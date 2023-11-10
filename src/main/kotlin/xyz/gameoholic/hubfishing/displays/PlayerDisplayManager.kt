@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
-import xyz.gameoholic.hubfishing.data.PlayerData
+import xyz.gameoholic.hubfishing.player.data.PlayerData
 import xyz.gameoholic.hubfishing.fish.FishRarity
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
