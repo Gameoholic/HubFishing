@@ -24,7 +24,7 @@ object PlayerDataLoader {
             LoggerUtil.error("Player data for $uuid is invalid ($playerData)")
             return null
         }
-        plugin.playerData.add(playerData)
+        plugin.playerData[uuid] = playerData
         return playerData
     }
 

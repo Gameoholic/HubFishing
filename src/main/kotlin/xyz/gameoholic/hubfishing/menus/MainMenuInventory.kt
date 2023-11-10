@@ -42,7 +42,7 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
     init {
         registerEvents()
 
-        playerData = plugin.playerData.firstOrNull { it.playerUUID == playerUUID }
+        playerData = plugin.playerData[playerUUID]
 
         getInventoryItems().entries.forEach {
             inv.setItem(it.key, it.value)

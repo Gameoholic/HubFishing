@@ -46,7 +46,7 @@ class FishingPlayer(
         //Update fishing playtime, if rod is out
         ticksPassedSinceLastSecond++
         if (ticksPassedSinceLastSecond >= 20) {
-            plugin.playerData.first {it.playerUUID == uuid}.increasePlaytime(1)
+            plugin.playerData[uuid]?.increasePlaytime(1, uuid)
             ticksPassedSinceLastSecond = 0
         }
 

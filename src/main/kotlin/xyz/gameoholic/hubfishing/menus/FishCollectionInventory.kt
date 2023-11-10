@@ -68,7 +68,7 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
         val maxIndex = plugin.config.menus.fishingCollectionMenuFishMaxIndex
 
         //sort fishes caught by rarity
-        val fishesCaught = plugin.playerData.firstOrNull { it.playerUUID == playerUUID }?.let {
+        val fishesCaught = plugin.playerData[playerUUID]?.let {
             it.fishesCaught?.toSortedMap(compareBy<FishVariant> { variant -> variant.rarity.value }.thenBy { variant -> variant.id })
         } ?: return items
         var fishIndex = 0

@@ -224,10 +224,7 @@ class FishLakeManager(
             // Add player if in lake's area
             else if (!lakePlayers.any { lakePlayer ->
                     lakePlayer.uuid == it.uniqueId
-                } && playerInFishingArea && plugin.playerData.any { playerData ->
-                    playerData.playerUUID == it.uniqueId
-                } // Make sure player has their data loaded
-            ) {
+                } && playerInFishingArea && plugin.playerData.contains(it.uniqueId)) { // Make sure player has their data loaded
                 if (it.hasPermission(permissionRequiredToEnter)) {
                     addPlayer(it.uniqueId)
                 }

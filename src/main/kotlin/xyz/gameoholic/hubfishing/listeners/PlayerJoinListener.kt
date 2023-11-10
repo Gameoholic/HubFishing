@@ -37,7 +37,7 @@ object PlayerJoinListener: Listener {
                         override fun run() {
                             LoggerUtil.debug("Successfully loaded player data for $uuid")
                             //Spawn displays
-                            plugin.playerDisplayManagers[e.player.uniqueId] = PlayerDisplayManager(e.player.uniqueId)
+                            plugin.playerDisplayManagers[e.player.uniqueId] = PlayerDisplayManager(e.player.uniqueId, playerData)
                                 .apply { spawnDisplays() }
                         }
                     }.runTask(plugin)

@@ -275,8 +275,8 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
                 caughtFish.remove(true)
             }
             else -> {
-                plugin.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let {
-                    it.increaseFishesUncaught(caughtFish.variant, 1)
+                plugin.playerData[fishingPlayer.uuid]?.let {
+                    it.increaseFishesUncaught(caughtFish.variant, 1, fishingPlayer.uuid)
                 }
                 caughtFish.caught = false
             }
@@ -300,10 +300,10 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
      * Called when the player succeeded in the fishing minigame.
      */
     private fun onSuccessfulFish() {
-        plugin.playerData.firstOrNull { it.playerUUID == fishingPlayer.uuid }?.let { playerData ->
-            playerData.increaseFishesCaught(caughtFish.variant, 1)
+        plugin.playerData[fishingPlayer.uuid]?.let { playerData ->
+            playerData.increaseFishesCaught(caughtFish.variant, 1, fishingPlayer.uuid)
             val oldLevel = playerData.levelData!!.level
-            playerData.increaseXP(caughtFish.variant.rarity.xp)
+            playerData.increaseXP(caughtFish.variant.rarity.xp, fishingPlayer.uuid)
             val newLevel = playerData.levelData!!.level
             Bukkit.getPlayer(fishingPlayer.uuid)?.let {
                 it.sendActionBar(

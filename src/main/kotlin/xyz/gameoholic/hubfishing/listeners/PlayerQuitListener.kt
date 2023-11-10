@@ -17,17 +17,18 @@ object PlayerQuitListener : Listener {
 
     @EventHandler
     fun onPlayerQuitEvent(e: PlayerQuitEvent) {
+        val uuid = e.player.uniqueId
         // Upload player data
-        plugin.playerData.firstOrNull { it.playerUUID == e.player.uniqueId }?.let {
-            plugin.playerData.remove(it)
+        plugin.playerData[uuid]?.let {
+            plugin.playerData.remove(uuid)
 
             scope.launch {
                 try {
                     withTimeout(plugin.config.sql.sqlQueryTimeout) {
-                        if (it.uploadData())
-                            LoggerUtil.debug("Successfully uploaded player data for player ${it.playerUUID}")
+                        if (it.uploadData(uuid))
+                            LoggerUtil.debug("Successfully uploaded player data for player $uuid")
                         else
-                            LoggerUtil.error("Couldn't upload player data for player ${it.playerUUID}")
+                            LoggerUtil.error("Couldn't upload player data for player $uuid")
                     }
                 }
                 catch (ex: TimeoutCancellationException) {

@@ -24,11 +24,10 @@ import java.util.*
  *
  * This class must only be created after the player data has been loaded properly.
  */
-class PlayerDisplayManager(private val uuid: UUID) {
+class PlayerDisplayManager(private val uuid: UUID, private val playerData: PlayerData) {
     private val plugin: HubFishingPlugin by inject()
 
     private val displays = mutableListOf<TextDisplay>()
-    private val playerData: PlayerData = plugin.playerData.first { it.playerUUID == uuid }
 
     /**
      * Spawns the displays for a player, and makes them visible only to them.
@@ -68,7 +67,7 @@ class PlayerDisplayManager(private val uuid: UUID) {
      * @return The component for the display text.
      */
     private fun getDisplayText(): Component {
-        val player = Bukkit.getPlayer(playerData.playerUUID)
+        val player = Bukkit.getPlayer(uuid)
         return MiniMessage.miniMessage().deserialize(
             PlaceholderAPI.setPlaceholders(player, plugin.config.strings.statsDisplayContent),
             Placeholder.component(

@@ -164,7 +164,7 @@ class SQLManager {
                 }
 
                 xp = -1
-                playerData = PlayerData(playerUUID, xp, playtime, fishesCaught, fishesUncaught)
+                playerData = PlayerData(xp, playtime, fishesCaught, fishesUncaught)
             }
         }
         catch (e: Exception) {
@@ -176,10 +176,10 @@ class SQLManager {
     }
 
     /**
-     * Uploads the player data.
+     * Uploads the player data for the given player.
      * @return True if the operation succeeded, false otherwise.
      */
-    fun uploadPlayerData(playerData: PlayerData): Boolean {
+    fun uploadPlayerData(playerData: PlayerData, playerUUID: UUID): Boolean {
         var query = """
             UPDATE fishing_player_data 
             SET xp = ${playerData.xp}, playtime = ${playerData.playtime}
@@ -192,7 +192,7 @@ class SQLManager {
         }
         query += """
              WHERE 
-            uuid = '${playerData.playerUUID}';
+            uuid = '${playerUUID}';
         """.trimIndent()
         return execUpdateQuery(query)
     }

@@ -18,8 +18,7 @@ import kotlin.collections.HashMap
  * All parameters will be null until they've been properly retrieved
  * from the database.
  */
-class PlayerData(
-    val playerUUID: UUID,
+data class PlayerData(
     var xp: Int,
     var playtime: Int,
     var fishesCaught: HashMap<FishVariant, Int>,
@@ -33,16 +32,16 @@ class PlayerData(
      * Uploads the data of this PlayerData instance to the database.
      * @return Whether the operation succeeded or not.
      */
-    fun uploadData(): Boolean {
+    fun uploadData(playerUUID: UUID): Boolean {
         LoggerUtil.debug("Uploading player data for player $playerUUID")
-        return (plugin.sqlManager.uploadPlayerData(this))
+        return (plugin.sqlManager.uploadPlayerData(this, playerUUID))
     }
 
     /**
      * Increases the playtime by a certain amount, and updates all displays
      * to match the new amount
      */
-    fun increasePlaytime(amount: Int) {
+    fun increasePlaytime(amount: Int, playerUUID: UUID) {
         playtime += amount
         plugin.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
@@ -52,7 +51,7 @@ class PlayerData(
      * to match the new amount.
      * Levels up the player if needed.
      */
-    fun increaseXP(amount: Int) {
+    fun increaseXP(amount: Int, playerUUID: UUID) {
         xp += amount
         levelData = LevelUtil.getLevelData(xp)
         plugin.playerDisplayManagers[playerUUID]?.updateDisplays()
@@ -62,7 +61,7 @@ class PlayerData(
      * Increases the fishes caught for a certain variant by a certain amount, and updates all displays
      * to match the new amount
      */
-    fun increaseFishesCaught(fishVariant: FishVariant, amount: Int) {
+    fun increaseFishesCaught(fishVariant: FishVariant, amount: Int, playerUUID: UUID) {
         fishesCaught[fishVariant]?.let {
             fishesCaught[fishVariant] = it + amount
         }
@@ -73,7 +72,7 @@ class PlayerData(
      * Increases the fishes uncaught for a certain variant by a certain amount, and updates all displays
      * to match the new amount
      */
-    fun increaseFishesUncaught(fishVariant: FishVariant, amount: Int) {
+    fun increaseFishesUncaught(fishVariant: FishVariant, amount: Int, playerUUID: UUID) {
         fishesUncaught[fishVariant]?.let {
             fishesUncaught[fishVariant] = it + amount
         }
@@ -81,6 +80,6 @@ class PlayerData(
     }
 
     override fun toString(): String {
-        return "PlayerData(playerUUID=$playerUUID, xp=$xp, playtime=$playtime, fishesCaught=$fishesCaught, fishesUncaught=$fishesUncaught, levelData=$levelData)"
+        return "PlayerData(xp=$xp, playtime=$playtime, fishesCaught=$fishesCaught, fishesUncaught=$fishesUncaught, levelData=$levelData)"
     }
 }
