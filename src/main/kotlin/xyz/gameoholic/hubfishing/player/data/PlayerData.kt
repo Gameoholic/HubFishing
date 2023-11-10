@@ -3,6 +3,7 @@ package xyz.gameoholic.hubfishing.player.data
 import xyz.gameoholic.hubfishing.fish.FishVariant
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
+import xyz.gameoholic.hubfishing.util.LevelUtil
 import xyz.gameoholic.hubfishing.util.LoggerUtil
 import java.util.*
 import kotlin.collections.HashMap
