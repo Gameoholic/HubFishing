@@ -1,11 +1,11 @@
 package xyz.gameoholic.hubfishing.player.data.sql
+
 import com.zaxxer.hikari.HikariDataSource
 import xyz.gameoholic.hubfishing.player.data.PlayerData
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.fish.FishVariant
 import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.util.LoggerUtil
-import java.sql.Connection
 import java.util.UUID
 
 
@@ -32,38 +32,34 @@ class SQLManager {
         dataSource.username = plugin.config.sql.sqlUsername
         dataSource.password = plugin.config.sql.sqlPassword
     }
+
     private fun execIntQuery(query: String): Int? {
-        var connection: Connection? = null
         var value: Int? = null
         try {
-            connection = dataSource.connection
-
-            val statement = connection.prepareStatement(query)
-            val result = statement.executeQuery()
-
-            if (result.next())
-                value = result.getInt(1)
-        }
-        catch (e: Exception) {
+            dataSource.connection.use {
+                val statement = it.prepareStatement(query)
+                val result = statement.executeQuery()
+                if (result.next())
+                    value = result.getInt(1)
+            }
+        } catch (e: Exception) {
             LoggerUtil.error("Couldn't execute query: $query. Error: $e")
             e.printStackTrace()
         }
-        connection?.close()
         return value
     }
+
     private fun execUpdateQuery(query: String): Boolean {
-        var connection: Connection? = null
         var success = true
         try {
-            connection = dataSource.connection
-            val statement = connection.prepareStatement(query)
-            statement.executeUpdate()
-        }
-        catch (e: Exception) {
+            dataSource.connection.use {
+                val statement = it.prepareStatement(query)
+                statement.executeUpdate()
+            }
+        } catch (e: Exception) {
             success = false
             LoggerUtil.error("Couldn't execute update query: $query. Error: $e")
         }
-        connection?.close()
         return success
     }
 
@@ -74,8 +70,10 @@ class SQLManager {
             createColumnIfNotExists("${it.id}_fishes_uncaught")
         }
     }
+
     private fun createColumnIfNotExists(columnName: String) {
-        val result = execIntQuery("""
+        val result = execIntQuery(
+            """
                 SELECT 
                   COUNT(*) 
                 FROM 
@@ -83,94 +81,100 @@ class SQLManager {
                 WHERE 
                   TABLE_NAME = 'fishing_player_data' 
                   AND COLUMN_NAME = '$columnName';
-            """.trimIndent())
+            """.trimIndent()
+        )
 
         if (result == 0) {
-            execUpdateQuery("""
+            execUpdateQuery(
+                """
                 ALTER TABLE 
                   fishing_player_data 
                 ADD 
                   COLUMN $columnName INT NOT NULL DEFAULT 0;
-            """.trimIndent())
+            """.trimIndent()
+            )
         }
     }
 
     private fun createTable() {
-        execUpdateQuery("""
+        execUpdateQuery(
+            """
             CREATE TABLE IF NOT EXISTS fishing_player_data (
                 uuid VARCHAR(36) NOT NULL,
                 xp INT NOT NULL DEFAULT 0,
                 playtime INT NOT NULL DEFAULT 0,
                 PRIMARY KEY(uuid)
             );
-        """.trimIndent())
+        """.trimIndent()
+        )
     }
 
     /**
      * Inserts a player into the table. If already exists, nothing happens.
      */
     private fun insertPlayer(playerUUID: UUID) {
-        execUpdateQuery("""
+        execUpdateQuery(
+            """
             INSERT IGNORE INTO fishing_player_data
              (uuid) values('$playerUUID');
-        """.trimIndent())
+        """.trimIndent()
+        )
     }
+
     fun fetchPlayerData(playerUUID: UUID): PlayerData? {
         insertPlayer(playerUUID)
-        var connection: Connection? = null
 
         var playerData: PlayerData? = null
         try {
-            connection = dataSource.connection
-
-            val statement = connection.prepareStatement("""
+            dataSource.connection.use {
+                val statement = it.prepareStatement(
+                """
                 SELECT 
                   *
                 FROM 
                   fishing_player_data
                 WHERE 
                   uuid = '${playerUUID}';
-            """.trimIndent())
-            val result = statement.executeQuery()
+            """.trimIndent()
+                )
+                val result = statement.executeQuery()
 
-            if (result.next()) {
-                var xp: Int = -1
-                var playtime: Int = -1
-                var fishesCaught: HashMap<FishVariant, Int> = hashMapOf()
-                var fishesUncaught: HashMap<FishVariant, Int> = hashMapOf()
+                if (result.next()) {
+                    var xp: Int = -1
+                    var playtime: Int = -1
+                    var fishesCaught: HashMap<FishVariant, Int> = hashMapOf()
+                    var fishesUncaught: HashMap<FishVariant, Int> = hashMapOf()
 
-                val metaData = result.metaData
-                val columnCount = metaData.columnCount
-                for (i in 1..columnCount) {
-                    val column = metaData.getColumnName(i)
-                    if (column == "xp")
-                        xp = result.getInt(i)
-                    else if (column == "playtime")
-                        playtime = result.getInt(i)
-                    else if (column.endsWith("_fishes_caught")) {
-                        val fishVariantId = column.split("_fishes_caught")[0]
-                        val amount = result.getInt(i)
-                        plugin.config.fishVariants.variants.firstOrNull { it.id == fishVariantId }?.let {
-                            fishesCaught[it] = amount
+                    val metaData = result.metaData
+                    val columnCount = metaData.columnCount
+                    for (i in 1..columnCount) {
+                        val column = metaData.getColumnName(i)
+                        if (column == "xp")
+                            xp = result.getInt(i)
+                        else if (column == "playtime")
+                            playtime = result.getInt(i)
+                        else if (column.endsWith("_fishes_caught")) {
+                            val fishVariantId = column.split("_fishes_caught")[0]
+                            val amount = result.getInt(i)
+                            plugin.config.fishVariants.variants.firstOrNull { it.id == fishVariantId }?.let {
+                                fishesCaught[it] = amount
+                            }
+                        } else if (column.endsWith("_fishes_uncaught")) {
+                            val fishVariantId = column.split("_fishes_uncaught")[0]
+                            val amount = result.getInt(i)
+                            plugin.config.fishVariants.variants.firstOrNull { it.id == fishVariantId }?.let {
+                                fishesUncaught[it] = amount
+                            }
                         }
                     }
-                    else if (column.endsWith("_fishes_uncaught")) {
-                        val fishVariantId = column.split("_fishes_uncaught")[0]
-                        val amount = result.getInt(i)
-                        plugin.config.fishVariants.variants.firstOrNull { it.id == fishVariantId }?.let {
-                            fishesUncaught[it] = amount
-                        }
-                    }
+
+                    playerData = PlayerData(xp, playtime, fishesCaught, fishesUncaught)
                 }
-
-                playerData = PlayerData(xp, playtime, fishesCaught, fishesUncaught)
             }
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             LoggerUtil.error("Couldn't execute get player fishing data. Error: $e")
             e.printStackTrace()
         }
-        connection?.close()
         return playerData
     }
 
