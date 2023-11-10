@@ -35,7 +35,6 @@ object PlayerJoinListener: Listener {
 
                     object: BukkitRunnable() { // Sync with main thread
                         override fun run() {
-                            plugin.playerData.add(playerData)
                             LoggerUtil.debug("Successfully loaded player data for $uuid")
                             //Spawn displays
                             plugin.playerDisplayManagers[e.player.uniqueId] = PlayerDisplayManager(e.player.uniqueId)

@@ -43,8 +43,7 @@ class PlayerData(
      * to match the new amount
      */
     fun increasePlaytime(amount: Int) {
-        if (playtime == null) return
-        playtime?.let { playtime = it + amount }
+        playtime += amount
         plugin.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
 
@@ -54,11 +53,8 @@ class PlayerData(
      * Levels up the player if needed.
      */
     fun increaseXP(amount: Int) {
-        if (xp == null) return
-        xp?.let {
-            xp = it + amount
-            levelData = LevelUtil.getLevelData(it + amount)
-        }
+        xp += amount
+        levelData = LevelUtil.getLevelData(xp)
         plugin.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
 
@@ -67,8 +63,9 @@ class PlayerData(
      * to match the new amount
      */
     fun increaseFishesCaught(fishVariant: FishVariant, amount: Int) {
-        if (fishesCaught == null) return
-        fishesCaught!![fishVariant]?.let { fishesCaught!![fishVariant] = it + amount }
+        fishesCaught[fishVariant]?.let {
+            fishesCaught[fishVariant] = it + amount
+        }
         plugin.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
 
@@ -77,8 +74,9 @@ class PlayerData(
      * to match the new amount
      */
     fun increaseFishesUncaught(fishVariant: FishVariant, amount: Int) {
-        if (fishesUncaught == null) return
-        fishesUncaught!![fishVariant]?.let { fishesUncaught!![fishVariant] = it + amount }
+        fishesUncaught[fishVariant]?.let {
+            fishesUncaught[fishVariant] = it + amount
+        }
         plugin.playerDisplayManagers[playerUUID]?.updateDisplays()
     }
 

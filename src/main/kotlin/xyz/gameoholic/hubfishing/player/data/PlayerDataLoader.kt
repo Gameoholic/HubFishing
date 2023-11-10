@@ -2,6 +2,7 @@ package xyz.gameoholic.hubfishing.player.data
 
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
+import xyz.gameoholic.hubfishing.listeners.PlayerJoinListener
 import xyz.gameoholic.hubfishing.util.LoggerUtil
 import java.util.UUID
 
@@ -10,6 +11,7 @@ object PlayerDataLoader {
 
     /**
      * Attempts to load the player data from the database given a player's UUID.
+     * If successful, adds to the playerData list in HubFishingPlugin
      * @return Null if player data failed to load, otherwise, returns the data.
      */
     fun attemptLoadPlayerData(uuid: UUID): PlayerData? {
@@ -22,6 +24,7 @@ object PlayerDataLoader {
             LoggerUtil.error("Player data for $uuid is invalid ($playerData)")
             return null
         }
+        plugin.playerData.add(playerData)
         return playerData
     }
 
