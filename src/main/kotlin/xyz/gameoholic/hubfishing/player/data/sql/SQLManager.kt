@@ -6,6 +6,7 @@ import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.fish.FishVariant
 import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.util.LoggerUtil
+import java.lang.RuntimeException
 import java.util.UUID
 
 
@@ -24,7 +25,10 @@ class SQLManager {
     init {
         createDataSource()
         createTable()
-        createFishVariantsColumns()
+        createFishVariantsColumns().onFailure {
+            LoggerUtil.error("Could not create fish variants columns! Cause: ${it.cause} Message: ${it.message}")
+            it.printStackTrace()
+        }
     }
 
     private fun createDataSource() {
@@ -33,45 +37,46 @@ class SQLManager {
         dataSource.password = plugin.config.sql.sqlPassword
     }
 
-    private fun execIntQuery(query: String): Int? {
-        var value: Int? = null
+    private fun execIntQuery(query: String): Result<Int> {
         try {
             dataSource.connection.use {
                 val statement = it.prepareStatement(query)
                 val result = statement.executeQuery()
                 if (result.next())
-                    value = result.getInt(1)
+                    return Result.success(result.getInt(1))
             }
         } catch (e: Exception) {
-            LoggerUtil.error("Couldn't execute query: $query. Error: $e")
-            e.printStackTrace()
+            return Result.failure(e)
         }
-        return value
+        return Result.failure(RuntimeException("Neither value, nor exception was assigned a value."))
     }
 
-    private fun execUpdateQuery(query: String): Boolean {
-        var success = true
+    private fun execUpdateQuery(query: String): Result<Unit> {
         try {
             dataSource.connection.use {
                 val statement = it.prepareStatement(query)
                 statement.executeUpdate()
             }
         } catch (e: Exception) {
-            success = false
-            LoggerUtil.error("Couldn't execute update query: $query. Error: $e")
+            return Result.failure(e)
         }
-        return success
+        return Result.success(Unit)
     }
 
 
-    private fun createFishVariantsColumns() {
+    private fun createFishVariantsColumns(): Result<Unit> {
         plugin.config.fishVariants.variants.forEach {
-            createColumnIfNotExists("${it.id}_fishes_caught")
-            createColumnIfNotExists("${it.id}_fishes_uncaught")
+            createColumnIfNotExists("${it.id}_fishes_caught").onFailure { throwable ->
+                return Result.failure(throwable)
+            }
+            createColumnIfNotExists("${it.id}_fishes_uncaught").onFailure { throwable ->
+                return Result.failure(throwable)
+            }
         }
+        return Result.success(Unit)
     }
 
-    private fun createColumnIfNotExists(columnName: String) {
+    private fun createColumnIfNotExists(columnName: String): Result<Unit> {
         val result = execIntQuery(
             """
                 SELECT 
@@ -84,7 +89,7 @@ class SQLManager {
             """.trimIndent()
         )
 
-        if (result == 0) {
+        if (result.getOrElse { return Result.failure(it) } == 0) {
             execUpdateQuery(
                 """
                 ALTER TABLE 
@@ -92,11 +97,12 @@ class SQLManager {
                 ADD 
                   COLUMN $columnName INT NOT NULL DEFAULT 0;
             """.trimIndent()
-            )
+            ).onFailure { return Result.failure(it) }
         }
+        return Result.success(Unit)
     }
 
-    private fun createTable() {
+    private fun createTable(): Result<Unit> {
         execUpdateQuery(
             """
             CREATE TABLE IF NOT EXISTS fishing_player_data (
@@ -106,28 +112,30 @@ class SQLManager {
                 PRIMARY KEY(uuid)
             );
         """.trimIndent()
-        )
+        ).onFailure { return Result.failure(it) }
+        return Result.success(Unit)
     }
 
     /**
      * Inserts a player into the table. If already exists, nothing happens.
      */
-    private fun insertPlayer(playerUUID: UUID) {
+    private fun insertPlayer(playerUUID: UUID): Result<Unit> {
         execUpdateQuery(
             """
             INSERT IGNORE INTO fishing_player_data
              (uuid) values('$playerUUID');
         """.trimIndent()
-        )
+        ).onFailure { return Result.failure(it) }
+        return Result.success(Unit)
     }
 
-    fun fetchPlayerData(playerUUID: UUID): PlayerData? {
-        insertPlayer(playerUUID)
+    fun fetchPlayerData(playerUUID: UUID): Result<PlayerData> {
+        insertPlayer(playerUUID).onFailure { return Result.failure(it) }
 
         var playerData: PlayerData? = null
         try {
-            dataSource.connection.use {
-                val statement = it.prepareStatement(
+            dataSource.connection.use {connection ->
+                val statement = connection.prepareStatement(
                 """
                 SELECT 
                   *
@@ -172,17 +180,19 @@ class SQLManager {
                 }
             }
         } catch (e: Exception) {
-            LoggerUtil.error("Couldn't execute get player fishing data. Error: $e")
-            e.printStackTrace()
+            return Result.failure(e)
         }
-        return playerData
+        playerData?.let {
+            return Result.success(it)
+        }
+        return Result.failure(RuntimeException("Playerdata is null"))
     }
 
     /**
      * Uploads the player data for the given player.
      * @return True if the operation succeeded, false otherwise.
      */
-    fun uploadPlayerData(playerData: PlayerData, playerUUID: UUID): Boolean {
+    fun uploadPlayerData(playerData: PlayerData, playerUUID: UUID): Result<Unit> {
         var query = """
             UPDATE fishing_player_data 
             SET xp = ${playerData.xp}, playtime = ${playerData.playtime}
