@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.scheduler.BukkitRunnable
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
+import xyz.gameoholic.hubfishing.player.data.PlayerDataLoader
 
 object PlayerJoinListener: Listener {
     private val scope = CoroutineScope(SupervisorJob() + MinecraftDispatchers.Background)
@@ -19,31 +20,33 @@ object PlayerJoinListener: Listener {
 
     @EventHandler
     fun onPlayerJoinEvent(e: PlayerJoinEvent) {
+        val uuid = e.player.uniqueId
         //Load player data
-        LoggerUtil.debug("Loading player data for ${e.player.uniqueId}")
-        val playerData = PlayerData(e.player.uniqueId)
+        LoggerUtil.debug("Loading player data for $uuid")
 
         scope.launch {
             try {
                 withTimeout(plugin.config.sql.sqlQueryTimeout) {
-                    if (playerData.fetchData()) {
-                        object: BukkitRunnable() {
-                            override fun run() {
-                                plugin.playerData.add(playerData)
-                                LoggerUtil.debug("Successfully loaded player data for ${e.player.uniqueId}")
-                                //Spawn displays
-                                plugin.playerDisplayManagers[e.player.uniqueId] = PlayerDisplayManager(e.player.uniqueId).apply { spawnDisplays() }
-                            }
-                        }.runTask(plugin)
+                    val playerData = PlayerDataLoader.attemptLoadPlayerData(uuid)
+                    if (playerData == null) {
+                        LoggerUtil.error("Couldn't load player data for $uuid")
+                        return@withTimeout
                     }
-                    else {
-                        LoggerUtil.error("Couldn't load player data for ${e.player.uniqueId}")
-                    }
+
+                    object: BukkitRunnable() { // Sync with main thread
+                        override fun run() {
+                            plugin.playerData.add(playerData)
+                            LoggerUtil.debug("Successfully loaded player data for $uuid")
+                            //Spawn displays
+                            plugin.playerDisplayManagers[e.player.uniqueId] = PlayerDisplayManager(e.player.uniqueId)
+                                .apply { spawnDisplays() }
+                        }
+                    }.runTask(plugin)
                 }
             }
             catch (ex: TimeoutCancellationException) {
                 ex.printStackTrace()
-                LoggerUtil.debug("Couldn't load player data for ${playerData.playerUUID} - timed out $ex")
+                LoggerUtil.debug("Couldn't load player data for $uuid - timed out $ex")
             }
         }
     }

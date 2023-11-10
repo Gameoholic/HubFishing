@@ -9,7 +9,6 @@ import java.util.*
 import kotlin.collections.HashMap
 
 
-//todo: if doesn't load but enter players fishing area, kick him.
 /**
  * Stores fishing related player data.
  *
@@ -19,31 +18,16 @@ import kotlin.collections.HashMap
  * All parameters will be null until they've been properly retrieved
  * from the database.
  */
-class PlayerData(val playerUUID: UUID) {
+class PlayerData(
+    val playerUUID: UUID,
+    var xp: Int,
+    var playtime: Int,
+    var fishesCaught: HashMap<FishVariant, Int>,
+    var fishesUncaught: HashMap<FishVariant, Int>
+) {
     private val plugin: HubFishingPlugin by inject()
 
-    var fishesCaught: HashMap<FishVariant, Int>? = null
-    var fishesUncaught: HashMap<FishVariant, Int>? = null
-    var xp: Int? = null
-    var levelData: LevelUtil.LevelData? = null
-    var playtime: Int? = null
-
-
-    /**
-     * Fetches the data from the database, and updates this
-     * instance of PlayerData with the data.
-     * @return Whether the operation was successful or not.
-     */
-    fun fetchData(): Boolean {
-        plugin.sqlManager.fetchPlayerData(this)
-        xp?.let {
-            levelData = LevelUtil.getLevelData(it)
-        }
-
-        return !(fishesCaught == null || fishesUncaught == null || xp == null || playtime == null
-            || fishesCaught?.size != plugin.config.fishVariants.variants.size ||
-            fishesUncaught?.size != plugin.config.fishVariants.variants.size)
-    }
+    var levelData = LevelUtil.getLevelData(xp)
 
     /**
      * Uploads the data of this PlayerData instance to the database.
@@ -95,5 +79,9 @@ class PlayerData(val playerUUID: UUID) {
         if (fishesUncaught == null) return
         fishesUncaught!![fishVariant]?.let { fishesUncaught!![fishVariant] = it + amount }
         plugin.playerDisplayManagers[playerUUID]?.updateDisplays()
+    }
+
+    override fun toString(): String {
+        return "PlayerData(playerUUID=$playerUUID, xp=$xp, playtime=$playtime, fishesCaught=$fishesCaught, fishesUncaught=$fishesUncaught, levelData=$levelData)"
     }
 }

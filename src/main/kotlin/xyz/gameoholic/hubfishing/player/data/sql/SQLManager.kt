@@ -2,6 +2,7 @@ package xyz.gameoholic.hubfishing.player.data.sql
 import com.zaxxer.hikari.HikariDataSource
 import xyz.gameoholic.hubfishing.player.data.PlayerData
 import xyz.gameoholic.hubfishing.HubFishingPlugin
+import xyz.gameoholic.hubfishing.fish.FishVariant
 import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.util.LoggerUtil
 import java.sql.Connection
@@ -116,9 +117,11 @@ class SQLManager {
              (uuid) values('$playerUUID');
         """.trimIndent())
     }
-    fun fetchPlayerData(playerData: PlayerData) {
-        insertPlayer(playerData.playerUUID)
+    fun fetchPlayerData(playerUUID: UUID): PlayerData? {
+        insertPlayer(playerUUID)
         var connection: Connection? = null
+
+        var playerData: PlayerData? = null
         try {
             connection = dataSource.connection
 
@@ -128,37 +131,42 @@ class SQLManager {
                 FROM 
                   fishing_player_data
                 WHERE 
-                  uuid = '${playerData.playerUUID}';
+                  uuid = '${playerUUID}';
             """.trimIndent())
             val result = statement.executeQuery()
 
             if (result.next()) {
-                playerData.fishesCaught = hashMapOf()
-                playerData.fishesUncaught = hashMapOf()
+                var xp: Int = -1
+                var playtime: Int = -1
+                var fishesCaught: HashMap<FishVariant, Int> = hashMapOf()
+                var fishesUncaught: HashMap<FishVariant, Int> = hashMapOf()
 
                 val metaData = result.metaData
                 val columnCount = metaData.columnCount
                 for (i in 1..columnCount) {
                     val column = metaData.getColumnName(i)
                     if (column == "xp")
-                        playerData.xp = result.getInt(i)
+                        xp = result.getInt(i)
                     else if (column == "playtime")
-                        playerData.playtime = result.getInt(i)
+                        playtime = result.getInt(i)
                     else if (column.endsWith("_fishes_caught")) {
                         val fishVariantId = column.split("_fishes_caught")[0]
                         val amount = result.getInt(i)
                         plugin.config.fishVariants.variants.firstOrNull { it.id == fishVariantId }?.let {
-                            playerData.fishesCaught!![it] = amount
+                            fishesCaught[it] = amount
                         }
                     }
                     else if (column.endsWith("_fishes_uncaught")) {
                         val fishVariantId = column.split("_fishes_uncaught")[0]
                         val amount = result.getInt(i)
                         plugin.config.fishVariants.variants.firstOrNull { it.id == fishVariantId }?.let {
-                            playerData.fishesUncaught!![it] = amount
+                            fishesUncaught[it] = amount
                         }
                     }
                 }
+
+                xp = -1
+                playerData = PlayerData(playerUUID, xp, playtime, fishesCaught, fishesUncaught)
             }
         }
         catch (e: Exception) {
@@ -166,6 +174,7 @@ class SQLManager {
             e.printStackTrace()
         }
         connection?.close()
+        return playerData
     }
     suspend fun uploadPlayerData(playerData: PlayerData) {
         var query = """

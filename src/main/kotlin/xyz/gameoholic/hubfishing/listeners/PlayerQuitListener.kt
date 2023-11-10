@@ -20,7 +20,6 @@ object PlayerQuitListener : Listener {
         //Upload player data
         plugin.playerData.firstOrNull { it.playerUUID == e.player.uniqueId }?.let {
             plugin.playerData.remove(it)
-            val playerData = PlayerData(e.player.uniqueId)
 
             scope.launch {
                 try {
@@ -28,9 +27,9 @@ object PlayerQuitListener : Listener {
                         it.uploadData()
                     }
                 }
-                catch (ex: TimeoutCancellationException) {
+                catch (ex: TimeoutCancellationException) { // todo: here some kind of false/true if it succeed/failed
                     ex.printStackTrace()
-                    LoggerUtil.error("Couldn't upload player data for ${playerData.playerUUID} - timed out $ex")
+                    LoggerUtil.error("Couldn't upload player data for ${e.player.uniqueId} - timed out $ex")
                 }
             }
         }
