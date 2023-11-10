@@ -17,7 +17,7 @@ object PlayerQuitListener : Listener {
 
     @EventHandler
     fun onPlayerQuitEvent(e: PlayerQuitEvent) {
-        //Upload player data
+        // Upload player data
         plugin.playerData.firstOrNull { it.playerUUID == e.player.uniqueId }?.let {
             plugin.playerData.remove(it)
 
@@ -37,7 +37,7 @@ object PlayerQuitListener : Listener {
             }
         }
 
-        //Remove all player displays
+        // Remove all player displays
         plugin.playerDisplayManagers[e.player.uniqueId]?.let {
             it.removeDisplays()
             plugin.playerDisplayManagers.remove(e.player.uniqueId)

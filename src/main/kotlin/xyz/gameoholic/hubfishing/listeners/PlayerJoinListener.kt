@@ -21,7 +21,7 @@ object PlayerJoinListener: Listener {
     @EventHandler
     fun onPlayerJoinEvent(e: PlayerJoinEvent) {
         val uuid = e.player.uniqueId
-        //Load player data
+        // Load player data
         LoggerUtil.debug("Loading player data for $uuid")
 
         scope.launch {
