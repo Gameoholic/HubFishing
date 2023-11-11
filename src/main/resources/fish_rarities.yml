@@ -1,0 +1,57 @@
+#NOTE for myself: options names are good, but doc this shit
+
+fish-rarities:
+  - id: common
+    value: 0
+    minigame-min-direction-duration: 80
+    minigame-max-direction-duration: 100
+    minigame-min-speed: 0.2
+    minigame-max-speed: 0.5
+    fishes-required-to-spawn-min: 0
+    fishes-required-to-spawn-max: 0
+    alive-time-min: 100
+    alive-time-max: 200
+    xp: 2
+    display-name: "<gray>Common"
+    fish-particle-type: NONE
+  - id: rare
+    value: 1
+    minigame-min-direction-duration: 20
+    minigame-max-direction-duration: 40
+    minigame-min-speed: 0.4
+    minigame-max-speed: 0.4
+    fishes-required-to-spawn-min: 40
+    fishes-required-to-spawn-max: 60
+    alive-time-min: 100
+    alive-time-max: 200
+    xp: 10
+    display-name: "<blue>Rare"
+    fish-particle-type: NONE
+  - id: epic
+    value: 2
+    minigame-min-direction-duration: 20
+    minigame-max-direction-duration: 30
+    minigame-min-speed: 0.75
+    minigame-max-speed: 0.75
+    fishes-required-to-spawn-min: 150
+    fishes-required-to-spawn-max: 200
+    alive-time-min: 100
+    alive-time-max: 200
+    xp: 50
+    display-name: "<purple>Epic"
+    fish-particle-type: EPIC
+  - id: legendary
+    value: 3
+    minigame-min-direction-duration: 5
+    minigame-max-direction-duration: 30
+    minigame-min-speed: 1.0
+    minigame-max-speed: 1.0
+    fishes-required-to-spawn-min: 500
+    fishes-required-to-spawn-max: 1000
+    alive-time-min: 100
+    alive-time-max: 200
+    xp: 200
+    display-name: "<gold>Legendary"
+    fish-particle-type: LEGENDARY
+
+

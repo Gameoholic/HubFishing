@@ -13,7 +13,7 @@ data class FishVariant(
     val material: Material,
     @SerialName("model-data") val modelData: Int,
     val speed: Double,
-    val rarity: FishRarity,
+    @SerialName("rarity-id") val rarityId: String,
     val name: String,
     @SerialName("hitbox-size") val hitboxSize: @Serializable(with = VectorSerializer::class) Vector,
     @SerialName("hitbox-offset") val hitboxOffset: @Serializable(with = VectorSerializer::class) Vector,

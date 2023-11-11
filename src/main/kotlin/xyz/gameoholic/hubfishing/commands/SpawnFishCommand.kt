@@ -66,7 +66,7 @@ object SpawnFishCommand : CommandExecutor {
             //Clone fishvariant but change speed
             fishVariant = FishVariant(
                 fishVariant.id, fishVariant.material, fishVariant.modelData, fishSpeed,
-                fishVariant.rarity, fishVariant.name, fishVariant.hitboxSize, fishVariant.hitboxOffset,
+                fishVariant.rarityId, fishVariant.name, fishVariant.hitboxSize, fishVariant.hitboxOffset,
                 fishVariant.minigameHitboxWidth, fishVariant.minigameCharacter, fishVariant.minigameCharacterHeight,
                 fishVariant.menuMaterial, fishVariant.menuModelData
             )

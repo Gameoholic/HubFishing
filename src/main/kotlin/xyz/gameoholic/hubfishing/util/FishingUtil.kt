@@ -34,4 +34,9 @@ object FishingUtil {
             }
         }
     }
+
+    /**
+     * Returns the FishRarity given a FishRarity ID.
+     */
+    fun getRarity(id: String) = plugin.config.fishRarities.rarities.first { it.id == id }
 }

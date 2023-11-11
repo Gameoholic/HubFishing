@@ -61,7 +61,7 @@ class PlayerDisplayManager(private val uuid: UUID, private val playerData: Playe
     fun removeDisplays() {
         displays.forEach { it.remove() }
     }
-//todo: sort out the ? playerdata mess in the entire plugin.
+
     /**
      * Gets the text for the display, and applies plugin placeholders with player data and PAPI placeholders.
      * @return The component for the display text.
@@ -72,7 +72,7 @@ class PlayerDisplayManager(private val uuid: UUID, private val playerData: Playe
             PlaceholderAPI.setPlaceholders(player, plugin.config.strings.statsDisplayContent),
             Placeholder.component(
                 "playtime",
-                text((playerData.playtime?.let { it / 3600 }).toString())
+                text((playerData.playtime / 3600).toString())
             ),
             Placeholder.component(
                 "total_xp",
@@ -80,40 +80,30 @@ class PlayerDisplayManager(private val uuid: UUID, private val playerData: Playe
             ),
             Placeholder.component(
                 "total_xp_to_level_up",
-                text(playerData.levelData?.neededXPToLevelUp.toString())
+                text(playerData.levelData.neededXPToLevelUp.toString())
             ),
             Placeholder.component(
                 "remaining_xp_to_level_up",
-                text(playerData.levelData?.remainingXPToLevelUp.toString())
+                text(playerData.levelData.remainingXPToLevelUp.toString())
             ),
             Placeholder.component(
                 "xp",
-                text(playerData.levelData?.remainderXP.toString())
+                text(playerData.levelData.remainderXP.toString())
             ),
             Placeholder.component(
                 "level",
-                text(playerData.levelData?.level.toString())
+                text(playerData.levelData.level.toString())
             ),
             Placeholder.component(
                 "fishes_caught",
-                text(playerData.fishesCaught!!.values.sum())
+                text(playerData.fishesCaught.values.sum())
             ),
-            Placeholder.component(
-                "common_fishes_caught",
-                text(playerData.fishesCaught!!.filterKeys { it.rarity == FishRarity.COMMON }.values.sum())
-            ),
-            Placeholder.component(
-                "rare_fishes_caught",
-                text(playerData.fishesCaught!!.filterKeys { it.rarity == FishRarity.RARE }.values.sum())
-            ),
-            Placeholder.component(
-                "epic_fishes_caught",
-                text(playerData.fishesCaught!!.filterKeys { it.rarity == FishRarity.EPIC }.values.sum())
-            ),
-            Placeholder.component(
-                "legendary_fishes_caught",
-                text(playerData.fishesCaught!!.filterKeys { it.rarity == FishRarity.LEGENDARY }.values.sum())
-            )
+            *plugin.config.fishRarities.rarities.map {
+                Placeholder.component(
+                    "${it.id}_fishes_caught",
+                    text(playerData.fishesCaught.filterKeys { fishVariant -> fishVariant.rarityId == it.id }.values.sum())
+                )
+            }.toTypedArray()
         )
     }
 }

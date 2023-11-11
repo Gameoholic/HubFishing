@@ -43,6 +43,7 @@ class HubFishingPlugin: JavaPlugin() {
         saveResource("fishing.yml", false)
         saveResource("fishing_minigame.yml", false)
         saveResource("fish_lake_managers.yml", false)
+        saveResource("fish_rarities.yml", false)
         saveResource("fish_variants.yml", false)
         saveResource("menus.yml", false)
         saveResource("sql.yml", false)

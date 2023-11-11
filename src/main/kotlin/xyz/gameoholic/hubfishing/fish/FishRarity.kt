@@ -1,23 +1,25 @@
 package xyz.gameoholic.hubfishing.fish
 
-enum class FishRarity(
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import xyz.gameoholic.hubfishing.particles.FishParticleType
+
+@Serializable
+data class FishRarity(
+    val id: String,
     val value: Int,
-    var minigameMinDirectionDuration: Int,
-    var minigameMaxDirectionDuration: Int,
-    var minigameMinSpeed: Double,
-    var minigameMaxSpeed: Double,
-    var fishesRequiredToSpawnMin: Int,
-    var fishesRequiredToSpawnMax: Int,
-    var aliveTimeMin: Int,
-    var aliveTimeMax: Int,
-    var xp: Int,
-    var displayName: String,
-) {
-    COMMON(0, -1, -1, -1.0, -1.0, -1, -1, -1, -1, -1, ""),
-    RARE(1, -1, -1, -1.0, -1.0, -1, -1, -1, -1, -1, ""),
-    EPIC(2, -1, -1, -1.0, -1.0, -1, -1, -1, -1, -1, ""),
-    LEGENDARY(3, -1, -1, -1.0, -1.0, -1, -1, -1, -1, -1, ""),
-}
+    @SerialName("minigame-min-direction-duration") val minigameMinDirectionDuration: Int,
+    @SerialName("minigame-max-direction-duration") val minigameMaxDirectionDuration: Int,
+    @SerialName("minigame-min-speed") val minigameMinSpeed: Double,
+    @SerialName("minigame-max-speed") val minigameMaxSpeed: Double,
+    @SerialName("fishes-required-to-spawn-min") val fishesRequiredToSpawnMin: Int,
+    @SerialName("fishes-required-to-spawn-max") val fishesRequiredToSpawnMax: Int,
+    @SerialName("alive-time-min") val aliveTimeMin: Int,
+    @SerialName("alive-time-max") val aliveTimeMax: Int,
+    val xp: Int,
+    @SerialName("display-name") val displayName: String,
+    @SerialName("fish-particle-type") val fishParticleType: FishParticleType
+)
 
 
 

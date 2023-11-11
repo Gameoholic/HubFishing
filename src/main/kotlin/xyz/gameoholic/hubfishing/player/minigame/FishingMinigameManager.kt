@@ -22,6 +22,7 @@ import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.player.FishingPlayer
 import xyz.gameoholic.hubfishing.player.minigame.states.*
+import xyz.gameoholic.hubfishing.util.FishingUtil.getRarity
 import java.lang.RuntimeException
 
 
@@ -303,13 +304,13 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
         plugin.playerData[fishingPlayer.uuid]?.let { playerData ->
             playerData.increaseFishesCaught(caughtFish.variant, 1, fishingPlayer.uuid)
             val oldLevel = playerData.levelData!!.level
-            playerData.increaseXP(caughtFish.variant.rarity.xp, fishingPlayer.uuid)
+            playerData.increaseXP(getRarity(caughtFish.variant.rarityId).xp, fishingPlayer.uuid)
             val newLevel = playerData.levelData!!.level
             Bukkit.getPlayer(fishingPlayer.uuid)?.let {
                 it.sendActionBar(
                     MiniMessage.miniMessage().deserialize(
                         PlaceholderAPI.setPlaceholders(it, plugin.config.strings.XPGainedActionBarMessage),
-                        Placeholder.component("xp", text(caughtFish.variant.rarity.xp.toString()))
+                        Placeholder.component("xp", text(getRarity(caughtFish.variant.rarityId).xp.toString()))
                     )
                 )
                 if (newLevel > oldLevel) {

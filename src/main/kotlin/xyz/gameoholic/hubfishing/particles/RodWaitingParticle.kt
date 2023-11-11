@@ -10,6 +10,9 @@ import org.bukkit.Particle
 import org.bukkit.entity.Entity
 
 object RodWaitingParticle {
+    operator fun get(index: Int) {
+
+    }
     fun getParticle(entity: Entity) =
         partigonParticle(entity.location, Particle.SPELL_INSTANT) {
             this.entity = entity

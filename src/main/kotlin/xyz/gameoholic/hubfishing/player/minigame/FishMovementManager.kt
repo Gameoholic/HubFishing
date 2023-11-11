@@ -4,6 +4,7 @@ import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.fish.Fish
 import xyz.gameoholic.hubfishing.fish.FishRarity
 import xyz.gameoholic.hubfishing.injection.inject
+import xyz.gameoholic.hubfishing.util.FishingUtil.getRarity
 import kotlin.random.Random
 
 /**
@@ -35,10 +36,10 @@ class FishMovementManager(
     )
 
     private val fishSpeed =
-        if (caughtFish.variant.rarity.minigameMaxSpeed == caughtFish.variant.rarity.minigameMinSpeed)
-            caughtFish.variant.rarity.minigameMinSpeed
+        if (getRarity(caughtFish.variant.rarityId).minigameMaxSpeed == getRarity(caughtFish.variant.rarityId).minigameMinSpeed)
+            getRarity(caughtFish.variant.rarityId).minigameMinSpeed
         else
-            Random.nextDouble(caughtFish.variant.rarity.minigameMinSpeed, caughtFish.variant.rarity.minigameMaxSpeed)
+            Random.nextDouble(getRarity(caughtFish.variant.rarityId).minigameMinSpeed, getRarity(caughtFish.variant.rarityId).minigameMaxSpeed)
 
 
     var heatmap = hashMapOf<Int, Double>()
@@ -95,7 +96,7 @@ class FishMovementManager(
      */
     private fun switchFishDirection() {
         fishDirectionTime = 0
-        fishMaxDirectionTime = determineFishDirectionDuration(caughtFish.variant.rarity)
+        fishMaxDirectionTime = determineFishDirectionDuration(getRarity(caughtFish.variant.rarityId))
         fishDirection = if (fishDirection == FishDirection.LEFT)
             FishDirection.RIGHT
         else

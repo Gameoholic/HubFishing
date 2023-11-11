@@ -76,14 +76,8 @@ class FishLakeManager(
     /** All fishes currently in the lake */
     var fishes = mutableListOf<Fish>()
 
-    /** The amount of fishes to be spawned, until a rare one can appear. */
-    private var rareFishesQueueAmount: Double
-
-    /** The amount of fishes to be spawned, until an epic one can appear. */
-    private var epicFishesQueueAmount: Double
-
-    /** The amount of fishes to be spawned, until a legendary one can appear. */
-    private var legendaryFishesQueueAmount: Double
+    /** The rarity of the fish, mapped to the amount of fishes to be spawned, until one of that rarity can spawn */
+    private var fishQueueAmounts = hashMapOf<FishRarity, Double>()
 
     /** The text display that shows whether this lake is boosted. */
     private val rankBoostDisplay: TextDisplay
@@ -95,9 +89,9 @@ class FishLakeManager(
 
     init {
         //Initialize queue amounts for the fish rarities for the first time
-        rareFishesQueueAmount = getFishesQueueAmount(FishRarity.RARE).toDouble()
-        epicFishesQueueAmount = getFishesQueueAmount(FishRarity.EPIC).toDouble()
-        legendaryFishesQueueAmount = getFishesQueueAmount(FishRarity.LEGENDARY).toDouble()
+        plugin.config.fishRarities.rarities.forEach {
+            fishQueueAmounts[it] = getFishesQueueAmount(it).toDouble()
+        }
 
         Bukkit.getPluginManager().registerEvents(this, plugin)
 
@@ -245,7 +239,7 @@ class FishLakeManager(
      * after which a random amount of them will be determined, as will
      * their rarity and variant.
      */
-    fun attemptFishSpawnCycle() {
+    private fun attemptFishSpawnCycle() {
         if (!shouldSpawnFish() || fishes.size >= maxFishCount) return
         val amount = min(determineAmountOfFishToSpawn(), maxFishCount - fishes.size)
         LoggerUtil.debug("Spawning $amount fishes.")
@@ -267,23 +261,23 @@ class FishLakeManager(
     fun spawnFish(
         location: Location = determineSpawnLocation(),
         fishRarity: FishRarity = determineFishRarity(),
-        fishVariant: FishVariant = plugin.config.fishVariants.variants.filter { it.rarity == fishRarity }
+        fishVariant: FishVariant = plugin.config.fishVariants.variants.filter { it.rarityId == fishRarity.id }
             .random(Random),
         fishAliveTime: Int = fishRarity.aliveTimeMin + Random.nextInt(fishRarity.aliveTimeMax)
     ) {
         // Custom spawn message & sound for legendary fish
-        if (fishRarity == FishRarity.LEGENDARY) {
-            lakePlayers.forEach { lakePlayer ->
-                Bukkit.getPlayer(lakePlayer.uuid)?.let {
-                    it.sendMessage(
-                        MiniMessage.miniMessage().deserialize(
-                            PlaceholderAPI.setPlaceholders(it, plugin.config.strings.legendaryFishSpawnMessage)
-                        )
-                    )
-                    it.playSound(plugin.config.sounds.legendaryFishSpawnSound, location.x, location.y, location.z)
-                }
-            }
-        }
+//        if (fishRarity == FishRarity.LEGENDARY) { //TODO: BRING THIS BACK, as parameters in FishRarity
+//            lakePlayers.forEach { lakePlayer ->
+//                Bukkit.getPlayer(lakePlayer.uuid)?.let {
+//                    it.sendMessage(
+//                        MiniMessage.miniMessage().deserialize(
+//                            PlaceholderAPI.setPlaceholders(it, plugin.config.strings.legendaryFishSpawnMessage)
+//                        )
+//                    )
+//                    it.playSound(plugin.config.sounds.legendaryFishSpawnSound, location.x, location.y, location.z)
+//                }
+//            }
+//        }
         fishes.add(
             Fish(
                 this,
@@ -361,18 +355,13 @@ class FishLakeManager(
      * @return The fish rarity of the fish to be spawned
      */
     private fun determineFishRarity(): FishRarity {
-        //Decrease the queue amount for every rarity, every time we spawn any fish
-        rareFishesQueueAmount -= queueDecreaseAmount
-        epicFishesQueueAmount -= queueDecreaseAmount
-        legendaryFishesQueueAmount -= queueDecreaseAmount
-
-        LoggerUtil.debug("Current queue amounts: Rare: $rareFishesQueueAmount, Epic: $epicFishesQueueAmount, Leg: $legendaryFishesQueueAmount")
-        return when {
-            legendaryFishesQueueAmount <= 0 -> FishRarity.LEGENDARY
-            epicFishesQueueAmount <= 0 -> FishRarity.EPIC
-            rareFishesQueueAmount <= 0 -> FishRarity.RARE
-            else -> FishRarity.COMMON
+        // Decrease the queue amount for every rarity, every time we spawn any fish
+        fishQueueAmounts.entries.forEach {
+            it.setValue(it.value - queueDecreaseAmount)
         }
+
+        LoggerUtil.debug("Current queue amounts: $fishQueueAmounts")
+        return fishQueueAmounts.entries.filter { it.value <= 0 }.minBy { it.key.value }.key // Return the fish rarity, that is ready to be spawned, with the highest value
     }
 
     /**

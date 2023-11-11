@@ -16,6 +16,9 @@ import org.bukkit.persistence.PersistentDataType
 import org.bukkit.scheduler.BukkitRunnable
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
+import xyz.gameoholic.hubfishing.particles.FishParticleType
+import xyz.gameoholic.hubfishing.util.FishingUtil
+import xyz.gameoholic.hubfishing.util.FishingUtil.getRarity
 
 
 /**
@@ -64,17 +67,17 @@ class Fish(
         armorStand.equipment.setItem(EquipmentSlot.HEAD, itemStack)
 
         AIManager = FishAIManager(this)
-        particles = if (variant.rarity == FishRarity.LEGENDARY)
-            listOf(LegendaryFishParticle.getParticle1(armorStand.location.apply {
-                this.y = fishLakeManager.surfaceYLevel
-            }),
+        particles = when (getRarity(variant.rarityId).fishParticleType) {
+            FishParticleType.EPIC -> listOf(
+                LegendaryFishParticle.getParticle1(armorStand.location.apply {
+                    this.y = fishLakeManager.surfaceYLevel
+                }),
                 LegendaryFishParticle.getParticle2(armorStand.location.apply { this.y = fishLakeManager.surfaceYLevel })
             )
-        else if (variant.rarity == FishRarity.EPIC)
-            listOf(EpicFishParticle.getParticle(armorStand.location.apply { this.y = fishLakeManager.surfaceYLevel }))
-        else
-            listOf()
-        particles?.forEach { it.start() }
+            FishParticleType.LEGENDARY -> listOf(EpicFishParticle.getParticle(armorStand.location.apply { this.y = fishLakeManager.surfaceYLevel }))
+            else -> listOf()
+        }
+        particles.forEach { it.start() }
     }
 
     fun onTick() {

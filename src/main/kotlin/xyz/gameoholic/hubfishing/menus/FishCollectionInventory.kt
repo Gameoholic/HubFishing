@@ -19,6 +19,8 @@ import org.bukkit.persistence.PersistentDataType
 import org.bukkit.scheduler.BukkitRunnable
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
+import xyz.gameoholic.hubfishing.util.FishingUtil
+import xyz.gameoholic.hubfishing.util.FishingUtil.getRarity
 import java.util.UUID
 
 class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
@@ -67,9 +69,10 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
         val startIndex = plugin.config.menus.fishingCollectionMenuFishMinIndex
         val maxIndex = plugin.config.menus.fishingCollectionMenuFishMaxIndex
 
-        //sort fishes caught by rarity
+        // Sort fishes caught by rarity
         val fishesCaught = plugin.playerData[playerUUID]?.let {
-            it.fishesCaught?.toSortedMap(compareBy<FishVariant> { variant -> variant.rarity.value }.thenBy { variant -> variant.id })
+            it.fishesCaught?.toSortedMap(compareBy<FishVariant> { variant -> FishingUtil.getRarity(variant.rarityId).value }
+                .thenBy { variant -> variant.id })
         } ?: return items
         var fishIndex = 0
 
@@ -102,7 +105,7 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
                             Placeholder.component("times_caught", text(timesCaught)),
                             Placeholder.component(
                                 "rarity",
-                                MiniMessage.miniMessage().deserialize(fishVariant.rarity.displayName)
+                                MiniMessage.miniMessage().deserialize(getRarity(fishVariant.rarityId).displayName)
                             )
                         ).decoration(TextDecoration.ITALIC, false)
                     }
@@ -122,7 +125,7 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
                             Placeholder.component(
                                 "rarity",
                                 MiniMessage.miniMessage().deserialize(
-                                    PlaceholderAPI.setPlaceholders(player, fishVariant.rarity.displayName)
+                                    PlaceholderAPI.setPlaceholders(player, getRarity(fishVariant.rarityId).displayName)
                                 )
                             )
                         ).decoration(TextDecoration.ITALIC, false)

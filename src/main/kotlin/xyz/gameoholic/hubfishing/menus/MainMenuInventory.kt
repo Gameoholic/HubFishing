@@ -186,7 +186,7 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
                         text((playerData?.playtime?.let { playtime -> playtime / 3600 } ?: "Unknown").toString())
                     ),
                     Placeholder.component(
-                        "xp",
+                        "xp", //toDO ; get rid of nullabiility mess here.
                         text((playerData?.xp ?: "Unknown").toString())
                     ),
                     Placeholder.component(
@@ -213,34 +213,13 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
                         "fishes_caught",
                         text((playerData?.fishesCaught?.values?.sum() ?: "Unknown").toString())
                     ),
-                    Placeholder.component(
-                        "common_fishes_caught",
-                        text(
-                            (playerData?.fishesCaught?.filterKeys { fish -> fish.rarity == FishRarity.COMMON }?.values?.sum()
-                                ?: "Unknown").toString()
+                    *plugin.config.fishRarities.rarities.map {fishRarity ->
+                        Placeholder.component(
+                            "${fishRarity.id}_fishes_caught",
+                            text((playerData?.fishesCaught?.filterKeys { fishVariant -> fishVariant.rarityId == fishRarity.id }?.values?.sum()
+                                ?: "Unknown").toString())
                         )
-                    ),
-                    Placeholder.component(
-                        "rare_fishes_caught",
-                        text(
-                            (playerData?.fishesCaught?.filterKeys { fish -> fish.rarity == FishRarity.RARE }?.values?.sum()
-                                ?: "Unknown").toString()
-                        )
-                    ),
-                    Placeholder.component(
-                        "epic_fishes_caught",
-                        text(
-                            (playerData?.fishesCaught?.filterKeys { fish -> fish.rarity == FishRarity.EPIC }?.values?.sum()
-                                ?: "Unknown").toString()
-                        )
-                    ),
-                    Placeholder.component(
-                        "legendary_fishes_caught",
-                        text(
-                            (playerData?.fishesCaught?.filterKeys { fish -> fish.rarity == FishRarity.LEGENDARY }?.values?.sum()
-                                ?: "Unknown").toString()
-                        )
-                    )
+                    }.toTypedArray(),
                 ).decoration(TextDecoration.ITALIC, false)
             }
         )

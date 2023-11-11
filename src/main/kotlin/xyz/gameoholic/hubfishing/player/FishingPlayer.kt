@@ -16,6 +16,7 @@ import org.bukkit.entity.FishHook
 import org.bukkit.scheduler.BukkitRunnable
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
+import xyz.gameoholic.hubfishing.util.FishingUtil.getRarity
 import java.util.*
 
 /**
@@ -73,7 +74,8 @@ class FishingPlayer(
         //If multiple fish are found, get the one with the rarest rarity
         if (foundFishes.isNotEmpty()) {
             val caughtFish = foundFishes
-                .first { it.variant.rarity.value == foundFishes.maxOf { caughtFish -> caughtFish.variant.rarity.value } }
+                .first { getRarity(it.variant.rarityId).value == foundFishes
+                    .maxOf { caughtFish -> getRarity(caughtFish.variant.rarityId).value } }
             onFindFish(caughtFish)
             return
         }
@@ -87,7 +89,8 @@ class FishingPlayer(
             it.sendMessage(MiniMessage.miniMessage().deserialize(
                 PlaceholderAPI.setPlaceholders(it, plugin.config.strings.fishFoundMessage),
                 Placeholder.component("rarity",
-                    MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(it, caughtFish.variant.rarity.displayName))
+                    MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(it,
+                        getRarity(caughtFish.variant.rarityId).displayName))
                 ))
             )
             it.playSound(plugin.config.sounds.fishFoundSound, Sound.Emitter.self())
