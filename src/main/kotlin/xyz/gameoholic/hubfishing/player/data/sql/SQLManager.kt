@@ -193,7 +193,6 @@ class SQLManager {
 
     /**
      * Uploads the player data for the given player.
-     * @return True if the operation succeeded, false otherwise.
      */
     fun uploadPlayerData(playerData: PlayerData, playerUUID: UUID): Result<Unit> {
         var query = """

@@ -13,7 +13,6 @@ object PlayerDataLoader {
     /**
      * Attempts to load the player data from the database given a player's UUID, and creates it if it doesn't exist.
      * If successful, adds to the playerData map in HubFishingPlugin.
-     * @return Null if player data failed to load, otherwise, returns the data.
      */
     fun attemptLoadPlayerData(uuid: UUID): Result<PlayerData> {
         val playerDataResult = plugin.sqlManager.fetchPlayerData(uuid).onSuccess {
