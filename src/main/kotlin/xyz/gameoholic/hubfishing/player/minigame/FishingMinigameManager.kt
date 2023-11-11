@@ -338,10 +338,5 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
         }
     }
 
-    fun onQuitDifferent(player: Player) {
-        armorStand.removePassenger(player)
-        armorStand.remove()
-    }
-
 
 }
