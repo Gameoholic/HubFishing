@@ -41,25 +41,6 @@ class FishMovementManager(
         else
             Random.nextDouble(getRarity(caughtFish.variant.rarityId).minigameMinSpeed, getRarity(caughtFish.variant.rarityId).minigameMaxSpeed)
 
-
-    var heatmap = hashMapOf<Int, Double>()
-
-    init {
-//        for (i in 0 until plugin.config.waterAmount) {
-//            heatmap[i] = 100.0 / plugin.config.waterAmount //14.2%
-//        }
-//        for (i in 0 until plugin.config.waterAmount / 2) {
-//            val heatmapValue = heatmap[i]!!
-//            heatmap[i] = heatmap[i]!! - heatmapValue / 2.0
-//            heatmap[plugin.config.waterAmount - 1 - i] = heatmap[plugin.config.waterAmount - 1 - i]!! - heatmapValue / 2.0
-//            for (j in i + 1 until plugin.config.waterAmount - 1 - i) {
-//                heatmap[j] = heatmap[j]!! + heatmapValue / (plugin.config.waterAmount - 1 - i - i - 1)
-//            }
-//        }
-////todo: heatmap code
-
-    }
-
     /**
      * Determines and updates the fish position based on algorithm
      */
