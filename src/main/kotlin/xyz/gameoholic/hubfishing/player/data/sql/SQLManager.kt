@@ -40,13 +40,16 @@ class SQLManager {
         dataSource.password = plugin.config.sql.sqlPassword
     }
 
-    private fun execIntQuery(query: String): Result<Int> {
+    private fun <T> execQuery(query: String, vararg parameters: Any): Result<T> {
         try {
             dataSource.connection.use {
                 val statement = it.prepareStatement(query)
+                for (i in parameters.indices) {
+                    statement.setObject(i + 1, parameters[i])
+                }
                 val result = statement.executeQuery()
                 if (result.next())
-                    return Result.success(result.getInt(1))
+                    return Result.success(result.getObject(1) as T)
             }
         } catch (e: Exception) {
             return Result.failure(e)
@@ -54,10 +57,13 @@ class SQLManager {
         return Result.failure(RuntimeException("Neither value, nor exception was assigned a value."))
     }
 
-    private fun execUpdateQuery(query: String): Result<Unit> {
+    private fun execUpdateQuery(query: String, vararg parameters: Any): Result<Unit> {
         try {
             dataSource.connection.use {
                 val statement = it.prepareStatement(query)
+                for (i in parameters.indices) {
+                    statement.setObject(i + 1, parameters[i])
+                }
                 statement.executeUpdate()
             }
         } catch (e: Exception) {
@@ -80,7 +86,7 @@ class SQLManager {
     }
 
     private fun createColumnIfNotExists(columnName: String): Result<Unit> {
-        val result = execIntQuery(
+        val columnCountQueryResult = execQuery<Long>(
             """
                 SELECT 
                   COUNT(*) 
@@ -88,18 +94,20 @@ class SQLManager {
                   INFORMATION_SCHEMA.COLUMNS 
                 WHERE 
                   TABLE_NAME = 'fishing_player_data' 
-                  AND COLUMN_NAME = '$columnName';
-            """.trimIndent()
+                  AND COLUMN_NAME = ?;
+            """.trimIndent(),
+            columnName
         )
 
-        if (result.getOrElse { return Result.failure(it) } == 0) {
+        if (columnCountQueryResult.getOrElse { return Result.failure(it) }.toInt() == 0) {
             execUpdateQuery(
                 """
                 ALTER TABLE 
                   fishing_player_data 
                 ADD 
-                  COLUMN $columnName INT NOT NULL DEFAULT 0;
-            """.trimIndent()
+                  COLUMN ? INT NOT NULL DEFAULT 0;
+            """.trimIndent(),
+                columnName
             ).onFailure { return Result.failure(it) }
         }
         return Result.success(Unit)
@@ -126,8 +134,9 @@ class SQLManager {
         execUpdateQuery(
             """
             INSERT IGNORE INTO fishing_player_data
-             (uuid) values('$playerUUID');
-        """.trimIndent()
+             (uuid) values(?);
+        """.trimIndent(),
+            playerUUID.toString()
         ).onFailure { return Result.failure(it) }
         return Result.success(Unit)
     }
@@ -145,9 +154,10 @@ class SQLManager {
                 FROM 
                   fishing_player_data
                 WHERE 
-                  uuid = '${playerUUID}';
+                  uuid = ?;
             """.trimIndent()
                 )
+                statement.setString(1, playerUUID.toString())
                 val result = statement.executeQuery()
 
                 if (result.next()) {
@@ -207,9 +217,9 @@ class SQLManager {
         }
         query += """
              WHERE 
-            uuid = '${playerUUID}';
+            uuid = ?;
         """.trimIndent()
-        return execUpdateQuery(query)
+        return execUpdateQuery(query, playerUUID.toString())
     }
 
     fun closeDataSource() {
