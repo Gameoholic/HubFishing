@@ -12,7 +12,6 @@ import kotlin.random.Random
  * @param fishMaxPosition The fish's max position in UI pixels, from the right
  */
 class FishMovementManager(
-    private val minigameManager: FishingMinigameManager,
     private val fishMinPosition: Double,
     private val fishMaxPosition: Double,
     private val caughtFish: Fish

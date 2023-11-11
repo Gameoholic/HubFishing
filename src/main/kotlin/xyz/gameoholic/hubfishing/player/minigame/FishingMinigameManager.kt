@@ -40,7 +40,6 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
         private set
     private val task: BukkitTask
     val fishMovementManager = FishMovementManager(
-        this,
         plugin.config.fishingMinigame.waterAreaStartPosition + plugin.config.fishingMinigame.waterAreaFishPadding,
         plugin.config.fishingMinigame.waterAreaStartPosition + plugin.config.fishingMinigame.waterAreaLengthPixels - plugin.config.fishingMinigame.waterAreaFishPadding,
         caughtFish
