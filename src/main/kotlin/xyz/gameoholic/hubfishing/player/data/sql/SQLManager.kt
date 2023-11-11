@@ -40,6 +40,12 @@ class SQLManager {
         dataSource.password = plugin.config.sql.sqlPassword
     }
 
+    /**
+     * Executes an SQL query that returns type T.
+     * @param query The query, with optional parameters
+     * @param parameters The parameters
+     * @return The result of the operation, T on success.
+     */
     private fun <T> execQuery(query: String, vararg parameters: Any): Result<T> {
         try {
             dataSource.connection.use {
@@ -57,6 +63,12 @@ class SQLManager {
         return Result.failure(RuntimeException("Neither value, nor exception was assigned a value."))
     }
 
+    /**
+     * Executes an SQL update query.
+     * @param query The query, with optional parameters
+     * @param parameters The parameters
+     * @return The result of the operation.
+     */
     private fun execUpdateQuery(query: String, vararg parameters: Any): Result<Unit> {
         try {
             dataSource.connection.use {
@@ -73,6 +85,9 @@ class SQLManager {
     }
 
 
+    /**
+     * Creates columns in the table for every fish variant that doesn't exist.
+     */
     private fun createFishVariantsColumns(): Result<Unit> {
         plugin.config.fishVariants.variants.forEach {
             createColumnIfNotExists("${it.id}_fishes_caught").onFailure { throwable ->
@@ -85,6 +100,9 @@ class SQLManager {
         return Result.success(Unit)
     }
 
+    /**
+     * Creates a column in the table if it does not exist.
+     */
     private fun createColumnIfNotExists(columnName: String): Result<Unit> {
         val columnCountQueryResult = execQuery<Long>(
             """
@@ -128,7 +146,7 @@ class SQLManager {
     }
 
     /**
-     * Inserts a player into the table. If already exists, nothing happens.
+     * Inserts a player into the table if it doesn't already exist.
      */
     private fun insertPlayer(playerUUID: UUID): Result<Unit> {
         execUpdateQuery(
@@ -141,6 +159,9 @@ class SQLManager {
         return Result.success(Unit)
     }
 
+    /**
+     * Returns PlayerData of a given player's UUID.
+     */
     fun fetchPlayerData(playerUUID: UUID): Result<PlayerData> {
         insertPlayer(playerUUID).onFailure { return Result.failure(it) }
 
