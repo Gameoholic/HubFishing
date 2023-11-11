@@ -1,9 +1,4 @@
 #note for self, need to document
-legendary-fish-spawn-sound: # The sound that plays to everyone in the lake when a legendary fish spawns
-  name: "minecraft:entity.firework_rocket.twinkle"
-  source: MASTER
-  volume: 1f
-  pitch: 0f
 fish-found-sound:
   name: "minecraft:entity.experience_orb.pickup"
   source: MASTER

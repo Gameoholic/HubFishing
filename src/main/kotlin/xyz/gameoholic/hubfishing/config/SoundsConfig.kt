@@ -14,6 +14,5 @@ data class SoundsConfig(
     @SerialName("fishing-minigame-miss-sound") val fishingMinigameMissSound: @Serializable(with = SoundSerializer::class) Sound,
     @SerialName("level-up-sound") val levelUpSound: @Serializable(with = SoundSerializer::class) Sound,
     @SerialName("fishing-minigame-catch-sound") val fishingMinigameCatchSound: @Serializable(with = SoundSerializer::class) Sound,
-    @SerialName("legendary-fish-spawn-sound") val legendaryFishSpawnSound: @Serializable(with = SoundSerializer::class) Sound,
 
 )

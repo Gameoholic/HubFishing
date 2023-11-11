@@ -265,19 +265,27 @@ class FishLakeManager(
             .random(Random),
         fishAliveTime: Int = fishRarity.aliveTimeMin + Random.nextInt(fishRarity.aliveTimeMax)
     ) {
-        // Custom spawn message & sound for legendary fish
-//        if (fishRarity == FishRarity.LEGENDARY) { //TODO: BRING THIS BACK, as parameters in FishRarity
-//            lakePlayers.forEach { lakePlayer ->
-//                Bukkit.getPlayer(lakePlayer.uuid)?.let {
-//                    it.sendMessage(
-//                        MiniMessage.miniMessage().deserialize(
-//                            PlaceholderAPI.setPlaceholders(it, plugin.config.strings.legendaryFishSpawnMessage)
-//                        )
-//                    )
-//                    it.playSound(plugin.config.sounds.legendaryFishSpawnSound, location.x, location.y, location.z)
-//                }
-//            }
-//        }
+        // Custom spawn sound
+        fishRarity.fishSpawnSound?.let {
+            lakePlayers.forEach { lakePlayer ->
+                Bukkit.getPlayer(lakePlayer.uuid)?.let { player ->
+                    player.playSound(it, location.x, location.y, location.z)
+                }
+            }
+        }
+        // Custom spawn message
+        fishRarity.fishSpawnMessage?.let {
+            lakePlayers.forEach { lakePlayer ->
+                Bukkit.getPlayer(lakePlayer.uuid)?.let { player ->
+                    player.sendMessage(
+                        MiniMessage.miniMessage().deserialize(
+                            PlaceholderAPI.setPlaceholders(player, it)
+                        )
+                    )
+                }
+            }
+        }
+
         fishes.add(
             Fish(
                 this,

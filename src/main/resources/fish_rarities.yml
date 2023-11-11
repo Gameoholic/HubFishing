@@ -53,5 +53,12 @@ fish-rarities:
     xp: 200
     display-name: "<gold>Legendary"
     fish-particle-type: LEGENDARY
+    fish-spawn-message: "<gold>A legendary fish has spawned! Catch it for extra loot!"
+    fish-spawn-sound:
+      name: "minecraft:entity.firework_rocket.twinkle"
+      source: MASTER
+      volume: 1f
+      pitch: 0f
+
 
 

@@ -2,7 +2,9 @@ package xyz.gameoholic.hubfishing.fish
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import net.kyori.adventure.sound.Sound
 import xyz.gameoholic.hubfishing.particles.FishParticleType
+import xyz.gameoholic.hubfishing.serialization.SoundSerializer
 
 @Serializable
 data class FishRarity(
@@ -18,7 +20,9 @@ data class FishRarity(
     @SerialName("alive-time-max") val aliveTimeMax: Int,
     val xp: Int,
     @SerialName("display-name") val displayName: String,
-    @SerialName("fish-particle-type") val fishParticleType: FishParticleType
+    @SerialName("fish-particle-type") val fishParticleType: FishParticleType,
+    @SerialName("fish-spawn-message") val fishSpawnMessage: String? = null,
+    @SerialName("fish-spawn-sound") val fishSpawnSound: @Serializable(with = SoundSerializer::class) Sound? = null,
 )
 
 
