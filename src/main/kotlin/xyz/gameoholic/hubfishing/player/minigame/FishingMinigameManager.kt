@@ -308,7 +308,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
             Bukkit.getPlayer(fishingPlayer.uuid)?.let {
                 it.sendActionBar(
                     MiniMessage.miniMessage().deserialize(
-                        PlaceholderAPI.setPlaceholders(it, plugin.config.strings.XPGainedActionBarMessage),
+                        PlaceholderAPI.setPlaceholders(it, plugin.config.strings.xpGainedActionBarMessage),
                         Placeholder.component("xp", text(getRarity(caughtFish.variant.rarityId).xp.toString()))
                     )
                 )
