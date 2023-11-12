@@ -16,4 +16,5 @@ data class StringsConfig(
     @SerialName("stats-display-content") val statsDisplayContent: String,
     @SerialName("rank-boost-display-none-content") val rankBoostDisplayNoneContent: String,
     @SerialName("rank-boost-display-boosted-content") val rankBoostDisplayBoostedContent: String,
+    @SerialName("fishing-command-failure") val fishingCommandFailure: String,
 )

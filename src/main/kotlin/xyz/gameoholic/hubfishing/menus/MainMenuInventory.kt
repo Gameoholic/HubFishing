@@ -19,11 +19,12 @@ import org.bukkit.persistence.PersistentDataType
 import org.bukkit.scheduler.BukkitRunnable
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
+import java.lang.RuntimeException
 import java.util.*
 import kotlin.collections.HashMap
 
 
-class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
+class MainMenuInventory(private val playerUUID: UUID, private val playerData: PlayerData) : FishingInventory {
     private val plugin: HubFishingPlugin by inject()
 
     private val player = Bukkit.getPlayer(playerUUID)
@@ -37,12 +38,8 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
     )
     override var eventsAreRegistered = false
 
-    private val playerData: PlayerData?
-
     init {
         registerEvents()
-
-        playerData = plugin.playerData[playerUUID]
 
         getInventoryItems().entries.forEach {
             inv.setItem(it.key, it.value)
@@ -183,41 +180,42 @@ class MainMenuInventory(private val playerUUID: UUID) : FishingInventory {
                     PlaceholderAPI.setPlaceholders(player, it),
                     Placeholder.component(
                         "playtime",
-                        text((playerData?.playtime?.let { playtime -> playtime / 3600 } ?: "Unknown").toString())
-                    ),
-                    Placeholder.component(
-                        "xp", //toDO ; get rid of nullabiility mess here.
-                        text((playerData?.xp ?: "Unknown").toString())
-                    ),
-                    Placeholder.component(
-                        "total_xp",
-                        text((playerData?.xp ?: "Unknown").toString())
-                    ),
-                    Placeholder.component(
-                        "total_xp_to_level_up",
-                        text((playerData?.levelData?.neededXPToLevelUp ?: "Unknown").toString())
-                    ),
-                    Placeholder.component(
-                        "remaining_xp_to_level_up",
-                        text((playerData?.levelData?.remainingXPToLevelUp ?: "Unknown").toString())
+                        text(playerData.playtime / 3600)
                     ),
                     Placeholder.component(
                         "xp",
-                        text((playerData?.levelData?.remainderXP ?: "Unknown").toString())
+                        text(playerData.xp)
+                    ),
+                    Placeholder.component(
+                        "total_xp",
+                        text(playerData.xp)
+                    ),
+                    Placeholder.component(
+                        "total_xp_to_level_up",
+                        text(playerData.levelData.neededXPToLevelUp)
+                    ),
+                    Placeholder.component(
+                        "remaining_xp_to_level_up",
+                        text(playerData.levelData.remainingXPToLevelUp)
+                    ),
+                    Placeholder.component(
+                        "xp",
+                        text(playerData.levelData.remainderXP)
                     ),
                     Placeholder.component(
                         "level",
-                        text((playerData?.levelData?.level ?: "Unknown").toString())
+                        text(playerData.levelData.level)
                     ),
                     Placeholder.component(
                         "fishes_caught",
-                        text((playerData?.fishesCaught?.values?.sum() ?: "Unknown").toString())
+                        text((playerData.fishesCaught.values.sum()))
                     ),
                     *plugin.config.fishRarities.rarities.map {fishRarity ->
                         Placeholder.component(
                             "${fishRarity.id}_fishes_caught",
-                            text((playerData?.fishesCaught?.filterKeys { fishVariant -> fishVariant.rarityId == fishRarity.id }?.values?.sum()
-                                ?: "Unknown").toString())
+                            text((playerData.fishesCaught.filterKeys { fishVariant ->
+                                fishVariant.rarityId == fishRarity.id }.values.sum())
+                            )
                         )
                     }.toTypedArray(),
                 ).decoration(TextDecoration.ITALIC, false)
