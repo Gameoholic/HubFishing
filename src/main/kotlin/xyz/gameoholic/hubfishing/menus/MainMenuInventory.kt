@@ -95,7 +95,7 @@ class MainMenuInventory(private val playerUUID: UUID, private val playerData: Pl
         }
         )
 
-        //Make item uniquely identifiable for inventory click detection with ID
+        // Make item uniquely identifiable for inventory click detection with ID
         meta.persistentDataContainer.set(
             NamespacedKey(plugin, "menu_item"),
             PersistentDataType.STRING,
@@ -152,7 +152,7 @@ class MainMenuInventory(private val playerUUID: UUID, private val playerData: Pl
                 ).decoration(TextDecoration.ITALIC, false)
             }
         )
-        //Make item uniquely identifiable for inventory click detection with ID
+        // Make item uniquely identifiable for inventory click detection with ID
         meta.persistentDataContainer.set(
             NamespacedKey(plugin, "menu_item"),
             PersistentDataType.STRING,
@@ -221,7 +221,7 @@ class MainMenuInventory(private val playerUUID: UUID, private val playerData: Pl
                 ).decoration(TextDecoration.ITALIC, false)
             }
         )
-        //Make item uniquely identifiable for inventory click detection with ID
+        // Make item uniquely identifiable for inventory click detection with ID
         meta.persistentDataContainer.set(
             NamespacedKey(plugin, "menu_item"),
             PersistentDataType.STRING,
@@ -249,7 +249,7 @@ class MainMenuInventory(private val playerUUID: UUID, private val playerData: Pl
                     .decoration(TextDecoration.ITALIC, false)
             }
         )
-        //Make item uniquely identifiable for inventory click detection with ID
+        // Make item uniquely identifiable for inventory click detection with ID
         meta.persistentDataContainer.set(
             NamespacedKey(plugin, "menu_item"),
             PersistentDataType.STRING,
@@ -266,7 +266,7 @@ class MainMenuInventory(private val playerUUID: UUID, private val playerData: Pl
         if (e.whoClicked.uniqueId != playerUUID) return
 
         val clickedInv = e.clickedInventory
-        //Add null check in case player clicked outside of window
+        // Add null check in case player clicked outside of window
         if (clickedInv == null || e.inventory.getHolder(false) !is MainMenuInventory) return
         val player = e.whoClicked as? Player ?: return
 
@@ -291,8 +291,8 @@ class MainMenuInventory(private val playerUUID: UUID, private val playerData: Pl
      * Handles when a player clicks on the fish collection item in the menu.
      */
     private fun handleFishCollectionItemClick(player: Player) {
-        //Because InventoryClickEvent occurs within a modification of the Inventory, Inventory related methods aren't safe to use,
-        //so we schedule a tick later
+        // Because InventoryClickEvent occurs within a modification of the Inventory, Inventory related methods aren't safe to use,
+        // so we schedule a tick later
         object : BukkitRunnable() {
             override fun run() {
                 player.openInventory(FishCollectionInventory(player.uniqueId, playerData).inventory)
@@ -304,8 +304,8 @@ class MainMenuInventory(private val playerUUID: UUID, private val playerData: Pl
      * Handles when a player clicks on the close menu item.
      */
     private fun handleCloseMenuItemClick(player: Player) {
-        //Because InventoryClickEvent occurs within a modification of the Inventory, Inventory related methods aren't safe to use,
-        //so we schedule a tick later
+        // Because InventoryClickEvent occurs within a modification of the Inventory, Inventory related methods aren't safe to use,
+        // so we schedule a tick later
         object : BukkitRunnable() {
             override fun run() {
                 player.closeInventory()

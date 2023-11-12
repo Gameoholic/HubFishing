@@ -76,7 +76,7 @@ class FishCollectionInventory(private val playerUUID: UUID, private val playerDa
         var fishIndex = 0
 
         for (i in startIndex until maxIndex) {
-            //Rectangular menu
+            // Rectangular menu
             if (i % 9 > maxIndex % 9 || i % 9 < startIndex % 9) {
                 continue
             }
@@ -161,7 +161,7 @@ class FishCollectionInventory(private val playerUUID: UUID, private val playerDa
                     .decoration(TextDecoration.ITALIC, false)
             }
         )
-        //Make item uniquely identifiable for inventory click detection with ID
+        //M ake item uniquely identifiable for inventory click detection with ID
         meta.persistentDataContainer.set(
             NamespacedKey(plugin, "menu_item"),
             PersistentDataType.STRING,
@@ -203,8 +203,8 @@ class FishCollectionInventory(private val playerUUID: UUID, private val playerDa
      * Handles when a player clicks on the close menu item.
      */
     private fun handleCloseMenuItemClick(player: Player) {
-        //Because InventoryClickEvent occurs within a modification of the Inventory, Inventory related methods aren't safe to use,
-        //so we schedule a tick later
+        // Because InventoryClickEvent occurs within a modification of the Inventory, Inventory related methods aren't safe to use,
+        // so we schedule a tick later
         object : BukkitRunnable() {
             override fun run() {
                 player.closeInventory()
