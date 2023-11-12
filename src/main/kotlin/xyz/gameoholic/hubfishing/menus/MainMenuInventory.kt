@@ -295,7 +295,7 @@ class MainMenuInventory(private val playerUUID: UUID, private val playerData: Pl
         //so we schedule a tick later
         object : BukkitRunnable() {
             override fun run() {
-                player.openInventory(FishCollectionInventory(player.uniqueId).inventory)
+                player.openInventory(FishCollectionInventory(player.uniqueId, playerData).inventory)
             }
         }.runTask(plugin)
     }

@@ -19,11 +19,12 @@ import org.bukkit.persistence.PersistentDataType
 import org.bukkit.scheduler.BukkitRunnable
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
+import xyz.gameoholic.hubfishing.player.data.PlayerData
 import xyz.gameoholic.hubfishing.util.FishingUtil
 import xyz.gameoholic.hubfishing.util.FishingUtil.getRarity
 import java.util.UUID
 
-class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
+class FishCollectionInventory(private val playerUUID: UUID, private val playerData: PlayerData) : FishingInventory {
     private val plugin: HubFishingPlugin by inject()
 
     val player = Bukkit.getPlayer(playerUUID)
@@ -70,10 +71,8 @@ class FishCollectionInventory(private val playerUUID: UUID) : FishingInventory {
         val maxIndex = plugin.config.menus.fishingCollectionMenuFishMaxIndex
 
         // Sort fishes caught by rarity
-        val fishesCaught = plugin.playerData[playerUUID]?.let {
-            it.fishesCaught?.toSortedMap(compareBy<FishVariant> { variant -> FishingUtil.getRarity(variant.rarityId).value }
+        val fishesCaught =  playerData.fishesCaught.toSortedMap(compareBy<FishVariant> { variant -> getRarity(variant.rarityId).value }
                 .thenBy { variant -> variant.id })
-        } ?: return items
         var fishIndex = 0
 
         for (i in startIndex until maxIndex) {
