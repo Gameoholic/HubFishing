@@ -163,7 +163,6 @@ class SQLManager {
      * Returns PlayerData of a given player's UUID.
      */
     fun fetchPlayerData(playerUUID: UUID): Result<PlayerData> {
-        return Result.failure(RuntimeException("A"))
         insertPlayer(playerUUID).onFailure { return Result.failure(it) }
 
         var playerData: PlayerData? = null
