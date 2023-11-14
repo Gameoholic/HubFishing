@@ -40,15 +40,15 @@ class HubFishingPlugin: JavaPlugin() {
 
         protocolManager = ProtocolLibrary.getProtocolManager()
 
-        saveResource("fishing.yml", false)
-        saveResource("fishing_minigame.yml", false)
-        saveResource("fish_lake_managers.yml", false)
-        saveResource("fish_rarities.yml", false)
-        saveResource("fish_variants.yml", false)
-        saveResource("menus.yml", false)
+        saveResource("fishing.yml", true)
+        saveResource("fishing_minigame.yml", true)
+        saveResource("fish_lake_managers.yml", true)
+        saveResource("fish_rarities.yml", true)
+        saveResource("fish_variants.yml", true)
+        saveResource("menus.yml", true)
         saveResource("sql.yml", false)
-        saveResource("strings.yml", false)
-        saveResource("sounds.yml", false)
+        saveResource("strings.yml", true)
+        saveResource("sounds.yml", true)
         config = ConfigParser.parseConfig()
         fishLakeManagers = ConfigParser.getFishLakeManagers()
 
