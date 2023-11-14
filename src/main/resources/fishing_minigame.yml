@@ -7,7 +7,7 @@ water-area-fish-padding: 2.0 # Amount of pixels of padding to add in the corners
 water-area-fish-spawn-padding: 4.0  # Amount of pixels of padding to add in the corners of the fish movement area, that can spawn in
 rod-box-speed: 0.8
 max-fishing-rod-uses: 3
-time-restriction-warning-delay: 300 # How many ticks to wait before displaying time warning - 300
+time-restriction-warning-delay: 80 # How many ticks to wait before displaying time warning
 time-restriction-strike-delay: 100 # How many ticks to wait after warning before removing attempt from player
 
 
@@ -59,7 +59,7 @@ big-rod-characters:
 
 fishing-minigame-success-animation-length: 35
 fishing-minigame-success-animation-speed: 2
-bucket-character-height: 20
+bucket-character-height: 10
 bucket-character-offset: 1.0 #By how many pixels to the left to offset the bucket relative to fish
 bucket-characters:
   - ''
