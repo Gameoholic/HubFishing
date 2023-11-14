@@ -7,106 +7,95 @@ water-area-fish-padding: 2.0 # Amount of pixels of padding to add in the corners
 water-area-fish-spawn-padding: 4.0  # Amount of pixels of padding to add in the corners of the fish movement area, that can spawn in
 rod-box-speed: 0.8
 max-fishing-rod-uses: 3
-time-restriction-warning-delay: 300 # How many ticks to wait before displaying time warning
+time-restriction-warning-delay: 300 # How many ticks to wait before displaying time warning - 300
 time-restriction-strike-delay: 100 # How many ticks to wait after warning before removing attempt from player
 
 
 # Characters:
 water-characters:
-  - '༁'
-  - '༂'
-  - '༃'
-  - '༄'
-  - '༅'
-  - '༆'
-  - '༇'
-  - '༈'
-  - '༉'
-  - '༊'
-  - '་'
-  - '༌'
-  - '།'
-  - '༎'
-  - '༏'
-  - '༐'
+  - ''
 water-character-height: 15
 water-animation-speed: 3 #How often the water animation frame updates. If set to 2, for example, will be animated every 2 frames.
 
-rod-box-character: '्'
+rod-box-character: ''
 rod-box-character-height: 6
 
-mini-rod-character: 'ॎ'
+mini-rod-character: ''
 mini-rod-character-height: 6
 mini-rod-animation-speed: 2
 mini-rod-used-characters:
-  - 'ᅀ'
-  - 'ᅁ'
-  - 'ᅂ'
+  - ''
+  - ''
+  - ''
 mini-rods-characters-position: 48.0 # The position of the first mini fishing rod character, in UI pixels from the right
 
-info-box-character: '༑'
+info-box-character: ''
 info-box-character-height: 18
 info-box-position: 79.5
 
 big-rod-position: 84.0 #The position of the big fishing rod, in UI pixels from the right
 big-rod-character-height: 20
 big-rod-characters:
-  - 'ॐ'
-  - 'ॐ'
-  - '॑'
-  - '॑'
-  - '॒'
-  - '॒'
-  - '॓'
-  - '॓'
-  #  - '੔' unused
-  #  - '੔' unused
-  - '॔'
-  - '॔'
-  - '౴'
-  - '౵'
-  - 'ॕ'
-  - 'ॕ'
-  #  - 'क़' #unduped Unused
-  - 'ख़' #unduped
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
 
 
 fishing-minigame-success-animation-length: 26
 fishing-minigame-success-animation-speed: 2
-bucket-character-height: 15
+bucket-character-height: 20
 bucket-character-offset: 1.0 #By how many pixels to the left to offset the bucket relative to fish
 bucket-characters:
-  - '༒'
-  - '༓'
-  - '༔'
-  - '༕'
-  - '༖'
-  - '༗'
-  - '༘'
-  - '༙'
-  - '༚'
-  - '༛'
-  - '༜'
-  - '༝'
-  - '༞'
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
 
-long-rod-character: 'ॖ'
+long-rod-character: ''
 long-rod-character-height: 10
-long-rod-end-character: 'ॸ'
+long-rod-end-character: ''
 long-rod-end-character-height: 10
 long-rod-end-character-offset: 4.5 #Since long rod end character longer than long rod character, we need to offset it to the left.
 
 clock-animation-speed: 2
-clock-character-height: 5
+clock-character-height: 6
 clock-characters:
-  - 'ቀ'
-  - 'ቁ'
-  - 'ቂ'
-  - 'ቃ'
-  - 'ቄ'
-  - 'ቅ'
-  - 'ቆ'
-  - 'ቇ'
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
 clock-position: 35.0
 
 rod-break-animation-speed: 2
