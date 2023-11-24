@@ -26,10 +26,7 @@ import xyz.gameoholic.hubfishing.injection.inject
  * @param rodBoxSpeed The speed of the rod box
  */
 class FishingMinigameGameplayState(
-    val minigameManager: FishingMinigameManager,
-    private val rodBoxMinPosition: Double,
-    private val rodBoxMaxPosition: Double,
-    private val rodBoxSpeed: Double
+    val minigameManager: FishingMinigameManager
 ) : FishingMinigameState, Listener {
     private val plugin: HubFishingPlugin by inject()
 
@@ -48,7 +45,6 @@ class FishingMinigameGameplayState(
     private var ticksPassedSinceLastTimeRestriction = 0
 
     var failedBecauseOfTimeRestriction = false
-
 
     /**
      * Whether the player right-clicked. If true, signals to the minigame manager to switch states
@@ -103,14 +99,14 @@ class FishingMinigameGameplayState(
     private fun determineRodBoxPosition(player: Player) {
         if (rodCast) return
         if (getPlayerMoveDirection(player) == MoveDirection.LEFT)
-            minigameManager.rodBoxPosition += rodBoxSpeed
+            minigameManager.rodBoxPosition += plugin.config.fishingMinigame.rodBoxSpeed
         else if (getPlayerMoveDirection(player) == MoveDirection.RIGHT)
-            minigameManager.rodBoxPosition -= rodBoxSpeed
+            minigameManager.rodBoxPosition -= plugin.config.fishingMinigame.rodBoxSpeed
         //Cap rod box movement
-        if (minigameManager.rodBoxPosition > rodBoxMaxPosition)
-            minigameManager.rodBoxPosition = rodBoxMaxPosition
-        else if (minigameManager.rodBoxPosition < rodBoxMinPosition)
-            minigameManager.rodBoxPosition = rodBoxMinPosition
+        if (minigameManager.rodBoxPosition > minigameManager.rodBoxMaxPosition)
+            minigameManager.rodBoxPosition = minigameManager.rodBoxMaxPosition
+        else if (minigameManager.rodBoxPosition < minigameManager.rodBoxMinPosition)
+            minigameManager.rodBoxPosition = minigameManager.rodBoxMinPosition
     }
 
     private enum class MoveDirection { LEFT, RIGHT, NEITHER }

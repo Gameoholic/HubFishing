@@ -18,7 +18,7 @@ class FishingMinigameGameplayUIRenderer(override val minigameState: FishingMinig
     override fun render() {
         val title = Component.text()
         // WATER
-        renderCharacter(title, plugin.config.fishingMinigame.waterCharacters[minigameState.minigameManager.waterAnimationFrame], false)
+        renderCharacter(title, plugin.config.fishingMinigame.waterCharacters[minigameState.minigameManager.waterAnimationFrame])
         // FISH
         renderCharacterSeparately(
             title, minigameState.minigameManager.caughtFish.variant.minigameCharacter,

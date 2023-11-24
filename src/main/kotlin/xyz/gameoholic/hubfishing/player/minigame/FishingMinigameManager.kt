@@ -50,11 +50,10 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
     lateinit var textDisplay: TextDisplay
 
     /** The rod box's min position in UI pixels, from the right */
-    private val rodBoxMinPosition = plugin.config.fishingMinigame.waterAreaStartPosition
+    val rodBoxMinPosition = plugin.config.fishingMinigame.waterAreaStartPosition
 
     /** The rod box's max position in UI pixels, from the right */
-    private val rodBoxMaxPosition =
-        plugin.config.fishingMinigame.waterAreaStartPosition + plugin.config.fishingMinigame.waterAreaLengthPixels
+    val rodBoxMaxPosition = plugin.config.fishingMinigame.waterAreaStartPosition + plugin.config.fishingMinigame.waterAreaLengthPixels
 
     /** The rod box's position in UI pixels, from the right */
     var rodBoxPosition = rodBoxMinPosition + (rodBoxMaxPosition - rodBoxMinPosition) / 2
@@ -154,12 +153,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
         }
         if (state.stateTicksPassed >= 1 && state is FishingMinigameStartAnimState) {
             state.onDisable()
-            state = FishingMinigameGameplayState(
-                this,
-                rodBoxMinPosition,
-                rodBoxMaxPosition,
-                plugin.config.fishingMinigame.rodBoxSpeed
-            )
+            state = FishingMinigameGameplayState(this)
             state.onEnable()
             return
         }
@@ -199,12 +193,7 @@ class FishingMinigameManager(val fishingPlayer: FishingPlayer, private val lakeP
         if (state is FishingMinigameMissState && state.stateTicksPassed >= 2) {
             state.onDisable()
             state =
-                FishingMinigameGameplayState( //todo: should every class just use the config statically or should I pass variables like this?
-                    this,
-                    rodBoxMinPosition,
-                    rodBoxMaxPosition,
-                    plugin.config.fishingMinigame.rodBoxSpeed
-                )
+                FishingMinigameGameplayState(this)
             state.onEnable()
             return
         }

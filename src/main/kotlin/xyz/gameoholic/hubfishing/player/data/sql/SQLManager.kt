@@ -123,9 +123,8 @@ class SQLManager {
                 ALTER TABLE 
                   fishing_player_data 
                 ADD 
-                  COLUMN ? INT NOT NULL DEFAULT 0;
-            """.trimIndent(),
-                columnName
+                  COLUMN $columnName INT NOT NULL DEFAULT 0;
+                """.trimIndent() // Can't add parameterized column names :/ If you add an sql injectable column name that's your fault lol
             ).onFailure { return Result.failure(it) }
         }
         return Result.success(Unit)
@@ -167,9 +166,9 @@ class SQLManager {
 
         var playerData: PlayerData? = null
         try {
-            dataSource.connection.use {connection ->
+            dataSource.connection.use { connection ->
                 val statement = connection.prepareStatement(
-                """
+                    """
                 SELECT 
                   *
                 FROM 

@@ -4,7 +4,7 @@ fish-variants:
   - id: goldfish
     name: Goldfish
     rarity-id: common
-    speed: 1.0
+    speed: 3.0
     material: BEDROCK
     model-data: 1
     hitbox-size:
@@ -17,6 +17,158 @@ fish-variants:
       z: 0.0
     minigame-hitbox-width: 5.0
     minigame-character: ''
+    minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
+  - id: blobfish
+    name: Blobfish
+    rarity-id: epic
+    speed: 3.0
+    material: BEDROCK
+    model-data: 2
+    hitbox-size:
+      x: 5.4
+      y: 5.0
+      z: 5.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
+  - id: pufferfish
+    name: Pufferfish
+    rarity-id: common
+    speed: 1.0
+    material: BEDROCK
+    model-data: 3
+    hitbox-size:
+      x: 5.4
+      y: 5.0
+      z: 5.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
+  - id: pink_pufferfish
+    name: Pink Pufferfish
+    rarity-id: rare
+    speed: 1.0
+    material: BEDROCK
+    model-data: 8
+    hitbox-size:
+      x: 5.4
+      y: 5.0
+      z: 5.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
+  - id: rainbow_pufferfish
+    name: Rainbow Pufferfish
+    rarity-id: legendary
+    speed: 1.0
+    material: BEDROCK
+    model-data: 9
+    hitbox-size:
+      x: 5.4
+      y: 5.0
+      z: 5.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
+  - id: butterfly
+    name: Butterfly Fish
+    rarity-id: common
+    speed: 1.0
+    material: BEDROCK
+    model-data: 4
+    hitbox-size:
+      x: 5.4
+      y: 5.0
+      z: 5.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
+  - id: blue_butterfly
+    name: Blue Butterfly Fish
+    rarity-id: rare
+    speed: 1.0
+    material: BEDROCK
+    model-data: 5
+    hitbox-size:
+      x: 5.4
+      y: 5.0
+      z: 5.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
+  - id: red_butterfly
+    name: Red Butterfly Fish
+    rarity-id: rare
+    speed: 1.0
+    material: BEDROCK
+    model-data: 6
+    hitbox-size:
+      x: 5.4
+      y: 5.0
+      z: 5.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+    minigame-character: ''
+    minigame-character-height: 6
+    menu-material: "STONE"
+    menu-model-data: 0
+  - id: green_butterfly
+    name: Green Butterfly Fish
+    rarity-id: rare
+    speed: 1.0
+    material: BEDROCK
+    model-data: 7
+    hitbox-size:
+      x: 5.4
+      y: 5.0
+      z: 5.4
+    hitbox-offset:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    minigame-hitbox-width: 5.0
+    minigame-character: ''
     minigame-character-height: 6
     menu-material: "STONE"
     menu-model-data: 0

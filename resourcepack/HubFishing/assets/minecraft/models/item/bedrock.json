@@ -8,7 +8,55 @@
    "predicate": {
     "custom_model_data": 1
    },
-   "model": "item/bedrock/1"
+   "model": "item/bedrock/goldfish"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 2
+   },
+   "model": "item/bedrock/blobfish"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 3
+   },
+   "model": "item/bedrock/pufferfish"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 4
+   },
+   "model": "item/bedrock/butterfly"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 5
+   },
+   "model": "item/bedrock/blue_butterfly"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 6
+   },
+   "model": "item/bedrock/red_butterfly"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 7
+   },
+   "model": "item/bedrock/green_butterfly"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 8
+   },
+   "model": "item/bedrock/pink_pufferfish"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 9
+   },
+   "model": "item/bedrock/rainbow_pufferfish"
   }
  ]
 }

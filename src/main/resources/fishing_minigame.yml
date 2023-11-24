@@ -4,7 +4,7 @@
 water-area-start-position: 12.6 # Position from the right
 water-area-length-pixels: 49.0 # Amount of pixels in which the fish & rodbox can move in
 water-area-fish-padding: 2.0 # Amount of pixels of padding to add in the corners of the area fish can move in
-water-area-fish-spawn-padding: 4.0  # Amount of pixels of padding to add in the corners of the fish movement area, that can spawn in
+water-area-fish-spawn-padding: 4.5  # Amount of pixels of padding to add in the corners of the fish movement area, that can spawn in
 rod-box-speed: 0.8
 max-fishing-rod-uses: 3
 time-restriction-warning-delay: 80 # How many ticks to wait before displaying time warning
@@ -13,7 +13,14 @@ time-restriction-strike-delay: 100 # How many ticks to wait after warning before
 
 # Characters:
 water-characters:
+  - ''
   - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
 water-character-height: 15
 water-animation-speed: 3 #How often the water animation frame updates. If set to 2, for example, will be animated every 2 frames.
 
@@ -101,25 +108,24 @@ clock-position: 35.0
 rod-break-animation-speed: 2
 rod-break-animation-height: 20
 rod-break-characters:
-  - 'ഡ'
-  - 'ഢ'
-  - 'ണ'
-  - 'ത'
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
 
 rod-long-break-animation-speed: 2
 rod-long-break-animation-height: 10
 rod-long-break-characters:
-  - 'ॖ'
-  - 'ॖ'
-  - 'ꉁ'
+  - ''
 
 rod-long-end-break-animation-speed: 2
 rod-long-end-break-animation-height: 10
 rod-long-end-break-characters:
-  - ''
-  - ''
-  - ''
-#  - '' unused
+  - ''
+  - ''
+  - ''
+  - ''
 
 
 extension-animation-delay: -1 #How long to delay before starting the extension animation. Can be set to negative values.

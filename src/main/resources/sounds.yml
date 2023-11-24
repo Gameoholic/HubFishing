@@ -15,10 +15,10 @@ level-up-sound:
   volume: 1f
   pitch: 1f
 fishing-minigame-catch-sound:
-  name: "minecraft:entity.firework_rocket.blast"
+  name: "minecraft:entity.player.levelup"
   source: MASTER
   volume: 1f
-  pitch: 2f
+  pitch: 0f
 passed-time-restriction-sound:
   name: "minecraft:block.lever.click"
   source: MASTER
