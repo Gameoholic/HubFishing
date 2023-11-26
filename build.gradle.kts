@@ -11,8 +11,8 @@ plugins {
 }
 
 group = "xyz.gameoholic"
-version = "0.3.2"
-description = "Hub Interactions"
+version = "0.3.3"
+description = "Advanced fishing system for servers."
 val apiVersion = "1.20"
 
 
