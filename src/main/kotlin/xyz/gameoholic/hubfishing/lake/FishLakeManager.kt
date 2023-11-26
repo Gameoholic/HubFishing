@@ -27,11 +27,14 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.persistence.PersistentDataType
+import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 import xyz.gameoholic.hubfishing.HubFishingPlugin
 import xyz.gameoholic.hubfishing.injection.inject
 import xyz.gameoholic.hubfishing.player.FishingPlayer
+import xyz.gameoholic.hubfishing.util.FishingUtil
 import java.lang.RuntimeException
 import java.util.*
 import kotlin.collections.HashMap
@@ -95,14 +98,40 @@ class FishLakeManager(
 
         Bukkit.getPluginManager().registerEvents(this, plugin)
 
+        removeOldEntities()
+
         rankBoostDisplay = rankBoostDisplayLocation.world
             .spawnEntity(rankBoostDisplayLocation, EntityType.TEXT_DISPLAY) as TextDisplay
         val key =
-            NamespacedKey(plugin, "fishing-removable") //Mark entity, for removal upon server start
+            NamespacedKey(plugin, "fishing-removable") // Mark entity, for removal upon server start
         rankBoostDisplay.persistentDataContainer.set(key, PersistentDataType.BOOLEAN, true)
         rankBoostDisplay.alignment = TextDisplay.TextAlignment.CENTER
         rankBoostDisplay.billboard = Display.Billboard.CENTER
         setIsBoosted(false)
+    }
+
+    /**
+     * In the event of a crash / server close, old fishing related entities
+     * (displays, armor stands, etc.) will remain. This gets rid of them.
+     */
+    private fun removeOldEntities() {
+        val key = NamespacedKey(plugin, "fishing-removable")
+
+        //Before removing the entities, we must load the chunks.
+        for (x in corner1.x.toInt() .. corner2.x.toInt()) {
+            for (y in corner1.y.toInt() .. corner2.y.toInt()) {
+                for (z in corner1.z.toInt() .. corner2.z.toInt()) {
+                    plugin.config.fishing.world.getBlockAt(x, y, z).location.chunk.load()
+                }
+            }
+        }
+
+        plugin.config.fishing.world.entities.forEach {
+            val container: PersistentDataContainer = it.persistentDataContainer
+            if (container.has(key, PersistentDataType.BOOLEAN)) {
+                it.remove()
+            }
+        }
     }
 
     /**
@@ -132,7 +161,7 @@ class FishLakeManager(
      * name will be displayed. Otherwise, it'll go back to normal.
      */
     private fun setIsBoosted(value: Boolean, boosterName: String? = null) {
-        if (value == isBoosted) return //We only do stuff if the value for isBoosted has changed
+        if (value == isBoosted) return // We only do stuff if the value for isBoosted has changed
         if (!value) {
             rankBoostDisplay.text(
                 MiniMessage.miniMessage().deserialize(plugin.config.strings.rankBoostDisplayNoneContent)

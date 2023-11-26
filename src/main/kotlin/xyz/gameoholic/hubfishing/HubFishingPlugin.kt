@@ -50,6 +50,7 @@ class HubFishingPlugin: JavaPlugin() {
         saveResource("strings.yml", false)
         saveResource("sounds.yml", false)
         config = ConfigParser.parseConfig()
+
         fishLakeManagers = ConfigParser.getFishLakeManagers()
 
         sqlManager = SQLManager()
@@ -62,8 +63,6 @@ class HubFishingPlugin: JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(PlayerJoinListener, this)
         Bukkit.getPluginManager().registerEvents(PlayerQuitListener, this)
         Bukkit.getPluginManager().registerEvents(PlayerInteractEntityListener, this)
-
-        FishingUtil.removeOldEntities()
 
         object : BukkitRunnable() {
             override fun run() {
