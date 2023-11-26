@@ -1,0 +1,6 @@
+{
+ "parent": "item/handheld",
+ "textures": {
+  "layer0": "item/fishing/menu/fishing_collection_menu_item"
+ }
+}

@@ -8,55 +8,131 @@
    "predicate": {
     "custom_model_data": 1
    },
-   "model": "item/bedrock/goldfish"
+   "model": "item/fishing/fish/goldfish"
   },
   {
    "predicate": {
     "custom_model_data": 2
    },
-   "model": "item/bedrock/blobfish"
+   "model": "item/fishing/fish/blobfish"
   },
   {
    "predicate": {
     "custom_model_data": 3
    },
-   "model": "item/bedrock/pufferfish"
+   "model": "item/fishing/fish/pufferfish"
   },
   {
    "predicate": {
     "custom_model_data": 4
    },
-   "model": "item/bedrock/butterfly"
+   "model": "item/fishing/fish/butterfly"
   },
   {
    "predicate": {
     "custom_model_data": 5
    },
-   "model": "item/bedrock/blue_butterfly"
+   "model": "item/fishing/fish/blue_butterfly"
   },
   {
    "predicate": {
     "custom_model_data": 6
    },
-   "model": "item/bedrock/red_butterfly"
+   "model": "item/fishing/fish/red_butterfly"
   },
   {
    "predicate": {
     "custom_model_data": 7
    },
-   "model": "item/bedrock/green_butterfly"
+   "model": "item/fishing/fish/green_butterfly"
   },
   {
    "predicate": {
     "custom_model_data": 8
    },
-   "model": "item/bedrock/pink_pufferfish"
+   "model": "item/fishing/fish/pink_pufferfish"
   },
   {
    "predicate": {
     "custom_model_data": 9
    },
-   "model": "item/bedrock/rainbow_pufferfish"
+   "model": "item/fishing/fish/rainbow_pufferfish"
+  },
+
+
+  {
+   "predicate": {
+    "custom_model_data": 101
+   },
+   "model": "item/fishing/fish_icon/goldfish"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 102
+   },
+   "model": "item/fishing/fish_icon/blobfish"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 103
+   },
+   "model": "item/fishing/fish_icon/pufferfish"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 104
+   },
+   "model": "item/fishing/fish_icon/butterfly"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 105
+   },
+   "model": "item/fishing/fish_icon/blue_butterfly"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 106
+   },
+   "model": "item/fishing/fish_icon/red_butterfly"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 107
+   },
+   "model": "item/fishing/fish_icon/green_butterfly"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 108
+   },
+   "model": "item/fishing/fish_icon/pink_pufferfish"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 109
+   },
+   "model": "item/fishing/fish_icon/rainbow_pufferfish"
+  },
+
+
+  {
+   "predicate": {
+    "custom_model_data": 201
+   },
+   "model": "item/fishing/menu/fishing_collection_menu_item"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 202
+   },
+   "model": "item/fishing/menu/close_item"
+  },
+  {
+   "predicate": {
+    "custom_model_data": 203
+   },
+   "model": "item/fishing/menu/question_mark"
   }
  ]
 }

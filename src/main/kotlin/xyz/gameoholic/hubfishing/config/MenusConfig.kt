@@ -52,6 +52,7 @@ data class MenusConfig(
     @SerialName("fishing-collection-menu-fish-min-index") val fishingCollectionMenuFishMinIndex: Int,
     @SerialName("fishing-collection-menu-fish-max-index") val fishingCollectionMenuFishMaxIndex: Int,
     @SerialName("fishing-collection-menu-undiscovered-fish-material") val fishingCollectionMenuUndiscoveredFishMaterial: Material,
+    @SerialName("fishing-collection-menu-undiscovered-fish-model-data") val fishingCollectionMenuUndiscoveredFishModelData: Int,
     @SerialName("fishing-collection-menu-undiscovered-fish-lore") val fishingCollectionMenuUndiscoveredFishLore: String,
     @SerialName("fishing-collection-menu-discovered-fish-lore") val fishingCollectionMenuDiscoveredFishLore: String,
 )

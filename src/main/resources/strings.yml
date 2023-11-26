@@ -1,7 +1,7 @@
 #Note for self: need to document
 rank-boost-display-none-content: "<aqua>The lake is currently <red>not</red> boosted.<br>Purchase <bold>ICE</bold> to boost the chances of spawning rare fish by 2x!"
 rank-boost-display-boosted-content: "<aqua>Boosted by <bold><player></bold>.<br>Rare fish spawn chances are increased by <bold><red>2x."
-stats-display-content: "<aqua>Playtime: <gold><playtime></gold> hour/s<br><red>Level: <level>. <gold>To level up: <green><xp>/<total_xp_to_level_up> <red>(<remaining_xp_to_level_up> XP)<br><aqua>Fish Caught: <gold><fishes_caught></gold><white><br> <common_fishes_caught>  <rare_fishes_caught>  <epic_fishes_caught>  <legendary_fishes_caught>" #xp, total_xp, total_xp_to_level_up, level, remaining_xp_to_level_up, playtime, fishes_caught, common_fishes_caught, rare_fishes_caught, epic_fishes_caught, legendary_fishes_caught
+stats-display-content: "<white>Playtime: <gold><playtime></gold> hour/s<br><white>Level: <gold><level></gold>. <white>To level up: <green><xp>/<total_xp_to_level_up> <yellow>(<remaining_xp_to_level_up> XP)<br><white>Fish Caught: <gold><fishes_caught></gold><white><br> <common_fishes_caught>  <rare_fishes_caught>  <epic_fishes_caught>  <legendary_fishes_caught>" #xp, total_xp, total_xp_to_level_up, level, remaining_xp_to_level_up, playtime, fishes_caught, common_fishes_caught, rare_fishes_caught, epic_fishes_caught, legendary_fishes_caught
 fish-found-message: "<gold>You've found a <rarity> fish."
 level-up-message: "<green>You've leveled up! <white><bold><old_level> -> <gold><new_level>"
 xp-gained-action-bar-message: "<white>+<gold><xp></gold> XP"

@@ -18,8 +18,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
-    menu-material: "STONE"
-    menu-model-data: 0
+    menu-material: "BEDROCK"
+    menu-model-data: 101
   - id: blobfish
     name: Blobfish
     rarity-id: epic
@@ -37,8 +37,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
-    menu-material: "STONE"
-    menu-model-data: 0
+    menu-material: "BEDROCK"
+    menu-model-data: 102
   - id: pufferfish
     name: Pufferfish
     rarity-id: common
@@ -56,8 +56,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
-    menu-material: "STONE"
-    menu-model-data: 0
+    menu-material: "BEDROCK"
+    menu-model-data: 103
   - id: pink_pufferfish
     name: Pink Pufferfish
     rarity-id: rare
@@ -75,8 +75,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
-    menu-material: "STONE"
-    menu-model-data: 0
+    menu-material: "BEDROCK"
+    menu-model-data: 108
   - id: rainbow_pufferfish
     name: Rainbow Pufferfish
     rarity-id: legendary
@@ -94,8 +94,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
-    menu-material: "STONE"
-    menu-model-data: 0
+    menu-material: "BEDROCK"
+    menu-model-data: 109
   - id: butterfly
     name: Butterfly Fish
     rarity-id: common
@@ -113,8 +113,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
-    menu-material: "STONE"
-    menu-model-data: 0
+    menu-material: "BEDROCK"
+    menu-model-data: 104
   - id: blue_butterfly
     name: Blue Butterfly Fish
     rarity-id: rare
@@ -132,8 +132,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
-    menu-material: "STONE"
-    menu-model-data: 0
+    menu-material: "BEDROCK"
+    menu-model-data: 105
   - id: red_butterfly
     name: Red Butterfly Fish
     rarity-id: rare
@@ -151,8 +151,8 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
-    menu-material: "STONE"
-    menu-model-data: 0
+    menu-material: "BEDROCK"
+    menu-model-data: 106
   - id: green_butterfly
     name: Green Butterfly Fish
     rarity-id: rare
@@ -170,5 +170,5 @@ fish-variants:
     minigame-hitbox-width: 5.0
     minigame-character: ''
     minigame-character-height: 6
-    menu-material: "STONE"
-    menu-model-data: 0
+    menu-material: "BEDROCK"
+    menu-model-data: 107

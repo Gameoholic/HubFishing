@@ -90,7 +90,7 @@ class FishCollectionInventory(private val playerUUID: UUID, private val playerDa
             var item: ItemStack
             var meta: ItemMeta
             if (timesCaught > 0) {
-                item = ItemStack(plugin.config.menus.fishingCollectionMenuUndiscoveredFishMaterial, 1)
+                item = ItemStack(fishVariant.menuMaterial, 1)
                 meta = item.itemMeta
                 meta.displayName(
                     MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(player, fishVariant.name))
@@ -109,8 +109,9 @@ class FishCollectionInventory(private val playerUUID: UUID, private val playerDa
                         ).decoration(TextDecoration.ITALIC, false)
                     }
                 )
+                meta.setCustomModelData(fishVariant.menuModelData)
             } else {
-                item = ItemStack(fishVariant.menuMaterial, 1)
+                item = ItemStack(plugin.config.menus.fishingCollectionMenuUndiscoveredFishMaterial, 1)
                 meta = item.itemMeta
                 meta.displayName(
                     MiniMessage.miniMessage().deserialize(PlaceholderAPI.setPlaceholders(player, fishVariant.name))
@@ -130,7 +131,7 @@ class FishCollectionInventory(private val playerUUID: UUID, private val playerDa
                         ).decoration(TextDecoration.ITALIC, false)
                     }
                 )
-                meta.setCustomModelData(fishVariant.menuModelData)
+                meta.setCustomModelData(plugin.config.menus.fishingCollectionMenuUndiscoveredFishModelData)
             }
             item.itemMeta = meta
             items[i] = item

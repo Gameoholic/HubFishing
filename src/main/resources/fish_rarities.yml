@@ -38,7 +38,7 @@ fish-rarities:
     alive-time-min: 100
     alive-time-max: 200
     xp: 50
-    display-name: "<purple>Epic"
+    display-name: "<dark_purple>Epic"
     fish-particle-type: EPIC
   - id: legendary
     value: 3

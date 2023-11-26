@@ -1,0 +1,6 @@
+{
+ "parent": "item/handheld",
+ "textures": {
+  "layer0": "item/fishing/fish_icon/blue_butterfly"
+ }
+}
